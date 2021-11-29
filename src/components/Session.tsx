@@ -44,7 +44,7 @@ export const Session = ({ name, url }: SessionProps_T) => {
   return (
     <Layout style={styles.container}>
       {/* <ComicIconList list={list} name={"Icon test"} /> */}
-      <Grid list={list} name="AA" />
+      <Grid list={list} name="AA" limit={6} />
       {/* <ComicList list={list} name={"Recently"} /> */}
     </Layout>
   );

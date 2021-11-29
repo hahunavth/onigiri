@@ -11,8 +11,11 @@ import {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 import { ComicProps } from "@/components/ComicListView/ComicList";
-import { ComicListScreenProps } from "../navigators/StackNavigator";
-import { Layout, Button, List } from "@ui-kitten/components";
+import {
+  ComicListNavigationProps,
+  ComicListScreenProps,
+} from "../navigators/StackNavigator";
+import { Layout, Button, List, IconProps } from "@ui-kitten/components";
 import { Icon } from "@ui-kitten/components";
 import { useQuery } from "react-query";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -20,7 +23,9 @@ import { useNavigation } from "@react-navigation/native";
 import FloatingButton from "@/components/FloatingButton";
 import { resComicDetail_T } from "../types/api";
 
-const StarIcon = (props: any) => <Icon {...props} name="arrow-ios-back" />;
+const StarIcon = (props: IconProps) => (
+  <Icon {...props} name="arrow-ios-back" />
+);
 
 export function ComicDetailsScreen({
   navigation,
@@ -105,8 +110,8 @@ type ChapterListItem_T = {
 };
 
 function ChapterList({ list }: { list: ChapterListItem_T[] }) {
-  const navigation: any = useNavigation();
-
+  const navigation = useNavigation<ComicListNavigationProps>();
+  // navigation.navigate("Main", { screen: "home" });
   const renderItem = ({
     item: { chapterLink, chapterName, chapterUpdateAt, chapterView },
   }: ListRenderItemInfo<ChapterListItem_T>) => (

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Image, ListRenderItemInfo } from "react-native";
-import { Card, Layout, List, Text } from "@ui-kitten/components";
+import { Card, Layout, List, Text, TextProps } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -23,6 +23,7 @@ export type ComicProps = {
 export type comicListProps = {
   list: ComicProps[];
   name: string;
+  limit?: number;
 };
 
 export const ComicList = ({ list, name }: comicListProps) => {
@@ -43,7 +44,7 @@ export const ComicList = ({ list, name }: comicListProps) => {
     </Layout>
   );
 
-  const renderItemFooter = (footerProps: any) => (
+  const renderItemFooter = (footerProps: TextProps) => (
     <Text {...footerProps}>By Wikipedia</Text>
   );
 

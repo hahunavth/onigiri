@@ -4,10 +4,11 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import { BottomMenu } from "./BottomMenu";
+import { BottomMenu, BottomTabNavigatorParamList } from "./BottomMenu";
 import { ComicProps } from "../components/ComicListView/ComicList";
 import { ComicDetailsScreen } from "../screens/ComicDetailsScreen";
 import ChapterScreen from "../screens/ChapterScreen";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
 
 //  Screen Props Type
 export type ComicListScreenProps = NativeStackScreenProps<
@@ -23,9 +24,30 @@ export type ChapterScreenProps = NativeStackScreenProps<
   "Chapter"
 >;
 
+// Navigator Props
+export type ComicListNavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  "ComicDetails"
+>;
+export type MainNavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  "Main"
+>;
+export type ChapterNavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  "Chapter"
+>;
+
+type NestedNavigatorParams<ParamList> = {
+  [K in keyof ParamList]: undefined extends ParamList[K]
+    ? { screen: K; params?: ParamList[K] }
+    : { screen: K; params: ParamList[K] };
+}[keyof ParamList];
+
 //  Stack Navigation Type
-type RootStackParamList = {
-  Main: undefined;
+export type RootStackParamList = {
+  // Nested
+  Main: NestedNavigatorParams<BottomTabNavigatorParamList>;
   ComicList: undefined;
   ComicDetails: {
     path: string;

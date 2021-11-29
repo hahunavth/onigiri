@@ -1,6 +1,13 @@
 //import liraries
 import React, { Component, useEffect, useState, useMemo } from "react";
-import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  ScaledSize,
+} from "react-native";
 
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
@@ -21,7 +28,13 @@ const ScaledImage = ({ src }: { src: string }) => {
   }, [src]);
 
   useEffect(() => {
-    const onChange = ({ window, screen }: any) => {
+    const onChange = ({
+      window,
+      screen,
+    }: {
+      window: ScaledSize;
+      screen: ScaledSize;
+    }) => {
       setDimensions(() => ({
         window,
         screen,

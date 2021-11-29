@@ -3,19 +3,22 @@ import {
   createBottomTabNavigator,
   BottomTabBarProps,
   BottomTabScreenProps,
+  BottomTabNavigationProp,
 } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
 import { useSafeArea } from "react-native-safe-area-context";
 
-import { TabBar } from "../components/BottomTab/TabBar";
-import { AppsScreen } from "../screens/Main/AppsScreen";
-import { DashboardScreen } from "../screens/Main/DashbroadScreen";
-import { GroupScreen } from "../screens/Main/GroupScreen";
-import { ProfileScreen } from "../screens/Main/ProfileScreen";
+import { TabBar } from "@/components/BottomTab/TabBar";
+import { AppsScreen } from "@/screens/Main/AppsScreen";
+import { DashboardScreen } from "@/screens/Main/DashbroadScreen";
+import { GroupScreen } from "@/screens/Main/GroupScreen";
+import { ProfileScreen } from "@/screens/Main/ProfileScreen";
+import { MainNavigationProps } from "./StackNavigator";
+import { CompositeNavigationProp } from "@react-navigation/native";
 import { MainScreenProps } from "./StackNavigator";
 
 // Navigator Params List
-type BottomTabNavigatorParamList = {
+export type BottomTabNavigatorParamList = {
   home: undefined;
   dashboard: undefined;
   profile: undefined;
@@ -26,6 +29,11 @@ type BottomTabNavigatorParamList = {
 export type HomeBottomNavigation = BottomTabScreenProps<
   BottomTabNavigatorParamList,
   "home"
+>;
+// Navigation Props
+export type HomeNavigationProps = CompositeNavigationProp<
+  BottomTabNavigationProp<BottomTabNavigatorParamList, "home">,
+  MainNavigationProps
 >;
 
 const Tab = createBottomTabNavigator<BottomTabNavigatorParamList>();

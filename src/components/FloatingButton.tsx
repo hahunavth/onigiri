@@ -1,5 +1,5 @@
 //import liraries
-import { Button, Icon } from "@ui-kitten/components";
+import { Button, Icon, IconProps } from "@ui-kitten/components";
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
@@ -8,7 +8,7 @@ type Props = {
   onPress?: () => any;
 };
 
-const MyIcon = (props) => <Icon {...props} name={"flip"} />;
+const MyIcon = (props: IconProps) => <Icon {...props} name={"flip"} />;
 // create a component
 const FloatingButton = ({ name, onPress }: Props) => {
   return (
