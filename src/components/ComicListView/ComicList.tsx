@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Image, ListRenderItemInfo } from "react-native";
 import { Card, Layout, List, Text } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const data = new Array(8).fill({
   title: "Item",
@@ -10,11 +11,13 @@ const data = new Array(8).fill({
 export type ComicProps = {
   name?: string;
   posterPath?: string;
-  lastedChapter?: number | string;
+  lastedChapter?: string;
   author?: string;
   updateAt?: string;
   views?: string;
   follows?: string;
+  path: string;
+  index: number;
 };
 
 export type comicListProps = {
@@ -23,6 +26,8 @@ export type comicListProps = {
 };
 
 export const ComicList = ({ list, name }: comicListProps) => {
+  const navigation: any = useNavigation();
+
   const renderItemHeader = () => (
     <Layout style={styles.headerWrapper}>
       <Text
@@ -38,12 +43,20 @@ export const ComicList = ({ list, name }: comicListProps) => {
     </Layout>
   );
 
-  const renderItemFooter = (footerProps) => (
+  const renderItemFooter = (footerProps: any) => (
     <Text {...footerProps}>By Wikipedia</Text>
   );
 
   const renderItem = (info: ListRenderItemInfo<ComicProps>) => (
-    <TouchableOpacity onPress={() => {}}>
+    <TouchableOpacity
+      onPress={() => {
+        // console.log(navigation.getState());
+        navigation.navigate("ComicDetails", {
+          path: info.item.path,
+          comic: info.item,
+        });
+      }}
+    >
       <Layout style={styles.container}>
         {/* // <Card
     //   style={styles.item}

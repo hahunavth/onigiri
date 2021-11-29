@@ -5,23 +5,35 @@ import {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 import { BottomMenu } from "./BottomMenu";
+import { ComicProps } from "../components/ComicListView/ComicList";
+import { ComicDetailsScreen } from "../screens/ComicDetailsScreen";
+import ChapterScreen from "../screens/ChapterScreen";
 
 //  Screen Props Type
 export type ComicListScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  "ComicList"
+  "ComicDetails"
 >;
 export type MainScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Main"
+>;
+export type ChapterScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Chapter"
 >;
 
 //  Stack Navigation Type
 type RootStackParamList = {
   Main: undefined;
   ComicList: undefined;
-  ComicDetails: undefined;
-  Chapter: undefined;
+  ComicDetails: {
+    path: string;
+    comic: ComicProps;
+  };
+  Chapter: {
+    path: string;
+  };
   Find: undefined;
 };
 
@@ -37,22 +49,12 @@ export function StackNavigator() {
           headerShown: false,
         }}
       />
-      <Stack.Screen name="ComicList" component={ComicListScreen} />
-    </Stack.Navigator>
-  );
-}
-
-function ComicListScreen({ navigation }: ComicListScreenProps) {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push("Main")}
+      <Stack.Screen
+        name="ComicDetails"
+        component={ComicDetailsScreen}
+        options={{ headerShown: false }}
       />
-      <Button title="Go to Home" onPress={() => navigation.navigate("Main")} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-      {/* <TabBar navigation={navigation} /> */}
-    </View>
+      <Stack.Screen name="Chapter" component={ChapterScreen} />
+    </Stack.Navigator>
   );
 }

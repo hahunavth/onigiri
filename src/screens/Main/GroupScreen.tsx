@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import { useQuery } from "react-query";
 
-import { ComicList, ComicProps } from "../components/ComicList";
+import { ComicList, ComicProps } from "@/components/ComicListView/ComicList";
 
 type resComicItem_T = {
   kind?: string;
@@ -38,17 +38,21 @@ export const GroupScreen = () => {
 
   if (isError) return <View></View>;
 
-  const list: ComicProps[] = data.map((item) => {
-    return {
-      name: item.name,
-      posterPath: item.posterPath,
-      lastedChapter: item.lastedChapters[0].chapterName,
-      author: item.author,
-      updateAt: item.updateAt,
-      views: item.views,
-      follows: item.views,
-    };
-  });
+  const list: ComicProps[] =
+    data?.map((item, id) => {
+      return {
+        name: item.name,
+        posterPath: item.posterPath,
+        lastedChapter:
+          (item.lastedChapters && item.lastedChapters[0]?.chapterName) || "",
+        author: item.author,
+        updateAt: item.updateAt,
+        views: item.views,
+        follows: item.views,
+        index: id,
+        path: item.path || "",
+      };
+    }) || [];
 
   return (
     <Layout style={styles.container}>

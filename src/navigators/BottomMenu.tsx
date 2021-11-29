@@ -8,10 +8,10 @@ import { View } from "react-native";
 import { useSafeArea } from "react-native-safe-area-context";
 
 import { TabBar } from "../components/BottomTab/TabBar";
-import { AppsScreen } from "../screens/AppsScreen";
-import { DashboardScreen } from "../screens/DashbroadScreen";
-import { GroupScreen } from "../screens/GroupScreen";
-import { ProfileScreen } from "../screens/ProfileScreen";
+import { AppsScreen } from "../screens/Main/AppsScreen";
+import { DashboardScreen } from "../screens/Main/DashbroadScreen";
+import { GroupScreen } from "../screens/Main/GroupScreen";
+import { ProfileScreen } from "../screens/Main/ProfileScreen";
 import { MainScreenProps } from "./StackNavigator";
 
 // Navigator Params List

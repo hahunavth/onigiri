@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "react-query";
 import * as eva from "@eva-design/eva";
-import { ApplicationProvider, Layout } from "@ui-kitten/components";
+import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
 
 import { StackNavigator } from "./src/navigators/StackNavigator";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -22,6 +23,7 @@ export default function App() {
       <NavigationContainer>
         <QueryClientProvider client={queryClient}>
           <SafeAreaProvider>
+            <IconRegistry icons={EvaIconsPack} />
             <ApplicationProvider {...eva} theme={eva.light}>
               <StackNavigator />
             </ApplicationProvider>

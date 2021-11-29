@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { useQuery } from "react-query";
-import { ComicList } from "../components/ComicList";
-import { Session } from "../components/Session";
+import { ComicList } from "@/components/ComicListView/ComicList";
+import { Session } from "@/components/Session";
 
-import { HomeBottomNavigation } from "../navigators/BottomMenu";
+import { HomeBottomNavigation } from "../../navigators/BottomMenu";
 
 type SessionList_T = {
   name: string;
@@ -28,12 +28,17 @@ export const AppsScreen = ({ navigation, route }: HomeBottomNavigation) => {
 
   // console.log("🚀 ~ file: AppsScreen.tsx ~ line 16 ~ AppsScreen ~ data", data);
 
-  if (isError)
+  if (isError) {
+    console.log(
+      "🚀 ~ file: AppsScreen.tsx ~ line 32 ~ AppsScreen ~ error",
+      error
+    );
     return (
       <View>
-        <Text>{error}</Text>
+        <Text>Some thing error</Text>
       </View>
     );
+  }
 
   if (isLoading)
     return (
@@ -45,7 +50,11 @@ export const AppsScreen = ({ navigation, route }: HomeBottomNavigation) => {
   return (
     <>
       {HomeSessionList.map((session) => (
-        <Session name={session.name} url={session.url} key={session.name} />
+        <Session
+          name={session.name}
+          url={session.url || ""}
+          key={session.name}
+        />
       ))}
     </>
   );
