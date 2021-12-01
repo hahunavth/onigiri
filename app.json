@@ -1,0 +1,9 @@
+{
+  "expo": {
+    "name": "My app",
+    "slug": "my-app",
+    "splash": {
+      "image": "./src/assets/logo.png"
+    }
+  }
+}

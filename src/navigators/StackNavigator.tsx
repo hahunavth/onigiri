@@ -4,14 +4,15 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import { BottomMenu, BottomTabNavigatorParamList } from "./BottomMenu";
+import { BottomMenu, BottomTabNavigatorParamList } from "./Main/BottomMenu";
 import { ComicProps } from "../components/ComicListView/ComicList";
 import { ComicDetailsScreen } from "../screens/ComicDetailsScreen";
 import ChapterScreen from "../screens/ChapterScreen";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
+import ComicListScreen from "@/screens/ComicListScreen";
 
-//  Screen Props Type
-export type ComicListScreenProps = NativeStackScreenProps<
+// Screen Props Type
+export type ComicDetailsScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "ComicDetails"
 >;
@@ -23,9 +24,13 @@ export type ChapterScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Chapter"
 >;
+export type ComicListScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "ComicListScreen"
+>;
 
 // Navigator Props
-export type ComicListNavigationProps = NativeStackNavigationProp<
+export type ComicDetailsNavigationProps = NativeStackNavigationProp<
   RootStackParamList,
   "ComicDetails"
 >;
@@ -36,6 +41,10 @@ export type MainNavigationProps = NativeStackNavigationProp<
 export type ChapterNavigationProps = NativeStackNavigationProp<
   RootStackParamList,
   "Chapter"
+>;
+export type ComicListNavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  "ComicListScreen"
 >;
 
 type NestedNavigatorParams<ParamList> = {
@@ -48,10 +57,12 @@ type NestedNavigatorParams<ParamList> = {
 export type RootStackParamList = {
   // Nested
   Main: NestedNavigatorParams<BottomTabNavigatorParamList>;
-  ComicList: undefined;
   ComicDetails: {
     path: string;
     comic: ComicProps;
+  };
+  ComicListScreen: {
+    path: string;
   };
   Chapter: {
     path: string;
@@ -77,6 +88,7 @@ export function StackNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Chapter" component={ChapterScreen} />
+      <Stack.Screen name="ComicListScreen" component={ComicListScreen} />
     </Stack.Navigator>
   );
 }

@@ -1,11 +1,17 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
+import { QuicksandText } from "@/components/QuicksandText";
 
 export const DashboardScreen = () => {
   return (
     <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text category="h1">HOME22</Text>
+      <QuicksandText
+        category="h1"
+        //  style={{ fontFamily: "Quicksand_700Bold" }}
+      >
+        HOME22
+      </QuicksandText>
     </Layout>
   );
 };

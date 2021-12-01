@@ -13,9 +13,9 @@ import { AppsScreen } from "@/screens/Main/AppsScreen";
 import { DashboardScreen } from "@/screens/Main/DashbroadScreen";
 import { GroupScreen } from "@/screens/Main/GroupScreen";
 import { ProfileScreen } from "@/screens/Main/ProfileScreen";
-import { MainNavigationProps } from "./StackNavigator";
+import { MainNavigationProps } from "../StackNavigator";
 import { CompositeNavigationProp } from "@react-navigation/native";
-import { MainScreenProps } from "./StackNavigator";
+import { MainScreenProps } from "../StackNavigator";
 
 // Navigator Params List
 export type BottomTabNavigatorParamList = {
@@ -30,6 +30,7 @@ export type HomeBottomNavigation = BottomTabScreenProps<
   BottomTabNavigatorParamList,
   "home"
 >;
+
 // Navigation Props
 export type HomeNavigationProps = CompositeNavigationProp<
   BottomTabNavigationProp<BottomTabNavigatorParamList, "home">,

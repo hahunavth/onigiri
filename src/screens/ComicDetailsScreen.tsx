@@ -12,8 +12,8 @@ import {
 } from "@react-navigation/native-stack";
 import { ComicProps } from "@/components/ComicListView/ComicList";
 import {
-  ComicListNavigationProps,
-  ComicListScreenProps,
+  ComicDetailsNavigationProps,
+  ComicDetailsScreenProps,
 } from "../navigators/StackNavigator";
 import { Layout, Button, List, IconProps } from "@ui-kitten/components";
 import { Icon } from "@ui-kitten/components";
@@ -22,15 +22,23 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import FloatingButton from "@/components/FloatingButton";
 import { resComicDetail_T } from "../types/api";
+import {
+  SharedElement,
+  SharedElementTransition,
+  nodeFromRef,
+} from "react-native-shared-element";
 
 const StarIcon = (props: IconProps) => (
   <Icon {...props} name="arrow-ios-back" />
 );
 
+export let endAncestor: any;
+export let endNode: any;
+
 export function ComicDetailsScreen({
   navigation,
   route: { params },
-}: ComicListScreenProps) {
+}: ComicDetailsScreenProps) {
   const [sort, setSort] = useState<"newer" | "older">("newer");
 
   const { data, isFetched, isLoading } = useQuery<resComicDetail_T>(
@@ -78,11 +86,13 @@ export function ComicDetailsScreen({
           }}
         />
       </Layout>
-      <Layout>
-        <Image
-          source={{ uri: params.comic.posterPath }}
-          style={{ width: 96, height: 128 }}
-        />
+      <Layout ref={(ref) => (endAncestor = nodeFromRef(ref))}>
+        <SharedElement onNode={(node) => (endNode = node)}>
+          <Image
+            source={{ uri: params.comic.posterPath }}
+            style={{ width: 96, height: 128 }}
+          />
+        </SharedElement>
         <Layout>
           <Text>Details Screen</Text>
           <Text>{params.path}</Text>
@@ -110,7 +120,7 @@ type ChapterListItem_T = {
 };
 
 function ChapterList({ list }: { list: ChapterListItem_T[] }) {
-  const navigation = useNavigation<ComicListNavigationProps>();
+  const navigation = useNavigation<ComicDetailsNavigationProps>();
   // navigation.navigate("Main", { screen: "home" });
   const renderItem = ({
     item: { chapterLink, chapterName, chapterUpdateAt, chapterView },

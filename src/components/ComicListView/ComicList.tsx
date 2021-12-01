@@ -24,9 +24,10 @@ export type comicListProps = {
   list: ComicProps[];
   name: string;
   limit?: number;
+  onPressMore?: () => any;
 };
 
-export const ComicList = ({ list, name }: comicListProps) => {
+export const ComicList = ({ list, name, limit }: comicListProps) => {
   const navigation: any = useNavigation();
 
   const renderItemHeader = () => (
@@ -106,8 +107,10 @@ export const ComicList = ({ list, name }: comicListProps) => {
         style={styles.listContainer}
         contentContainerStyle={styles.contentContainer}
         data={list}
+        scrollEnabled={false}
         renderItem={renderItem}
         ListHeaderComponent={renderItemHeader}
+        initialNumToRender={limit}
       />
     </>
   );
@@ -120,7 +123,6 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderTopColor: "#eee",
     borderWidth: 1,
-
     // maxHeight: 320,
   },
   contentContainer: {

@@ -4,10 +4,13 @@
     
     "baseUrl": "./",
     "paths": {
+      "@/assets/*": ["src/assets/*"],
       "@/components/*": ["src/components/*"],
       "@/screens/*": ["src/screens/*"],
       "@/navigator/*": ["src/navigator/*"],
+      "@/styles/*": ["src/styles/*"],
       "@/types/*": ["src/types/*"],
+      "@/utils/*": ["src/utils/*"],
     },
     "strict": true,
     "lib": ["es6"],
