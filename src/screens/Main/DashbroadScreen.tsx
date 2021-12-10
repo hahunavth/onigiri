@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
-import { QuicksandText } from "@/components/QuicksandText";
+import { QuicksandText } from "@/components/Common/QuicksandText";
 
 export const DashboardScreen = () => {
   return (

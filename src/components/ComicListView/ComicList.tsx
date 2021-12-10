@@ -18,6 +18,7 @@ export type ComicProps = {
   follows?: string;
   path: string;
   index: number;
+  kind?: string[];
 };
 
 export type comicListProps = {

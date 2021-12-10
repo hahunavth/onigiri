@@ -10,7 +10,7 @@ import {
 import { useQuery } from "react-query";
 import { ChapterScreenProps } from "../navigators/StackNavigator";
 import ImageSize from "react-native-image-size";
-import ScaledImage from "../components/ScaledImage";
+import ScaledImage from "../components/ComicListView/ScaledImage";
 
 export default function ChapterScreen({
   route: { params: path },

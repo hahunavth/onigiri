@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import {
   Image,
   ListRenderItemInfo,
+  SafeAreaView,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import {
@@ -20,13 +20,14 @@ import { Icon } from "@ui-kitten/components";
 import { useQuery } from "react-query";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import FloatingButton from "@/components/FloatingButton";
+import FloatingButton from "@/components/Common/FloatingButton";
 import { resComicDetail_T } from "../types/api";
 import {
   SharedElement,
   SharedElementTransition,
   nodeFromRef,
 } from "react-native-shared-element";
+import { QuicksandText } from "@/components/Common/QuicksandText";
 
 const StarIcon = (props: IconProps) => (
   <Icon {...props} name="arrow-ios-back" />
@@ -75,7 +76,7 @@ export function ComicDetailsScreen({
   }
 
   return (
-    <Layout style={{ flex: 1 }}>
+    <SafeAreaView style={{}}>
       <Layout style={{ justifyContent: "flex-start", width: 60, height: 60 }}>
         <Button
           // style={styles.button}
@@ -86,29 +87,53 @@ export function ComicDetailsScreen({
           }}
         />
       </Layout>
-      <Layout ref={(ref) => (endAncestor = nodeFromRef(ref))}>
-        <SharedElement onNode={(node) => (endNode = node)}>
-          <Image
-            source={{ uri: params.comic.posterPath }}
-            style={{ width: 96, height: 128 }}
-          />
-        </SharedElement>
-        <Layout>
-          <Text>Details Screen</Text>
-          <Text>{params.path}</Text>
-          <Text>{params.comic.name}</Text>
-          <Text>{params.comic.author}</Text>
-          <Text>{params.comic.follows}</Text>
-          <Text>{params.comic.views}</Text>
-          <Text>{params.comic.updateAt}</Text>
+      <Layout ref={(ref) => (endAncestor = nodeFromRef(ref))} style={{}}>
+        <Layout
+          style={{
+            // flex: 1,
+            flexDirection: "row",
+            flexWrap: "wrap",
+            flexGrow: 1,
+            // flexShrink: 1,
+            // width: 100,
+            height: 240,
+          }}
+        >
+          <Layout
+            style={{
+              width: 240,
+            }}
+          >
+            {/* <QuicksandText>{params.path}</Qui> */}
+            <QuicksandText>{params.comic.name}</QuicksandText>
+            <QuicksandText>{params.comic.author}</QuicksandText>
+            <QuicksandText>{params.comic.follows}</QuicksandText>
+            <QuicksandText>{params.comic.views}</QuicksandText>
+            <QuicksandText>{params.comic.updateAt}</QuicksandText>
+            <QuicksandText>
+              {params.comic.kind && params.comic.kind[0]}
+            </QuicksandText>
+          </Layout>
+          {/* <SharedElement onNode={(node) => (endNode = node)} > */}
+          <Layout>
+            <Image
+              source={{ uri: params.comic.posterPath }}
+              style={{ width: 96, height: 128 }}
+            />
+          </Layout>
+          {/* </SharedElement> */}
         </Layout>
-        {isLoading ? <Text>Loading</Text> : <ChapterList list={chapterList} />}
+        {isLoading ? (
+          <QuicksandText>Loading</QuicksandText>
+        ) : (
+          <ChapterList list={chapterList} />
+        )}
       </Layout>
       <FloatingButton
         name={""}
         onPress={() => setSort(sort === "newer" ? "older" : "newer")}
       />
-    </Layout>
+    </SafeAreaView>
   );
 }
 
@@ -132,9 +157,9 @@ function ChapterList({ list }: { list: ChapterListItem_T[] }) {
         })
       }
     >
-      <Text>{chapterName}</Text>
-      <Text>{chapterView}</Text>
-      <Text>{chapterUpdateAt}</Text>
+      <QuicksandText>{chapterName}</QuicksandText>
+      <QuicksandText>{chapterView}</QuicksandText>
+      <QuicksandText>{chapterUpdateAt}</QuicksandText>
     </TouchableOpacity>
   );
 

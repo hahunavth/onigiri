@@ -28,7 +28,7 @@ import {
 import { endAncestor, endNode } from "@/screens/ComicDetailsScreen";
 // import { Icon } from "@ui-kitten/components";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { QuicksandText } from "../QuicksandText";
+import { QuicksandText } from "../Common/QuicksandText";
 
 const numColumns = 3;
 const ratio = 1.5;
@@ -111,6 +111,8 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
       </TouchableOpacity>
     );
   };
+
+  // TODO: Use common SessionHeader
   const RenderHeader = ({
     name,
     onPressMore,

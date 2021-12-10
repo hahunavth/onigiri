@@ -27,7 +27,7 @@ import {
 import { endAncestor, endNode } from "@/screens/ComicDetailsScreen";
 // import { Icon } from "@ui-kitten/components";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { QuicksandText } from "../QuicksandText";
+import { QuicksandText } from "../Common/QuicksandText";
 
 const numColumns = 2;
 const ratio = 1;

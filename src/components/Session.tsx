@@ -7,6 +7,7 @@ import {
   SectionListRenderItemInfo,
   ListRenderItemInfo,
   FlatList,
+  Text,
 } from "react-native";
 import { useQuery } from "react-query";
 import { ComicList, ComicProps } from "./ComicListView/ComicList";
@@ -20,6 +21,8 @@ import {
   HomeBottomNavigation,
   HomeNavigationProps,
 } from "src/navigators/Main/BottomMenu";
+import ErrorView from "./Common/ErrorView";
+import Categories from "./Common/Categories";
 
 type SessionProps_T = {
   name: string;
@@ -27,7 +30,6 @@ type SessionProps_T = {
 };
 
 export const Session = ({ name, url }: SessionProps_T) => {
-  // const;
   const navigation = useNavigation<HomeNavigationProps>();
 
   const { data, error, isLoading, isError } = useQuery<resComicItem_T[]>(
@@ -37,7 +39,13 @@ export const Session = ({ name, url }: SessionProps_T) => {
 
   if (isLoading) return <View></View>;
 
-  if (isError) return <View></View>;
+  console.log(error);
+  if (isError)
+    return (
+      <View>
+        <Text>Error</Text>
+      </View>
+    );
 
   const list: ComicProps[] =
     (data &&
@@ -98,13 +106,15 @@ export const Session = ({ name, url }: SessionProps_T) => {
   return (
     <Layout style={styles.container}>
       <FlatList
-        data={[0, 1, 2, 3]}
+        data={[0, 1, 2, 3, 4]}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }: ListRenderItemInfo<number>) => {
           switch (item) {
             case 0:
               return <Banner data={BannerData} />;
             case 1:
+              return <Categories />;
+            case 2:
               return (
                 <ComicGrid
                   list={list}
@@ -117,8 +127,6 @@ export const Session = ({ name, url }: SessionProps_T) => {
                   }
                 />
               );
-            // case 2:
-            // return <ComicList list={list} name="recently" limit={10} />;
             case 3:
               return (
                 <ComicGrid2

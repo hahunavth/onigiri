@@ -39,6 +39,9 @@ export const AppsScreen = ({ navigation, route }: HomeBottomNavigation) => {
     )
   );
 
+  // TODO: Ignore fetch api from json placeholder, use HOC loading state
+  // TODO: Refactor all request to this file
+
   useEffect(() => {
     const onChange = ({
       window,
