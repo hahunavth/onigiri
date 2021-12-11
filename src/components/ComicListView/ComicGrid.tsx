@@ -1,8 +1,4 @@
-import {
-  NavigationProp,
-  ParamListBase,
-  useNavigation,
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
   Animated,
@@ -19,13 +15,14 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { HomeNavigationProps } from "src/navigators/Main/BottomMenu";
 import { RootStackParamList } from "src/navigators/StackNavigator";
-import { ComicProps, comicListProps } from "./ComicList";
+import { comicListProps } from "./ComicList";
+import { resComicItem_T } from "src/types/api";
 import {
   SharedElement,
   SharedElementTransition,
   nodeFromRef,
 } from "react-native-shared-element";
-import { endAncestor, endNode } from "@/screens/ComicDetailsScreen";
+import { endAncestor, endNode } from "@/screens/ChapterDetailsScreen/index";
 // import { Icon } from "@ui-kitten/components";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { QuicksandText } from "../Common/QuicksandText";
@@ -65,18 +62,18 @@ let startAncestor: any;
 let startNode: any;
 
 export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
-  // console.log("🚀 ~ file: ComicIconList.tsx ~ line 50 ~ Grid ~ list", list);
   const navigation = useNavigation<HomeNavigationProps>();
   let data = list;
   if (limit) data = list.filter((item, id) => id < limit);
 
+  if (!list) return <Text>Error list props not found in ComicGrid2</Text>;
   const ComicGridRenderItem = ({
     item,
   }:
-    | ListRenderItemInfo<ComicProps>
-    | SectionListRenderItemInfo<ComicProps>
+    | ListRenderItemInfo<resComicItem_T>
+    | SectionListRenderItemInfo<resComicItem_T>
     | {
-        item: ComicProps;
+        item: resComicItem_T;
       }) => {
     // const navigation = useNavigation<HomeNavigationProps>();
 
@@ -84,7 +81,7 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate("ComicDetails", {
-            path: item.path,
+            path: item.path || "",
             comic: item,
             // ComicDetails: item,
           })
@@ -99,7 +96,7 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
               style={styles.poster}
               source={{
                 uri:
-                  item.posterPath ||
+                  item.posterUrl ||
                   "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
               }}
             />

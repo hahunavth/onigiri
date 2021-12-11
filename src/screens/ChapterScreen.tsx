@@ -21,7 +21,7 @@ export default function ChapterScreen({
     ).then((res) => res.json())
   );
 
-  // console.log(data?.images);
+  const chapterInfo = data?.data;
 
   if (!isFetched)
     return (
@@ -36,7 +36,7 @@ export default function ChapterScreen({
         <Text>aa</Text>
       </Layout>
       <Layout style={{ flex: 1 }}>
-        <List data={data?.images || []} renderItem={renderItem} />
+        <List data={chapterInfo?.images || []} renderItem={renderItem} />
       </Layout>
     </Layout>
   );

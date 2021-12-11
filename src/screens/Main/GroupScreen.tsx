@@ -26,12 +26,15 @@ type resComicItem_T = {
 };
 
 export const GroupScreen = () => {
-  const { data, error, isLoading, isError } = useQuery<resComicItem_T[]>(
-    "recently",
-    () =>
-      fetch("https://hahunavth-express-api.herokuapp.com/api/v1/recently").then(
-        (res) => res.json()
-      )
+  const {
+    data: { data },
+    error,
+    isLoading,
+    isError,
+  } = useQuery<{ data: resComicItem_T[] }>("recently", () =>
+    fetch("https://hahunavth-express-api.herokuapp.com/api/v1/recently").then(
+      (res) => res.json()
+    )
   );
 
   if (isLoading) return <View></View>;

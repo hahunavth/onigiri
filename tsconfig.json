@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "module": "ES2020",
-    
     "baseUrl": "./",
     "paths": {
       "@/assets/*": ["src/assets/*"],
       "@/components/*": ["src/components/*"],
       "@/screens/*": ["src/screens/*"],
-      "@/navigator/*": ["src/navigator/*"],
+      "@/navigator/*": ["src/navigators/*"],
       "@/styles/*": ["src/styles/*"],
       "@/types/*": ["src/types/*"],
       "@/utils/*": ["src/utils/*"],

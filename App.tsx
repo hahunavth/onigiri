@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import { Provider } from "react-redux";
+import store from "./src/app/store";
 
 import { StackNavigator } from "./src/navigators/StackNavigator";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -29,6 +31,7 @@ const queryClient = new QueryClient();
 //   });
 // }
 // SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   // const [appIsReady, setAppIsReady] = useState(false);
 
@@ -48,14 +51,16 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
-        <QueryClientProvider client={queryClient}>
-          <SafeAreaProvider>
-            <IconRegistry icons={EvaIconsPack} />
-            <ApplicationProvider {...eva} theme={eva.light}>
-              <StackNavigator />
-            </ApplicationProvider>
-          </SafeAreaProvider>
-        </QueryClientProvider>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider>
+              <IconRegistry icons={EvaIconsPack} />
+              <ApplicationProvider {...eva} theme={eva.light}>
+                <StackNavigator />
+              </ApplicationProvider>
+            </SafeAreaProvider>
+          </QueryClientProvider>
+        </Provider>
       </NavigationContainer>
     </>
   );

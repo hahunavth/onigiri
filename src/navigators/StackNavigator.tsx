@@ -5,11 +5,11 @@ import {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 import { BottomMenu, BottomTabNavigatorParamList } from "./Main/BottomMenu";
-import { ComicProps } from "../components/ComicListView/ComicList";
-import { ComicDetailsScreen } from "../screens/ComicDetailsScreen";
+import { ComicDetailsScreen } from "../screens/ChapterDetailsScreen/index";
 import ChapterScreen from "../screens/ChapterScreen";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
 import ComicListScreen from "@/screens/ComicListScreen";
+import { resComicItem_T } from "@/types/api";
 
 // Screen Props Type
 export type ComicDetailsScreenProps = NativeStackScreenProps<
@@ -59,7 +59,7 @@ export type RootStackParamList = {
   Main: NestedNavigatorParams<BottomTabNavigatorParamList>;
   ComicDetails: {
     path: string;
-    comic: ComicProps;
+    comic: resComicItem_T;
   };
   ComicListScreen: {
     path: string;

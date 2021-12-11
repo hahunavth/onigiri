@@ -3,43 +3,34 @@ import React from "react";
 import {
   View,
   StyleSheet,
-  SectionList,
-  SectionListRenderItemInfo,
   ListRenderItemInfo,
   FlatList,
   Text,
 } from "react-native";
 import { useQuery } from "react-query";
-import { ComicList, ComicProps } from "./ComicListView/ComicList";
-import { resComicItem_T } from "../types/api";
+import { ApiRespone_T as ApiResponse_T, resComicItem_T } from "../types/api";
 import { ComicGrid } from "./ComicListView/ComicGrid";
-import { ScrollView } from "react-native-gesture-handler";
 import { ComicGrid2 } from "./ComicListView/ComicGrid2";
 import Banner from "./ComicListView/Banner";
 import { useNavigation } from "@react-navigation/native";
-import {
-  HomeBottomNavigation,
-  HomeNavigationProps,
-} from "src/navigators/Main/BottomMenu";
+import { HomeNavigationProps } from "src/navigators/Main/BottomMenu";
 import ErrorView from "./Common/ErrorView";
 import Categories from "./Common/Categories";
 
 type SessionProps_T = {
   name: string;
   url: string;
+  data?: any;
 };
 
 export const Session = ({ name, url }: SessionProps_T) => {
   const navigation = useNavigation<HomeNavigationProps>();
 
-  const { data, error, isLoading, isError } = useQuery<resComicItem_T[]>(
-    name,
-    () => fetch(url).then((res) => res.json())
-  );
-
+  const { data, error, isLoading, isError } = useQuery<
+    ApiResponse_T<resComicItem_T[]>
+  >(name, () => fetch(url).then((res) => res.json()));
   if (isLoading) return <View></View>;
 
-  console.log(error);
   if (isError)
     return (
       <View>
@@ -47,24 +38,29 @@ export const Session = ({ name, url }: SessionProps_T) => {
       </View>
     );
 
-  const list: ComicProps[] =
-    (data &&
-      data.map((item, index) => {
-        return {
-          name: item.name,
-          posterPath: item.posterPath,
-          lastedChapter:
-            item.lastedChapters && item.lastedChapters[0]?.chapterName,
-          author: item.author,
-          updateAt: item.updateAt,
-          views: item.views,
-          follows: item.views,
-          path: item.path || "",
-          index,
-          kind: item.kind,
-        };
-      })) ||
-    [];
+  if (isLoading) return <View></View>;
+
+  // const list: ComicProps[] =
+  //   (data &&
+  //     data.map((item, index) => {
+  //       return {
+  //         name: item.name,
+  //         posterPath: item.posterPath,
+  //         lastedChapter:
+  //           item.lastedChapters && item.lastedChapters[0]?.chapterName,
+  //         author: item.author,
+  //         updateAt: item.updateAt,
+  //         views: item.views,
+  //         follows: item.views,
+  //         path: item.path || "",
+  //         index,
+  //         kind: item.kind,
+  //       };
+  //     })) ||
+  //   [];
+
+  const list = data?.data || [];
+  // console.log(list);
 
   // return (
   //   <Layout style={styles.container}>
@@ -106,7 +102,7 @@ export const Session = ({ name, url }: SessionProps_T) => {
   return (
     <Layout style={styles.container}>
       <FlatList
-        data={[0, 1, 2, 3, 4]}
+        data={[0, 1, 2, 3]}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }: ListRenderItemInfo<number>) => {
           switch (item) {

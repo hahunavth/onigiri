@@ -3,26 +3,27 @@ import { StyleSheet, View, Image, ListRenderItemInfo } from "react-native";
 import { Card, Layout, List, Text, TextProps } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { resComicItem_T } from "@/types/api";
 
 const data = new Array(8).fill({
   title: "Item",
 });
 //
-export type ComicProps = {
-  name?: string;
-  posterPath?: string;
-  lastedChapter?: string;
-  author?: string;
-  updateAt?: string;
-  views?: string;
-  follows?: string;
-  path: string;
-  index: number;
-  kind?: string[];
-};
+// export type ComicProps = {
+//   name?: string;
+//   posterPath?: string;
+//   lastedChapter?: string;
+//   author?: string;
+//   updateAt?: string;
+//   views?: string;
+//   follows?: string;
+//   path: string;
+//   index: number;
+//   kind?: string[];
+// };
 
 export type comicListProps = {
-  list: ComicProps[];
+  list: resComicItem_T[];
   name: string;
   limit?: number;
   onPressMore?: () => any;
@@ -50,7 +51,7 @@ export const ComicList = ({ list, name, limit }: comicListProps) => {
     <Text {...footerProps}>By Wikipedia</Text>
   );
 
-  const renderItem = (info: ListRenderItemInfo<ComicProps>) => (
+  const renderItem = (info: ListRenderItemInfo<resComicItem_T>) => (
     <TouchableOpacity
       onPress={() => {
         // console.log(navigation.getState());
@@ -73,7 +74,7 @@ export const ComicList = ({ list, name, limit }: comicListProps) => {
               style={styles.poster}
               source={{
                 uri:
-                  info.item.posterPath ||
+                  info.item.posterUrl ||
                   "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
               }}
             />
@@ -89,7 +90,10 @@ export const ComicList = ({ list, name, limit }: comicListProps) => {
             <Layout style={styles.detailWrapper}>
               <Text category={"p1"}>Author: {info.item.author || "Haha"}</Text>
               <Text category={"p1"}>
-                Lasted Chapter: {info.item.lastedChapter || "Haha"}
+                Lasted Chapter:{" "}
+                {(info.item.lastedChapters &&
+                  info.item.lastedChapters[0].chapterName) ||
+                  "Haha"}
               </Text>
               <Text category={"p1"}>
                 Updated At: {info.item.updateAt || "Haha"}

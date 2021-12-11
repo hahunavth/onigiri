@@ -7,12 +7,19 @@ import {
   Dimensions,
   ScaledSize,
 } from "react-native";
-import { useQuery } from "react-query";
+import { useQueries, useQuery } from "react-query";
 import { ComicList } from "@/components/ComicListView/ComicList";
 import { Session } from "@/components/Session";
 import ContentLoader, { Facebook } from "react-native-easy-content-loader";
 
 import { HomeBottomNavigation } from "../../navigators/Main/BottomMenu";
+import { ApiRespone_T, resComicItem_T } from "@/types/api";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  fetchRecentlyAsync,
+  homeActions,
+  selectHome,
+} from "../../app/homeSlice";
 
 type SessionList_T = {
   name: string;
@@ -25,6 +32,10 @@ const HomeSessionList: SessionList_T[] = [
     name: "Recently",
     url: "https://hahunavth-express-api.herokuapp.com/api/v1/recently",
   },
+  // {
+  //   name: "Hot",
+  //   url: "https://hahunavth-express-api.herokuapp.com/api/v1/hot",
+  // },
 ];
 
 const window = Dimensions.get("window");
@@ -33,14 +44,17 @@ const screen = Dimensions.get("screen");
 export const AppsScreen = ({ navigation, route }: HomeBottomNavigation) => {
   const [size, setSize] = useState({ width: 1, height: 1 });
   const [dimensions, setDimensions] = useState({ window, screen });
-  const { data, error, isLoading, isError } = useQuery("recentlyl", () =>
-    fetch("https://jsonplaceholder.typicode.com/posts").then((res) =>
-      res.json()
-    )
+  const result = useQueries(
+    HomeSessionList.map((session) => ({
+      queryKey: session.name,
+      queryFn: () => fetch(session.url || "").then((res) => res.json()),
+    }))
   );
 
-  // TODO: Ignore fetch api from json placeholder, use HOC loading state
-  // TODO: Refactor all request to this file
+  const recentlyList = result[0].data as ApiRespone_T<Array<resComicItem_T>>;
+  const isLoading = result[0].isLoading;
+  const error = result[0].error;
+  const isError = result[0].isError;
 
   useEffect(() => {
     const onChange = ({
@@ -59,13 +73,7 @@ export const AppsScreen = ({ navigation, route }: HomeBottomNavigation) => {
     };
   }, []);
 
-  // console.log("🚀 ~ file: AppsScreen.tsx ~ line 16 ~ AppsScreen ~ data", data);
-
   if (isLoading) {
-    console.log(
-      "🚀 ~ file: AppsScreen.tsx ~ line 32 ~ AppsScreen ~ error",
-      error
-    );
     return (
       <View>
         <ContentLoader
@@ -147,6 +155,8 @@ export const AppsScreen = ({ navigation, route }: HomeBottomNavigation) => {
         <Text>error</Text>
       </View>
     );
+
+  // return <View></View>;
 
   return (
     <>
