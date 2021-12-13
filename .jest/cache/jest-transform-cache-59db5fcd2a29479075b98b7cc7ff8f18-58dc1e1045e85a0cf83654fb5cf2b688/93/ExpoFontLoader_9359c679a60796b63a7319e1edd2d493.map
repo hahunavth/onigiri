@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/ExpoFontLoader.ts"],"names":[],"mappings":";;;;;AAAA;;eACe,oCAAmB,c","sourcesContent":["import { NativeModulesProxy } from 'expo-modules-core';\nexport default NativeModulesProxy.ExpoFontLoader;\n"],"sourceRoot":""}

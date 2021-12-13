@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/AssetRegistry.ts"],"names":[],"mappings":";;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from 'react-native/Libraries/Image/AssetRegistry';\n"],"sourceRoot":""}

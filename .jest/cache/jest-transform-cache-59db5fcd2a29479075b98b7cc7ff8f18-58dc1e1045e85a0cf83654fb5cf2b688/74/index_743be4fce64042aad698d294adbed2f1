@@ -1,0 +1,142 @@
+322b49602710ada5762b330a3413cd55
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _exportNames = {
+  CommonActions: true,
+  BaseRouter: true,
+  DrawerActions: true,
+  DrawerRouter: true,
+  StackActions: true,
+  StackRouter: true,
+  TabActions: true,
+  TabRouter: true
+};
+Object.defineProperty(exports, "BaseRouter", {
+  enumerable: true,
+  get: function get() {
+    return _BaseRouter.default;
+  }
+});
+Object.defineProperty(exports, "DrawerActions", {
+  enumerable: true,
+  get: function get() {
+    return _DrawerRouter.DrawerActions;
+  }
+});
+Object.defineProperty(exports, "DrawerRouter", {
+  enumerable: true,
+  get: function get() {
+    return _DrawerRouter.default;
+  }
+});
+Object.defineProperty(exports, "StackActions", {
+  enumerable: true,
+  get: function get() {
+    return _StackRouter.StackActions;
+  }
+});
+Object.defineProperty(exports, "StackRouter", {
+  enumerable: true,
+  get: function get() {
+    return _StackRouter.default;
+  }
+});
+Object.defineProperty(exports, "TabActions", {
+  enumerable: true,
+  get: function get() {
+    return _TabRouter.TabActions;
+  }
+});
+Object.defineProperty(exports, "TabRouter", {
+  enumerable: true,
+  get: function get() {
+    return _TabRouter.default;
+  }
+});
+exports.CommonActions = void 0;
+
+var CommonActions = _interopRequireWildcard(require("./CommonActions"));
+
+exports.CommonActions = CommonActions;
+
+var _BaseRouter = _interopRequireDefault(require("./BaseRouter"));
+
+var _DrawerRouter = _interopRequireWildcard(require("./DrawerRouter"));
+
+var _StackRouter = _interopRequireWildcard(require("./StackRouter"));
+
+var _TabRouter = _interopRequireWildcard(require("./TabRouter"));
+
+var _types = require("./types");
+
+Object.keys(_types).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _types[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _types[key];
+    }
+  });
+});
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+
+function _getRequireWildcardCache(nodeInterop) {
+  if (typeof WeakMap !== "function") return null;
+  var cacheBabelInterop = new WeakMap();
+  var cacheNodeInterop = new WeakMap();
+  return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+    return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+  })(nodeInterop);
+}
+
+function _interopRequireWildcard(obj, nodeInterop) {
+  if (!nodeInterop && obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache(nodeInterop);
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj.default = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLElBQUEsYUFBQSxHQUFBLHVCQUFBLENBQUEsT0FBQSxtQkFBQSxDQUFBOzs7O0FBSUEsSUFBQSxXQUFBLEdBQUEsc0JBQUEsQ0FBQSxPQUFBLGdCQUFBLENBQUE7O0FBUUEsSUFBQSxhQUFBLEdBQUEsdUJBQUEsQ0FBQSxPQUFBLGtCQUFBLENBQUE7O0FBT0EsSUFBQSxZQUFBLEdBQUEsdUJBQUEsQ0FBQSxPQUFBLGlCQUFBLENBQUE7O0FBT0EsSUFBQSxVQUFBLEdBQUEsdUJBQUEsQ0FBQSxPQUFBLGVBQUEsQ0FBQTs7QUFDQSxJQUFBLE1BQUEsR0FBQSxPQUFBLFdBQUE7O0FBQUEsTUFBQSxDQUFBLElBQUEsQ0FBQSxNQUFBLEVBQUEsT0FBQSxDQUFBLFVBQUEsR0FBQSxFQUFBO0FBQUEsTUFBQSxHQUFBLEtBQUEsU0FBQSxJQUFBLEdBQUEsS0FBQSxZQUFBLEVBQUE7QUFBQSxNQUFBLE1BQUEsQ0FBQSxTQUFBLENBQUEsY0FBQSxDQUFBLElBQUEsQ0FBQSxZQUFBLEVBQUEsR0FBQSxDQUFBLEVBQUE7QUFBQSxNQUFBLEdBQUEsSUFBQSxPQUFBLElBQUEsT0FBQSxDQUFBLEdBQUEsQ0FBQSxLQUFBLE1BQUEsQ0FBQSxHQUFBLENBQUEsRUFBQTtBQUFBLEVBQUEsTUFBQSxDQUFBLGNBQUEsQ0FBQSxPQUFBLEVBQUEsR0FBQSxFQUFBO0FBQUEsSUFBQSxVQUFBLEVBQUEsSUFBQTtBQUFBLElBQUEsR0FBQSxFQUFBLGVBQUE7QUFBQSxhQUFBLE1BQUEsQ0FBQSxHQUFBLENBQUE7QUFBQTtBQUFBLEdBQUE7QUFBQSxDQUFBIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0ICogYXMgQ29tbW9uQWN0aW9ucyBmcm9tICcuL0NvbW1vbkFjdGlvbnMnO1xuXG5leHBvcnQgeyBDb21tb25BY3Rpb25zIH07XG5cbmV4cG9ydCB7IGRlZmF1bHQgYXMgQmFzZVJvdXRlciB9IGZyb20gJy4vQmFzZVJvdXRlcic7XG5leHBvcnQgdHlwZSB7XG4gIERyYXdlckFjdGlvbkhlbHBlcnMsXG4gIERyYXdlckFjdGlvblR5cGUsXG4gIERyYXdlck5hdmlnYXRpb25TdGF0ZSxcbiAgRHJhd2VyUm91dGVyT3B0aW9ucyxcbiAgRHJhd2VyU3RhdHVzLFxufSBmcm9tICcuL0RyYXdlclJvdXRlcic7XG5leHBvcnQgeyBEcmF3ZXJBY3Rpb25zLCBkZWZhdWx0IGFzIERyYXdlclJvdXRlciB9IGZyb20gJy4vRHJhd2VyUm91dGVyJztcbmV4cG9ydCB0eXBlIHtcbiAgU3RhY2tBY3Rpb25IZWxwZXJzLFxuICBTdGFja0FjdGlvblR5cGUsXG4gIFN0YWNrTmF2aWdhdGlvblN0YXRlLFxuICBTdGFja1JvdXRlck9wdGlvbnMsXG59IGZyb20gJy4vU3RhY2tSb3V0ZXInO1xuZXhwb3J0IHsgU3RhY2tBY3Rpb25zLCBkZWZhdWx0IGFzIFN0YWNrUm91dGVyIH0gZnJvbSAnLi9TdGFja1JvdXRlcic7XG5leHBvcnQgdHlwZSB7XG4gIFRhYkFjdGlvbkhlbHBlcnMsXG4gIFRhYkFjdGlvblR5cGUsXG4gIFRhYk5hdmlnYXRpb25TdGF0ZSxcbiAgVGFiUm91dGVyT3B0aW9ucyxcbn0gZnJvbSAnLi9UYWJSb3V0ZXInO1xuZXhwb3J0IHsgVGFiQWN0aW9ucywgZGVmYXVsdCBhcyBUYWJSb3V0ZXIgfSBmcm9tICcuL1RhYlJvdXRlcic7XG5leHBvcnQgKiBmcm9tICcuL3R5cGVzJztcbiJdfQ==

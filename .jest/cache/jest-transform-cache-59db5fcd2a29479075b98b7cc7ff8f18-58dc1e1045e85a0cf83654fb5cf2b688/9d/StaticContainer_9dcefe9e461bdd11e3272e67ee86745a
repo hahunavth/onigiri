@@ -1,0 +1,89 @@
+76cc231ba211c269b5319f7bf7fe11f4
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var React = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache(nodeInterop) {
+  if (typeof WeakMap !== "function") return null;
+  var cacheBabelInterop = new WeakMap();
+  var cacheNodeInterop = new WeakMap();
+  return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+    return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+  })(nodeInterop);
+}
+
+function _interopRequireWildcard(obj, nodeInterop) {
+  if (!nodeInterop && obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache(nodeInterop);
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj.default = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+function StaticContainer(props) {
+  return props.children;
+}
+
+var _default = React.memo(StaticContainer, function (prevProps, nextProps) {
+  var prevPropKeys = Object.keys(prevProps);
+  var nextPropKeys = Object.keys(nextProps);
+
+  if (prevPropKeys.length !== nextPropKeys.length) {
+    return false;
+  }
+
+  for (var _i = 0, _prevPropKeys = prevPropKeys; _i < _prevPropKeys.length; _i++) {
+    var key = _prevPropKeys[_i];
+
+    if (key === 'children') {
+      continue;
+    }
+
+    if (prevProps[key] !== nextProps[key]) {
+      return false;
+    }
+  }
+
+  return true;
+});
+
+exports.default = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIlN0YXRpY0NvbnRhaW5lci50c3giXSwibmFtZXMiOlsicHJvcHMiLCJwcmV2UHJvcEtleXMiLCJPYmplY3QiLCJuZXh0UHJvcEtleXMiLCJrZXkiLCJwcmV2UHJvcHMiLCJuZXh0UHJvcHMiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFBQSxJQUFBLEtBQUEsR0FBQSx1QkFBQSxDQUFBLE9BQUEsQ0FBQSxPQUFBLENBQUEsQ0FBQTs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUtBLFNBQUEsZUFBQSxDQUFBLEtBQUEsRUFBcUM7QUFDbkMsU0FBT0EsS0FBSyxDQUFaLFFBQUE7QUFDRDs7ZUFFYyxLQUFLLENBQUwsSUFBQSxDQUFBLGVBQUEsRUFBNEIsVUFBQSxTQUFBLEVBQUEsU0FBQSxFQUFvQztBQUM3RSxNQUFNQyxZQUFZLEdBQUdDLE1BQU0sQ0FBTkEsSUFBQUEsQ0FBckIsU0FBcUJBLENBQXJCO0FBQ0EsTUFBTUMsWUFBWSxHQUFHRCxNQUFNLENBQU5BLElBQUFBLENBQXJCLFNBQXFCQSxDQUFyQjs7QUFFQSxNQUFJRCxZQUFZLENBQVpBLE1BQUFBLEtBQXdCRSxZQUFZLENBQXhDLE1BQUEsRUFBaUQ7QUFDL0MsV0FBQSxLQUFBO0FBQ0Q7O0FBRUQsbUNBQUEsWUFBQSxtQ0FBZ0M7QUFBM0IsUUFBTUMsR0FBWCxvQkFBSzs7QUFDSCxRQUFJQSxHQUFHLEtBQVAsVUFBQSxFQUF3QjtBQUN0QjtBQUNEOztBQUVELFFBQUlDLFNBQVMsQ0FBVEEsR0FBUyxDQUFUQSxLQUFtQkMsU0FBUyxDQUFoQyxHQUFnQyxDQUFoQyxFQUF1QztBQUNyQyxhQUFBLEtBQUE7QUFDRDtBQUNGOztBQUVELFNBQUEsSUFBQTtBQWxCYSxDQUFBLEMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgKiBhcyBSZWFjdCBmcm9tICdyZWFjdCc7XG5cbi8qKlxuICogQ29tcG9uZW50IHdoaWNoIHByZXZlbnRzIHVwZGF0ZXMgZm9yIGNoaWxkcmVuIGlmIG5vIHByb3BzIGNoYW5nZWRcbiAqL1xuZnVuY3Rpb24gU3RhdGljQ29udGFpbmVyKHByb3BzOiBhbnkpIHtcbiAgcmV0dXJuIHByb3BzLmNoaWxkcmVuO1xufVxuXG5leHBvcnQgZGVmYXVsdCBSZWFjdC5tZW1vKFN0YXRpY0NvbnRhaW5lciwgKHByZXZQcm9wczogYW55LCBuZXh0UHJvcHM6IGFueSkgPT4ge1xuICBjb25zdCBwcmV2UHJvcEtleXMgPSBPYmplY3Qua2V5cyhwcmV2UHJvcHMpO1xuICBjb25zdCBuZXh0UHJvcEtleXMgPSBPYmplY3Qua2V5cyhuZXh0UHJvcHMpO1xuXG4gIGlmIChwcmV2UHJvcEtleXMubGVuZ3RoICE9PSBuZXh0UHJvcEtleXMubGVuZ3RoKSB7XG4gICAgcmV0dXJuIGZhbHNlO1xuICB9XG5cbiAgZm9yIChjb25zdCBrZXkgb2YgcHJldlByb3BLZXlzKSB7XG4gICAgaWYgKGtleSA9PT0gJ2NoaWxkcmVuJykge1xuICAgICAgY29udGludWU7XG4gICAgfVxuXG4gICAgaWYgKHByZXZQcm9wc1trZXldICE9PSBuZXh0UHJvcHNba2V5XSkge1xuICAgICAgcmV0dXJuIGZhbHNlO1xuICAgIH1cbiAgfVxuXG4gIHJldHVybiB0cnVlO1xufSk7XG4iXX0=

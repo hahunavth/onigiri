@@ -1,0 +1,33 @@
+4798b1313d380069305a1944b5c3baff
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+require("./Asset.fx");
+
+var _Asset2 = require("./Asset");
+
+Object.keys(_Asset2).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Asset2[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _Asset2[key];
+    }
+  });
+});
+
+var _AssetHooks = require("./AssetHooks");
+
+Object.keys(_AssetHooks).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _AssetHooks[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _AssetHooks[key];
+    }
+  });
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9pbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0FBQUE7O0FBRUE7O0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7O0FBQ0E7O0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgJy4vQXNzZXQuZngnO1xuXG5leHBvcnQgKiBmcm9tICcuL0Fzc2V0JztcbmV4cG9ydCAqIGZyb20gJy4vQXNzZXRIb29rcyc7XG4iXSwic291cmNlUm9vdCI6IiJ9

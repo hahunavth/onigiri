@@ -1,0 +1,95 @@
+3f05973387a6b7f29e632f9278ada70f
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = EnsureSingleNavigator;
+exports.SingleNavigatorContext = void 0;
+
+var React = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache(nodeInterop) {
+  if (typeof WeakMap !== "function") return null;
+  var cacheBabelInterop = new WeakMap();
+  var cacheNodeInterop = new WeakMap();
+  return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+    return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+  })(nodeInterop);
+}
+
+function _interopRequireWildcard(obj, nodeInterop) {
+  if (!nodeInterop && obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache(nodeInterop);
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj.default = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+var MULTIPLE_NAVIGATOR_ERROR = "Another navigator is already registered for this container. You likely have multiple navigators under a single \"NavigationContainer\" or \"Screen\". Make sure each navigator is under a separate \"Screen\" container. See https://reactnavigation.org/docs/nesting-navigators for a guide on nesting.";
+var SingleNavigatorContext = React.createContext(undefined);
+exports.SingleNavigatorContext = SingleNavigatorContext;
+
+function EnsureSingleNavigator(_ref) {
+  var children = _ref.children;
+  var navigatorKeyRef = React.useRef();
+  var value = React.useMemo(function () {
+    return {
+      register: function register(key) {
+        var currentKey = navigatorKeyRef.current;
+
+        if (currentKey !== undefined && key !== currentKey) {
+          throw new Error(MULTIPLE_NAVIGATOR_ERROR);
+        }
+
+        navigatorKeyRef.current = key;
+      },
+      unregister: function unregister(key) {
+        var currentKey = navigatorKeyRef.current;
+
+        if (key !== currentKey) {
+          return;
+        }
+
+        navigatorKeyRef.current = undefined;
+      }
+    };
+  }, []);
+  return React.createElement(SingleNavigatorContext.Provider, {
+    value: value
+  }, children);
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkVuc3VyZVNpbmdsZU5hdmlnYXRvci50c3giXSwibmFtZXMiOlsiTVVMVElQTEVfTkFWSUdBVE9SX0VSUk9SIiwiU2luZ2xlTmF2aWdhdG9yQ29udGV4dCIsIlJlYWN0IiwiY2hpbGRyZW4iLCJuYXZpZ2F0b3JLZXlSZWYiLCJ2YWx1ZSIsInJlZ2lzdGVyIiwiY3VycmVudEtleSIsImtleSIsInVucmVnaXN0ZXIiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7O0FBQUEsSUFBQSxLQUFBLEdBQUEsdUJBQUEsQ0FBQSxPQUFBLENBQUEsT0FBQSxDQUFBLENBQUE7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFNQSxJQUFNQSx3QkFBTiw2U0FBQTtBQUVPLElBQU1DLHNCQUFzQixHQUNqQ0MsS0FBSyxDQUFMQSxhQUFBQSxDQURLLFNBQ0xBLENBREs7OztBQVlRLFNBQUEscUJBQUEsT0FBb0Q7QUFBQSxNQUFuQkMsUUFBbUIsUUFBbkJBLFFBQW1CO0FBQ2pFLE1BQU1DLGVBQWUsR0FBR0YsS0FBSyxDQUE3QixNQUF3QkEsRUFBeEI7QUFFQSxNQUFNRyxLQUFLLEdBQUcsS0FBSyxDQUFMLE9BQUEsQ0FDWjtBQUFBLFdBQU87QUFDTEMsTUFBQUEsUUFESyxvQkFDRyxHQURILEVBQ2lCO0FBQ3BCLFlBQU1DLFVBQVUsR0FBR0gsZUFBZSxDQUFsQyxPQUFBOztBQUVBLFlBQUlHLFVBQVUsS0FBVkEsU0FBQUEsSUFBNEJDLEdBQUcsS0FBbkMsVUFBQSxFQUFvRDtBQUNsRCxnQkFBTSxJQUFBLEtBQUEsQ0FBTix3QkFBTSxDQUFOO0FBQ0Q7O0FBRURKLFFBQUFBLGVBQWUsQ0FBZkEsT0FBQUEsR0FBQUEsR0FBQUE7QUFSRyxPQUFBO0FBVUxLLE1BQUFBLFVBVkssc0JBVUssR0FWTCxFQVVtQjtBQUN0QixZQUFNRixVQUFVLEdBQUdILGVBQWUsQ0FBbEMsT0FBQTs7QUFFQSxZQUFJSSxHQUFHLEtBQVAsVUFBQSxFQUF3QjtBQUN0QjtBQUNEOztBQUVESixRQUFBQSxlQUFlLENBQWZBLE9BQUFBLEdBQUFBLFNBQUFBO0FBQ0Q7QUFsQkksS0FBUDtBQUFBLEdBRFksRUFBZCxFQUFjLENBQWQ7QUF3QkEsU0FDRSxLQUFBLENBQUEsYUFBQSxDQUFDLHNCQUFELENBQUEsUUFBQSxFQUFBO0FBQWlDLElBQUEsS0FBSyxFQUFFQztBQUF4QyxHQUFBLEVBREYsUUFDRSxDQURGO0FBS0QiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgKiBhcyBSZWFjdCBmcm9tICdyZWFjdCc7XG5cbnR5cGUgUHJvcHMgPSB7XG4gIGNoaWxkcmVuOiBSZWFjdC5SZWFjdE5vZGU7XG59O1xuXG5jb25zdCBNVUxUSVBMRV9OQVZJR0FUT1JfRVJST1IgPSBgQW5vdGhlciBuYXZpZ2F0b3IgaXMgYWxyZWFkeSByZWdpc3RlcmVkIGZvciB0aGlzIGNvbnRhaW5lci4gWW91IGxpa2VseSBoYXZlIG11bHRpcGxlIG5hdmlnYXRvcnMgdW5kZXIgYSBzaW5nbGUgXCJOYXZpZ2F0aW9uQ29udGFpbmVyXCIgb3IgXCJTY3JlZW5cIi4gTWFrZSBzdXJlIGVhY2ggbmF2aWdhdG9yIGlzIHVuZGVyIGEgc2VwYXJhdGUgXCJTY3JlZW5cIiBjb250YWluZXIuIFNlZSBodHRwczovL3JlYWN0bmF2aWdhdGlvbi5vcmcvZG9jcy9uZXN0aW5nLW5hdmlnYXRvcnMgZm9yIGEgZ3VpZGUgb24gbmVzdGluZy5gO1xuXG5leHBvcnQgY29uc3QgU2luZ2xlTmF2aWdhdG9yQ29udGV4dCA9XG4gIFJlYWN0LmNyZWF0ZUNvbnRleHQ8XG4gICAgfCB7XG4gICAgICAgIHJlZ2lzdGVyKGtleTogc3RyaW5nKTogdm9pZDtcbiAgICAgICAgdW5yZWdpc3RlcihrZXk6IHN0cmluZyk6IHZvaWQ7XG4gICAgICB9XG4gICAgfCB1bmRlZmluZWRcbiAgPih1bmRlZmluZWQpO1xuXG4vKipcbiAqIENvbXBvbmVudCB3aGljaCBlbnN1cmVzIHRoYXQgdGhlcmUncyBvbmx5IG9uZSBuYXZpZ2F0b3IgbmVzdGVkIHVuZGVyIGl0LlxuICovXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBFbnN1cmVTaW5nbGVOYXZpZ2F0b3IoeyBjaGlsZHJlbiB9OiBQcm9wcykge1xuICBjb25zdCBuYXZpZ2F0b3JLZXlSZWYgPSBSZWFjdC51c2VSZWY8c3RyaW5nIHwgdW5kZWZpbmVkPigpO1xuXG4gIGNvbnN0IHZhbHVlID0gUmVhY3QudXNlTWVtbyhcbiAgICAoKSA9PiAoe1xuICAgICAgcmVnaXN0ZXIoa2V5OiBzdHJpbmcpIHtcbiAgICAgICAgY29uc3QgY3VycmVudEtleSA9IG5hdmlnYXRvcktleVJlZi5jdXJyZW50O1xuXG4gICAgICAgIGlmIChjdXJyZW50S2V5ICE9PSB1bmRlZmluZWQgJiYga2V5ICE9PSBjdXJyZW50S2V5KSB7XG4gICAgICAgICAgdGhyb3cgbmV3IEVycm9yKE1VTFRJUExFX05BVklHQVRPUl9FUlJPUik7XG4gICAgICAgIH1cblxuICAgICAgICBuYXZpZ2F0b3JLZXlSZWYuY3VycmVudCA9IGtleTtcbiAgICAgIH0sXG4gICAgICB1bnJlZ2lzdGVyKGtleTogc3RyaW5nKSB7XG4gICAgICAgIGNvbnN0IGN1cnJlbnRLZXkgPSBuYXZpZ2F0b3JLZXlSZWYuY3VycmVudDtcblxuICAgICAgICBpZiAoa2V5ICE9PSBjdXJyZW50S2V5KSB7XG4gICAgICAgICAgcmV0dXJuO1xuICAgICAgICB9XG5cbiAgICAgICAgbmF2aWdhdG9yS2V5UmVmLmN1cnJlbnQgPSB1bmRlZmluZWQ7XG4gICAgICB9LFxuICAgIH0pLFxuICAgIFtdXG4gICk7XG5cbiAgcmV0dXJuIChcbiAgICA8U2luZ2xlTmF2aWdhdG9yQ29udGV4dC5Qcm92aWRlciB2YWx1ZT17dmFsdWV9PlxuICAgICAge2NoaWxkcmVufVxuICAgIDwvU2luZ2xlTmF2aWdhdG9yQ29udGV4dC5Qcm92aWRlcj5cbiAgKTtcbn1cbiJdfQ==

@@ -1,0 +1,28 @@
+f384a5b63ee72a2706bae0638d7cdb52
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _exportNames = {};
+exports.default = void 0;
+
+var _resolveAssetSource = _interopRequireWildcard(require("react-native/Libraries/Image/resolveAssetSource"));
+
+Object.keys(_resolveAssetSource).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _resolveAssetSource[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _resolveAssetSource[key];
+    }
+  });
+});
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var _default = _resolveAssetSource.default;
+exports.default = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9yZXNvbHZlQXNzZXRTb3VyY2UudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQUE7O0FBRUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTs7Ozs7O2VBRGUsMkIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgcmVzb2x2ZUFzc2V0U291cmNlIGZyb20gJ3JlYWN0LW5hdGl2ZS9MaWJyYXJpZXMvSW1hZ2UvcmVzb2x2ZUFzc2V0U291cmNlJztcbmV4cG9ydCBkZWZhdWx0IHJlc29sdmVBc3NldFNvdXJjZTtcbmV4cG9ydCAqIGZyb20gJ3JlYWN0LW5hdGl2ZS9MaWJyYXJpZXMvSW1hZ2UvcmVzb2x2ZUFzc2V0U291cmNlJzsgLy8gZXNsaW50LWRpc2FibGUtbGluZSBpbXBvcnQvZXhwb3J0XG4iXSwic291cmNlUm9vdCI6IiJ9

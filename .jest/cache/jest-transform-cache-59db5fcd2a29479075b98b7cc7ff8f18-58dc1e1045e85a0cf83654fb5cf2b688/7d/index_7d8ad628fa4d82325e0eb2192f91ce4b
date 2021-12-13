@@ -1,0 +1,30 @@
+0e6cc3ebe0e4be8306dde6a4a9d4b5ce
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _exportNames = {
+  useFonts: true
+};
+Object.defineProperty(exports, "useFonts", {
+  enumerable: true,
+  get: function get() {
+    return _FontHooks.useFonts;
+  }
+});
+
+var _Font = require("./Font");
+
+Object.keys(_Font).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _Font[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _Font[key];
+    }
+  });
+});
+
+var _FontHooks = require("./FontHooks");
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9pbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7O0FBQUE7O0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTs7QUFDQSIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCAqIGZyb20gJy4vRm9udCc7XG5leHBvcnQgeyB1c2VGb250cyB9IGZyb20gJy4vRm9udEhvb2tzJztcbiJdLCJzb3VyY2VSb290IjoiIn0=

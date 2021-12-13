@@ -1,0 +1,23 @@
+1cd97c401882ac09d8f952ab088d3017
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _expoModulesCore = require("expo-modules-core");
+
+var _ExponentFileSystemShim = _interopRequireDefault(require("./ExponentFileSystemShim"));
+
+var platformModule;
+
+if (_expoModulesCore.NativeModulesProxy.ExponentFileSystem) {
+  platformModule = _expoModulesCore.NativeModulesProxy.ExponentFileSystem;
+} else {
+  platformModule = _ExponentFileSystemShim.default;
+}
+
+var _default = platformModule;
+exports.default = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9FeHBvbmVudEZpbGVTeXN0ZW0udHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBOztBQUVBOztBQUdBLElBQUksY0FBSjs7QUFFQSxJQUFJLG9DQUFtQixrQkFBdkIsRUFBMkM7QUFDekMsRUFBQSxjQUFjLEdBQUcsb0NBQW1CLGtCQUFwQztBQUNELENBRkQsTUFFTztBQUNMLEVBQUEsY0FBYyxHQUFHLCtCQUFqQjtBQUNEOztlQUVjLGMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBOYXRpdmVNb2R1bGVzUHJveHkgfSBmcm9tICdleHBvLW1vZHVsZXMtY29yZSc7XG5cbmltcG9ydCBFeHBvbmVudEZpbGVTeXN0ZW1TaGltIGZyb20gJy4vRXhwb25lbnRGaWxlU3lzdGVtU2hpbSc7XG5pbXBvcnQgeyBFeHBvbmVudEZpbGVTeXN0ZW1Nb2R1bGUgfSBmcm9tICcuL0ZpbGVTeXN0ZW0udHlwZXMnO1xuXG5sZXQgcGxhdGZvcm1Nb2R1bGU7XG5cbmlmIChOYXRpdmVNb2R1bGVzUHJveHkuRXhwb25lbnRGaWxlU3lzdGVtKSB7XG4gIHBsYXRmb3JtTW9kdWxlID0gTmF0aXZlTW9kdWxlc1Byb3h5LkV4cG9uZW50RmlsZVN5c3RlbTtcbn0gZWxzZSB7XG4gIHBsYXRmb3JtTW9kdWxlID0gRXhwb25lbnRGaWxlU3lzdGVtU2hpbTtcbn1cblxuZXhwb3J0IGRlZmF1bHQgcGxhdGZvcm1Nb2R1bGUgYXMgRXhwb25lbnRGaWxlU3lzdGVtTW9kdWxlO1xuIl0sInNvdXJjZVJvb3QiOiIifQ==

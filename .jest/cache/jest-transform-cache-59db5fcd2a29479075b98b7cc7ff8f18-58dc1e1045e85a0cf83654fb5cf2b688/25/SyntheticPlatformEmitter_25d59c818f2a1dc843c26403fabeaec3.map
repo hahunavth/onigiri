@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/SyntheticPlatformEmitter.ts"],"names":[],"mappings":";;;;;;;;;;;;AAIA","sourcesContent":["/**\n * This emitter is used for sending synthetic native events to listeners\n * registered in the API layer with `NativeEventEmitter`.\n */\nexport { default } from 'react-native/Libraries/EventEmitter/RCTDeviceEventEmitter';\n"],"sourceRoot":""}

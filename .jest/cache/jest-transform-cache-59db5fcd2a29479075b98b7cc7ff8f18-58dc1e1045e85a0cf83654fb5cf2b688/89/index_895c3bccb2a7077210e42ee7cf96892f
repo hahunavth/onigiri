@@ -1,0 +1,44 @@
+9380adb45995c965ea4495bc6303f855
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Quicksand_700Bold = exports.Quicksand_600SemiBold = exports.Quicksand_500Medium = exports.Quicksand_400Regular = exports.Quicksand_300Light = void 0;
+Object.defineProperty(exports, "__metadata__", {
+  enumerable: true,
+  get: function get() {
+    return _metadata.default;
+  }
+});
+Object.defineProperty(exports, "useFonts", {
+  enumerable: true,
+  get: function get() {
+    return _useFonts.useFonts;
+  }
+});
+
+var _useFonts = require("./useFonts");
+
+var _metadata = _interopRequireDefault(require("./metadata.json"));
+
+var Quicksand_300Light = require("./Quicksand_300Light.ttf");
+
+exports.Quicksand_300Light = Quicksand_300Light;
+
+var Quicksand_400Regular = require("./Quicksand_400Regular.ttf");
+
+exports.Quicksand_400Regular = Quicksand_400Regular;
+
+var Quicksand_500Medium = require("./Quicksand_500Medium.ttf");
+
+exports.Quicksand_500Medium = Quicksand_500Medium;
+
+var Quicksand_600SemiBold = require("./Quicksand_600SemiBold.ttf");
+
+exports.Quicksand_600SemiBold = Quicksand_600SemiBold;
+
+var Quicksand_700Bold = require("./Quicksand_700Bold.ttf");
+
+exports.Quicksand_700Bold = Quicksand_700Bold;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sIm5hbWVzIjpbIlF1aWNrc2FuZF8zMDBMaWdodCIsInJlcXVpcmUiLCJRdWlja3NhbmRfNDAwUmVndWxhciIsIlF1aWNrc2FuZF81MDBNZWRpdW0iLCJRdWlja3NhbmRfNjAwU2VtaUJvbGQiLCJRdWlja3NhbmRfNzAwQm9sZCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUlBOztBQUVBOztBQUNPLElBQU1BLGtCQUFrQixHQUFHQyxPQUFPLDRCQUFsQzs7OztBQUNBLElBQU1DLG9CQUFvQixHQUFHRCxPQUFPLDhCQUFwQzs7OztBQUNBLElBQU1FLG1CQUFtQixHQUFHRixPQUFPLDZCQUFuQzs7OztBQUNBLElBQU1HLHFCQUFxQixHQUFHSCxPQUFPLCtCQUFyQzs7OztBQUNBLElBQU1JLGlCQUFpQixHQUFHSixPQUFPLDJCQUFqQyIsInNvdXJjZXNDb250ZW50IjpbIi8vLyBHZW5lcmF0ZWQgYnkgZXhwby1nb29nbGUtZm9udHMvZ2VuZXJhdG9yXG4vLy8gRG8gbm90IGVkaXQgYnkgaGFuZCB1bmxlc3MgeW91IGtub3cgd2hhdCB5b3UgYXJlIGRvaW5nXG4vLy9cblxuZXhwb3J0IHsgdXNlRm9udHMgfSBmcm9tICcuL3VzZUZvbnRzJztcblxuZXhwb3J0IHsgZGVmYXVsdCBhcyBfX21ldGFkYXRhX18gfSBmcm9tICcuL21ldGFkYXRhLmpzb24nO1xuZXhwb3J0IGNvbnN0IFF1aWNrc2FuZF8zMDBMaWdodCA9IHJlcXVpcmUoJy4vUXVpY2tzYW5kXzMwMExpZ2h0LnR0ZicpO1xuZXhwb3J0IGNvbnN0IFF1aWNrc2FuZF80MDBSZWd1bGFyID0gcmVxdWlyZSgnLi9RdWlja3NhbmRfNDAwUmVndWxhci50dGYnKTtcbmV4cG9ydCBjb25zdCBRdWlja3NhbmRfNTAwTWVkaXVtID0gcmVxdWlyZSgnLi9RdWlja3NhbmRfNTAwTWVkaXVtLnR0ZicpO1xuZXhwb3J0IGNvbnN0IFF1aWNrc2FuZF82MDBTZW1pQm9sZCA9IHJlcXVpcmUoJy4vUXVpY2tzYW5kXzYwMFNlbWlCb2xkLnR0ZicpO1xuZXhwb3J0IGNvbnN0IFF1aWNrc2FuZF83MDBCb2xkID0gcmVxdWlyZSgnLi9RdWlja3NhbmRfNzAwQm9sZC50dGYnKTtcbiJdfQ==

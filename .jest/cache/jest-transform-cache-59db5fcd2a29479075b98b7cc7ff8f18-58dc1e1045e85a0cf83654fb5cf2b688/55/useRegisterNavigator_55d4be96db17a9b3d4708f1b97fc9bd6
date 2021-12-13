@@ -1,0 +1,92 @@
+92b02849d865ff2452a8bcdb35422ab0
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = useRegisterNavigator;
+
+var _nonSecure = require("nanoid/non-secure");
+
+var React = _interopRequireWildcard(require("react"));
+
+var _EnsureSingleNavigator = require("./EnsureSingleNavigator");
+
+function _getRequireWildcardCache(nodeInterop) {
+  if (typeof WeakMap !== "function") return null;
+  var cacheBabelInterop = new WeakMap();
+  var cacheNodeInterop = new WeakMap();
+  return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+    return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+  })(nodeInterop);
+}
+
+function _interopRequireWildcard(obj, nodeInterop) {
+  if (!nodeInterop && obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache(nodeInterop);
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj.default = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+function useRegisterNavigator() {
+  var _React$useState = React.useState(function () {
+    return (0, _nonSecure.nanoid)();
+  }),
+      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 1),
+      key = _React$useState2[0];
+
+  var container = React.useContext(_EnsureSingleNavigator.SingleNavigatorContext);
+
+  if (container === undefined) {
+    throw new Error("Couldn't register the navigator. Have you wrapped your app with 'NavigationContainer'?\n\nThis can also happen if there are multiple copies of '@react-navigation' packages installed.");
+  }
+
+  React.useEffect(function () {
+    var register = container.register,
+        unregister = container.unregister;
+    register(key);
+    return function () {
+      return unregister(key);
+    };
+  }, [container, key]);
+  return key;
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVzZVJlZ2lzdGVyTmF2aWdhdG9yLnRzeCJdLCJuYW1lcyI6WyJSZWFjdCIsImNvbnRhaW5lciIsIlNpbmdsZU5hdmlnYXRvckNvbnRleHQiLCJ1bnJlZ2lzdGVyIiwicmVnaXN0ZXIiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBQUEsSUFBQSxVQUFBLEdBQUEsT0FBQSxDQUFBLG1CQUFBLENBQUE7O0FBQ0EsSUFBQSxLQUFBLEdBQUEsdUJBQUEsQ0FBQSxPQUFBLENBQUEsT0FBQSxDQUFBLENBQUE7O0FBRUEsSUFBQSxzQkFBQSxHQUFBLE9BQUEsMkJBQUE7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFNZSxTQUFBLG9CQUFBLEdBQWdDO0FBQzdDLHdCQUFjQSxLQUFLLENBQUxBLFFBQUFBLENBQWU7QUFBQSxXQUFNLENBQUEsR0FBQSxVQUFBLENBQW5DLE1BQW1DLEdBQU47QUFBQSxHQUFmQSxDQUFkO0FBQUE7QUFBQSxNQUFNLEdBQU47O0FBQ0EsTUFBTUMsU0FBUyxHQUFHRCxLQUFLLENBQUxBLFVBQUFBLENBQWlCRSxzQkFBQUEsQ0FBbkMsc0JBQWtCRixDQUFsQjs7QUFFQSxNQUFJQyxTQUFTLEtBQWIsU0FBQSxFQUE2QjtBQUMzQixVQUFNLElBQUEsS0FBQSxDQUFOLHdMQUFNLENBQU47QUFHRDs7QUFFREQsRUFBQUEsS0FBSyxDQUFMQSxTQUFBQSxDQUFnQixZQUFNO0FBQ3BCLFFBQU0sUUFBTixHQUFBLFNBQUEsQ0FBTSxRQUFOO0FBQUEsUUFBa0JHLFVBQWxCLEdBQUEsU0FBQSxDQUFrQkEsVUFBbEI7QUFFQUMsSUFBQUEsUUFBUSxDQUFSQSxHQUFRLENBQVJBO0FBRUEsV0FBTztBQUFBLGFBQU1ELFVBQVUsQ0FBdkIsR0FBdUIsQ0FBaEI7QUFBQSxLQUFQO0FBTEZILEdBQUFBLEVBTUcsQ0FBQSxTQUFBLEVBTkhBLEdBTUcsQ0FOSEE7QUFRQSxTQUFBLEdBQUE7QUFDRCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IG5hbm9pZCB9IGZyb20gJ25hbm9pZC9ub24tc2VjdXJlJztcbmltcG9ydCAqIGFzIFJlYWN0IGZyb20gJ3JlYWN0JztcblxuaW1wb3J0IHsgU2luZ2xlTmF2aWdhdG9yQ29udGV4dCB9IGZyb20gJy4vRW5zdXJlU2luZ2xlTmF2aWdhdG9yJztcblxuLyoqXG4gKiBSZWdpc3RlciBhIG5hdmlnYXRvciBpbiB0aGUgcGFyZW50IGNvbnRleHQgKGVpdGhlciBhIG5hdmlnYXRpb24gY29udGFpbmVyIG9yIGEgc2NyZWVuKS5cbiAqIFRoaXMgaXMgdXNlZCB0byBwcmV2ZW50IG11bHRpcGxlIG5hdmlnYXRvcnMgdW5kZXIgYSBzaW5nbGUgY29udGFpbmVyIG9yIHNjcmVlbi5cbiAqL1xuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gdXNlUmVnaXN0ZXJOYXZpZ2F0b3IoKSB7XG4gIGNvbnN0IFtrZXldID0gUmVhY3QudXNlU3RhdGUoKCkgPT4gbmFub2lkKCkpO1xuICBjb25zdCBjb250YWluZXIgPSBSZWFjdC51c2VDb250ZXh0KFNpbmdsZU5hdmlnYXRvckNvbnRleHQpO1xuXG4gIGlmIChjb250YWluZXIgPT09IHVuZGVmaW5lZCkge1xuICAgIHRocm93IG5ldyBFcnJvcihcbiAgICAgIFwiQ291bGRuJ3QgcmVnaXN0ZXIgdGhlIG5hdmlnYXRvci4gSGF2ZSB5b3Ugd3JhcHBlZCB5b3VyIGFwcCB3aXRoICdOYXZpZ2F0aW9uQ29udGFpbmVyJz9cXG5cXG5UaGlzIGNhbiBhbHNvIGhhcHBlbiBpZiB0aGVyZSBhcmUgbXVsdGlwbGUgY29waWVzIG9mICdAcmVhY3QtbmF2aWdhdGlvbicgcGFja2FnZXMgaW5zdGFsbGVkLlwiXG4gICAgKTtcbiAgfVxuXG4gIFJlYWN0LnVzZUVmZmVjdCgoKSA9PiB7XG4gICAgY29uc3QgeyByZWdpc3RlciwgdW5yZWdpc3RlciB9ID0gY29udGFpbmVyO1xuXG4gICAgcmVnaXN0ZXIoa2V5KTtcblxuICAgIHJldHVybiAoKSA9PiB1bnJlZ2lzdGVyKGtleSk7XG4gIH0sIFtjb250YWluZXIsIGtleV0pO1xuXG4gIHJldHVybiBrZXk7XG59XG4iXX0=

@@ -1,0 +1,15 @@
+48abf878d0787d16588200e78d3e57b1
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _RCTDeviceEventEmitter.default;
+  }
+});
+
+var _RCTDeviceEventEmitter = _interopRequireDefault(require("react-native/Libraries/EventEmitter/RCTDeviceEventEmitter"));
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9TeW50aGV0aWNQbGF0Zm9ybUVtaXR0ZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBSUEiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIFRoaXMgZW1pdHRlciBpcyB1c2VkIGZvciBzZW5kaW5nIHN5bnRoZXRpYyBuYXRpdmUgZXZlbnRzIHRvIGxpc3RlbmVyc1xuICogcmVnaXN0ZXJlZCBpbiB0aGUgQVBJIGxheWVyIHdpdGggYE5hdGl2ZUV2ZW50RW1pdHRlcmAuXG4gKi9cbmV4cG9ydCB7IGRlZmF1bHQgfSBmcm9tICdyZWFjdC1uYXRpdmUvTGlicmFyaWVzL0V2ZW50RW1pdHRlci9SQ1REZXZpY2VFdmVudEVtaXR0ZXInO1xuIl0sInNvdXJjZVJvb3QiOiIifQ==

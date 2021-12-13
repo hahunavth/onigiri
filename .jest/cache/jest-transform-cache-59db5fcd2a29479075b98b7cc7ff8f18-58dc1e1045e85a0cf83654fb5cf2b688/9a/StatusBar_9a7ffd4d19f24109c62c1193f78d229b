@@ -1,0 +1,77 @@
+ac836d78f0ea8dc3ba88f545d17ff969
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _exportNames = {
+  setStatusBarBackgroundColor: true,
+  setStatusBarNetworkActivityIndicatorVisible: true,
+  setStatusBarHidden: true,
+  setStatusBarStyle: true,
+  setStatusBarTranslucent: true,
+  StatusBar: true
+};
+Object.defineProperty(exports, "StatusBar", {
+  enumerable: true,
+  get: function get() {
+    return _ExpoStatusBar.default;
+  }
+});
+Object.defineProperty(exports, "setStatusBarBackgroundColor", {
+  enumerable: true,
+  get: function get() {
+    return _setStatusBarBackgroundColor.default;
+  }
+});
+Object.defineProperty(exports, "setStatusBarHidden", {
+  enumerable: true,
+  get: function get() {
+    return _setStatusBarHidden.default;
+  }
+});
+Object.defineProperty(exports, "setStatusBarNetworkActivityIndicatorVisible", {
+  enumerable: true,
+  get: function get() {
+    return _setStatusBarNetworkActivityIndicatorVisible.default;
+  }
+});
+Object.defineProperty(exports, "setStatusBarStyle", {
+  enumerable: true,
+  get: function get() {
+    return _setStatusBarStyle.default;
+  }
+});
+Object.defineProperty(exports, "setStatusBarTranslucent", {
+  enumerable: true,
+  get: function get() {
+    return _setStatusBarTranslucent.default;
+  }
+});
+
+var _StatusBar = require("./StatusBar.types");
+
+Object.keys(_StatusBar).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _StatusBar[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _StatusBar[key];
+    }
+  });
+});
+
+var _setStatusBarBackgroundColor = _interopRequireDefault(require("./setStatusBarBackgroundColor"));
+
+var _setStatusBarNetworkActivityIndicatorVisible = _interopRequireDefault(require("./setStatusBarNetworkActivityIndicatorVisible"));
+
+var _setStatusBarHidden = _interopRequireDefault(require("./setStatusBarHidden"));
+
+var _setStatusBarStyle = _interopRequireDefault(require("./setStatusBarStyle"));
+
+var _setStatusBarTranslucent = _interopRequireDefault(require("./setStatusBarTranslucent"));
+
+var _ExpoStatusBar = _interopRequireDefault(require("./ExpoStatusBar"));
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9TdGF0dXNCYXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQTs7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0ICogZnJvbSAnLi9TdGF0dXNCYXIudHlwZXMnO1xuZXhwb3J0IHsgZGVmYXVsdCBhcyBzZXRTdGF0dXNCYXJCYWNrZ3JvdW5kQ29sb3IgfSBmcm9tICcuL3NldFN0YXR1c0JhckJhY2tncm91bmRDb2xvcic7XG5leHBvcnQgeyBkZWZhdWx0IGFzIHNldFN0YXR1c0Jhck5ldHdvcmtBY3Rpdml0eUluZGljYXRvclZpc2libGUgfSBmcm9tICcuL3NldFN0YXR1c0Jhck5ldHdvcmtBY3Rpdml0eUluZGljYXRvclZpc2libGUnO1xuZXhwb3J0IHsgZGVmYXVsdCBhcyBzZXRTdGF0dXNCYXJIaWRkZW4gfSBmcm9tICcuL3NldFN0YXR1c0JhckhpZGRlbic7XG5leHBvcnQgeyBkZWZhdWx0IGFzIHNldFN0YXR1c0JhclN0eWxlIH0gZnJvbSAnLi9zZXRTdGF0dXNCYXJTdHlsZSc7XG5leHBvcnQgeyBkZWZhdWx0IGFzIHNldFN0YXR1c0JhclRyYW5zbHVjZW50IH0gZnJvbSAnLi9zZXRTdGF0dXNCYXJUcmFuc2x1Y2VudCc7XG5leHBvcnQgeyBkZWZhdWx0IGFzIFN0YXR1c0JhciB9IGZyb20gJy4vRXhwb1N0YXR1c0Jhcic7XG4iXSwic291cmNlUm9vdCI6IiJ9

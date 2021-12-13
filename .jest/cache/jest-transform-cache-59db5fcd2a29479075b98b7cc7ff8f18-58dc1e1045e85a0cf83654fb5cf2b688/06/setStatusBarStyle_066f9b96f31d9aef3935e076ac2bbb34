@@ -1,0 +1,16 @@
+f88cea3d8116f84ff9c3b22b334a44e9
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = setStatusBarStyle;
+
+var _reactNative = require("react-native");
+
+var _styleToBarStyle = _interopRequireDefault(require("./styleToBarStyle"));
+
+function setStatusBarStyle(style) {
+  _reactNative.StatusBar.setBarStyle((0, _styleToBarStyle.default)(style));
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9zZXRTdGF0dXNCYXJTdHlsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQUE7O0FBR0E7O0FBRWMsU0FBVSxpQkFBVixDQUE0QixLQUE1QixFQUFpRDtBQUM3RCx5QkFBVSxXQUFWLENBQXNCLDhCQUFnQixLQUFoQixDQUF0QjtBQUNEIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgU3RhdHVzQmFyIH0gZnJvbSAncmVhY3QtbmF0aXZlJztcblxuaW1wb3J0IHsgU3RhdHVzQmFyU3R5bGUgfSBmcm9tICcuL1N0YXR1c0Jhci50eXBlcyc7XG5pbXBvcnQgc3R5bGVUb0JhclN0eWxlIGZyb20gJy4vc3R5bGVUb0JhclN0eWxlJztcblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gc2V0U3RhdHVzQmFyU3R5bGUoc3R5bGU6IFN0YXR1c0JhclN0eWxlKSB7XG4gIFN0YXR1c0Jhci5zZXRCYXJTdHlsZShzdHlsZVRvQmFyU3R5bGUoc3R5bGUpKTtcbn1cbiJdLCJzb3VyY2VSb290IjoiIn0=

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/setStatusBarTranslucent.ts"],"names":[],"mappings":";;;;;AAAA;;AAEc,SAAU,uBAAV,CAAkC,WAAlC,EAAsD;AAClE,yBAAU,cAAV,CAAyB,WAAzB;AACD","sourcesContent":["import { StatusBar } from 'react-native';\n\nexport default function setStatusBarTranslucent(translucent: boolean) {\n  StatusBar.setTranslucent(translucent);\n}\n"],"sourceRoot":""}

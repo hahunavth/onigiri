@@ -1,0 +1,232 @@
+c5f95f336c13c5cb77d31ba2757d5ece
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _exportNames = {
+  BaseNavigationContainer: true,
+  createNavigationContainerRef: true,
+  createNavigatorFactory: true,
+  CurrentRenderContext: true,
+  findFocusedRoute: true,
+  getActionFromState: true,
+  getFocusedRouteNameFromRoute: true,
+  getPathFromState: true,
+  getStateFromPath: true,
+  NavigationContainerRefContext: true,
+  NavigationContext: true,
+  NavigationHelpersContext: true,
+  NavigationRouteContext: true,
+  useFocusEffect: true,
+  useIsFocused: true,
+  useNavigation: true,
+  useNavigationBuilder: true,
+  useNavigationContainerRef: true,
+  useNavigationState: true,
+  useRoute: true,
+  validatePathConfig: true
+};
+Object.defineProperty(exports, "BaseNavigationContainer", {
+  enumerable: true,
+  get: function get() {
+    return _BaseNavigationContainer.default;
+  }
+});
+Object.defineProperty(exports, "createNavigationContainerRef", {
+  enumerable: true,
+  get: function get() {
+    return _createNavigationContainerRef.default;
+  }
+});
+Object.defineProperty(exports, "createNavigatorFactory", {
+  enumerable: true,
+  get: function get() {
+    return _createNavigatorFactory.default;
+  }
+});
+Object.defineProperty(exports, "CurrentRenderContext", {
+  enumerable: true,
+  get: function get() {
+    return _CurrentRenderContext.default;
+  }
+});
+Object.defineProperty(exports, "findFocusedRoute", {
+  enumerable: true,
+  get: function get() {
+    return _findFocusedRoute.default;
+  }
+});
+Object.defineProperty(exports, "getActionFromState", {
+  enumerable: true,
+  get: function get() {
+    return _getActionFromState.default;
+  }
+});
+Object.defineProperty(exports, "getFocusedRouteNameFromRoute", {
+  enumerable: true,
+  get: function get() {
+    return _getFocusedRouteNameFromRoute.default;
+  }
+});
+Object.defineProperty(exports, "getPathFromState", {
+  enumerable: true,
+  get: function get() {
+    return _getPathFromState.default;
+  }
+});
+Object.defineProperty(exports, "getStateFromPath", {
+  enumerable: true,
+  get: function get() {
+    return _getStateFromPath.default;
+  }
+});
+Object.defineProperty(exports, "NavigationContainerRefContext", {
+  enumerable: true,
+  get: function get() {
+    return _NavigationContainerRefContext.default;
+  }
+});
+Object.defineProperty(exports, "NavigationContext", {
+  enumerable: true,
+  get: function get() {
+    return _NavigationContext.default;
+  }
+});
+Object.defineProperty(exports, "NavigationHelpersContext", {
+  enumerable: true,
+  get: function get() {
+    return _NavigationHelpersContext.default;
+  }
+});
+Object.defineProperty(exports, "NavigationRouteContext", {
+  enumerable: true,
+  get: function get() {
+    return _NavigationRouteContext.default;
+  }
+});
+Object.defineProperty(exports, "useFocusEffect", {
+  enumerable: true,
+  get: function get() {
+    return _useFocusEffect.default;
+  }
+});
+Object.defineProperty(exports, "useIsFocused", {
+  enumerable: true,
+  get: function get() {
+    return _useIsFocused.default;
+  }
+});
+Object.defineProperty(exports, "useNavigation", {
+  enumerable: true,
+  get: function get() {
+    return _useNavigation.default;
+  }
+});
+Object.defineProperty(exports, "useNavigationBuilder", {
+  enumerable: true,
+  get: function get() {
+    return _useNavigationBuilder.default;
+  }
+});
+Object.defineProperty(exports, "useNavigationContainerRef", {
+  enumerable: true,
+  get: function get() {
+    return _useNavigationContainerRef.default;
+  }
+});
+Object.defineProperty(exports, "useNavigationState", {
+  enumerable: true,
+  get: function get() {
+    return _useNavigationState.default;
+  }
+});
+Object.defineProperty(exports, "useRoute", {
+  enumerable: true,
+  get: function get() {
+    return _useRoute.default;
+  }
+});
+Object.defineProperty(exports, "validatePathConfig", {
+  enumerable: true,
+  get: function get() {
+    return _validatePathConfig.default;
+  }
+});
+
+var _BaseNavigationContainer = _interopRequireDefault(require("./BaseNavigationContainer"));
+
+var _createNavigationContainerRef = _interopRequireDefault(require("./createNavigationContainerRef"));
+
+var _createNavigatorFactory = _interopRequireDefault(require("./createNavigatorFactory"));
+
+var _CurrentRenderContext = _interopRequireDefault(require("./CurrentRenderContext"));
+
+var _findFocusedRoute = _interopRequireDefault(require("./findFocusedRoute"));
+
+var _getActionFromState = _interopRequireDefault(require("./getActionFromState"));
+
+var _getFocusedRouteNameFromRoute = _interopRequireDefault(require("./getFocusedRouteNameFromRoute"));
+
+var _getPathFromState = _interopRequireDefault(require("./getPathFromState"));
+
+var _getStateFromPath = _interopRequireDefault(require("./getStateFromPath"));
+
+var _NavigationContainerRefContext = _interopRequireDefault(require("./NavigationContainerRefContext"));
+
+var _NavigationContext = _interopRequireDefault(require("./NavigationContext"));
+
+var _NavigationHelpersContext = _interopRequireDefault(require("./NavigationHelpersContext"));
+
+var _NavigationRouteContext = _interopRequireDefault(require("./NavigationRouteContext"));
+
+var _types = require("./types");
+
+Object.keys(_types).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _types[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _types[key];
+    }
+  });
+});
+
+var _useFocusEffect = _interopRequireDefault(require("./useFocusEffect"));
+
+var _useIsFocused = _interopRequireDefault(require("./useIsFocused"));
+
+var _useNavigation = _interopRequireDefault(require("./useNavigation"));
+
+var _useNavigationBuilder = _interopRequireDefault(require("./useNavigationBuilder"));
+
+var _useNavigationContainerRef = _interopRequireDefault(require("./useNavigationContainerRef"));
+
+var _useNavigationState = _interopRequireDefault(require("./useNavigationState"));
+
+var _useRoute = _interopRequireDefault(require("./useRoute"));
+
+var _validatePathConfig = _interopRequireDefault(require("./validatePathConfig"));
+
+var _routers = require("@react-navigation/routers");
+
+Object.keys(_routers).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _routers[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _routers[key];
+    }
+  });
+});
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,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QUEsR0FBQSxLQUFBLFNBQUEsSUFBQSxHQUFBLEtBQUEsWUFBQSxFQUFBO0FBQUEsTUFBQSxNQUFBLENBQUEsU0FBQSxDQUFBLGNBQUEsQ0FBQSxJQUFBLENBQUEsWUFBQSxFQUFBLEdBQUEsQ0FBQSxFQUFBO0FBQUEsTUFBQSxHQUFBLElBQUEsT0FBQSxJQUFBLE9BQUEsQ0FBQSxHQUFBLENBQUEsS0FBQSxRQUFBLENBQUEsR0FBQSxDQUFBLEVBQUE7QUFBQSxFQUFBLE1BQUEsQ0FBQSxjQUFBLENBQUEsT0FBQSxFQUFBLEdBQUEsRUFBQTtBQUFBLElBQUEsVUFBQSxFQUFBLElBQUE7QUFBQSxJQUFBLEdBQUEsRUFBQSxlQUFBO0FBQUEsYUFBQSxRQUFBLENBQUEsR0FBQSxDQUFBO0FBQUE7QUFBQSxHQUFBO0FBQUEsQ0FBQSIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCB7IGRlZmF1bHQgYXMgQmFzZU5hdmlnYXRpb25Db250YWluZXIgfSBmcm9tICcuL0Jhc2VOYXZpZ2F0aW9uQ29udGFpbmVyJztcbmV4cG9ydCB7IGRlZmF1bHQgYXMgY3JlYXRlTmF2aWdhdGlvbkNvbnRhaW5lclJlZiB9IGZyb20gJy4vY3JlYXRlTmF2aWdhdGlvbkNvbnRhaW5lclJlZic7XG5leHBvcnQgeyBkZWZhdWx0IGFzIGNyZWF0ZU5hdmlnYXRvckZhY3RvcnkgfSBmcm9tICcuL2NyZWF0ZU5hdmlnYXRvckZhY3RvcnknO1xuZXhwb3J0IHsgZGVmYXVsdCBhcyBDdXJyZW50UmVuZGVyQ29udGV4dCB9IGZyb20gJy4vQ3VycmVudFJlbmRlckNvbnRleHQnO1xuZXhwb3J0IHsgZGVmYXVsdCBhcyBmaW5kRm9jdXNlZFJvdXRlIH0gZnJvbSAnLi9maW5kRm9jdXNlZFJvdXRlJztcbmV4cG9ydCB7IGRlZmF1bHQgYXMgZ2V0QWN0aW9uRnJvbVN0YXRlIH0gZnJvbSAnLi9nZXRBY3Rpb25Gcm9tU3RhdGUnO1xuZXhwb3J0IHsgZGVmYXVsdCBhcyBnZXRGb2N1c2VkUm91dGVOYW1lRnJvbVJvdXRlIH0gZnJvbSAnLi9nZXRGb2N1c2VkUm91dGVOYW1lRnJvbVJvdXRlJztcbmV4cG9ydCB7IGRlZmF1bHQgYXMgZ2V0UGF0aEZyb21TdGF0ZSB9IGZyb20gJy4vZ2V0UGF0aEZyb21TdGF0ZSc7XG5leHBvcnQgeyBkZWZhdWx0IGFzIGdldFN0YXRlRnJvbVBhdGggfSBmcm9tICcuL2dldFN0YXRlRnJvbVBhdGgnO1xuZXhwb3J0IHsgZGVmYXVsdCBhcyBOYXZpZ2F0aW9uQ29udGFpbmVyUmVmQ29udGV4dCB9IGZyb20gJy4vTmF2aWdhdGlvbkNvbnRhaW5lclJlZkNvbnRleHQnO1xuZXhwb3J0IHsgZGVmYXVsdCBhcyBOYXZpZ2F0aW9uQ29udGV4dCB9IGZyb20gJy4vTmF2aWdhdGlvbkNvbnRleHQnO1xuZXhwb3J0IHsgZGVmYXVsdCBhcyBOYXZpZ2F0aW9uSGVscGVyc0NvbnRleHQgfSBmcm9tICcuL05hdmlnYXRpb25IZWxwZXJzQ29udGV4dCc7XG5leHBvcnQgeyBkZWZhdWx0IGFzIE5hdmlnYXRpb25Sb3V0ZUNvbnRleHQgfSBmcm9tICcuL05hdmlnYXRpb25Sb3V0ZUNvbnRleHQnO1xuZXhwb3J0ICogZnJvbSAnLi90eXBlcyc7XG5leHBvcnQgeyBkZWZhdWx0IGFzIHVzZUZvY3VzRWZmZWN0IH0gZnJvbSAnLi91c2VGb2N1c0VmZmVjdCc7XG5leHBvcnQgeyBkZWZhdWx0IGFzIHVzZUlzRm9jdXNlZCB9IGZyb20gJy4vdXNlSXNGb2N1c2VkJztcbmV4cG9ydCB7IGRlZmF1bHQgYXMgdXNlTmF2aWdhdGlvbiB9IGZyb20gJy4vdXNlTmF2aWdhdGlvbic7XG5leHBvcnQgeyBkZWZhdWx0IGFzIHVzZU5hdmlnYXRpb25CdWlsZGVyIH0gZnJvbSAnLi91c2VOYXZpZ2F0aW9uQnVpbGRlcic7XG5leHBvcnQgeyBkZWZhdWx0IGFzIHVzZU5hdmlnYXRpb25Db250YWluZXJSZWYgfSBmcm9tICcuL3VzZU5hdmlnYXRpb25Db250YWluZXJSZWYnO1xuZXhwb3J0IHsgZGVmYXVsdCBhcyB1c2VOYXZpZ2F0aW9uU3RhdGUgfSBmcm9tICcuL3VzZU5hdmlnYXRpb25TdGF0ZSc7XG5leHBvcnQgeyBkZWZhdWx0IGFzIHVzZVJvdXRlIH0gZnJvbSAnLi91c2VSb3V0ZSc7XG5leHBvcnQgeyBkZWZhdWx0IGFzIHZhbGlkYXRlUGF0aENvbmZpZyB9IGZyb20gJy4vdmFsaWRhdGVQYXRoQ29uZmlnJztcbmV4cG9ydCAqIGZyb20gJ0ByZWFjdC1uYXZpZ2F0aW9uL3JvdXRlcnMnO1xuIl19

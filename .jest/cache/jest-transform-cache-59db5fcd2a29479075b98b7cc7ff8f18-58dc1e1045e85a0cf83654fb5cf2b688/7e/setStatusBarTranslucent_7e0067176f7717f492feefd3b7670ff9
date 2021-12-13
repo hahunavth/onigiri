@@ -1,0 +1,12 @@
+f2eaf9eb03a8b12cd789c104a3f07d6b
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = setStatusBarTranslucent;
+
+var _reactNative = require("react-native");
+
+function setStatusBarTranslucent(translucent) {
+  _reactNative.StatusBar.setTranslucent(translucent);
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9zZXRTdGF0dXNCYXJUcmFuc2x1Y2VudC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztBQUFBOztBQUVjLFNBQVUsdUJBQVYsQ0FBa0MsV0FBbEMsRUFBc0Q7QUFDbEUseUJBQVUsY0FBVixDQUF5QixXQUF6QjtBQUNEIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgU3RhdHVzQmFyIH0gZnJvbSAncmVhY3QtbmF0aXZlJztcblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gc2V0U3RhdHVzQmFyVHJhbnNsdWNlbnQodHJhbnNsdWNlbnQ6IGJvb2xlYW4pIHtcbiAgU3RhdHVzQmFyLnNldFRyYW5zbHVjZW50KHRyYW5zbHVjZW50KTtcbn1cbiJdLCJzb3VyY2VSb290IjoiIn0=

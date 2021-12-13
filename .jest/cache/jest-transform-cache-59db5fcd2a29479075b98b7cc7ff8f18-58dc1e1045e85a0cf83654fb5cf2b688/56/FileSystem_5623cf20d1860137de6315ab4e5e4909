@@ -1,0 +1,1019 @@
+76efca2d290bb606afccfa41ea5e380e
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DownloadResumable = void 0;
+Object.defineProperty(exports, "EncodingType", {
+  enumerable: true,
+  get: function get() {
+    return _FileSystem.EncodingType;
+  }
+});
+exports.FileSystemCancellableNetworkTask = void 0;
+Object.defineProperty(exports, "FileSystemSessionType", {
+  enumerable: true,
+  get: function get() {
+    return _FileSystem.FileSystemSessionType;
+  }
+});
+Object.defineProperty(exports, "FileSystemUploadType", {
+  enumerable: true,
+  get: function get() {
+    return _FileSystem.FileSystemUploadType;
+  }
+});
+exports.cacheDirectory = exports.bundledAssets = exports.bundleDirectory = exports.UploadTask = exports.StorageAccessFramework = void 0;
+exports.copyAsync = copyAsync;
+exports.createDownloadResumable = createDownloadResumable;
+exports.createUploadTask = createUploadTask;
+exports.deleteAsync = deleteAsync;
+exports.deleteLegacyDocumentDirectoryAndroid = deleteLegacyDocumentDirectoryAndroid;
+exports.documentDirectory = void 0;
+exports.downloadAsync = downloadAsync;
+exports.getContentUriAsync = getContentUriAsync;
+exports.getFreeDiskStorageAsync = getFreeDiskStorageAsync;
+exports.getInfoAsync = getInfoAsync;
+exports.getTotalDiskCapacityAsync = getTotalDiskCapacityAsync;
+exports.makeDirectoryAsync = makeDirectoryAsync;
+exports.moveAsync = moveAsync;
+exports.readAsStringAsync = readAsStringAsync;
+exports.readDirectoryAsync = readDirectoryAsync;
+exports.uploadAsync = uploadAsync;
+exports.writeAsStringAsync = writeAsStringAsync;
+
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _expoModulesCore = require("expo-modules-core");
+
+var _reactNative = require("react-native");
+
+var _uuid = require("uuid");
+
+var _ExponentFileSystem = _interopRequireDefault(require("./ExponentFileSystem"));
+
+var _FileSystem = require("./FileSystem.types");
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2.default)(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2.default)(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2.default)(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+if (!_ExponentFileSystem.default) {
+  console.warn("No native ExponentFileSystem module found, are you sure the expo-file-system's module is linked properly?");
+}
+
+var _unused = new _expoModulesCore.EventEmitter(_ExponentFileSystem.default);
+
+function normalizeEndingSlash(p) {
+  if (p != null) {
+    return p.replace(/\/*$/, '') + '/';
+  }
+
+  return null;
+}
+
+var documentDirectory = normalizeEndingSlash(_ExponentFileSystem.default.documentDirectory);
+exports.documentDirectory = documentDirectory;
+var cacheDirectory = normalizeEndingSlash(_ExponentFileSystem.default.cacheDirectory);
+exports.cacheDirectory = cacheDirectory;
+var bundledAssets = _ExponentFileSystem.default.bundledAssets,
+    bundleDirectory = _ExponentFileSystem.default.bundleDirectory;
+exports.bundleDirectory = bundleDirectory;
+exports.bundledAssets = bundledAssets;
+
+function getInfoAsync(fileUri) {
+  var options,
+      _args = arguments;
+  return _regenerator.default.async(function getInfoAsync$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          options = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
+
+          if (_ExponentFileSystem.default.getInfoAsync) {
+            _context.next = 3;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'getInfoAsync');
+
+        case 3:
+          _context.next = 5;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.getInfoAsync(fileUri, options));
+
+        case 5:
+          return _context.abrupt("return", _context.sent);
+
+        case 6:
+        case "end":
+          return _context.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function readAsStringAsync(fileUri, options) {
+  return _regenerator.default.async(function readAsStringAsync$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          if (_ExponentFileSystem.default.readAsStringAsync) {
+            _context2.next = 2;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'readAsStringAsync');
+
+        case 2:
+          _context2.next = 4;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.readAsStringAsync(fileUri, options || {}));
+
+        case 4:
+          return _context2.abrupt("return", _context2.sent);
+
+        case 5:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function getContentUriAsync(fileUri) {
+  return _regenerator.default.async(function getContentUriAsync$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          if (!(_reactNative.Platform.OS === 'android')) {
+            _context3.next = 8;
+            break;
+          }
+
+          if (_ExponentFileSystem.default.getContentUriAsync) {
+            _context3.next = 3;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'getContentUriAsync');
+
+        case 3:
+          _context3.next = 5;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.getContentUriAsync(fileUri));
+
+        case 5:
+          return _context3.abrupt("return", _context3.sent);
+
+        case 8:
+          return _context3.abrupt("return", new Promise(function (resolve, reject) {
+            resolve(fileUri);
+          }));
+
+        case 9:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function writeAsStringAsync(fileUri, contents) {
+  var options,
+      _args4 = arguments;
+  return _regenerator.default.async(function writeAsStringAsync$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          options = _args4.length > 2 && _args4[2] !== undefined ? _args4[2] : {};
+
+          if (_ExponentFileSystem.default.writeAsStringAsync) {
+            _context4.next = 3;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'writeAsStringAsync');
+
+        case 3:
+          _context4.next = 5;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.writeAsStringAsync(fileUri, contents, options));
+
+        case 5:
+          return _context4.abrupt("return", _context4.sent);
+
+        case 6:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function deleteAsync(fileUri) {
+  var options,
+      _args5 = arguments;
+  return _regenerator.default.async(function deleteAsync$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          options = _args5.length > 1 && _args5[1] !== undefined ? _args5[1] : {};
+
+          if (_ExponentFileSystem.default.deleteAsync) {
+            _context5.next = 3;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'deleteAsync');
+
+        case 3:
+          _context5.next = 5;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.deleteAsync(fileUri, options));
+
+        case 5:
+          return _context5.abrupt("return", _context5.sent);
+
+        case 6:
+        case "end":
+          return _context5.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function deleteLegacyDocumentDirectoryAndroid() {
+  var legacyDocumentDirectory;
+  return _regenerator.default.async(function deleteLegacyDocumentDirectoryAndroid$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          if (!(_reactNative.Platform.OS !== 'android' || documentDirectory == null)) {
+            _context6.next = 2;
+            break;
+          }
+
+          return _context6.abrupt("return");
+
+        case 2:
+          legacyDocumentDirectory = documentDirectory + "ExperienceData/";
+          _context6.next = 5;
+          return _regenerator.default.awrap(deleteAsync(legacyDocumentDirectory, {
+            idempotent: true
+          }));
+
+        case 5:
+          return _context6.abrupt("return", _context6.sent);
+
+        case 6:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function moveAsync(options) {
+  return _regenerator.default.async(function moveAsync$(_context7) {
+    while (1) {
+      switch (_context7.prev = _context7.next) {
+        case 0:
+          if (_ExponentFileSystem.default.moveAsync) {
+            _context7.next = 2;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'moveAsync');
+
+        case 2:
+          _context7.next = 4;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.moveAsync(options));
+
+        case 4:
+          return _context7.abrupt("return", _context7.sent);
+
+        case 5:
+        case "end":
+          return _context7.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function copyAsync(options) {
+  return _regenerator.default.async(function copyAsync$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
+        case 0:
+          if (_ExponentFileSystem.default.copyAsync) {
+            _context8.next = 2;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'copyAsync');
+
+        case 2:
+          _context8.next = 4;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.copyAsync(options));
+
+        case 4:
+          return _context8.abrupt("return", _context8.sent);
+
+        case 5:
+        case "end":
+          return _context8.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function makeDirectoryAsync(fileUri) {
+  var options,
+      _args9 = arguments;
+  return _regenerator.default.async(function makeDirectoryAsync$(_context9) {
+    while (1) {
+      switch (_context9.prev = _context9.next) {
+        case 0:
+          options = _args9.length > 1 && _args9[1] !== undefined ? _args9[1] : {};
+
+          if (_ExponentFileSystem.default.makeDirectoryAsync) {
+            _context9.next = 3;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'makeDirectoryAsync');
+
+        case 3:
+          _context9.next = 5;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.makeDirectoryAsync(fileUri, options));
+
+        case 5:
+          return _context9.abrupt("return", _context9.sent);
+
+        case 6:
+        case "end":
+          return _context9.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function readDirectoryAsync(fileUri) {
+  return _regenerator.default.async(function readDirectoryAsync$(_context10) {
+    while (1) {
+      switch (_context10.prev = _context10.next) {
+        case 0:
+          if (_ExponentFileSystem.default.readDirectoryAsync) {
+            _context10.next = 2;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'readDirectoryAsync');
+
+        case 2:
+          _context10.next = 4;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.readDirectoryAsync(fileUri, {}));
+
+        case 4:
+          return _context10.abrupt("return", _context10.sent);
+
+        case 5:
+        case "end":
+          return _context10.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function getFreeDiskStorageAsync() {
+  return _regenerator.default.async(function getFreeDiskStorageAsync$(_context11) {
+    while (1) {
+      switch (_context11.prev = _context11.next) {
+        case 0:
+          if (_ExponentFileSystem.default.getFreeDiskStorageAsync) {
+            _context11.next = 2;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'getFreeDiskStorageAsync');
+
+        case 2:
+          _context11.next = 4;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.getFreeDiskStorageAsync());
+
+        case 4:
+          return _context11.abrupt("return", _context11.sent);
+
+        case 5:
+        case "end":
+          return _context11.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function getTotalDiskCapacityAsync() {
+  return _regenerator.default.async(function getTotalDiskCapacityAsync$(_context12) {
+    while (1) {
+      switch (_context12.prev = _context12.next) {
+        case 0:
+          if (_ExponentFileSystem.default.getTotalDiskCapacityAsync) {
+            _context12.next = 2;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'getTotalDiskCapacityAsync');
+
+        case 2:
+          _context12.next = 4;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.getTotalDiskCapacityAsync());
+
+        case 4:
+          return _context12.abrupt("return", _context12.sent);
+
+        case 5:
+        case "end":
+          return _context12.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function downloadAsync(uri, fileUri) {
+  var options,
+      _args13 = arguments;
+  return _regenerator.default.async(function downloadAsync$(_context13) {
+    while (1) {
+      switch (_context13.prev = _context13.next) {
+        case 0:
+          options = _args13.length > 2 && _args13[2] !== undefined ? _args13[2] : {};
+
+          if (_ExponentFileSystem.default.downloadAsync) {
+            _context13.next = 3;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'downloadAsync');
+
+        case 3:
+          _context13.next = 5;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.downloadAsync(uri, fileUri, _objectSpread({
+            sessionType: _FileSystem.FileSystemSessionType.BACKGROUND
+          }, options)));
+
+        case 5:
+          return _context13.abrupt("return", _context13.sent);
+
+        case 6:
+        case "end":
+          return _context13.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function uploadAsync(url, fileUri) {
+  var options,
+      _args14 = arguments;
+  return _regenerator.default.async(function uploadAsync$(_context14) {
+    while (1) {
+      switch (_context14.prev = _context14.next) {
+        case 0:
+          options = _args14.length > 2 && _args14[2] !== undefined ? _args14[2] : {};
+
+          if (_ExponentFileSystem.default.uploadAsync) {
+            _context14.next = 3;
+            break;
+          }
+
+          throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'uploadAsync');
+
+        case 3:
+          _context14.next = 5;
+          return _regenerator.default.awrap(_ExponentFileSystem.default.uploadAsync(url, fileUri, _objectSpread(_objectSpread({
+            sessionType: _FileSystem.FileSystemSessionType.BACKGROUND,
+            uploadType: _FileSystem.FileSystemUploadType.BINARY_CONTENT
+          }, options), {}, {
+            httpMethod: (options.httpMethod || 'POST').toUpperCase()
+          })));
+
+        case 5:
+          return _context14.abrupt("return", _context14.sent);
+
+        case 6:
+        case "end":
+          return _context14.stop();
+      }
+    }
+  }, null, null, null, Promise);
+}
+
+function createDownloadResumable(uri, fileUri, options, callback, resumeData) {
+  return new DownloadResumable(uri, fileUri, options, callback, resumeData);
+}
+
+function createUploadTask(url, fileUri, options, callback) {
+  return new UploadTask(url, fileUri, options, callback);
+}
+
+var FileSystemCancellableNetworkTask = function () {
+  function FileSystemCancellableNetworkTask() {
+    (0, _classCallCheck2.default)(this, FileSystemCancellableNetworkTask);
+    this._uuid = (0, _uuid.v4)();
+    this.taskWasCanceled = false;
+    this.emitter = new _expoModulesCore.EventEmitter(_ExponentFileSystem.default);
+  }
+
+  (0, _createClass2.default)(FileSystemCancellableNetworkTask, [{
+    key: "cancelAsync",
+    value: function cancelAsync() {
+      return _regenerator.default.async(function cancelAsync$(_context15) {
+        while (1) {
+          switch (_context15.prev = _context15.next) {
+            case 0:
+              if (_ExponentFileSystem.default.networkTaskCancelAsync) {
+                _context15.next = 2;
+                break;
+              }
+
+              throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'networkTaskCancelAsync');
+
+            case 2:
+              this.removeSubscription();
+              this.taskWasCanceled = true;
+              _context15.next = 6;
+              return _regenerator.default.awrap(_ExponentFileSystem.default.networkTaskCancelAsync(this.uuid));
+
+            case 6:
+              return _context15.abrupt("return", _context15.sent);
+
+            case 7:
+            case "end":
+              return _context15.stop();
+          }
+        }
+      }, null, this, null, Promise);
+    }
+  }, {
+    key: "isTaskCancelled",
+    value: function isTaskCancelled() {
+      if (this.taskWasCanceled) {
+        console.warn('This task was already canceled.');
+        return true;
+      }
+
+      return false;
+    }
+  }, {
+    key: "uuid",
+    get: function get() {
+      return this._uuid;
+    }
+  }, {
+    key: "addSubscription",
+    value: function addSubscription() {
+      var _this = this;
+
+      if (this.subscription) {
+        return;
+      }
+
+      this.subscription = this.emitter.addListener(this.getEventName(), function (event) {
+        if (event.uuid === _this.uuid) {
+          var callback = _this.getCallback();
+
+          if (callback) {
+            callback(event.data);
+          }
+        }
+      });
+    }
+  }, {
+    key: "removeSubscription",
+    value: function removeSubscription() {
+      if (!this.subscription) {
+        return;
+      }
+
+      this.emitter.removeSubscription(this.subscription);
+      this.subscription = null;
+    }
+  }]);
+  return FileSystemCancellableNetworkTask;
+}();
+
+exports.FileSystemCancellableNetworkTask = FileSystemCancellableNetworkTask;
+
+var UploadTask = function (_FileSystemCancellabl) {
+  (0, _inherits2.default)(UploadTask, _FileSystemCancellabl);
+
+  var _super = _createSuper(UploadTask);
+
+  function UploadTask(url, fileUri, options, callback) {
+    var _options$httpMethod;
+
+    var _this2;
+
+    (0, _classCallCheck2.default)(this, UploadTask);
+    _this2 = _super.call(this);
+    _this2.url = url;
+    _this2.fileUri = fileUri;
+    _this2.callback = callback;
+    var httpMethod = (options == null ? void 0 : (_options$httpMethod = options.httpMethod) == null ? void 0 : _options$httpMethod.toUpperCase) || 'POST';
+    _this2.options = _objectSpread(_objectSpread({
+      sessionType: _FileSystem.FileSystemSessionType.BACKGROUND,
+      uploadType: _FileSystem.FileSystemUploadType.BINARY_CONTENT
+    }, options), {}, {
+      httpMethod: httpMethod
+    });
+    return _this2;
+  }
+
+  (0, _createClass2.default)(UploadTask, [{
+    key: "getEventName",
+    value: function getEventName() {
+      return 'expo-file-system.uploadProgress';
+    }
+  }, {
+    key: "getCallback",
+    value: function getCallback() {
+      return this.callback;
+    }
+  }, {
+    key: "uploadAsync",
+    value: function uploadAsync() {
+      var result;
+      return _regenerator.default.async(function uploadAsync$(_context16) {
+        while (1) {
+          switch (_context16.prev = _context16.next) {
+            case 0:
+              if (_ExponentFileSystem.default.uploadTaskStartAsync) {
+                _context16.next = 2;
+                break;
+              }
+
+              throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'uploadTaskStartAsync');
+
+            case 2:
+              if (!this.isTaskCancelled()) {
+                _context16.next = 4;
+                break;
+              }
+
+              return _context16.abrupt("return");
+
+            case 4:
+              this.addSubscription();
+              _context16.next = 7;
+              return _regenerator.default.awrap(_ExponentFileSystem.default.uploadTaskStartAsync(this.url, this.fileUri, this.uuid, this.options));
+
+            case 7:
+              result = _context16.sent;
+              this.removeSubscription();
+              return _context16.abrupt("return", result);
+
+            case 10:
+            case "end":
+              return _context16.stop();
+          }
+        }
+      }, null, this, null, Promise);
+    }
+  }]);
+  return UploadTask;
+}(FileSystemCancellableNetworkTask);
+
+exports.UploadTask = UploadTask;
+
+var DownloadResumable = function (_FileSystemCancellabl2) {
+  (0, _inherits2.default)(DownloadResumable, _FileSystemCancellabl2);
+
+  var _super2 = _createSuper(DownloadResumable);
+
+  function DownloadResumable(url, _fileUri) {
+    var _this3;
+
+    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var callback = arguments.length > 3 ? arguments[3] : undefined;
+    var resumeData = arguments.length > 4 ? arguments[4] : undefined;
+    (0, _classCallCheck2.default)(this, DownloadResumable);
+    _this3 = _super2.call(this);
+    _this3.url = url;
+    _this3._fileUri = _fileUri;
+    _this3.options = options;
+    _this3.callback = callback;
+    _this3.resumeData = resumeData;
+    return _this3;
+  }
+
+  (0, _createClass2.default)(DownloadResumable, [{
+    key: "fileUri",
+    get: function get() {
+      return this._fileUri;
+    }
+  }, {
+    key: "getEventName",
+    value: function getEventName() {
+      return 'expo-file-system.downloadProgress';
+    }
+  }, {
+    key: "getCallback",
+    value: function getCallback() {
+      return this.callback;
+    }
+  }, {
+    key: "downloadAsync",
+    value: function downloadAsync() {
+      return _regenerator.default.async(function downloadAsync$(_context17) {
+        while (1) {
+          switch (_context17.prev = _context17.next) {
+            case 0:
+              if (_ExponentFileSystem.default.downloadResumableStartAsync) {
+                _context17.next = 2;
+                break;
+              }
+
+              throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'downloadResumableStartAsync');
+
+            case 2:
+              if (!this.isTaskCancelled()) {
+                _context17.next = 4;
+                break;
+              }
+
+              return _context17.abrupt("return");
+
+            case 4:
+              this.addSubscription();
+              _context17.next = 7;
+              return _regenerator.default.awrap(_ExponentFileSystem.default.downloadResumableStartAsync(this.url, this._fileUri, this.uuid, this.options, this.resumeData));
+
+            case 7:
+              return _context17.abrupt("return", _context17.sent);
+
+            case 8:
+            case "end":
+              return _context17.stop();
+          }
+        }
+      }, null, this, null, Promise);
+    }
+  }, {
+    key: "pauseAsync",
+    value: function pauseAsync() {
+      var pauseResult;
+      return _regenerator.default.async(function pauseAsync$(_context18) {
+        while (1) {
+          switch (_context18.prev = _context18.next) {
+            case 0:
+              if (_ExponentFileSystem.default.downloadResumablePauseAsync) {
+                _context18.next = 2;
+                break;
+              }
+
+              throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'downloadResumablePauseAsync');
+
+            case 2:
+              if (!this.isTaskCancelled()) {
+                _context18.next = 4;
+                break;
+              }
+
+              return _context18.abrupt("return", {
+                fileUri: this._fileUri,
+                options: this.options,
+                url: this.url
+              });
+
+            case 4:
+              _context18.next = 6;
+              return _regenerator.default.awrap(_ExponentFileSystem.default.downloadResumablePauseAsync(this.uuid));
+
+            case 6:
+              pauseResult = _context18.sent;
+              this.removeSubscription();
+
+              if (!pauseResult) {
+                _context18.next = 13;
+                break;
+              }
+
+              this.resumeData = pauseResult.resumeData;
+              return _context18.abrupt("return", this.savable());
+
+            case 13:
+              throw new Error('Unable to generate a savable pause state');
+
+            case 14:
+            case "end":
+              return _context18.stop();
+          }
+        }
+      }, null, this, null, Promise);
+    }
+  }, {
+    key: "resumeAsync",
+    value: function resumeAsync() {
+      return _regenerator.default.async(function resumeAsync$(_context19) {
+        while (1) {
+          switch (_context19.prev = _context19.next) {
+            case 0:
+              if (_ExponentFileSystem.default.downloadResumableStartAsync) {
+                _context19.next = 2;
+                break;
+              }
+
+              throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'downloadResumableStartAsync');
+
+            case 2:
+              if (!this.isTaskCancelled()) {
+                _context19.next = 4;
+                break;
+              }
+
+              return _context19.abrupt("return");
+
+            case 4:
+              this.addSubscription();
+              _context19.next = 7;
+              return _regenerator.default.awrap(_ExponentFileSystem.default.downloadResumableStartAsync(this.url, this.fileUri, this.uuid, this.options, this.resumeData));
+
+            case 7:
+              return _context19.abrupt("return", _context19.sent);
+
+            case 8:
+            case "end":
+              return _context19.stop();
+          }
+        }
+      }, null, this, null, Promise);
+    }
+  }, {
+    key: "savable",
+    value: function savable() {
+      return {
+        url: this.url,
+        fileUri: this.fileUri,
+        options: this.options,
+        resumeData: this.resumeData
+      };
+    }
+  }]);
+  return DownloadResumable;
+}(FileSystemCancellableNetworkTask);
+
+exports.DownloadResumable = DownloadResumable;
+var baseReadAsStringAsync = readAsStringAsync;
+var baseWriteAsStringAsync = writeAsStringAsync;
+var baseDeleteAsync = deleteAsync;
+var baseMoveAsync = moveAsync;
+var baseCopyAsync = copyAsync;
+var StorageAccessFramework;
+exports.StorageAccessFramework = StorageAccessFramework;
+
+(function (StorageAccessFramework) {
+  function getUriForDirectoryInRoot(folderName) {
+    return "content://com.android.externalstorage.documents/tree/primary:" + folderName + "/document/primary:" + folderName;
+  }
+
+  StorageAccessFramework.getUriForDirectoryInRoot = getUriForDirectoryInRoot;
+
+  function requestDirectoryPermissionsAsync() {
+    var initialFileUrl,
+        _args20 = arguments;
+    return _regenerator.default.async(function requestDirectoryPermissionsAsync$(_context20) {
+      while (1) {
+        switch (_context20.prev = _context20.next) {
+          case 0:
+            initialFileUrl = _args20.length > 0 && _args20[0] !== undefined ? _args20[0] : null;
+
+            if (_ExponentFileSystem.default.requestDirectoryPermissionsAsync) {
+              _context20.next = 3;
+              break;
+            }
+
+            throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'StorageAccessFramework.requestDirectoryPermissionsAsync');
+
+          case 3:
+            _context20.next = 5;
+            return _regenerator.default.awrap(_ExponentFileSystem.default.requestDirectoryPermissionsAsync(initialFileUrl));
+
+          case 5:
+            return _context20.abrupt("return", _context20.sent);
+
+          case 6:
+          case "end":
+            return _context20.stop();
+        }
+      }
+    }, null, null, null, Promise);
+  }
+
+  StorageAccessFramework.requestDirectoryPermissionsAsync = requestDirectoryPermissionsAsync;
+
+  function readDirectoryAsync(dirUri) {
+    return _regenerator.default.async(function readDirectoryAsync$(_context21) {
+      while (1) {
+        switch (_context21.prev = _context21.next) {
+          case 0:
+            if (_ExponentFileSystem.default.readSAFDirectoryAsync) {
+              _context21.next = 2;
+              break;
+            }
+
+            throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'StorageAccessFramework.readDirectoryAsync');
+
+          case 2:
+            _context21.next = 4;
+            return _regenerator.default.awrap(_ExponentFileSystem.default.readSAFDirectoryAsync(dirUri, {}));
+
+          case 4:
+            return _context21.abrupt("return", _context21.sent);
+
+          case 5:
+          case "end":
+            return _context21.stop();
+        }
+      }
+    }, null, null, null, Promise);
+  }
+
+  StorageAccessFramework.readDirectoryAsync = readDirectoryAsync;
+
+  function makeDirectoryAsync(parentUri, dirName) {
+    return _regenerator.default.async(function makeDirectoryAsync$(_context22) {
+      while (1) {
+        switch (_context22.prev = _context22.next) {
+          case 0:
+            if (_ExponentFileSystem.default.makeSAFDirectoryAsync) {
+              _context22.next = 2;
+              break;
+            }
+
+            throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'StorageAccessFramework.makeDirectoryAsync');
+
+          case 2:
+            _context22.next = 4;
+            return _regenerator.default.awrap(_ExponentFileSystem.default.makeSAFDirectoryAsync(parentUri, dirName));
+
+          case 4:
+            return _context22.abrupt("return", _context22.sent);
+
+          case 5:
+          case "end":
+            return _context22.stop();
+        }
+      }
+    }, null, null, null, Promise);
+  }
+
+  StorageAccessFramework.makeDirectoryAsync = makeDirectoryAsync;
+
+  function createFileAsync(parentUri, fileName, mimeType) {
+    return _regenerator.default.async(function createFileAsync$(_context23) {
+      while (1) {
+        switch (_context23.prev = _context23.next) {
+          case 0:
+            if (_ExponentFileSystem.default.createSAFFileAsync) {
+              _context23.next = 2;
+              break;
+            }
+
+            throw new _expoModulesCore.UnavailabilityError('expo-file-system', 'StorageAccessFramework.createFileAsync');
+
+          case 2:
+            _context23.next = 4;
+            return _regenerator.default.awrap(_ExponentFileSystem.default.createSAFFileAsync(parentUri, fileName, mimeType));
+
+          case 4:
+            return _context23.abrupt("return", _context23.sent);
+
+          case 5:
+          case "end":
+            return _context23.stop();
+        }
+      }
+    }, null, null, null, Promise);
+  }
+
+  StorageAccessFramework.createFileAsync = createFileAsync;
+  StorageAccessFramework.writeAsStringAsync = baseWriteAsStringAsync;
+  StorageAccessFramework.readAsStringAsync = baseReadAsStringAsync;
+  StorageAccessFramework.deleteAsync = baseDeleteAsync;
+  StorageAccessFramework.moveAsync = baseMoveAsync;
+  StorageAccessFramework.copyAsync = baseCopyAsync;
+})(StorageAccessFramework || (exports.StorageAccessFramework = StorageAccessFramework = {}));
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9GaWxlU3lzdGVtLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQTs7QUFDQTs7QUFDQTs7QUFFQTs7QUFDQTs7Ozs7Ozs7OztBQXNCQSxJQUFJLENBQUMsMkJBQUwsRUFBeUI7QUFDdkIsRUFBQSxPQUFPLENBQUMsSUFBUixDQUNFLDJHQURGO0FBR0Q7O0FBRUQsSUFBTSxPQUFPLEdBQUcsSUFBSSw2QkFBSixDQUFpQiwyQkFBakIsQ0FBaEI7O0FBc0JBLFNBQVMsb0JBQVQsQ0FBOEIsQ0FBOUIsRUFBOEM7QUFDNUMsTUFBSSxDQUFDLElBQUksSUFBVCxFQUFlO0FBQ2IsV0FBTyxDQUFDLENBQUMsT0FBRixDQUFVLE1BQVYsRUFBa0IsRUFBbEIsSUFBd0IsR0FBL0I7QUFDRDs7QUFDRCxTQUFPLElBQVA7QUFDRDs7QUFFTSxJQUFNLGlCQUFpQixHQUFHLG9CQUFvQixDQUFDLDRCQUFtQixpQkFBcEIsQ0FBOUM7O0FBQ0EsSUFBTSxjQUFjLEdBQUcsb0JBQW9CLENBQUMsNEJBQW1CLGNBQXBCLENBQTNDOztBQUVBLElBQVEsYUFBUixHQUEyQywyQkFBM0MsQ0FBUSxhQUFSO0FBQUEsSUFBdUIsZUFBdkIsR0FBMkMsMkJBQTNDLENBQXVCLGVBQXZCOzs7O0FBRUEsU0FBZSxZQUFmLENBQ0wsT0FESztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUVMLFVBQUEsT0FGSywyREFFd0MsRUFGeEM7O0FBQUEsY0FJQSw0QkFBbUIsWUFKbkI7QUFBQTtBQUFBO0FBQUE7O0FBQUEsZ0JBS0csSUFBSSxvQ0FBSixDQUF3QixrQkFBeEIsRUFBNEMsY0FBNUMsQ0FMSDs7QUFBQTtBQUFBO0FBQUEsNENBT1EsNEJBQW1CLFlBQW5CLENBQWdDLE9BQWhDLEVBQXlDLE9BQXpDLENBUFI7O0FBQUE7QUFBQTs7QUFBQTtBQUFBO0FBQUE7QUFB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TCxRQUhLO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxnQkFLQSw0QkFBbUIsa0JBTG5CO0FBQUE7QUFBQTtBQUFBOztBQUFBLGtCQU1HLElBQUksb0NBQUosQ0FBd0Isa0JBQXhCLEVBQTRDLHdDQUE1QyxDQU5IOztBQUFBO0FBQUE7QUFBQSw4Q0FRUSw0QkFBbUIsa0JBQW5CLENBQXNDLFNBQXRDLEVBQWlELFFBQWpELEVBQTJELFFBQTNELENBUlI7O0FBQUE7QUFBQTs7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTs7QUFBZSxFQUFBLHNCQUFBLENBQUEsZUFBQSxHQUFlLGVBQWY7QUFXVCxFQUFBLHNCQUFBLENBQUEsa0JBQUEsR0FBcUIsc0JBQXJCO0FBQ0EsRUFBQSxzQkFBQSxDQUFBLGlCQUFBLEdBQW9CLHFCQUFwQjtBQUNBLEVBQUEsc0JBQUEsQ0FBQSxXQUFBLEdBQWMsZUFBZDtBQUNBLEVBQUEsc0JBQUEsQ0FBQSxTQUFBLEdBQVksYUFBWjtBQUNBLEVBQUEsc0JBQUEsQ0FBQSxTQUFBLEdBQVksYUFBWjtBQUNkLENBdERELEVBQWlCLHNCQUFzQixzQ0FBdEIsc0JBQXNCLEdBQUEsRUFBQSxDQUF2QyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEV2ZW50RW1pdHRlciwgU3Vic2NyaXB0aW9uLCBVbmF2YWlsYWJpbGl0eUVycm9yIH0gZnJvbSAnZXhwby1tb2R1bGVzLWNvcmUnO1xuaW1wb3J0IHsgUGxhdGZvcm0gfSBmcm9tICdyZWFjdC1uYXRpdmUnO1xuaW1wb3J0IHsgdjQgYXMgdXVpZHY0IH0gZnJvbSAndXVpZCc7XG5cbmltcG9ydCBFeHBvbmVudEZpbGVTeXN0ZW0gZnJvbSAnLi9FeHBvbmVudEZpbGVTeXN0ZW0nO1xuaW1wb3J0IHtcbiAgRG93bmxvYWRPcHRpb25zLFxuICBEb3dubG9hZFBhdXNlU3RhdGUsXG4gIERvd25sb2FkUHJvZ3Jlc3NDYWxsYmFjayxcbiAgRmlsZVN5c3RlbU5ldHdvcmtUYXNrUHJvZ3Jlc3NDYWxsYmFjayxcbiAgRG93bmxvYWRQcm9ncmVzc0RhdGEsXG4gIFVwbG9hZFByb2dyZXNzRGF0YSxcbiAgRG93bmxvYWRSZXN1bHQsXG4gIEVuY29kaW5nVHlwZSxcbiAgRmlsZUluZm8sXG4gIEZpbGVTeXN0ZW1BY2NlcHRlZFVwbG9hZEh0dHBNZXRob2QsXG4gIEZpbGVTeXN0ZW1Eb3dubG9hZFJlc3VsdCxcbiAgRmlsZVN5c3RlbVJlcXVlc3REaXJlY3RvcnlQZXJtaXNzaW9uc1Jlc3VsdCxcbiAgRmlsZVN5c3RlbVNlc3Npb25UeXBlLFxuICBGaWxlU3lzdGVtVXBsb2FkT3B0aW9ucyxcbiAgRmlsZVN5c3RlbVVwbG9hZFJlc3VsdCxcbiAgRmlsZVN5c3RlbVVwbG9hZFR5cGUsXG4gIFByb2dyZXNzRXZlbnQsXG4gIFJlYWRpbmdPcHRpb25zLFxuICBXcml0aW5nT3B0aW9ucyxcbn0gZnJvbSAnLi9GaWxlU3lzdGVtLnR5cGVzJztcblxuaWYgKCFFeHBvbmVudEZpbGVTeXN0ZW0pIHtcbiAgY29uc29sZS53YXJuKFxuICAgIFwiTm8gbmF0aXZlIEV4cG9uZW50RmlsZVN5c3RlbSBtb2R1bGUgZm91bmQsIGFyZSB5b3Ugc3VyZSB0aGUgZXhwby1maWxlLXN5c3RlbSdzIG1vZHVsZSBpcyBsaW5rZWQgcHJvcGVybHk/XCJcbiAgKTtcbn1cbi8vIFByZXZlbnQgd2VicGFjayBmcm9tIHBydW5pbmcgdGhpcy5cbmNvbnN0IF91bnVzZWQgPSBuZXcgRXZlbnRFbWl0dGVyKEV4cG9uZW50RmlsZVN5c3RlbSk7IC8vIGVzbGludC1kaXNhYmxlLWxpbmVcblxuZXhwb3J0IHtcbiAgRG93bmxvYWRPcHRpb25zLFxuICBEb3dubG9hZFBhdXNlU3RhdGUsXG4gIERvd25sb2FkUHJvZ3Jlc3NDYWxsYmFjayxcbiAgRG93bmxvYWRQcm9ncmVzc0RhdGEsXG4gIERvd25sb2FkUmVzdWx0LFxuICBFbmNvZGluZ1R5cGUsXG4gIEZpbGVJbmZvLFxuICBGaWxlU3lzdGVtRG93bmxvYWRSZXN1bHQsXG4gIEZpbGVTeXN0ZW1SZXF1ZXN0RGlyZWN0b3J5UGVybWlzc2lvbnNSZXN1bHQsXG4gIEZpbGVTeXN0ZW1BY2NlcHRlZFVwbG9hZEh0dHBNZXRob2QsXG4gIEZpbGVTeXN0ZW1TZXNzaW9uVHlwZSxcbiAgRmlsZVN5c3RlbVVwbG9hZE9wdGlvbnMsXG4gIEZpbGVTeXN0ZW1VcGxvYWRSZXN1bHQsXG4gIEZpbGVTeXN0ZW1VcGxvYWRUeXBlLFxuICBGaWxlU3lzdGVtTmV0d29ya1Rhc2tQcm9ncmVzc0NhbGxiYWNrLFxuICBSZWFkaW5nT3B0aW9ucyxcbiAgV3JpdGluZ09wdGlvbnMsXG59O1xuXG5mdW5jdGlvbiBub3JtYWxpemVFbmRpbmdTbGFzaChwOiBzdHJpbmcgfCBudWxsKTogc3RyaW5nIHwgbnVsbCB7XG4gIGlmIChwICE9IG51bGwpIHtcbiAgICByZXR1cm4gcC5yZXBsYWNlKC9cXC8qJC8sICcnKSArICcvJztcbiAgfVxuICByZXR1cm4gbnVsbDtcbn1cblxuZXhwb3J0IGNvbnN0IGRvY3VtZW50RGlyZWN0b3J5ID0gbm9ybWFsaXplRW5kaW5nU2xhc2goRXhwb25lbnRGaWxlU3lzdGVtLmRvY3VtZW50RGlyZWN0b3J5KTtcbmV4cG9ydCBjb25zdCBjYWNoZURpcmVjdG9yeSA9IG5vcm1hbGl6ZUVuZGluZ1NsYXNoKEV4cG9uZW50RmlsZVN5c3RlbS5jYWNoZURpcmVjdG9yeSk7XG5cbmV4cG9ydCBjb25zdCB7IGJ1bmRsZWRBc3NldHMsIGJ1bmRsZURpcmVjdG9yeSB9ID0gRXhwb25lbnRGaWxlU3lzdGVtO1xuXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gZ2V0SW5mb0FzeW5jKFxuICBmaWxlVXJpOiBzdHJpbmcsXG4gIG9wdGlvbnM6IHsgbWQ1PzogYm9vbGVhbjsgc2l6ZT86IGJvb2xlYW4gfSA9IHt9XG4pOiBQcm9taXNlPEZpbGVJbmZvPiB7XG4gIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLmdldEluZm9Bc3luYykge1xuICAgIHRocm93IG5ldyBVbmF2YWlsYWJpbGl0eUVycm9yKCdleHBvLWZpbGUtc3lzdGVtJywgJ2dldEluZm9Bc3luYycpO1xuICB9XG4gIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0uZ2V0SW5mb0FzeW5jKGZpbGVVcmksIG9wdGlvbnMpO1xufVxuXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gcmVhZEFzU3RyaW5nQXN5bmMoXG4gIGZpbGVVcmk6IHN0cmluZyxcbiAgb3B0aW9ucz86IFJlYWRpbmdPcHRpb25zXG4pOiBQcm9taXNlPHN0cmluZz4ge1xuICBpZiAoIUV4cG9uZW50RmlsZVN5c3RlbS5yZWFkQXNTdHJpbmdBc3luYykge1xuICAgIHRocm93IG5ldyBVbmF2YWlsYWJpbGl0eUVycm9yKCdleHBvLWZpbGUtc3lzdGVtJywgJ3JlYWRBc1N0cmluZ0FzeW5jJyk7XG4gIH1cbiAgcmV0dXJuIGF3YWl0IEV4cG9uZW50RmlsZVN5c3RlbS5yZWFkQXNTdHJpbmdBc3luYyhmaWxlVXJpLCBvcHRpb25zIHx8IHt9KTtcbn1cblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGdldENvbnRlbnRVcmlBc3luYyhmaWxlVXJpOiBzdHJpbmcpOiBQcm9taXNlPHN0cmluZz4ge1xuICBpZiAoUGxhdGZvcm0uT1MgPT09ICdhbmRyb2lkJykge1xuICAgIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLmdldENvbnRlbnRVcmlBc3luYykge1xuICAgICAgdGhyb3cgbmV3IFVuYXZhaWxhYmlsaXR5RXJyb3IoJ2V4cG8tZmlsZS1zeXN0ZW0nLCAnZ2V0Q29udGVudFVyaUFzeW5jJyk7XG4gICAgfVxuICAgIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0uZ2V0Q29udGVudFVyaUFzeW5jKGZpbGVVcmkpO1xuICB9IGVsc2Uge1xuICAgIHJldHVybiBuZXcgUHJvbWlzZShmdW5jdGlvbiAocmVzb2x2ZSwgcmVqZWN0KSB7XG4gICAgICByZXNvbHZlKGZpbGVVcmkpO1xuICAgIH0pO1xuICB9XG59XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiB3cml0ZUFzU3RyaW5nQXN5bmMoXG4gIGZpbGVVcmk6IHN0cmluZyxcbiAgY29udGVudHM6IHN0cmluZyxcbiAgb3B0aW9uczogV3JpdGluZ09wdGlvbnMgPSB7fVxuKTogUHJvbWlzZTx2b2lkPiB7XG4gIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLndyaXRlQXNTdHJpbmdBc3luYykge1xuICAgIHRocm93IG5ldyBVbmF2YWlsYWJpbGl0eUVycm9yKCdleHBvLWZpbGUtc3lzdGVtJywgJ3dyaXRlQXNTdHJpbmdBc3luYycpO1xuICB9XG4gIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0ud3JpdGVBc1N0cmluZ0FzeW5jKGZpbGVVcmksIGNvbnRlbnRzLCBvcHRpb25zKTtcbn1cblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGRlbGV0ZUFzeW5jKFxuICBmaWxlVXJpOiBzdHJpbmcsXG4gIG9wdGlvbnM6IHsgaWRlbXBvdGVudD86IGJvb2xlYW4gfSA9IHt9XG4pOiBQcm9taXNlPHZvaWQ+IHtcbiAgaWYgKCFFeHBvbmVudEZpbGVTeXN0ZW0uZGVsZXRlQXN5bmMpIHtcbiAgICB0aHJvdyBuZXcgVW5hdmFpbGFiaWxpdHlFcnJvcignZXhwby1maWxlLXN5c3RlbScsICdkZWxldGVBc3luYycpO1xuICB9XG4gIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0uZGVsZXRlQXN5bmMoZmlsZVVyaSwgb3B0aW9ucyk7XG59XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBkZWxldGVMZWdhY3lEb2N1bWVudERpcmVjdG9yeUFuZHJvaWQoKTogUHJvbWlzZTx2b2lkPiB7XG4gIGlmIChQbGF0Zm9ybS5PUyAhPT0gJ2FuZHJvaWQnIHx8IGRvY3VtZW50RGlyZWN0b3J5ID09IG51bGwpIHtcbiAgICByZXR1cm47XG4gIH1cbiAgY29uc3QgbGVnYWN5RG9jdW1lbnREaXJlY3RvcnkgPSBgJHtkb2N1bWVudERpcmVjdG9yeX1FeHBlcmllbmNlRGF0YS9gO1xuICByZXR1cm4gYXdhaXQgZGVsZXRlQXN5bmMobGVnYWN5RG9jdW1lbnREaXJlY3RvcnksIHsgaWRlbXBvdGVudDogdHJ1ZSB9KTtcbn1cblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIG1vdmVBc3luYyhvcHRpb25zOiB7IGZyb206IHN0cmluZzsgdG86IHN0cmluZyB9KTogUHJvbWlzZTx2b2lkPiB7XG4gIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLm1vdmVBc3luYykge1xuICAgIHRocm93IG5ldyBVbmF2YWlsYWJpbGl0eUVycm9yKCdleHBvLWZpbGUtc3lzdGVtJywgJ21vdmVBc3luYycpO1xuICB9XG4gIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0ubW92ZUFzeW5jKG9wdGlvbnMpO1xufVxuXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gY29weUFzeW5jKG9wdGlvbnM6IHsgZnJvbTogc3RyaW5nOyB0bzogc3RyaW5nIH0pOiBQcm9taXNlPHZvaWQ+IHtcbiAgaWYgKCFFeHBvbmVudEZpbGVTeXN0ZW0uY29weUFzeW5jKSB7XG4gICAgdGhyb3cgbmV3IFVuYXZhaWxhYmlsaXR5RXJyb3IoJ2V4cG8tZmlsZS1zeXN0ZW0nLCAnY29weUFzeW5jJyk7XG4gIH1cbiAgcmV0dXJuIGF3YWl0IEV4cG9uZW50RmlsZVN5c3RlbS5jb3B5QXN5bmMob3B0aW9ucyk7XG59XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBtYWtlRGlyZWN0b3J5QXN5bmMoXG4gIGZpbGVVcmk6IHN0cmluZyxcbiAgb3B0aW9uczogeyBpbnRlcm1lZGlhdGVzPzogYm9vbGVhbiB9ID0ge31cbik6IFByb21pc2U8dm9pZD4ge1xuICBpZiAoIUV4cG9uZW50RmlsZVN5c3RlbS5tYWtlRGlyZWN0b3J5QXN5bmMpIHtcbiAgICB0aHJvdyBuZXcgVW5hdmFpbGFiaWxpdHlFcnJvcignZXhwby1maWxlLXN5c3RlbScsICdtYWtlRGlyZWN0b3J5QXN5bmMnKTtcbiAgfVxuICByZXR1cm4gYXdhaXQgRXhwb25lbnRGaWxlU3lzdGVtLm1ha2VEaXJlY3RvcnlBc3luYyhmaWxlVXJpLCBvcHRpb25zKTtcbn1cblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHJlYWREaXJlY3RvcnlBc3luYyhmaWxlVXJpOiBzdHJpbmcpOiBQcm9taXNlPHN0cmluZ1tdPiB7XG4gIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLnJlYWREaXJlY3RvcnlBc3luYykge1xuICAgIHRocm93IG5ldyBVbmF2YWlsYWJpbGl0eUVycm9yKCdleHBvLWZpbGUtc3lzdGVtJywgJ3JlYWREaXJlY3RvcnlBc3luYycpO1xuICB9XG4gIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0ucmVhZERpcmVjdG9yeUFzeW5jKGZpbGVVcmksIHt9KTtcbn1cblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGdldEZyZWVEaXNrU3RvcmFnZUFzeW5jKCk6IFByb21pc2U8bnVtYmVyPiB7XG4gIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLmdldEZyZWVEaXNrU3RvcmFnZUFzeW5jKSB7XG4gICAgdGhyb3cgbmV3IFVuYXZhaWxhYmlsaXR5RXJyb3IoJ2V4cG8tZmlsZS1zeXN0ZW0nLCAnZ2V0RnJlZURpc2tTdG9yYWdlQXN5bmMnKTtcbiAgfVxuICByZXR1cm4gYXdhaXQgRXhwb25lbnRGaWxlU3lzdGVtLmdldEZyZWVEaXNrU3RvcmFnZUFzeW5jKCk7XG59XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBnZXRUb3RhbERpc2tDYXBhY2l0eUFzeW5jKCk6IFByb21pc2U8bnVtYmVyPiB7XG4gIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLmdldFRvdGFsRGlza0NhcGFjaXR5QXN5bmMpIHtcbiAgICB0aHJvdyBuZXcgVW5hdmFpbGFiaWxpdHlFcnJvcignZXhwby1maWxlLXN5c3RlbScsICdnZXRUb3RhbERpc2tDYXBhY2l0eUFzeW5jJyk7XG4gIH1cbiAgcmV0dXJuIGF3YWl0IEV4cG9uZW50RmlsZVN5c3RlbS5nZXRUb3RhbERpc2tDYXBhY2l0eUFzeW5jKCk7XG59XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBkb3dubG9hZEFzeW5jKFxuICB1cmk6IHN0cmluZyxcbiAgZmlsZVVyaTogc3RyaW5nLFxuICBvcHRpb25zOiBEb3dubG9hZE9wdGlvbnMgPSB7fVxuKTogUHJvbWlzZTxGaWxlU3lzdGVtRG93bmxvYWRSZXN1bHQ+IHtcbiAgaWYgKCFFeHBvbmVudEZpbGVTeXN0ZW0uZG93bmxvYWRBc3luYykge1xuICAgIHRocm93IG5ldyBVbmF2YWlsYWJpbGl0eUVycm9yKCdleHBvLWZpbGUtc3lzdGVtJywgJ2Rvd25sb2FkQXN5bmMnKTtcbiAgfVxuXG4gIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0uZG93bmxvYWRBc3luYyh1cmksIGZpbGVVcmksIHtcbiAgICBzZXNzaW9uVHlwZTogRmlsZVN5c3RlbVNlc3Npb25UeXBlLkJBQ0tHUk9VTkQsXG4gICAgLi4ub3B0aW9ucyxcbiAgfSk7XG59XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiB1cGxvYWRBc3luYyhcbiAgdXJsOiBzdHJpbmcsXG4gIGZpbGVVcmk6IHN0cmluZyxcbiAgb3B0aW9uczogRmlsZVN5c3RlbVVwbG9hZE9wdGlvbnMgPSB7fVxuKTogUHJvbWlzZTxGaWxlU3lzdGVtVXBsb2FkUmVzdWx0PiB7XG4gIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLnVwbG9hZEFzeW5jKSB7XG4gICAgdGhyb3cgbmV3IFVuYXZhaWxhYmlsaXR5RXJyb3IoJ2V4cG8tZmlsZS1zeXN0ZW0nLCAndXBsb2FkQXN5bmMnKTtcbiAgfVxuXG4gIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0udXBsb2FkQXN5bmModXJsLCBmaWxlVXJpLCB7XG4gICAgc2Vzc2lvblR5cGU6IEZpbGVTeXN0ZW1TZXNzaW9uVHlwZS5CQUNLR1JPVU5ELFxuICAgIHVwbG9hZFR5cGU6IEZpbGVTeXN0ZW1VcGxvYWRUeXBlLkJJTkFSWV9DT05URU5ULFxuICAgIC4uLm9wdGlvbnMsXG4gICAgaHR0cE1ldGhvZDogKG9wdGlvbnMuaHR0cE1ldGhvZCB8fCAnUE9TVCcpLnRvVXBwZXJDYXNlKCksXG4gIH0pO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gY3JlYXRlRG93bmxvYWRSZXN1bWFibGUoXG4gIHVyaTogc3RyaW5nLFxuICBmaWxlVXJpOiBzdHJpbmcsXG4gIG9wdGlvbnM/OiBEb3dubG9hZE9wdGlvbnMsXG4gIGNhbGxiYWNrPzogRmlsZVN5c3RlbU5ldHdvcmtUYXNrUHJvZ3Jlc3NDYWxsYmFjazxEb3dubG9hZFByb2dyZXNzRGF0YT4sXG4gIHJlc3VtZURhdGE/OiBzdHJpbmdcbik6IERvd25sb2FkUmVzdW1hYmxlIHtcbiAgcmV0dXJuIG5ldyBEb3dubG9hZFJlc3VtYWJsZSh1cmksIGZpbGVVcmksIG9wdGlvbnMsIGNhbGxiYWNrLCByZXN1bWVEYXRhKTtcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGNyZWF0ZVVwbG9hZFRhc2soXG4gIHVybDogc3RyaW5nLFxuICBmaWxlVXJpOiBzdHJpbmcsXG4gIG9wdGlvbnM/OiBGaWxlU3lzdGVtVXBsb2FkT3B0aW9ucyxcbiAgY2FsbGJhY2s/OiBGaWxlU3lzdGVtTmV0d29ya1Rhc2tQcm9ncmVzc0NhbGxiYWNrPFVwbG9hZFByb2dyZXNzRGF0YT5cbik6IFVwbG9hZFRhc2sge1xuICByZXR1cm4gbmV3IFVwbG9hZFRhc2sodXJsLCBmaWxlVXJpLCBvcHRpb25zLCBjYWxsYmFjayk7XG59XG5cbmV4cG9ydCBhYnN0cmFjdCBjbGFzcyBGaWxlU3lzdGVtQ2FuY2VsbGFibGVOZXR3b3JrVGFzazxcbiAgVCBleHRlbmRzIERvd25sb2FkUHJvZ3Jlc3NEYXRhIHwgVXBsb2FkUHJvZ3Jlc3NEYXRhXG4+IHtcbiAgcHJpdmF0ZSBfdXVpZCA9IHV1aWR2NCgpO1xuICBwcm90ZWN0ZWQgdGFza1dhc0NhbmNlbGVkID0gZmFsc2U7XG4gIHByaXZhdGUgZW1pdHRlciA9IG5ldyBFdmVudEVtaXR0ZXIoRXhwb25lbnRGaWxlU3lzdGVtKTtcbiAgcHJpdmF0ZSBzdWJzY3JpcHRpb24/OiBTdWJzY3JpcHRpb24gfCBudWxsO1xuXG4gIHB1YmxpYyBhc3luYyBjYW5jZWxBc3luYygpOiBQcm9taXNlPHZvaWQ+IHtcbiAgICBpZiAoIUV4cG9uZW50RmlsZVN5c3RlbS5uZXR3b3JrVGFza0NhbmNlbEFzeW5jKSB7XG4gICAgICB0aHJvdyBuZXcgVW5hdmFpbGFiaWxpdHlFcnJvcignZXhwby1maWxlLXN5c3RlbScsICduZXR3b3JrVGFza0NhbmNlbEFzeW5jJyk7XG4gICAgfVxuXG4gICAgdGhpcy5yZW1vdmVTdWJzY3JpcHRpb24oKTtcbiAgICB0aGlzLnRhc2tXYXNDYW5jZWxlZCA9IHRydWU7XG4gICAgcmV0dXJuIGF3YWl0IEV4cG9uZW50RmlsZVN5c3RlbS5uZXR3b3JrVGFza0NhbmNlbEFzeW5jKHRoaXMudXVpZCk7XG4gIH1cblxuICBwcm90ZWN0ZWQgaXNUYXNrQ2FuY2VsbGVkKCk6IGJvb2xlYW4ge1xuICAgIGlmICh0aGlzLnRhc2tXYXNDYW5jZWxlZCkge1xuICAgICAgY29uc29sZS53YXJuKCdUaGlzIHRhc2sgd2FzIGFscmVhZHkgY2FuY2VsZWQuJyk7XG4gICAgICByZXR1cm4gdHJ1ZTtcbiAgICB9XG5cbiAgICByZXR1cm4gZmFsc2U7XG4gIH1cblxuICBwcm90ZWN0ZWQgZ2V0IHV1aWQoKTogc3RyaW5nIHtcbiAgICByZXR1cm4gdGhpcy5fdXVpZDtcbiAgfVxuXG4gIHByb3RlY3RlZCBhYnN0cmFjdCBnZXRFdmVudE5hbWUoKTogc3RyaW5nO1xuXG4gIHByb3RlY3RlZCBhYnN0cmFjdCBnZXRDYWxsYmFjaygpOiBGaWxlU3lzdGVtTmV0d29ya1Rhc2tQcm9ncmVzc0NhbGxiYWNrPFQ+IHwgdW5kZWZpbmVkO1xuXG4gIHByb3RlY3RlZCBhZGRTdWJzY3JpcHRpb24oKSB7XG4gICAgaWYgKHRoaXMuc3Vic2NyaXB0aW9uKSB7XG4gICAgICByZXR1cm47XG4gICAgfVxuXG4gICAgdGhpcy5zdWJzY3JpcHRpb24gPSB0aGlzLmVtaXR0ZXIuYWRkTGlzdGVuZXIodGhpcy5nZXRFdmVudE5hbWUoKSwgKGV2ZW50OiBQcm9ncmVzc0V2ZW50PFQ+KSA9PiB7XG4gICAgICBpZiAoZXZlbnQudXVpZCA9PT0gdGhpcy51dWlkKSB7XG4gICAgICAgIGNvbnN0IGNhbGxiYWNrID0gdGhpcy5nZXRDYWxsYmFjaygpO1xuICAgICAgICBpZiAoY2FsbGJhY2spIHtcbiAgICAgICAgICBjYWxsYmFjayhldmVudC5kYXRhKTtcbiAgICAgICAgfVxuICAgICAgfVxuICAgIH0pO1xuICB9XG5cbiAgcHJvdGVjdGVkIHJlbW92ZVN1YnNjcmlwdGlvbigpIHtcbiAgICBpZiAoIXRoaXMuc3Vic2NyaXB0aW9uKSB7XG4gICAgICByZXR1cm47XG4gICAgfVxuICAgIHRoaXMuZW1pdHRlci5yZW1vdmVTdWJzY3JpcHRpb24odGhpcy5zdWJzY3JpcHRpb24pO1xuICAgIHRoaXMuc3Vic2NyaXB0aW9uID0gbnVsbDtcbiAgfVxufVxuXG5leHBvcnQgY2xhc3MgVXBsb2FkVGFzayBleHRlbmRzIEZpbGVTeXN0ZW1DYW5jZWxsYWJsZU5ldHdvcmtUYXNrPFVwbG9hZFByb2dyZXNzRGF0YT4ge1xuICBwcml2YXRlIG9wdGlvbnM6IEZpbGVTeXN0ZW1VcGxvYWRPcHRpb25zO1xuXG4gIGNvbnN0cnVjdG9yKFxuICAgIHByaXZhdGUgdXJsOiBzdHJpbmcsXG4gICAgcHJpdmF0ZSBmaWxlVXJpOiBzdHJpbmcsXG4gICAgb3B0aW9ucz86IEZpbGVTeXN0ZW1VcGxvYWRPcHRpb25zLFxuICAgIHByaXZhdGUgY2FsbGJhY2s/OiBGaWxlU3lzdGVtTmV0d29ya1Rhc2tQcm9ncmVzc0NhbGxiYWNrPFVwbG9hZFByb2dyZXNzRGF0YT5cbiAgKSB7XG4gICAgc3VwZXIoKTtcblxuICAgIGNvbnN0IGh0dHBNZXRob2QgPSAob3B0aW9ucz8uaHR0cE1ldGhvZD8udG9VcHBlckNhc2UgfHxcbiAgICAgICdQT1NUJykgYXMgRmlsZVN5c3RlbUFjY2VwdGVkVXBsb2FkSHR0cE1ldGhvZDtcblxuICAgIHRoaXMub3B0aW9ucyA9IHtcbiAgICAgIHNlc3Npb25UeXBlOiBGaWxlU3lzdGVtU2Vzc2lvblR5cGUuQkFDS0dST1VORCxcbiAgICAgIHVwbG9hZFR5cGU6IEZpbGVTeXN0ZW1VcGxvYWRUeXBlLkJJTkFSWV9DT05URU5ULFxuICAgICAgLi4ub3B0aW9ucyxcbiAgICAgIGh0dHBNZXRob2QsXG4gICAgfTtcbiAgfVxuXG4gIHByb3RlY3RlZCBnZXRFdmVudE5hbWUoKTogc3RyaW5nIHtcbiAgICByZXR1cm4gJ2V4cG8tZmlsZS1zeXN0ZW0udXBsb2FkUHJvZ3Jlc3MnO1xuICB9XG4gIHByb3RlY3RlZCBnZXRDYWxsYmFjaygpOiBGaWxlU3lzdGVtTmV0d29ya1Rhc2tQcm9ncmVzc0NhbGxiYWNrPFVwbG9hZFByb2dyZXNzRGF0YT4gfCB1bmRlZmluZWQge1xuICAgIHJldHVybiB0aGlzLmNhbGxiYWNrO1xuICB9XG5cbiAgcHVibGljIGFzeW5jIHVwbG9hZEFzeW5jKCk6IFByb21pc2U8RmlsZVN5c3RlbVVwbG9hZFJlc3VsdCB8IHVuZGVmaW5lZD4ge1xuICAgIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLnVwbG9hZFRhc2tTdGFydEFzeW5jKSB7XG4gICAgICB0aHJvdyBuZXcgVW5hdmFpbGFiaWxpdHlFcnJvcignZXhwby1maWxlLXN5c3RlbScsICd1cGxvYWRUYXNrU3RhcnRBc3luYycpO1xuICAgIH1cblxuICAgIGlmICh0aGlzLmlzVGFza0NhbmNlbGxlZCgpKSB7XG4gICAgICByZXR1cm47XG4gICAgfVxuXG4gICAgdGhpcy5hZGRTdWJzY3JpcHRpb24oKTtcbiAgICBjb25zdCByZXN1bHQgPSBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0udXBsb2FkVGFza1N0YXJ0QXN5bmMoXG4gICAgICB0aGlzLnVybCxcbiAgICAgIHRoaXMuZmlsZVVyaSxcbiAgICAgIHRoaXMudXVpZCxcbiAgICAgIHRoaXMub3B0aW9uc1xuICAgICk7XG4gICAgdGhpcy5yZW1vdmVTdWJzY3JpcHRpb24oKTtcblxuICAgIHJldHVybiByZXN1bHQ7XG4gIH1cbn1cblxuZXhwb3J0IGNsYXNzIERvd25sb2FkUmVzdW1hYmxlIGV4dGVuZHMgRmlsZVN5c3RlbUNhbmNlbGxhYmxlTmV0d29ya1Rhc2s8RG93bmxvYWRQcm9ncmVzc0RhdGE+IHtcbiAgY29uc3RydWN0b3IoXG4gICAgcHJpdmF0ZSB1cmw6IHN0cmluZyxcbiAgICBwcml2YXRlIF9maWxlVXJpOiBzdHJpbmcsXG4gICAgcHJpdmF0ZSBvcHRpb25zOiBEb3dubG9hZE9wdGlvbnMgPSB7fSxcbiAgICBwcml2YXRlIGNhbGxiYWNrPzogRmlsZVN5c3RlbU5ldHdvcmtUYXNrUHJvZ3Jlc3NDYWxsYmFjazxEb3dubG9hZFByb2dyZXNzRGF0YT4sXG4gICAgcHJpdmF0ZSByZXN1bWVEYXRhPzogc3RyaW5nXG4gICkge1xuICAgIHN1cGVyKCk7XG4gIH1cblxuICBwdWJsaWMgZ2V0IGZpbGVVcmkoKTogc3RyaW5nIHtcbiAgICByZXR1cm4gdGhpcy5fZmlsZVVyaTtcbiAgfVxuXG4gIHByb3RlY3RlZCBnZXRFdmVudE5hbWUoKTogc3RyaW5nIHtcbiAgICByZXR1cm4gJ2V4cG8tZmlsZS1zeXN0ZW0uZG93bmxvYWRQcm9ncmVzcyc7XG4gIH1cblxuICBwcm90ZWN0ZWQgZ2V0Q2FsbGJhY2soKTogRmlsZVN5c3RlbU5ldHdvcmtUYXNrUHJvZ3Jlc3NDYWxsYmFjazxEb3dubG9hZFByb2dyZXNzRGF0YT4gfCB1bmRlZmluZWQge1xuICAgIHJldHVybiB0aGlzLmNhbGxiYWNrO1xuICB9XG5cbiAgYXN5bmMgZG93bmxvYWRBc3luYygpOiBQcm9taXNlPEZpbGVTeXN0ZW1Eb3dubG9hZFJlc3VsdCB8IHVuZGVmaW5lZD4ge1xuICAgIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLmRvd25sb2FkUmVzdW1hYmxlU3RhcnRBc3luYykge1xuICAgICAgdGhyb3cgbmV3IFVuYXZhaWxhYmlsaXR5RXJyb3IoJ2V4cG8tZmlsZS1zeXN0ZW0nLCAnZG93bmxvYWRSZXN1bWFibGVTdGFydEFzeW5jJyk7XG4gICAgfVxuXG4gICAgaWYgKHRoaXMuaXNUYXNrQ2FuY2VsbGVkKCkpIHtcbiAgICAgIHJldHVybjtcbiAgICB9XG5cbiAgICB0aGlzLmFkZFN1YnNjcmlwdGlvbigpO1xuICAgIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0uZG93bmxvYWRSZXN1bWFibGVTdGFydEFzeW5jKFxuICAgICAgdGhpcy51cmwsXG4gICAgICB0aGlzLl9maWxlVXJpLFxuICAgICAgdGhpcy51dWlkLFxuICAgICAgdGhpcy5vcHRpb25zLFxuICAgICAgdGhpcy5yZXN1bWVEYXRhXG4gICAgKTtcbiAgfVxuXG4gIGFzeW5jIHBhdXNlQXN5bmMoKTogUHJvbWlzZTxEb3dubG9hZFBhdXNlU3RhdGU+IHtcbiAgICBpZiAoIUV4cG9uZW50RmlsZVN5c3RlbS5kb3dubG9hZFJlc3VtYWJsZVBhdXNlQXN5bmMpIHtcbiAgICAgIHRocm93IG5ldyBVbmF2YWlsYWJpbGl0eUVycm9yKCdleHBvLWZpbGUtc3lzdGVtJywgJ2Rvd25sb2FkUmVzdW1hYmxlUGF1c2VBc3luYycpO1xuICAgIH1cblxuICAgIGlmICh0aGlzLmlzVGFza0NhbmNlbGxlZCgpKSB7XG4gICAgICByZXR1cm4ge1xuICAgICAgICBmaWxlVXJpOiB0aGlzLl9maWxlVXJpLFxuICAgICAgICBvcHRpb25zOiB0aGlzLm9wdGlvbnMsXG4gICAgICAgIHVybDogdGhpcy51cmwsXG4gICAgICB9O1xuICAgIH1cblxuICAgIGNvbnN0IHBhdXNlUmVzdWx0ID0gYXdhaXQgRXhwb25lbnRGaWxlU3lzdGVtLmRvd25sb2FkUmVzdW1hYmxlUGF1c2VBc3luYyh0aGlzLnV1aWQpO1xuICAgIHRoaXMucmVtb3ZlU3Vic2NyaXB0aW9uKCk7XG4gICAgaWYgKHBhdXNlUmVzdWx0KSB7XG4gICAgICB0aGlzLnJlc3VtZURhdGEgPSBwYXVzZVJlc3VsdC5yZXN1bWVEYXRhO1xuICAgICAgcmV0dXJuIHRoaXMuc2F2YWJsZSgpO1xuICAgIH0gZWxzZSB7XG4gICAgICB0aHJvdyBuZXcgRXJyb3IoJ1VuYWJsZSB0byBnZW5lcmF0ZSBhIHNhdmFibGUgcGF1c2Ugc3RhdGUnKTtcbiAgICB9XG4gIH1cblxuICBhc3luYyByZXN1bWVBc3luYygpOiBQcm9taXNlPEZpbGVTeXN0ZW1Eb3dubG9hZFJlc3VsdCB8IHVuZGVmaW5lZD4ge1xuICAgIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLmRvd25sb2FkUmVzdW1hYmxlU3RhcnRBc3luYykge1xuICAgICAgdGhyb3cgbmV3IFVuYXZhaWxhYmlsaXR5RXJyb3IoJ2V4cG8tZmlsZS1zeXN0ZW0nLCAnZG93bmxvYWRSZXN1bWFibGVTdGFydEFzeW5jJyk7XG4gICAgfVxuXG4gICAgaWYgKHRoaXMuaXNUYXNrQ2FuY2VsbGVkKCkpIHtcbiAgICAgIHJldHVybjtcbiAgICB9XG5cbiAgICB0aGlzLmFkZFN1YnNjcmlwdGlvbigpO1xuICAgIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0uZG93bmxvYWRSZXN1bWFibGVTdGFydEFzeW5jKFxuICAgICAgdGhpcy51cmwsXG4gICAgICB0aGlzLmZpbGVVcmksXG4gICAgICB0aGlzLnV1aWQsXG4gICAgICB0aGlzLm9wdGlvbnMsXG4gICAgICB0aGlzLnJlc3VtZURhdGFcbiAgICApO1xuICB9XG5cbiAgc2F2YWJsZSgpOiBEb3dubG9hZFBhdXNlU3RhdGUge1xuICAgIHJldHVybiB7XG4gICAgICB1cmw6IHRoaXMudXJsLFxuICAgICAgZmlsZVVyaTogdGhpcy5maWxlVXJpLFxuICAgICAgb3B0aW9uczogdGhpcy5vcHRpb25zLFxuICAgICAgcmVzdW1lRGF0YTogdGhpcy5yZXN1bWVEYXRhLFxuICAgIH07XG4gIH1cbn1cblxuY29uc3QgYmFzZVJlYWRBc1N0cmluZ0FzeW5jID0gcmVhZEFzU3RyaW5nQXN5bmM7XG5jb25zdCBiYXNlV3JpdGVBc1N0cmluZ0FzeW5jID0gd3JpdGVBc1N0cmluZ0FzeW5jO1xuY29uc3QgYmFzZURlbGV0ZUFzeW5jID0gZGVsZXRlQXN5bmM7XG5jb25zdCBiYXNlTW92ZUFzeW5jID0gbW92ZUFzeW5jO1xuY29uc3QgYmFzZUNvcHlBc3luYyA9IGNvcHlBc3luYztcbi8qKlxuICogQW5kcm9pZCBvbmx5XG4gKi9cbmV4cG9ydCBuYW1lc3BhY2UgU3RvcmFnZUFjY2Vzc0ZyYW1ld29yayB7XG4gIGV4cG9ydCBmdW5jdGlvbiBnZXRVcmlGb3JEaXJlY3RvcnlJblJvb3QoZm9sZGVyTmFtZTogc3RyaW5nKSB7XG4gICAgcmV0dXJuIGBjb250ZW50Oi8vY29tLmFuZHJvaWQuZXh0ZXJuYWxzdG9yYWdlLmRvY3VtZW50cy90cmVlL3ByaW1hcnk6JHtmb2xkZXJOYW1lfS9kb2N1bWVudC9wcmltYXJ5OiR7Zm9sZGVyTmFtZX1gO1xuICB9XG5cbiAgZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHJlcXVlc3REaXJlY3RvcnlQZXJtaXNzaW9uc0FzeW5jKFxuICAgIGluaXRpYWxGaWxlVXJsOiBzdHJpbmcgfCBudWxsID0gbnVsbFxuICApOiBQcm9taXNlPEZpbGVTeXN0ZW1SZXF1ZXN0RGlyZWN0b3J5UGVybWlzc2lvbnNSZXN1bHQ+IHtcbiAgICBpZiAoIUV4cG9uZW50RmlsZVN5c3RlbS5yZXF1ZXN0RGlyZWN0b3J5UGVybWlzc2lvbnNBc3luYykge1xuICAgICAgdGhyb3cgbmV3IFVuYXZhaWxhYmlsaXR5RXJyb3IoXG4gICAgICAgICdleHBvLWZpbGUtc3lzdGVtJyxcbiAgICAgICAgJ1N0b3JhZ2VBY2Nlc3NGcmFtZXdvcmsucmVxdWVzdERpcmVjdG9yeVBlcm1pc3Npb25zQXN5bmMnXG4gICAgICApO1xuICAgIH1cblxuICAgIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0ucmVxdWVzdERpcmVjdG9yeVBlcm1pc3Npb25zQXN5bmMoaW5pdGlhbEZpbGVVcmwpO1xuICB9XG5cbiAgZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHJlYWREaXJlY3RvcnlBc3luYyhkaXJVcmk6IHN0cmluZyk6IFByb21pc2U8c3RyaW5nW10+IHtcbiAgICBpZiAoIUV4cG9uZW50RmlsZVN5c3RlbS5yZWFkU0FGRGlyZWN0b3J5QXN5bmMpIHtcbiAgICAgIHRocm93IG5ldyBVbmF2YWlsYWJpbGl0eUVycm9yKFxuICAgICAgICAnZXhwby1maWxlLXN5c3RlbScsXG4gICAgICAgICdTdG9yYWdlQWNjZXNzRnJhbWV3b3JrLnJlYWREaXJlY3RvcnlBc3luYydcbiAgICAgICk7XG4gICAgfVxuICAgIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0ucmVhZFNBRkRpcmVjdG9yeUFzeW5jKGRpclVyaSwge30pO1xuICB9XG5cbiAgZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIG1ha2VEaXJlY3RvcnlBc3luYyhwYXJlbnRVcmk6IHN0cmluZywgZGlyTmFtZTogc3RyaW5nKTogUHJvbWlzZTxzdHJpbmc+IHtcbiAgICBpZiAoIUV4cG9uZW50RmlsZVN5c3RlbS5tYWtlU0FGRGlyZWN0b3J5QXN5bmMpIHtcbiAgICAgIHRocm93IG5ldyBVbmF2YWlsYWJpbGl0eUVycm9yKFxuICAgICAgICAnZXhwby1maWxlLXN5c3RlbScsXG4gICAgICAgICdTdG9yYWdlQWNjZXNzRnJhbWV3b3JrLm1ha2VEaXJlY3RvcnlBc3luYydcbiAgICAgICk7XG4gICAgfVxuICAgIHJldHVybiBhd2FpdCBFeHBvbmVudEZpbGVTeXN0ZW0ubWFrZVNBRkRpcmVjdG9yeUFzeW5jKHBhcmVudFVyaSwgZGlyTmFtZSk7XG4gIH1cblxuICBleHBvcnQgYXN5bmMgZnVuY3Rpb24gY3JlYXRlRmlsZUFzeW5jKFxuICAgIHBhcmVudFVyaTogc3RyaW5nLFxuICAgIGZpbGVOYW1lOiBzdHJpbmcsXG4gICAgbWltZVR5cGU6IHN0cmluZ1xuICApOiBQcm9taXNlPHN0cmluZz4ge1xuICAgIGlmICghRXhwb25lbnRGaWxlU3lzdGVtLmNyZWF0ZVNBRkZpbGVBc3luYykge1xuICAgICAgdGhyb3cgbmV3IFVuYXZhaWxhYmlsaXR5RXJyb3IoJ2V4cG8tZmlsZS1zeXN0ZW0nLCAnU3RvcmFnZUFjY2Vzc0ZyYW1ld29yay5jcmVhdGVGaWxlQXN5bmMnKTtcbiAgICB9XG4gICAgcmV0dXJuIGF3YWl0IEV4cG9uZW50RmlsZVN5c3RlbS5jcmVhdGVTQUZGaWxlQXN5bmMocGFyZW50VXJpLCBmaWxlTmFtZSwgbWltZVR5cGUpO1xuICB9XG5cbiAgZXhwb3J0IGNvbnN0IHdyaXRlQXNTdHJpbmdBc3luYyA9IGJhc2VXcml0ZUFzU3RyaW5nQXN5bmM7XG4gIGV4cG9ydCBjb25zdCByZWFkQXNTdHJpbmdBc3luYyA9IGJhc2VSZWFkQXNTdHJpbmdBc3luYztcbiAgZXhwb3J0IGNvbnN0IGRlbGV0ZUFzeW5jID0gYmFzZURlbGV0ZUFzeW5jO1xuICBleHBvcnQgY29uc3QgbW92ZUFzeW5jID0gYmFzZU1vdmVBc3luYztcbiAgZXhwb3J0IGNvbnN0IGNvcHlBc3luYyA9IGJhc2VDb3B5QXN5bmM7XG59XG4iXSwic291cmNlUm9vdCI6IiJ9
