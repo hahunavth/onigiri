@@ -93,7 +93,7 @@ export const SORT_BY: KV[] = [
   {key: 12, value: 'Most Viewer In Week'},
   {key: 13, value: 'Most Viewer In Today'},
   {key: 15, value: 'New Comic'},
-  {key: 20, value: 'Most Subcribe'},
+  {key: 20, value: 'Most Subscribe'},
   {key: 25, value: 'Most Comment'},
   {key: 30, value: 'Most Chapter'},
 ]

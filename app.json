@@ -4,6 +4,15 @@
     "slug": "my-app",
     "splash": {
       "image": "./src/assets/logo.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./src/assets/wrong.png",
+          "color": "#ffffff"
+        }
+      ]
+    ]
   }
 }

@@ -23,7 +23,7 @@ const data = new Array(8).fill({
 // };
 
 export type comicListProps = {
-  list: resComicItem_T[];
+  list: resComicItem_T[] | undefined;
   name: string;
   limit?: number;
   onPressMore?: () => any;

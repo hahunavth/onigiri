@@ -44,130 +44,93 @@ const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
 
 export const AppsScreen = ({ navigation, route }: HomeBottomNavigation) => {
-  const [size, setSize] = useState({ width: 1, height: 1 });
-  const [dimensions, setDimensions] = useState({ window, screen });
+  // const { isLoading, data, isError } = useApiRecently("1", {
+  //   refetchOnMountOrArgChange: true,
+  //   skip: false,
+  // });
 
-  const { isLoading, data, isError } = useApiRecently("1");
+  // if (isLoading) {
+  //   return (
+  //     <View>
+  //       <ContentLoader
+  //         active
+  //         title={false}
+  //         // avatar
+  //         pRows={2}
+  //         pHeight={[window?.height / 4, 28, 200]}
+  //         pWidth={[window?.width - 24, window?.width - 24, 100]}
+  //         loading={true}
+  //       />
+  //       <View
+  //         style={{
+  //           flex: 1,
+  //           flexDirection: "column",
+  //           flexWrap: "wrap",
+  //           justifyContent: "space-between",
+  //         }}
+  //       >
+  //         <View
+  //           style={{
+  //             width: window?.width / 3,
+  //             height: 32,
+  //             justifyContent: "center",
+  //             flexDirection: "row",
+  //           }}
+  //         >
+  //           <ContentLoader
+  //             active
+  //             title={false}
+  //             pRows={2}
+  //             pHeight={[window?.height / 5, 16]}
+  //             pWidth={[window?.width / 3 - 24, window?.width / 3 - 24]}
+  //             reverse
+  //           />
+  //         </View>
+  //         <View
+  //           style={{
+  //             width: window?.width / 3,
+  //             height: 32,
+  //             justifyContent: "center",
+  //             flexDirection: "row",
+  //           }}
+  //         >
+  //           <ContentLoader
+  //             active
+  //             title={false}
+  //             pRows={2}
+  //             pHeight={[window?.height / 5, 16]}
+  //             pWidth={[window?.width / 3 - 24, window?.width / 3 - 24]}
+  //             reverse
+  //           />
+  //         </View>
+  //         <View
+  //           style={{
+  //             width: window?.width / 3,
+  //             height: 32,
+  //             justifyContent: "center",
+  //             flexDirection: "row",
+  //           }}
+  //         >
+  //           <ContentLoader
+  //             active
+  //             title={false}
+  //             pRows={2}
+  //             pHeight={[window?.height / 5, 16]}
+  //             pWidth={[window?.width / 3 - 24, window?.width / 3 - 24]}
+  //             reverse
+  //           />
+  //         </View>
+  //       </View>
+  //     </View>
+  //   );
+  // }
 
-  // const result = useQueries(
-  //   HomeSessionList.map((session) => ({
-  //     queryKey: session.name,
-  //     queryFn: () => fetch(session.url || "").then((res) => res.json()),
-  //   }))
-  // );
-
-  // const recentlyList = result[0].data as ApiRespone_T<Array<resComicItem_T>>;
-  // const isLoading = result[0].isLoading;
-  // const error = result[0].error;
-  // const isError = result[0].isError;
-
-  // useEffect(() => {
-  //   const onChange = ({
-  //     window,
-  //     screen,
-  //   }: {
-  //     window: ScaledSize;
-  //     screen: ScaledSize;
-  //   }) => {
-  //     setDimensions(() => ({
-  //       window,
-  //       screen,
-  //     }));
-  //     Dimensions.addEventListener("change", onChange);
-  //     return () => Dimensions.removeEventListener("change", onChange);
-  //   };
-  // }, []);
-
-  // return (
-  //   <View>
-  //     <FlatlistBanner />
-  //   </View>
-  // );
-
-  if (isLoading) {
-    return (
-      <View>
-        <ContentLoader
-          active
-          title={false}
-          // avatar
-          pRows={2}
-          pHeight={[window?.height / 4, 28, 200]}
-          pWidth={[window?.width - 24, window?.width - 24, 100]}
-          loading={true}
-        />
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-          }}
-        >
-          <View
-            style={{
-              width: window?.width / 3,
-              height: 32,
-              justifyContent: "center",
-              flexDirection: "row",
-            }}
-          >
-            <ContentLoader
-              active
-              title={false}
-              pRows={2}
-              pHeight={[window?.height / 5, 16]}
-              pWidth={[window?.width / 3 - 24, window?.width / 3 - 24]}
-              reverse
-            />
-          </View>
-          <View
-            style={{
-              width: window?.width / 3,
-              height: 32,
-              justifyContent: "center",
-              flexDirection: "row",
-            }}
-          >
-            <ContentLoader
-              active
-              title={false}
-              pRows={2}
-              pHeight={[window?.height / 5, 16]}
-              pWidth={[window?.width / 3 - 24, window?.width / 3 - 24]}
-              reverse
-            />
-          </View>
-          <View
-            style={{
-              width: window?.width / 3,
-              height: 32,
-              justifyContent: "center",
-              flexDirection: "row",
-            }}
-          >
-            <ContentLoader
-              active
-              title={false}
-              pRows={2}
-              pHeight={[window?.height / 5, 16]}
-              pWidth={[window?.width / 3 - 24, window?.width / 3 - 24]}
-              reverse
-            />
-          </View>
-        </View>
-      </View>
-    );
-  }
-
-  if (isError)
-    return (
-      <View>
-        <Text>error</Text>
-      </View>
-    );
-
-  // return <View></View>;
+  // if (isError)
+  //   return (
+  //     <View>
+  //       <Text>error</Text>
+  //     </View>
+  //   );
 
   return (
     <>

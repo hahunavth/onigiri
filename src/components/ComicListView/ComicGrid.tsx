@@ -27,6 +27,8 @@ import { endAncestor, endNode } from "@/screens/ChapterDetailsScreen/index";
 // import { Icon } from "@ui-kitten/components";
 import Icon from "react-native-vector-icons/FontAwesome";
 import QuicksandText from "../Common/QuicksandText";
+// import { useAppDispatch, useAppSelector } from "src/app/hooks";
+// import { homeActions, selectHome } from "src/app/homeSlice";
 
 const numColumns = 3;
 const ratio = 1.5;
@@ -48,7 +50,6 @@ const styles = StyleSheet.create({
   },
   item: {
     flex: 1,
-    // backgroundColor: "lightblue",
     fontSize: 12,
     fontWeight: "600",
   },
@@ -59,13 +60,11 @@ const styles = StyleSheet.create({
   },
 });
 
-let startAncestor: any;
-let startNode: any;
-
 export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
   const navigation = useNavigation<HomeNavigationProps>();
+
   let data = list;
-  if (limit) data = list.filter((item, id) => id < limit);
+  if (limit) data = list?.filter((item, id) => id < limit);
 
   if (!list) return <Text>Error list props not found in ComicGrid2</Text>;
   const ComicGridRenderItem = ({
@@ -80,18 +79,14 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
 
     return (
       <TouchableOpacity
-        onPress={() =>
+        onPress={() => {
           navigation.navigate("ComicDetails", {
             path: item.path || "",
             comic: item,
-            // ComicDetails: item,
-          })
-        }
+          });
+        }}
       >
-        <View
-          style={styles.itemContainer}
-          ref={(ref) => (startAncestor = nodeFromRef(ref))}
-        >
+        <View style={styles.itemContainer}>
           <SharedElement id={`${item.posterUrl}`}>
             <Image
               style={styles.poster}
@@ -102,11 +97,9 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
               }}
             />
           </SharedElement>
-          <SharedElement id={`comicName.${item.posterUrl}`}>
-            <QuicksandText numberOfLines={2} style={styles.item}>
-              {item.name}
-            </QuicksandText>
-          </SharedElement>
+          <QuicksandText numberOfLines={2} style={styles.item}>
+            {item.name}
+          </QuicksandText>
         </View>
       </TouchableOpacity>
     );
@@ -182,7 +175,6 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
         data={data}
         renderItem={ComicGridRenderItem}
         keyExtractor={(item, index) => {
-          // console.log(item);
           return item.path;
         }}
         numColumns={numColumns}
@@ -192,23 +184,3 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
     </>
   );
 }
-
-// // Render overlay in front of screen
-// const position = new Animated.Value(0);
-// <View style={StyleSheet.absoluteFill}>
-//   <SharedElementTransition
-//     start={{
-//       node: startNode,
-//       ancestor: startAncestor,
-//     }}
-//     end={{
-//       node: endNode,
-//       ancestor: endAncestor,
-//     }}
-//     debug
-//     position={position}
-//     animation="move"
-//     resize="auto"
-//     align="auto"
-//   />
-// </View>;

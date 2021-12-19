@@ -12,32 +12,34 @@ import {
 } from "react-native";
 import ContentLoader from "react-native-easy-content-loader";
 import { useQuery } from "react-query";
-import { ComicListScreenProps } from "src/navigators/StackNavigator";
+import { useApiRecently } from "../app/api";
+import { ComicListScreenProps } from "../navigators/StackNavigator";
 
 const ComicListScreen = ({ navigation, route }: ComicListScreenProps) => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  const { data, isLoading, isError, refetch } = useQuery(
-    "recently",
-    () => fetch(route.params.path || "").then((res) => res.json()),
-    {
-      refetchOnWindowFocus: false,
-      enabled: false,
-    }
-  );
+  // const { data, isLoading, isError, refetch } = useQuery(
+  //   "recently",
+  //   () => fetch(route.params.path || "").then((res) => res.json()),
+  //   {
+  //     refetchOnWindowFocus: false,
+  //     enabled: false,
+  //   }
+  // );
 
-  console.log(isLoading);
+  const { data, isLoading, isError, refetch } = useApiRecently("1");
+
+  // console.log(isLoading);
 
   useEffect(() => {
     refetch();
-    console.log(isLoading + "2");
+    // console.log(isLoading + "2");
   }, []);
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
     try {
       await refetch();
-      console.log(isLoading + "3");
       setRefreshing(false);
     } catch (error) {
       console.error(error);
@@ -57,11 +59,11 @@ const ComicListScreen = ({ navigation, route }: ComicListScreenProps) => {
       />
     );
 
-  return (
-    <View style={styles.container}>
-      <CustomList />
-    </View>
-  );
+  // return (
+  //   <View style={styles.container}>
+  //     <CustomList />
+  //   </View>
+  // );
 
   return (
     <View
@@ -81,7 +83,7 @@ const ComicListScreen = ({ navigation, route }: ComicListScreenProps) => {
       </View>
       <FlatList
         data={[1]}
-        renderItem={() => <ComicList list={data} name="" />}
+        renderItem={() => <ComicList list={data?.data} name="" />}
         keyExtractor={(item, index) => index.toString()}
         refreshing={refreshing}
         onLayout={(e) => console.log(e.nativeEvent)}

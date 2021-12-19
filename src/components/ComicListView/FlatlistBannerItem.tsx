@@ -11,7 +11,7 @@ interface Props {
 
 const FlatlistBannerItem = ({ data }: Props) => {
   const { width, height } = useWindowDimensions();
-  console.log(data.posterUrl);
+  // console.log(data.posterUrl);
 
   return (
     <View

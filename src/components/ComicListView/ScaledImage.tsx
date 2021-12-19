@@ -44,7 +44,7 @@ const ScaledImage = ({ src }: { src: string }) => {
     };
   }, []);
 
-  console.log(size);
+  // console.log(size);
 
   return (
     <Image

@@ -30,37 +30,26 @@ import {
 import { SharedElement } from "react-navigation-shared-element";
 import { useNavigation } from "@react-navigation/native";
 import { MainNavigationProps } from "@/navigator/StackNavigator";
-import {
-  ComicDetailsScreen,
-  endAncestor,
-  endNode,
-} from "@/screens/ChapterDetailsScreen";
-
-export let startAncestor: any;
-export let startNode: any;
+import { ComicDetailsScreen } from "@/screens/ChapterDetailsScreen";
 
 const { width, height } = Dimensions.get("window");
-
-const newImage = ["lion", "fox", "cat", "background", "element"];
-const image = (index: number) => ({ image: newImage[index % newImage.length] });
-
-const items = Array.from(Array(5)).map((_, index) => image(index));
 
 export default () => {
   const [list, setList] = useState<resComicItem_T[]>([]);
 
-  const { data, isError, isFetching, isSuccess, refetch, error } =
-    useApiRecently("1");
+  const { data, isError, isFetching, isSuccess, error } = useApiRecently("1", {
+    selectFromResult: (result) => result,
+  });
 
   useEffect(() => {
-    if (isSuccess) setList(() => data?.data.filter((item, id) => id < 36));
+    if (isSuccess) setList(() => data?.data.filter((item, id) => id < 6));
     console.log("rerendre");
   }, [isFetching]);
 
   return (
     <SwiperFlatList
       autoplay
-      autoplayDelay={5}
+      autoplayDelay={25}
       // index={3}
       autoplayLoop
       // autoplayInvertDirection
@@ -75,18 +64,10 @@ export default () => {
 };
 
 const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
-  // const imgRef = useRef(null);
-
   const navigation = useNavigation<MainNavigationProps>();
-
-  useEffect(() => {
-    console.log("render");
-    return () => console.log("unmount");
-  });
 
   return (
     <TouchableOpacity
-      ref={(ref) => (startAncestor = nodeFromRef(ref))}
       onPress={() =>
         navigation.navigate("ComicDetails", {
           comic: item,
@@ -184,8 +165,5 @@ ComicDetailsScreen.sharedElements = (
 ) => {
   // const item = navigation.getParam("ComicDetails");
   // console.log(navigation.route.params.comic.posterUrl);
-  return [
-    `${navigation.route.params.comic.posterUrl}`,
-    `comicName.${navigation.route.params.name}`,
-  ];
+  return [`${navigation.route.params.comic.posterUrl}`];
 };

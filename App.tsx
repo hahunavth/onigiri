@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { Text, View, Button, Platform } from "react-native";
 
 import { StatusBar } from "expo-status-bar";
 import {
@@ -10,6 +11,8 @@ import {
   Quicksand_700Bold,
 } from "@expo-google-fonts/quicksand";
 import AppLoading from "expo-app-loading";
+import Constants from "expo-constants";
+import * as Notifications from "expo-notifications";
 
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
@@ -19,12 +22,25 @@ import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 import { StackNavigator } from "@/navigator/StackNavigator";
-import store from "./src/app/store";
-import { useAppSelector } from "./src/app/hooks";
+import store, { persistor } from "./src/app/store";
+import { useAppDispatch, useAppSelector } from "./src/app/hooks";
 import { settingSelector } from "./src/app/settingSlice";
+import { Subscription } from "expo-modules-core";
+import {
+  AndroidImportance,
+  AndroidNotificationVisibility,
+  NotificationChannel,
+  NotificationChannelInput,
+} from "expo-notifications";
+import { addMultipleImgs } from "@/utils/Download/ImgManager";
+import { resChapterDetail_T, resComicDetail_T } from "@/types/api";
+import { downloadAction, downloadSelector } from "./src/app/downloadSlice";
+import { useNotification } from "./src/app/notification";
 
+// ANCHOR: Export function
 export default function App() {
   // Load font
   let [fontsLoaded] = useFonts({
@@ -34,19 +50,28 @@ export default function App() {
     Quicksand_600SemiBold,
     Quicksand_700Bold,
   });
+
+  const { expoPushToken, notification } = useNotification();
+
+  // Splash screen
   if (!fontsLoaded) return <AppLoading />;
+
+  // schedulePushNotification();
 
   return (
     <NavigationContainer>
       <Provider store={store}>
-        {/* Provider  */}
-        <UI />
-        {/* Provider  */}
+        <PersistGate loading={null} persistor={persistor}>
+          {/* Provider  */}
+          <UI />
+          {/* Provider  */}
+        </PersistGate>
       </Provider>
     </NavigationContainer>
   );
 }
 
+// ANCHOR: UI
 function UI() {
   const setting = useAppSelector(settingSelector);
 

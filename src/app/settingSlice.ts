@@ -1,25 +1,28 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { RootState } from './store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
-type themeT = 'dark' | 'light'
+type themeT = "dark" | "light";
 
 type settingType = {
-  theme: themeT,
-}
+  theme: themeT;
+};
 
 const initialState: settingType = {
-  theme: 'light',
- }
+  theme: "light",
+};
 
 const settingSlice = createSlice({
-  name: 'setting',
+  name: "setting",
   initialState,
   reducers: {
     switchTheme: (state, action: PayloadAction<undefined>) => {
-      return {...state, theme: state.theme === 'dark' ? 'light' : 'dark'}
-    }
-  }
-})
+      console.log("🚀 ~ file: settingSlice.ts ~ line 19 ~ action", action);
+
+      return { ...state, theme: state.theme === "dark" ? "light" : "dark" };
+      // state.theme === 'dark'
+    },
+  },
+});
 
 export const settingAction = settingSlice.actions;
 

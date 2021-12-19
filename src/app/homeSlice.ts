@@ -1,4 +1,4 @@
-import { ApiRespone_T, resComicItem_T } from "@/types/api";
+import { ApiRespone_T, resChapterDetail_T, resComicDetail_T, resComicItem_T } from "@/types/api";
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import axios from "axios";
@@ -43,10 +43,14 @@ const initialState: {
   status: "idle" | "loading" | "success";
   recently: resComicItem_T[];
   hot: resComicItem_T[];
+  currentComic: resComicDetail_T | null;
+  currentChapter: resChapterDetail_T | null;
 } = {
   status: "loading",
   recently: [],
   hot: [],
+  currentComic: null,
+  currentChapter: null
 };
 
 const homeSlice = createSlice({
@@ -56,6 +60,18 @@ const homeSlice = createSlice({
     set: (state, action: PayloadAction<resComicItem_T[]>) => {
       return { ...state, recently: action.payload };
     },
+    setCurrentComic: (state, action: PayloadAction<resComicDetail_T | undefined>) => {
+      return {...state, currentComic: action.payload || null}
+    },
+    removeCurrentComic: (state, action: PayloadAction<undefined>) => {
+      return {...state, currentComic: null}
+    },
+    setCurrentChapter: (state, action: PayloadAction<resChapterDetail_T | undefined>) => {
+      return {...state, currentChapter: action.payload || null}
+    },
+    removeCurrentChapter: (state, action: PayloadAction<undefined>) => {
+      return {...state, currentChapter: null}
+    }
   },
   // extraReducers: {
   //   [fetchRecentlyAsync.pending]: (state, action) => {
@@ -74,7 +90,11 @@ const homeSlice = createSlice({
         return { ...state, status: "success" };
       })
       .addCase(fetchRecentlyAsync.fulfilled, (state, action) => {
-        state = { ...state, status: "success", recently: action.payload?.data || [] };
+        state = {
+          ...state,
+          status: "success",
+          recently: action.payload?.data || [],
+        };
         return state;
       })
       .addCase(fetchRecentlyAsync.pending, (state, action) => {

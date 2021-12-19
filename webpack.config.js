@@ -14,6 +14,12 @@ module.exports = async function (env, argv) {
   // If you want to add a new alias to the config.
   // config.resolve.alias["moduleA"] = "moduleB"
 
+  // remote redux dev tool
+  new webpack.DefinePlugin({
+    "process.env.NODE_ENV": JSON.stringify("development"),
+  });
+  //
+
   // Maybe you want to turn off compression in dev mode.
   if (config.mode === "development") {
     config.devServer.compress = false;

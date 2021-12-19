@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   ListRenderItemInfo,
@@ -9,6 +9,7 @@ import {
   ImageBackgroundBase,
   ImageBackground,
   Animated,
+  Text,
 } from "react-native";
 import {
   createNativeStackNavigator,
@@ -34,6 +35,7 @@ import {
   SharedElementTransition,
   nodeFromRef,
 } from "react-native-shared-element";
+
 import { SharedElement } from "react-navigation-shared-element";
 import QuicksandText from "@/components/Common/QuicksandText";
 import { LinearGradient } from "expo-linear-gradient";
@@ -43,6 +45,9 @@ import {
   startAncestor,
   startNode,
 } from "@/components/ComicListView/FlatlistBanner";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { downloadAction, downloadSelector } from "../../app/downloadSlice";
+import { homeActions, selectHome } from "../../app/homeSlice";
 
 const StarIcon = (props: IconProps) => (
   <Icon {...props} name="arrow-ios-back" />
@@ -68,6 +73,19 @@ export function ComicDetailsScreen({
   // );
 
   const { data, isFetching, isLoading } = useApiComicDetail(params.path);
+
+  const download = useAppSelector(downloadSelector);
+  const dispatch = useAppDispatch();
+
+  const home = useAppSelector(selectHome);
+
+  useEffect(() => {
+    dispatch(homeActions.setCurrentComic(data));
+
+    return () => {
+      dispatch(homeActions.removeCurrentComic());
+    };
+  }, [data]);
 
   let chapterList: any = [];
   if (!isFetching) chapterList = data?.chapters;
@@ -99,7 +117,21 @@ export function ComicDetailsScreen({
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View
+      <Button
+        onPress={() => {
+          if (data) {
+            dispatch(downloadAction.newComic(data));
+            // Object.keys(download.comics).forEach((e) => console.log(e));
+            // console.log(download.comics);
+          }
+        }}
+      >
+        Hello
+      </Button>
+      <Layout>
+        <Text style={{ color: "black" }}>aaa{download.comics[0]}</Text>
+      </Layout>
+      <Layout
         ref={(ref) => (endAncestor = nodeFromRef(ref))}
         style={{ alignItems: "flex-end", backgroundColor: "#000000" }}
       >
@@ -139,7 +171,7 @@ export function ComicDetailsScreen({
             </LinearGradient>
           </ImageBackground>
         </SharedElement>
-      </View>
+      </Layout>
       <TopTabNavioator path={params.path} />
     </SafeAreaView>
   );

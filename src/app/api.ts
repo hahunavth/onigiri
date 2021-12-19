@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { ApiRespone_T, resComicDetail_T, resComicItem_T } from '@/types/api'
+import { ApiRespone_T, resChapterDetail_T, resComicDetail_T, resComicItem_T } from '@/types/api'
 
 
 export const comicApi = createApi({
@@ -24,7 +24,7 @@ export const comicApi = createApi({
         return `${path}`
       }
     }),
-    getChapterByPath: builder.query<any, string>({
+    getChapterByPath: builder.query<ApiRespone_T<resChapterDetail_T>, string>({
       query: (path) => {
         console.log("🚀🚀🚀 ~api.ts`", `${path}`)
         return `${path}`
@@ -34,6 +34,10 @@ export const comicApi = createApi({
 })
 
 export const useApiRecently = comicApi.endpoints.getRecentlyByPage.useQuery;
+// export const useApiRecentlyState = comicApi.endpoints.getRecentlyByPage.useQueryState;
+
 export const useApiHot = comicApi.endpoints.getHotByPage.useQuery;
+
 export const useApiComicDetail = comicApi.endpoints.getComicDetailByPath.useQuery;
+
 export const useApiChapter = comicApi.endpoints.getChapterByPath.useQuery;

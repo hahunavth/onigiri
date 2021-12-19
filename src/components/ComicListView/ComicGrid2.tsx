@@ -59,16 +59,11 @@ const styles = StyleSheet.create({
   },
 });
 
-let startAncestor: any;
-let startNode: any;
-
 const RenderHeader = ({
   name,
   onPressMore,
   list,
 }: comicListProps): JSX.Element => {
-  const HeaderHeight = 40;
-
   return (
     <View
       style={{
@@ -150,20 +145,15 @@ export function ComicGrid2({ list, name, limit, onPressMore }: comicListProps) {
           console.log(item.path);
         }}
       >
-        <View
-          style={styles.itemContainer}
-          ref={(ref) => (startAncestor = nodeFromRef(ref))}
-        >
-          <SharedElement onNode={(node) => (startNode = node)}>
-            <Image
-              style={styles.poster}
-              source={{
-                uri:
-                  item.posterUrl ||
-                  "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
-              }}
-            />
-          </SharedElement>
+        <View style={styles.itemContainer}>
+          <Image
+            style={styles.poster}
+            source={{
+              uri:
+                item.posterUrl ||
+                "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
+            }}
+          />
           <QuicksandText numberOfLines={2} style={styles.item}>
             {item.name}
           </QuicksandText>
@@ -187,22 +177,3 @@ export function ComicGrid2({ list, name, limit, onPressMore }: comicListProps) {
     </>
   );
 }
-
-// Render overlay in front of screen
-const position = new Animated.Value(0);
-<View style={StyleSheet.absoluteFill}>
-  <SharedElementTransition
-    start={{
-      node: startNode,
-      ancestor: startAncestor,
-    }}
-    end={{
-      node: endNode,
-      ancestor: endAncestor,
-    }}
-    position={position}
-    animation="move"
-    resize="auto"
-    align="auto"
-  />
-</View>;
