@@ -1,14 +1,10 @@
 import {
-  applyMiddleware,
   combineReducers,
-  compose,
   configureStore,
-  createStore,
-  getDefaultMiddleware,
 } from "@reduxjs/toolkit";
-import { FLUSH, PAUSE, PERSIST, PersistConfig, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import logger from 'redux-logger'
+// import logger from 'redux-logger'
 
 import { comicApi } from "./api";
 import homeSlice from "./homeSlice";
@@ -35,7 +31,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware(     { serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },}).concat(comicApi.middleware, 
+    },}).concat(comicApi.middleware,
       // logger
       ),
 });

@@ -5,7 +5,7 @@
 - [x] List comic
 - [x] Comic details
 - [x] Chapter image
-- [ ] Find comic
+- [x] Find comic
 - [ ] Save chapter
 - [ ] Setting screen
 - [ ] Login

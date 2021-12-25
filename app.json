@@ -5,6 +5,15 @@
     "splash": {
       "image": "./src/assets/logo.png"
     },
+    "version": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "com.hahunavth.comicnet",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.hahunavth.comicnet",
+      "versionCode": 1
+    },
     "plugins": [
       [
         "expo-notifications",

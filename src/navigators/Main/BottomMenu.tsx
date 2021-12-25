@@ -9,7 +9,7 @@ import {
 import { View } from "react-native";
 import { useSafeArea } from "react-native-safe-area-context";
 
-import { TabBar } from "@/components/BottomTab/TabBar";
+// import { TabBar } from "@/components/BottomTab/TabBar";
 import { AppsScreen } from "@/screens/Main/AppsScreen";
 import { DashboardScreen } from "@/screens/Main/DashbroadScreen";
 import { FindComicScreen } from "@/screens/Main/FindComic/index";
@@ -134,7 +134,7 @@ export const BottomMenu = (mainNavigation: MainScreenProps) => {
       >
         <Tab.Screen name="home" component={AppsScreen} />
         <Tab.Screen name="dashboard" component={DashboardScreen} />
-        <Tab.Screen name="profile" component={FindComicScreen} />
+        <Tab.Screen name="profile" component={FindComicScreen} options={{headerShown: false}} />
         <Tab.Screen name="setting" component={SettingScreen} />
       </Tab.Navigator>
       {useSafeArea().bottom > 0 && (

@@ -7,6 +7,7 @@ import {
   ListRenderItemInfo,
   Dimensions,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import { useQuery } from "react-query";
 import { ChapterScreenProps } from "../navigators/StackNavigator";
@@ -22,7 +23,7 @@ export default function ChapterScreen({
 }: ChapterScreenProps) {
   const { data, isLoading, isFetching } = useApiChapter(path.path);
 
-  const download = useAppSelector(downloadSelector);
+  // const download = useAppSelector(downloadSelector);
   const dispatch = useAppDispatch();
 
   const chapterInfo = data?.data;
@@ -53,7 +54,7 @@ export default function ChapterScreen({
             );
             // console.log(data.data);
           }
-          console.log(download.comics);
+          // console.log(download.comics);
         }}
         title="hello"
       ></Button>
@@ -67,10 +68,10 @@ export default function ChapterScreen({
   );
 }
 
+const windowWidth = Dimensions.get("window").width;
+
 const renderItem = ({ item }: ListRenderItemInfo<string>) => {
   let ratio = 0;
-
-  const windowWidth = Dimensions.get("window").width;
 
   return (
     <ScaledImage

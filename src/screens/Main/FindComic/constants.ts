@@ -63,11 +63,10 @@ export const GENRES_LIST = [
 ];
 
 // minchapter=50
-export const NUM_CHAPTER = [
-0, 50, 100, 200, 300, 400, 500
+export const NUM_CHAPTER = [ 50, 100, 200, 300, 400, 500
 ]
 
-type KV = {
+export type KV = {
   key: number;
   value: string;
 }
@@ -97,3 +96,15 @@ export const SORT_BY: KV[] = [
   {key: 25, value: 'Most Comment'},
   {key: 30, value: 'Most Chapter'},
 ]
+
+export type FindComicProps = {
+  genres: number | string,
+  minchapter: number | string, 
+  status: number | string,
+  gender: number | string,
+  sort: number | string,
+}
+
+export function toIdListStr(ids: number[]) {
+  return ids.reduce((prev, id) => prev? prev + ',' + id: prev+id, "");
+}

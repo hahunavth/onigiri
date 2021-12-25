@@ -12,6 +12,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/ty
 import ComicListScreen from "@/screens/ComicListScreen";
 import { resComicItem_T } from "@/types/api";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+import { FindComicProps } from "@/screens/Main/FindComic/constants";
+import FindComicResultScreen from "@/screens/FindComicResultScreen";
 
 // Screen Props Type
 export type ComicDetailsScreenProps = NativeStackScreenProps<
@@ -30,6 +32,10 @@ export type ComicListScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "ComicListScreen"
 >;
+export type FindComicResultScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "FindComicResult"
+>;
 
 // Navigator Props
 export type ComicDetailsNavigationProps = NativeStackNavigationProp<
@@ -47,6 +53,10 @@ export type ChapterNavigationProps = NativeStackNavigationProp<
 export type ComicListNavigationProps = NativeStackNavigationProp<
   RootStackParamList,
   "ComicListScreen"
+>;
+export type FindComicResultNavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  "FindComicResult"
 >;
 
 type NestedNavigatorParams<ParamList> = {
@@ -70,6 +80,9 @@ export type RootStackParamList = {
     path: string;
   };
   Find: undefined;
+  FindComicResult: {
+    query: FindComicProps;
+  };
 };
 
 const Stack = createSharedElementStackNavigator<RootStackParamList>();
@@ -91,6 +104,7 @@ export function StackNavigator() {
       />
       <Stack.Screen name="Chapter" component={ChapterScreen} />
       <Stack.Screen name="ComicListScreen" component={ComicListScreen} />
+      <Stack.Screen name="FindComicResult" component={FindComicResultScreen} />
     </Stack.Navigator>
   );
 }

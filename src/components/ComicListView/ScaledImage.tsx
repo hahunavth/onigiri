@@ -3,10 +3,11 @@ import React, { Component, useEffect, useState, useMemo } from "react";
 import {
   View,
   Text,
-  Image,
+  Image as ImageElement,
   StyleSheet,
   Dimensions,
   ScaledSize,
+  ActivityIndicator,
 } from "react-native";
 
 const window = Dimensions.get("window");
@@ -16,10 +17,12 @@ const screen = Dimensions.get("screen");
 const ScaledImage = ({ src }: { src: string }) => {
   const [size, setSize] = useState({ width: 1, height: 1 });
   const [dimensions, setDimensions] = useState({ window, screen });
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState("");
 
   useEffect(() => {
     let isMounted = true;
-    Image.getSize(src, (width, height) => {
+    ImageElement.getSize(src, (width, height) => {
       if (isMounted) setSize(() => ({ width, height }));
     });
     return () => {
@@ -43,17 +46,85 @@ const ScaledImage = ({ src }: { src: string }) => {
       return () => Dimensions.removeEventListener("change", onChange);
     };
   }, []);
+  useEffect(() => {
+    fetch(
+      src.replace(
+        "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
+        ""
+      ),
+      {
+        headers: {
+          referer: "https://www.nettruyenpro.com",
+        },
+      }
+    )
+      .then((response) => response.blob())
+      .then(
+        (blob) =>
+          new Promise((callback) => {
+            let reader = new FileReader();
+            reader.onload = function () {
+              callback(this.result);
+              // var image = new Image();
+
+              // image.src = reader.result;
+
+              // image.onload = function () {
+              //   alert(image.width);
+              // };
+            };
+            reader.readAsDataURL(blob);
+          })
+      )
+      .then((data) => setData(typeof data === "string" ? data : ""));
+    // let isMounted = true;
+
+    // ImageElement.getSizeWithHeaders(
+    //   src.replace(
+    //     "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
+    //     ""
+    //   ),
+    //   {
+    //     referer: "https://www.nettruyenpro.com",
+    //   },
+    //   (width, height) => {
+    //     if (isMounted) setSize(() => ({ width, height }));
+    //   }
+    // );
+
+    // return () => {
+    //   isMounted = false;
+    // };
+  }, []);
 
   // console.log(size);
 
   return (
-    <Image
-      source={{ uri: src }}
-      style={{
-        width: dimensions.window.width,
-        height: (size.height / size.width) * dimensions.window.width,
-      }}
-    />
+    <>
+      {data ? (
+        <ImageElement
+          // source={{ uri: src }}
+          source={{ uri: data, width: dimensions.window.width }}
+          // defaultSource={}
+          style={{
+            width: dimensions.window.width,
+            height: (size.height / size.width) * dimensions.window.width,
+            // flex: 1,
+          }}
+          resizeMode={"cover"}
+          onLoadEnd={() => setLoading(false)}
+          fadeDuration={0}
+        />
+      ) : null}
+      {loading ? (
+        <ActivityIndicator
+          // style={{ width: dimensions.window.width, height: 20 }}
+          animating={loading}
+          size="small"
+          color="#0000ff"
+        />
+      ) : null}
+    </>
   );
 };
 
@@ -68,4 +139,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default ScaledImage;
+export default React.memo(ScaledImage);

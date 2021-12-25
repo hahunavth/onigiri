@@ -23,9 +23,8 @@ export const QFontFamily = {
   Quicksand_700Bold: "Quicksand_700Bold",
 };
 
-export default function QuicksandText(props: Props) {
+function QuicksandText(props: Props) {
   const fontFamily = props.style?.fontFamily || "Quicksand_400Regular";
-
   return (
     <Text
       {...props}
@@ -36,3 +35,5 @@ export default function QuicksandText(props: Props) {
     />
   );
 }
+
+export default React.memo(QuicksandText);
