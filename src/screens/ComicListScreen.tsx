@@ -1,7 +1,8 @@
 //import liraries
 import { ComicList } from "@/components/ComicListView/ComicList";
 import CustomList from "@/components/Refresh/CustomList";
-import React, { useEffect, useState } from "react";
+import { resComicItem_T } from "@/types/api";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,6 +10,8 @@ import {
   FlatList,
   RefreshControl,
   Dimensions,
+  ActivityIndicator,
+  SafeAreaView,
 } from "react-native";
 import ContentLoader from "react-native-easy-content-loader";
 import { useQuery } from "react-query";
@@ -17,23 +20,29 @@ import { ComicListScreenProps } from "../navigators/StackNavigator";
 
 const ComicListScreen = ({ navigation, route }: ComicListScreenProps) => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  // Only increase when scroll end
+  const [page, setPage] = useState(1);
+  // const [initBatchStatus, setInitBatchStatus] = useState('pending')
+  const [nextBatchStatus, setNextBatchStatus] = useState<
+    "pending" | "fulfilled"
+  >("pending");
+  const [comicList, setComicList] = useState<resComicItem_T[]>([]);
 
-  // const { data, isLoading, isError, refetch } = useQuery(
-  //   "recently",
-  //   () => fetch(route.params.path || "").then((res) => res.json()),
-  //   {
-  //     refetchOnWindowFocus: false,
-  //     enabled: false,
-  //   }
-  // );
-
-  const { data, isLoading, isError, refetch } = useApiRecently("1");
-
-  // console.log(isLoading);
+  const { data, isLoading, isError, refetch } = useApiRecently(page.toString());
 
   useEffect(() => {
-    refetch();
-    // console.log(isLoading + "2");
+    if (data?.data && !isLoading) {
+      // console.log(`${data.data.length} ${comicList.length}`);
+      setComicList((comicList) => comicList.concat(data.data));
+      setNextBatchStatus("fulfilled");
+    }
+  }, [data]);
+
+  const endReached = useCallback(() => {
+    if (!isLoading && data?.data && nextBatchStatus === "fulfilled") {
+      setNextBatchStatus("pending");
+      setPage((page) => page + 1);
+    }
   }, []);
 
   const onRefresh = React.useCallback(async () => {
@@ -59,35 +68,15 @@ const ComicListScreen = ({ navigation, route }: ComicListScreenProps) => {
       />
     );
 
-  // return (
-  //   <View style={styles.container}>
-  //     <CustomList />
-  //   </View>
-  // );
-
   return (
-    <View
-      // style={styles.container}
-      style={{ height: Dimensions.get("window").height }}
-    >
-      <View
-        style={{
-          position: "absolute",
-          width: Dimensions.get("window").width,
-          height: 60,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Text>aaaaaa aaaaaa aaaaaa</Text>
-      </View>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={[1]}
-        renderItem={() => <ComicList list={data?.data} name="" />}
+        renderItem={() => <ComicList list={comicList} name="" />}
         keyExtractor={(item, index) => index.toString()}
         refreshing={refreshing}
-        onLayout={(e) => console.log(e.nativeEvent)}
-        style={{ backgroundColor: "transparent" }}
+        // onLayout={(e) => console.log(e.nativeEvent)}
+        // style={{ backgroundColor: "transparent" }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -96,18 +85,33 @@ const ComicListScreen = ({ navigation, route }: ComicListScreenProps) => {
             // enabled={false}
           />
         }
+        onEndReached={endReached}
+        onEndReachedThreshold={0.5}
       />
-    </View>
+      {nextBatchStatus === "pending" ? (
+        <ActivityIndicator
+          style={{
+            // width: 10,
+            // height: 20,
+            marginBottom: 20,
+            // zIndex: 10,
+          }}
+          size={"small"}
+          // animating={true}
+          color={"red"}
+        />
+      ) : null}
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: "center",
-    paddingTop: 20,
+    // paddingTop: 20,
     backgroundColor: "#ecf0f1",
-    padding: 0,
+    // padding: 0,
   },
 });
 

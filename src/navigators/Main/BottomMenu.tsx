@@ -99,8 +99,8 @@ const BottomTabBar = ({ navigation, state }: BottomTabBarProps) => {
 
   const routeList = [
     { title: "Home", icon: HomeIcon, selectedIcon: HomeIconSelected },
-    { title: "Dashboard", icon: FindIcon, selectedIcon: FindIconSelected },
-    { title: "Profile", icon: ProfileIcon, selectedIcon: ProfileIconSelected },
+    { title: "Download", icon: ProfileIcon, selectedIcon: ProfileIconSelected },
+    { title: "Find", icon: FindIcon, selectedIcon: FindIconSelected },
     { title: "Setting", icon: SettingIcon, selectedIcon: SettingIconSelected },
   ];
 
@@ -134,7 +134,11 @@ export const BottomMenu = (mainNavigation: MainScreenProps) => {
       >
         <Tab.Screen name="home" component={AppsScreen} />
         <Tab.Screen name="dashboard" component={DashboardScreen} />
-        <Tab.Screen name="profile" component={FindComicScreen} options={{headerShown: false}} />
+        <Tab.Screen
+          name="profile"
+          component={FindComicScreen}
+          options={{ headerShown: false }}
+        />
         <Tab.Screen name="setting" component={SettingScreen} />
       </Tab.Navigator>
       {useSafeArea().bottom > 0 && (

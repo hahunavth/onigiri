@@ -9,7 +9,6 @@ import {
   Button,
   ActivityIndicator,
 } from "react-native";
-import { useQuery } from "react-query";
 import { ChapterScreenProps } from "../navigators/StackNavigator";
 import ImageSize from "react-native-image-size";
 import ScaledImage from "../components/ComicListView/ScaledImage";
@@ -23,7 +22,6 @@ export default function ChapterScreen({
 }: ChapterScreenProps) {
   const { data, isLoading, isFetching } = useApiChapter(path.path);
 
-  // const download = useAppSelector(downloadSelector);
   const dispatch = useAppDispatch();
 
   const chapterInfo = data?.data;
@@ -46,21 +44,6 @@ export default function ChapterScreen({
 
   return (
     <Layout style={{ flex: 1 }}>
-      <Button
-        onPress={() => {
-          if (data) {
-            dispatch(
-              downloadAction.saveChapter({ chapter: data.data, fileUrls: [] })
-            );
-            // console.log(data.data);
-          }
-          // console.log(download.comics);
-        }}
-        title="hello"
-      ></Button>
-      <Layout>
-        <Text>aa</Text>
-      </Layout>
       <Layout style={{ flex: 1 }}>
         <List data={chapterInfo?.images || []} renderItem={renderItem} />
       </Layout>

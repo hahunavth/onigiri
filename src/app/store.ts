@@ -10,11 +10,13 @@ import { comicApi } from "./api";
 import homeSlice from "./homeSlice";
 import settingReducer from "./settingSlice";
 import downloadReducer from "./downloadSlice";
+import historyReducer from './historySlice'
 
 const reducer = combineReducers({
   home: homeSlice,
   setting: settingReducer,
   download: downloadReducer,
+  history: historyReducer,
   [comicApi.reducerPath]: comicApi.reducer,
 });
 

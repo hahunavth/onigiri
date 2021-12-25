@@ -47,64 +47,65 @@ export const ComicList = ({ list, name, limit }: comicListProps) => {
     </Layout>
   );
 
-  const renderItemFooter = (footerProps: TextProps) => (
-    <Text {...footerProps}>By Wikipedia</Text>
-  );
-
-  const renderItem = (info: ListRenderItemInfo<resComicItem_T>) => (
-    <TouchableOpacity
-      onPress={() => {
-        // console.log(navigation.getState());
-        navigation.navigate("ComicDetails", {
-          path: info.item.path,
-          comic: info.item,
-        });
-      }}
-    >
-      <Layout style={styles.container}>
-        {/* // <Card
+  const renderItem = (info: ListRenderItemInfo<resComicItem_T>) => {
+    // console.log("render ", info.item.name);
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          // console.log(navigation.getState());
+          navigation.navigate("ComicDetails", {
+            path: info.item.path,
+            comic: info.item,
+          });
+        }}
+      >
+        <Layout style={styles.container}>
+          {/* // <Card
     //   style={styles.item}
     //   status="basic"
     //   // header={(headerProps) => renderItemHeader(headerProps, info)}
     //   // footer={renderItemFooter}
     // > */}
-        <Layout style={styles.layoutContainer}>
-          <Layout style={{ paddingRight: 15 }}>
-            <Image
-              style={styles.poster}
-              source={{
-                uri:
-                  info.item.posterUrl ||
-                  "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
-              }}
-            />
-          </Layout>
-          <Layout style={styles.infoWrapper}>
-            <Text
-              category={"s1"}
-              // status={info}
-              // style={{ textDecorationColor: "#fff" }}
-            >
-              {info.item.name || "Haha"}
-            </Text>
-            <Layout style={styles.detailWrapper}>
-              <Text category={"p1"}>Author: {info.item.author || "Haha"}</Text>
-              <Text category={"p1"}>
-                Lasted Chapter:{" "}
-                {(info.item.lastedChapters &&
-                  info.item.lastedChapters[0].chapterName) ||
-                  "Haha"}
+          <Layout style={styles.layoutContainer}>
+            <Layout style={{ paddingRight: 15 }}>
+              <Image
+                style={styles.poster}
+                source={{
+                  uri:
+                    info.item.posterUrl ||
+                    "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
+                }}
+              />
+            </Layout>
+            <Layout style={styles.infoWrapper}>
+              <Text
+                category={"s1"}
+                // status={info}
+                // style={{ textDecorationColor: "#fff" }}
+              >
+                {info.item.name || "Haha"}
               </Text>
-              <Text category={"p1"}>
-                Updated At: {info.item.updateAt || "Haha"}
-              </Text>
+              <Layout style={styles.detailWrapper}>
+                <Text category={"p1"}>
+                  Author: {info.item.author || "Haha"}
+                </Text>
+                <Text category={"p1"}>
+                  Lasted Chapter:{" "}
+                  {(info.item.lastedChapters &&
+                    info.item.lastedChapters[0].chapterName) ||
+                    "Haha"}
+                </Text>
+                <Text category={"p1"}>
+                  Updated At: {info.item.updateAt || "Haha"}
+                </Text>
+              </Layout>
             </Layout>
           </Layout>
+          {/* </Card> */}
         </Layout>
-        {/* </Card> */}
-      </Layout>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <>

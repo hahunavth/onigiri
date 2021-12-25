@@ -41,10 +41,6 @@ import QuicksandText from "@/components/Common/QuicksandText";
 import { LinearGradient } from "expo-linear-gradient";
 import { TopTabNavioator } from "@/navigator/Main/ComicDetailsTopTabNavigator";
 import { useApiComicDetail } from "../../app/api";
-import {
-  startAncestor,
-  startNode,
-} from "@/components/ComicListView/FlatlistBanner";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { downloadAction, downloadSelector } from "../../app/downloadSlice";
 import { homeActions, selectHome } from "../../app/homeSlice";
@@ -64,14 +60,6 @@ export function ComicDetailsScreen({
 }: ComicDetailsScreenProps) {
   const [sort, setSort] = useState<"newer" | "older">("newer");
 
-  // const { data, isFetched, isLoading } = useQuery<resComicDetail_T>(
-  //   ["details", params.path],
-  //   () =>
-  //     fetch(
-  //       "https://hahunavth-express-api.herokuapp.com/api/v1/" + params.path
-  //     ).then((res) => res.json())
-  // );
-
   const { data, isFetching, isLoading } = useApiComicDetail(params.path);
 
   const download = useAppSelector(downloadSelector);
@@ -90,47 +78,8 @@ export function ComicDetailsScreen({
   let chapterList: any = [];
   if (!isFetching) chapterList = data?.chapters;
 
-  // let chapterList: any = [];
-  // if (isFetched) {
-  //   chapterList =
-  //     (data &&
-  //       data.chapters.map((chapter, id) => ({
-  //         chapterName:
-  //           data.chapters[
-  //             sort === "newer" ? id : data.chapters.length - id - 1
-  //           ],
-  //         chapterLink:
-  //           data.chapterLinks[
-  //             sort === "newer" ? id : data.chapters.length - id - 1
-  //           ],
-  //         chapterView:
-  //           data.chapterViews[
-  //             sort === "newer" ? id : data.chapters.length - id - 1
-  //           ],
-  //         chapterUpdateAt:
-  //           data.chapterUpdateAt[
-  //             sort === "newer" ? id : data.chapters.length - id - 1
-  //           ],
-  //       }))) ||
-  //     [];
-  // }
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Button
-        onPress={() => {
-          if (data) {
-            dispatch(downloadAction.newComic(data));
-            // Object.keys(download.comics).forEach((e) => console.log(e));
-            // console.log(download.comics);
-          }
-        }}
-      >
-        Hello
-      </Button>
-      <Layout>
-        <Text style={{ color: "black" }}>aaa{download.comics[0]}</Text>
-      </Layout>
       <Layout
         ref={(ref) => (endAncestor = nodeFromRef(ref))}
         style={{ alignItems: "flex-end", backgroundColor: "#000000" }}
@@ -203,22 +152,3 @@ function ChapterList({ list }: { list: resComicDetailChapterItem_T[] }) {
     </Layout>
   );
 }
-
-// // Render overlay in front of screen
-// const position = new Animated.Value(0);
-// <View style={StyleSheet.absoluteFill}>
-//   <SharedElementTransition
-//     start={{
-//       node: startNode,
-//       ancestor: startAncestor,
-//     }}
-//     end={{
-//       node: endNode,
-//       ancestor: endAncestor,
-//     }}
-//     position={position}
-//     animation="move"
-//     resize="auto"
-//     align="auto"
-//   />
-// </View>;

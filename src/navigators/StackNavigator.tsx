@@ -14,6 +14,9 @@ import { resComicItem_T } from "@/types/api";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { FindComicProps } from "@/screens/Main/FindComic/constants";
 import FindComicResultScreen from "@/screens/FindComicResultScreen";
+import QuicksandText, { QFontFamily } from "@/components/Common/QuicksandText";
+import { LinearGradient } from "expo-linear-gradient";
+import BlurHeader from "@/components/Header/BlurHeader";
 
 // Screen Props Type
 export type ComicDetailsScreenProps = NativeStackScreenProps<
@@ -100,9 +103,41 @@ export function StackNavigator() {
       <Stack.Screen
         name="ComicDetails"
         component={ComicDetailsScreen}
-        options={{ headerShown: false }}
+        // options={{ headerShown: false }}
+        // options={{ header: (a) => <></> }}
+        options={{
+          headerStatusBarHeight: -12,
+          headerTitleStyle: {
+            fontSize: 16,
+            fontFamily: QFontFamily.Quicksand_600SemiBold,
+          },
+          headerStyle: {
+            // backgroundColor: "#0000000",
+            opacity: 0.5,
+          },
+          headerTitleAlign: "center",
+          headerRight: () => (
+            <QuicksandText style={{ color: "black" }}>a</QuicksandText>
+          ),
+          headerBackground: () => (
+            <LinearGradient
+              colors={["#cedae7", "#d6c8c8"]}
+              style={{ flex: 1 }}
+            ></LinearGradient>
+          ),
+        }}
       />
-      <Stack.Screen name="Chapter" component={ChapterScreen} />
+      <Stack.Screen
+        name="Chapter"
+        // options={{ header: (a) => <></> }}
+        options={{
+          header: () => <BlurHeader />,
+          headerTransparent: true,
+          // header
+          // header: () => {}
+        }}
+        component={ChapterScreen}
+      />
       <Stack.Screen name="ComicListScreen" component={ComicListScreen} />
       <Stack.Screen name="FindComicResult" component={FindComicResultScreen} />
     </Stack.Navigator>
