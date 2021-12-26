@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
+// import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs'
 
 type WriteTime = {
   createdAt: Date;

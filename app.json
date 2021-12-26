@@ -3,8 +3,15 @@
     "name": "My app",
     "slug": "my-app",
     "splash": {
-      "image": "./src/assets/logo.png"
+      "image": "./src/assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
+    
+    "orientation": "portrait",
+    "icon": "./src/assets/icon.png",
+    "notification": { "icon": "./src/assets/icon.png" },
+
     "version": "1.0.0",
     "ios": {
       "bundleIdentifier": "com.hahunavth.comicnet",

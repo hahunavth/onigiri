@@ -13,12 +13,15 @@ import {
   ActivityIndicator,
   SafeAreaView,
 } from "react-native";
-import ContentLoader from "react-native-easy-content-loader";
-import { useQuery } from "react-query";
-import { useApiRecently } from "../app/api";
-import { ComicListScreenProps } from "../navigators/StackNavigator";
+// import ContentLoader from "react-native-easy-content-loader";
 
-const ComicListScreen = ({ navigation, route }: ComicListScreenProps) => {
+import { useApiRecently } from "@/app/api";
+import { ComicListScreenProps } from "@/navigators/StackNavigator";
+
+export const ComicListScreen = ({
+  navigation,
+  route,
+}: ComicListScreenProps) => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   // Only increase when scroll end
   const [page, setPage] = useState(1);
@@ -57,15 +60,16 @@ const ComicListScreen = ({ navigation, route }: ComicListScreenProps) => {
 
   if (isLoading || isError)
     return (
-      <ContentLoader
-        active
-        title={true}
-        // avatar
-        // pRows={2}
-        // pHeight={[window?.height / 4, 28, 200]}
-        // pWidth={[window?.width - 24, window?.width - 24, 100]}
-        loading={true}
-      />
+      // <ContentLoader
+      // active
+      // title={true}
+      // avatar
+      // pRows={2}
+      // pHeight={[window?.height / 4, 28, 200]}
+      // pWidth={[window?.width - 24, window?.width - 24, 100]}
+      // loading={true}
+      // />
+      null
     );
 
   return (
@@ -114,5 +118,3 @@ const styles = StyleSheet.create({
     // padding: 0,
   },
 });
-
-export default ComicListScreen;

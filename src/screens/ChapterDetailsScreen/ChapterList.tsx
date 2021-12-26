@@ -1,11 +1,11 @@
 import QuicksandText from "@/components/Common/QuicksandText";
-import { HomeNavigationProps } from "@/navigator/Main/BottomMenu";
+import { HomeNavigationProps } from "@/navigators/Main/BottomMenu";
 import {
   chapterListcomicDetailsProps,
   chapterListComicDetailsTopBarNavigation,
   chapterListComicDetailsTopBarProps,
-} from "@/navigator/Main/ComicDetailsTopTabNavigator";
-import { MainNavigationProps } from "@/navigator/StackNavigator";
+} from "@/navigators/Main/ComicDetailsTopTabNavigator";
+import { MainNavigationProps } from "@/navigators/StackNavigator";
 import { resComicDetailChapterItem_T } from "@/types/api";
 import { useNavigation } from "@react-navigation/native";
 import { BottomNavigation, Layout } from "@ui-kitten/components";

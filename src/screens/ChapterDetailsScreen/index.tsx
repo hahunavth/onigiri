@@ -39,7 +39,7 @@ import {
 import { SharedElement } from "react-navigation-shared-element";
 import QuicksandText from "@/components/Common/QuicksandText";
 import { LinearGradient } from "expo-linear-gradient";
-import { TopTabNavioator } from "@/navigator/Main/ComicDetailsTopTabNavigator";
+import { TopTabNavioator } from "@/navigators/Main/ComicDetailsTopTabNavigator";
 import { useApiComicDetail } from "../../app/api";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { downloadAction, downloadSelector } from "../../app/downloadSlice";

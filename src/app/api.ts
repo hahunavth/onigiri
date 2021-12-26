@@ -5,7 +5,7 @@ import {
   resComicDetail_T,
   resComicItem_T,
 } from "@/types/api";
-import { FindComicProps } from "@/screens/Main/FindComic/constants";
+import { FindComicProps } from "@/screens/FindComic/constants";
 
 export const comicApi = createApi({
   reducerPath: "fetchRe",

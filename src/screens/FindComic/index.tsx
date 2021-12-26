@@ -8,7 +8,7 @@ import {
 } from "@ui-kitten/components";
 
 import {
-  FindComicProps,
+  // FindComicProps,
   FOR_USER,
   GENRES_LIST,
   NUM_CHAPTER,
@@ -20,7 +20,7 @@ import QuicksandText, { QFontFamily } from "@/components/Common/QuicksandText";
 import { BtnRadio } from "@/components/Radio/BtnRadio";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import { MainNavigationProps } from "@/navigator/StackNavigator";
+import { MainNavigationProps } from "@/navigators/StackNavigator";
 
 const initialGenresList = GENRES_LIST.map(() => false);
 
@@ -174,3 +174,13 @@ function Header(props: HeaderProps) {
     </Layout>
   );
 }
+
+export type FindComicProps = {
+  genres: number | string;
+  minchapter: number | string;
+  status: number | string;
+  gender: number | string;
+  sort: number | string;
+};
+
+// export {FindComicProps} from "./constants";

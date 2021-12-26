@@ -1,22 +1,32 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from "@react-navigation/native-stack";
-import { BottomMenu, BottomTabNavigatorParamList } from "./Main/BottomMenu";
-import { ComicDetailsTopTabNavigatorParamList } from "./Main/ComicDetailsTopTabNavigator";
-import { ComicDetailsScreen } from "../screens/ChapterDetailsScreen/index";
-import ChapterScreen from "../screens/ChapterScreen";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
-import ComicListScreen from "@/screens/ComicListScreen";
-import { resComicItem_T } from "@/types/api";
+
+// Use shared element
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
-import { FindComicProps } from "@/screens/Main/FindComic/constants";
-import FindComicResultScreen from "@/screens/FindComicResultScreen";
-import QuicksandText, { QFontFamily } from "@/components/Common/QuicksandText";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
+import { NavigatorScreenParams } from "@react-navigation/native";
+
+// Linear Gradient
 import { LinearGradient } from "expo-linear-gradient";
+
+// @
 import BlurHeader from "@/components/Header/BlurHeader";
+import QuicksandText, { QFontFamily } from "@/components/Common/QuicksandText";
+import {
+  BottomMenu,
+  BottomTabNavigatorParamList,
+} from "@/navigators/Main/BottomMenu";
+import {
+  ComicDetailsScreen,
+  ChapterScreen,
+  ComicListScreen,
+  FindComicProps,
+  FindComicResultScreen,
+} from "@/screens";
+import { resComicItem_T } from "@/types/api";
+import { StyleSheet, Text, View } from "react-native";
+// import { BlurView } from "expo-blur";
+import { BlurView } from "@react-native-community/blur";
 
 // Screen Props Type
 export type ComicDetailsScreenProps = NativeStackScreenProps<
@@ -62,16 +72,17 @@ export type FindComicResultNavigationProps = NativeStackNavigationProp<
   "FindComicResult"
 >;
 
+// FIXME: Nested type deprecated
 type NestedNavigatorParams<ParamList> = {
   [K in keyof ParamList]: undefined extends ParamList[K]
     ? { screen: K; params?: ParamList[K] }
     : { screen: K; params: ParamList[K] };
 }[keyof ParamList];
 
-//  Stack Navigation Type
+// Stack Navigation Type
 export type RootStackParamList = {
-  // Nested
-  Main: NestedNavigatorParams<BottomTabNavigatorParamList>;
+  // NOTE: Nested
+  Main: NavigatorScreenParams<BottomTabNavigatorParamList>;
   ComicDetails: {
     path: string;
     comic: resComicItem_T;
@@ -103,8 +114,6 @@ export function StackNavigator() {
       <Stack.Screen
         name="ComicDetails"
         component={ComicDetailsScreen}
-        // options={{ headerShown: false }}
-        // options={{ header: (a) => <></> }}
         options={{
           headerStatusBarHeight: -12,
           headerTitleStyle: {
@@ -112,8 +121,13 @@ export function StackNavigator() {
             fontFamily: QFontFamily.Quicksand_600SemiBold,
           },
           headerStyle: {
-            // backgroundColor: "#0000000",
             opacity: 0.5,
+            backgroundColor: "transparent",
+            right: 0,
+            left: 0,
+            top: 0,
+            position: "absolute",
+            borderBottomWidth: 0,
           },
           headerTitleAlign: "center",
           headerRight: () => (
@@ -129,12 +143,42 @@ export function StackNavigator() {
       />
       <Stack.Screen
         name="Chapter"
-        // options={{ header: (a) => <></> }}
         options={{
-          header: () => <BlurHeader />,
+          // header: () => <BlurHeader />,
+          // headerTransparent: true,
           headerTransparent: true,
-          // header
-          // header: () => {}
+          headerBackground: () => (
+            // <BlurView
+            //   tint="dark"
+            //   intensity={80}
+            //   style={StyleSheet.absoluteFill}
+            // >
+            //   <Text>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</Text>
+            // </BlurView>
+            <View style={{ flex: 1 }}>
+              <BlurView
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                }}
+                // viewRef={this.state.viewRef}
+                blurType="light"
+                blurAmount={10}
+                reducedTransparencyFallbackColor="white"
+              ></BlurView>
+            </View>
+          ),
+          // headerStyle: {
+          // backgroundColor: "transparent",
+          // right: 0,
+          // left: 0,
+          // top: 0,
+          // position: "absolute",
+          // borderBottomWidth: 0,
+          // },
         }}
         component={ChapterScreen}
       />

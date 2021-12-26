@@ -1,23 +1,3 @@
-// import React from "react";
-// import { StyleSheet, Text, View } from "react-native";
-
-// export const ProfileScreen = () => {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Profile</Text>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#a29bfe",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });
-
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
 import {
@@ -33,8 +13,8 @@ import {
 } from "@ui-kitten/components";
 import CommingSoon from "@/components/Common/CommingSoon";
 import ErrorView from "@/components/Common/ErrorView";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { settingAction, settingSelector } from "../../app/settingSlice";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { settingAction, settingSelector } from "@/app/settingSlice";
 import QuicksandText from "@/components/Common/QuicksandText";
 
 const data = new Array(8).fill({

@@ -8,6 +8,19 @@ interface BlurHeaderProps {}
 
 const BlurHeader = (props: BlurHeaderProps) => {
   return (
+    <View style={{ flex: 1 }}>
+      <BlurView
+        tint="dark"
+        intensity={100}
+        style={{ position: "absolute", height: "100%", width: "100%" }}
+      />
+      <View style={{ flex: 1 }}>
+        <QuicksandText>aaa</QuicksandText>
+      </View>
+    </View>
+  );
+
+  return (
     <View
       style={{
         padding: 30,

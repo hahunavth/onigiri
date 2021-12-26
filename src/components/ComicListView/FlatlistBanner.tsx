@@ -29,12 +29,12 @@ import {
 } from "react-native-shared-element";
 import { SharedElement } from "react-navigation-shared-element";
 import { useNavigation } from "@react-navigation/native";
-import { MainNavigationProps } from "@/navigator/StackNavigator";
+import { MainNavigationProps } from "@/navigators/StackNavigator";
 import { ComicDetailsScreen } from "@/screens/ChapterDetailsScreen";
 
 const { width, height } = Dimensions.get("window");
 
-export default () => {
+export const FlatlistBanner = () => {
   const [list, setList] = useState<resComicItem_T[]>([]);
 
   const { data, isError, isFetching, isSuccess, error } = useApiRecently("1", {
@@ -160,9 +160,9 @@ const styles = StyleSheet.create({
   },
 });
 
-ComicDetailsScreen.sharedElements = (
-  navigation: ReturnType<typeof useNavigation>
-) => {
+// FIXME: Fix type of sharedElement config
+// @ts-ignore
+ComicDetailsScreen.sharedElements = (navigation: any) => {
   // const item = navigation.getParam("ComicDetails");
   // console.log(navigation.route.params.comic.posterUrl);
   return [`${navigation.route.params.comic.posterUrl}`];

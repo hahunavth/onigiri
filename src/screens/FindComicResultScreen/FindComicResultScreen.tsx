@@ -10,14 +10,14 @@ import {
   RefreshControl,
   Dimensions,
 } from "react-native";
-import ContentLoader from "react-native-easy-content-loader";
-import { useApiFindComic, useApiRecently } from "../app/api";
+// import ContentLoader from "react-native-easy-content-loader";
+import { useApiFindComic, useApiRecently } from "@/app/api";
 import {
   ComicListScreenProps,
   FindComicResultScreenProps,
-} from "../navigators/StackNavigator";
+} from "@/navigators/StackNavigator";
 
-const FindComicResultScreen = ({
+export const FindComicResultScreen = ({
   navigation,
   route,
 }: FindComicResultScreenProps) => {
@@ -43,15 +43,16 @@ const FindComicResultScreen = ({
 
   if (isLoading || isError)
     return (
-      <ContentLoader
-        active
-        title={true}
-        // avatar
-        // pRows={2}
-        // pHeight={[window?.height / 4, 28, 200]}
-        // pWidth={[window?.width - 24, window?.width - 24, 100]}
-        loading={true}
-      />
+      // <ContentLoader
+      // active
+      // title={true}
+      // avatar
+      // pRows={2}
+      // pHeight={[window?.height / 4, 28, 200]}
+      // pWidth={[window?.width - 24, window?.width - 24, 100]}
+      // loading={true}
+      // />
+      null
     );
 
   // return (
@@ -105,5 +106,3 @@ const styles = StyleSheet.create({
     padding: 0,
   },
 });
-
-export default FindComicResultScreen;

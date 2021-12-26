@@ -7,16 +7,15 @@ import {
   FlatList,
   Text,
 } from "react-native";
-import { ApiRespone_T as ApiResponse_T, resComicItem_T } from "../types/api";
+
+import { useApiRecently } from "@/app/api";
+import { navigationRef as navigation } from "@/navigators";
+
 import { ComicGrid } from "./ComicListView/ComicGrid";
 import { ComicGrid2 } from "./ComicListView/ComicGrid2";
-import Banner from "./ComicListView/Banner";
-import { useNavigation } from "@react-navigation/native";
-import { HomeNavigationProps } from "src/navigators/Main/BottomMenu";
-import ErrorView from "./Common/ErrorView";
 import Categories from "./Common/Categories";
-import { useApiRecently } from "../app/api";
-import FlatlistBanner from "./ComicListView/FlatlistBanner";
+import { FlatlistBanner } from "./ComicListView";
+import { BannerLoader, ComicGrid1Loader, ComicGrid2Loader } from "./Loader";
 
 type SessionProps_T = {
   name: string;
@@ -25,14 +24,21 @@ type SessionProps_T = {
 };
 
 export const Session = ({ name, url }: SessionProps_T) => {
-  const navigation = useNavigation<HomeNavigationProps>();
+  // const navigation = useNavigation<HomeNavigationProps>();
 
   const { isLoading, data, isError } = useApiRecently("1", {
     refetchOnMountOrArgChange: true,
     skip: false,
   });
 
-  if (isLoading) return <View></View>;
+  if (isLoading)
+    return (
+      <View style={{ flex: 1 }}>
+        <BannerLoader />
+        <ComicGrid1Loader />
+        <ComicGrid2Loader />
+      </View>
+    );
 
   if (isError)
     return (

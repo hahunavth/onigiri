@@ -8,7 +8,7 @@ import {
   ScaledSize,
 } from "react-native";
 import { useQueries, useQuery } from "react-query";
-import { ComicList } from "@/components/ComicListView/ComicList";
+import { ComicList } from "@/components/ComicListView";
 import { Session } from "@/components/Session";
 import ContentLoader, { Facebook } from "react-native-easy-content-loader";
 
@@ -20,7 +20,7 @@ import {
   homeActions,
   selectHome,
 } from "../../app/homeSlice";
-import FlatlistBanner from "@/components/ComicListView/FlatlistBanner";
+import { FlatlistBanner } from "@/components/ComicListView";
 import { useApiRecently } from "../../app/api";
 
 type SessionList_T = {

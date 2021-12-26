@@ -10,10 +10,11 @@ import { View } from "react-native";
 import { useSafeArea } from "react-native-safe-area-context";
 
 // import { TabBar } from "@/components/BottomTab/TabBar";
-import { AppsScreen } from "@/screens/Main/AppsScreen";
-import { DashboardScreen } from "@/screens/Main/DashbroadScreen";
-import { FindComicScreen } from "@/screens/Main/FindComic/index";
-import { SettingScreen } from "@/screens/Main/SettingScreen";
+import { AppsScreen } from "@/screens/AppsScreen/AppsScreen";
+import { DashboardScreen } from "@/screens/DashboardScreen";
+import { FindComicScreen } from "@/screens/FindComic/index";
+import { SettingScreen } from "@/screens/SettingScreen";
+
 import { MainNavigationProps } from "../StackNavigator";
 import { CompositeNavigationProp } from "@react-navigation/native";
 import { MainScreenProps } from "../StackNavigator";

@@ -9,17 +9,20 @@ import {
   Button,
   ActivityIndicator,
 } from "react-native";
-import { ChapterScreenProps } from "../navigators/StackNavigator";
 import ImageSize from "react-native-image-size";
-import ScaledImage from "../components/ComicListView/ScaledImage";
-import { useApiChapter } from "../app/api";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { downloadAction, downloadSelector } from "../app/downloadSlice";
-import { homeActions } from "../app/homeSlice";
 
-export default function ChapterScreen({
-  route: { params: path },
-}: ChapterScreenProps) {
+import { ChapterScreenProps } from "@/navigators/StackNavigator";
+import ScaledImage from "@/components/ComicListView/ScaledImage";
+import { useApiChapter } from "@/app/api";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { downloadAction, downloadSelector } from "@/app/downloadSlice";
+import { homeActions } from "@/app/homeSlice";
+
+import { BlurView } from "expo-blur";
+import BlurHeader from "@/components/Header/BlurHeader";
+// import {} from "@/types";
+
+export function ChapterScreen({ route: { params: path } }: ChapterScreenProps) {
   const { data, isLoading, isFetching } = useApiChapter(path.path);
 
   const dispatch = useAppDispatch();
@@ -45,6 +48,7 @@ export default function ChapterScreen({
   return (
     <Layout style={{ flex: 1 }}>
       <Layout style={{ flex: 1 }}>
+        {/* <BlurHeader /> */}
         <List data={chapterInfo?.images || []} renderItem={renderItem} />
       </Layout>
     </Layout>

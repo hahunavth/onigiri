@@ -97,14 +97,6 @@ export const SORT_BY: KV[] = [
   {key: 30, value: 'Most Chapter'},
 ]
 
-export type FindComicProps = {
-  genres: number | string,
-  minchapter: number | string, 
-  status: number | string,
-  gender: number | string,
-  sort: number | string,
-}
-
 export function toIdListStr(ids: number[]) {
   return ids.reduce((prev, id) => prev? prev + ',' + id: prev+id, "");
 }

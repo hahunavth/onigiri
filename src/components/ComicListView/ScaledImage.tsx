@@ -106,11 +106,14 @@ const ScaledImage = ({ src }: { src: string }) => {
           // source={{ uri: src }}
           source={{ uri: data, width: dimensions.window.width }}
           // defaultSource={}
-          style={{
-            width: dimensions.window.width,
-            height: (size.height / size.width) * dimensions.window.width,
-            // flex: 1,
-          }}
+          style={[
+            {
+              width: dimensions.window.width,
+              height: (size.height / size.width) * dimensions.window.width,
+              // flex: 1,
+            },
+            // StyleSheet.absoluteFill,
+          ]}
           resizeMode={"cover"}
           onLoadEnd={() => setLoading(false)}
           fadeDuration={0}

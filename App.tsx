@@ -24,7 +24,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
-import { StackNavigator } from "@/navigator/StackNavigator";
+import { StackNavigator } from "@/navigators/StackNavigator";
 import store, { persistor } from "./src/app/store";
 import { useAppDispatch, useAppSelector } from "./src/app/hooks";
 import { settingSelector } from "./src/app/settingSlice";
@@ -39,6 +39,7 @@ import { addMultipleImgs } from "@/utils/Download/ImgManager";
 import { resChapterDetail_T, resComicDetail_T } from "@/types/api";
 import { downloadAction, downloadSelector } from "./src/app/downloadSlice";
 import { useNotification } from "./src/app/notification";
+import { navigationRef } from "@/navigators";
 
 // ANCHOR: Export function
 export default function App() {
@@ -59,7 +60,7 @@ export default function App() {
   // schedulePushNotification();
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           {/* Provider  */}
