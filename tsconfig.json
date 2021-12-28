@@ -1,6 +1,32 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "jsx": "react",
+    "module": "ES2020",
+    "baseUrl": "./",
+    "paths": {
+      // "@/app/*": ["src/app/*"],
+      // "@/assets/*": ["src/assets/*"],
+      // "@/components/*": ["src/components/*"],
+      // "@/screens/*": ["src/screens/*"],
+      // "@/navigator/*": ["src/navigators/*"],
+      // "@/styles/*": ["src/styles/*"],
+      // "@/types/*": ["src/types/*"],
+      // "@/utils/*": ["src/utils/*"],
+      "@/*": ["src/*"],
+    },
+    "strict": true,
+    "lib": ["es6", "ES5", "ES7"],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "target": "esnext",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "types": ["node"],
+  },
+  "extends": "expo/tsconfig.base",
+  // "include": ["./**/*"],
+  // "include": ["./src/**/*.ts"],
+  // "exclude": ["node_modules", ".vscode"]
 }

@@ -1,15 +1,16 @@
 {
   "expo": {
-    "name": "comic-net-native-eas",
+    "name": "Comic Net",
     "slug": "comic-net-native-eas",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification": { "icon": "./src/assets/icon.png" },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
