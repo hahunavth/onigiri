@@ -14,6 +14,7 @@ import { resComicDetailChapterItem_T, resComicDetail_T } from "@/types/api";
 import { MainNavigationProps } from "../StackNavigator";
 import ChapterList from "@/screens/ChapterDetailsScreen/ChapterList";
 import Details from "@/screens/ChapterDetailsScreen/Details";
+import { Animated } from "react-native";
 
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<ComicDetailsTopTabNavigatorParamList>();
@@ -43,9 +44,11 @@ const TopTabBar = ({ navigation, state }: MaterialTopTabBarProps) => (
 export type ComicDetailsTopTabNavigatorParamList = {
   detail: {
     path: string;
+    scrollViewRef: Animated.Value;
   };
   chapterList: {
     // chapterList: resComicDetailChapterItem_T[];
+    scrollViewRef: Animated.Value;
     path: string;
   };
 };
@@ -84,7 +87,10 @@ export type detailComicDetailsTopBarProps = CompositeNavigationProp<
   MainNavigationProps
 >;
 
-const TabNavigator = (props: { path: string }) => (
+const TabNavigator = (props: {
+  path: string;
+  //  scrollRef: Animated.Value
+}) => (
   <Navigator
   //  tabBar={(props) => <TopTabBar {...props} />}
   >
@@ -96,11 +102,15 @@ const TabNavigator = (props: { path: string }) => (
     <Screen
       name="chapterList"
       component={ChapterList}
-      initialParams={{ path: props.path }}
+      initialParams={{
+        path: props.path,
+        //  scrollViewRef: props.scrollRef
+      }}
     />
   </Navigator>
 );
 
-export const TopTabNavioator = ({ path }: { path: string }) => (
-  <TabNavigator path={path} />
-);
+export const TopTabNavioator = (props: {
+  path: string;
+  // scrollRef: Animated.Value;
+}) => <TabNavigator {...props} />;

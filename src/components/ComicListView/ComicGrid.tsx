@@ -13,10 +13,10 @@ import {
   View,
 } from "react-native";
 import { FlatList } from "react-native";
-import { HomeNavigationProps } from "src/navigators/Main/BottomMenu";
-import { RootStackParamList } from "src/navigators/StackNavigator";
+import { HomeNavigationProps } from "@/navigators/Main/BottomMenu";
+import { RootStackParamList } from "@/navigators/StackNavigator";
+import { resComicItem_T } from "@/types/api";
 import { comicListProps } from "./ComicList";
-import { resComicItem_T } from "src/types/api";
 import {
   // SharedElement,
   SharedElementTransition,
@@ -27,8 +27,8 @@ import { endAncestor, endNode } from "@/screens/ChapterDetailsScreen/index";
 // import { Icon } from "@ui-kitten/components";
 import Icon from "react-native-vector-icons/FontAwesome";
 import QuicksandText from "../Common/QuicksandText";
-// import { useAppDispatch, useAppSelector } from "src/app/hooks";
-// import { homeActions, selectHome } from "src/app/homeSlice";
+// import { useAppDispatch, useAppSelector } from "@/app/hooks";
+// import { homeActions, selectHome } from "@/app/homeSlice";
 
 const numColumns = 3;
 const ratio = 1.5;
@@ -87,16 +87,16 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
         }}
       >
         <View style={styles.itemContainer}>
-          <SharedElement id={`${item.posterUrl}`}>
-            <Image
-              style={styles.poster}
-              source={{
-                uri:
-                  item.posterUrl ||
-                  "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
-              }}
-            />
-          </SharedElement>
+          {/* <SharedElement id={`${item.posterUrl}`}> */}
+          <Image
+            style={styles.poster}
+            source={{
+              uri:
+                item.posterUrl ||
+                "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
+            }}
+          />
+          {/* </SharedElement> */}
           <QuicksandText numberOfLines={2} style={styles.item}>
             {item.name}
           </QuicksandText>
@@ -175,7 +175,7 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
         data={data}
         renderItem={ComicGridRenderItem}
         keyExtractor={(item, index) => {
-          return index.toString();
+          return item.path + index.toString();
         }}
         numColumns={numColumns}
         scrollEnabled={false}

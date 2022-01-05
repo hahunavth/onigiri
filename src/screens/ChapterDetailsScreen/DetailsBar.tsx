@@ -35,7 +35,7 @@ const DetailsBar = () => {
               <Text style={{ color: "black" }}>aaaaaa</Text>
             </View>
           )}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item.name + index.toString()}
           scrollEnabled={false}
           nestedScrollEnabled={true}
           style={{ height: 100 }}

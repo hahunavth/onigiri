@@ -2,7 +2,7 @@ import QuicksandText from "@/components/Common/QuicksandText";
 import {
   detailcomicDetailsProps,
   detailComicDetailsTopBarProps,
-} from "@/navigator/Main/ComicDetailsTopTabNavigator";
+} from "@/navigators/Main/ComicDetailsTopTabNavigator";
 import {
   addMultipleGifs,
   deleteAllGifs,

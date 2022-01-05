@@ -6,3 +6,7 @@ export * from './DashboardScreen'
 export * from './FindComic'
 export * from './FindComicResultScreen'
 export * from './SettingScreen'
+
+// Test
+export * from './TestScreen'
+export * from './TestScreen2'

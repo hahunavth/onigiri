@@ -2,8 +2,8 @@ import React from "react";
 import { View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-import { blue, grey } from "../../styles";
-import { AntDesignName_T } from "../../types/expo__vector-icon";
+import { blue, grey } from "@/styles";
+import { AntDesignName_T } from "@/types/expo__vector-icon";
 
 type Props = {
   iconName: AntDesignName_T;

@@ -2,9 +2,9 @@
 // import { Button, StyleSheet } from "react-native";
 // import { Layout, Text } from "@ui-kitten/components";
 // import QuicksandText, { QFontFamily } from "@/components/Common/QuicksandText";
-// // import { useAppDispatch, useAppSelector } from "../../app/hooks";
-// // import { fetchRecentlyAsync, selectHome } from "../../app/homeSlice";
-// import { useApiRecently } from "../../app/api";
+// // import { useAppDispatch, useAppSelector } from "@/app/hooks";
+// // import { fetchRecentlyAsync, selectHome } from "@/app/homeSlice";
+// import { useApiRecently } from "@/app/api";
 // import ErrorView from "@/components/Common/ErrorView";
 // import Animated, {
 //   useAnimatedStyle,
@@ -18,7 +18,7 @@
 //   return (
 //     <Layout style={{ flex: 1 }}>
 //       <LottieView
-//         source={require("../../assets/IconAnimation/location.json")}
+//         source={require("@/assets/IconAnimation/location.json")}
 //       />
 
 //     </Layout>

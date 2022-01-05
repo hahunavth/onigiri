@@ -30,7 +30,7 @@ const Categories = (props: Props) => {
           renderItem={(item: ListRenderItemInfo<CategoryBtnProps>) => (
             <CategoryBtn {...item.item} />
           )}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item.name + index.toString()}
           scrollEnabled={false}
           nestedScrollEnabled={true}
           style={{ height: 100 }}

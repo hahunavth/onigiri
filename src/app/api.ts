@@ -5,10 +5,10 @@ import {
   resComicDetail_T,
   resComicItem_T,
 } from "@/types/api";
-import { FindComicProps } from "@/screens/FindComic/constants";
+import { FindComicProps } from "@/screens";
 
 export const comicApi = createApi({
-  reducerPath: "fetchRe",
+  reducerPath: "fetchApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://hahunavth-express-api.herokuapp.com/api/v1",
   }),
@@ -18,6 +18,7 @@ export const comicApi = createApi({
         console.log("🚀🚀🚀 ~api.ts", `/recently?page=${page}`);
         return `/recently?page=${page}`;
       },
+      
     }),
     getHotByPage: builder.query<ApiRespone_T<resComicItem_T[]>, string>({
       query: (page) => {
@@ -60,3 +61,5 @@ export const useApiComicDetail =
 export const useApiChapter = comicApi.endpoints.getChapterByPath.useQuery;
 
 export const useApiFindComic = comicApi.endpoints.findComic.useQuery;
+
+export const usePrefetch = comicApi.usePrefetch

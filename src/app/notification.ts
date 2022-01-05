@@ -14,7 +14,7 @@ import {
 } from "expo-notifications";
 import { addMultipleImgs } from "@/utils/Download/ImgManager";
 import { resChapterDetail_T, resComicDetail_T } from "@/types/api";
-import { downloadAction, downloadSelector } from "./downloadSlice";
+import { downloadAction } from "./downloadSlice";
 
 // ANCHOR: Notification setup
 Notifications.setNotificationHandler({
@@ -135,7 +135,6 @@ export function useDownloadComic() {
   const [downloadProgress, setDownloadProgress] = useState(0);
 
   const dispatch = useAppDispatch();
-  const download = useAppSelector(downloadSelector);
 
   async function setNotificationChannel() {
     const loadingChannel: NotificationChannel | null =

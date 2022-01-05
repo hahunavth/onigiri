@@ -1,4 +1,5 @@
 //import liraries
+import { Button, Card } from "@ui-kitten/components";
 import React, { Component, useEffect, useState, useMemo } from "react";
 import {
   View,
@@ -8,6 +9,7 @@ import {
   Dimensions,
   ScaledSize,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 
 const window = Dimensions.get("window");
@@ -47,6 +49,7 @@ const ScaledImage = ({ src }: { src: string }) => {
     };
   }, []);
   useEffect(() => {
+    let isMounted = true;
     fetch(
       src.replace(
         "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
@@ -76,7 +79,9 @@ const ScaledImage = ({ src }: { src: string }) => {
             reader.readAsDataURL(blob);
           })
       )
-      .then((data) => setData(typeof data === "string" ? data : ""));
+      .then((data) => {
+        if (isMounted) setData(typeof data === "string" ? data : "");
+      });
     // let isMounted = true;
 
     // ImageElement.getSizeWithHeaders(
@@ -92,9 +97,9 @@ const ScaledImage = ({ src }: { src: string }) => {
     //   }
     // );
 
-    // return () => {
-    //   isMounted = false;
-    // };
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // console.log(size);
@@ -117,14 +122,6 @@ const ScaledImage = ({ src }: { src: string }) => {
           resizeMode={"cover"}
           onLoadEnd={() => setLoading(false)}
           fadeDuration={0}
-        />
-      ) : null}
-      {loading ? (
-        <ActivityIndicator
-          // style={{ width: dimensions.window.width, height: 20 }}
-          animating={loading}
-          size="small"
-          color="#0000ff"
         />
       ) : null}
     </>

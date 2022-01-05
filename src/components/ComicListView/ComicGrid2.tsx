@@ -171,7 +171,7 @@ export function ComicGrid2({ list, name, limit, onPressMore }: comicListProps) {
         scrollEnabled={false}
         nestedScrollEnabled={true}
         renderItem={ComicGridRenderItem2}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => item.path + index.toString()}
         numColumns={numColumns}
       />
     </>

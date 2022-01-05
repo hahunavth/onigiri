@@ -11,10 +11,9 @@ import {
   View,
 } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
-import { BlurView } from "expo-blur";
 
-import { useApiRecently } from "../../app/api";
-import QuicksandText, { QFontFamily } from "../Common/QuicksandText";
+import { useApiRecently } from "@/app/api";
+import QuicksandText, { QFontFamily } from "@/components/Common/QuicksandText";
 
 // import { fox, cat, background, element, lion } from "./images";
 import { CustomPagination } from "./CustomPagination";
@@ -22,15 +21,10 @@ import FlatlistBannerItem from "./FlatlistBannerItem";
 import { LinearGradient } from "expo-linear-gradient";
 
 // Shared Element
-import {
-  // SharedElement,
-  SharedElementTransition,
-  nodeFromRef,
-} from "react-native-shared-element";
 import { SharedElement } from "react-navigation-shared-element";
 import { useNavigation } from "@react-navigation/native";
 import { MainNavigationProps } from "@/navigators/StackNavigator";
-import { ComicDetailsScreen } from "@/screens/ChapterDetailsScreen";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
 
@@ -43,23 +37,24 @@ export const FlatlistBanner = () => {
 
   useEffect(() => {
     if (isSuccess) setList(() => data?.data.filter((item, id) => id < 6));
-    console.log("rerendre");
   }, [isFetching]);
 
   return (
-    <SwiperFlatList
-      autoplay
-      autoplayDelay={25}
-      // index={3}
-      autoplayLoop
-      // autoplayInvertDirection
-      data={isSuccess ? list : []}
-      renderItem={(props) => <Item {...props} />}
-      // showPagination
-      initialNumToRender={1}
-      // PaginationComponent={CustomPagination}
-      // horizontal
-    />
+    <SafeAreaView>
+      <SwiperFlatList
+        autoplay
+        autoplayDelay={25}
+        // index={3}
+        autoplayLoop
+        // autoplayInvertDirection
+        data={isSuccess ? list : []}
+        renderItem={(props) => <Item {...props} />}
+        // showPagination
+        initialNumToRender={1}
+        // PaginationComponent={CustomPagination}
+        // horizontal
+      />
+    </SafeAreaView>
   );
 };
 
@@ -84,7 +79,6 @@ const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
           height: height / 4,
           margin: 5,
         }}
-        // imageRef={imgRef || null}
         blurRadius={8}
         borderRadius={8}
         progressiveRenderingEnabled
@@ -159,11 +153,3 @@ const styles = StyleSheet.create({
     borderColor: "#636363",
   },
 });
-
-// FIXME: Fix type of sharedElement config
-// @ts-ignore
-ComicDetailsScreen.sharedElements = (navigation: any) => {
-  // const item = navigation.getParam("ComicDetails");
-  // console.log(navigation.route.params.comic.posterUrl);
-  return [`${navigation.route.params.comic.posterUrl}`];
-};

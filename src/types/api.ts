@@ -53,6 +53,7 @@ export type resComicDetail_T = {
 };
 
 export type resComicDetailChapterItem_T = {
+  id?: number;
   name: string;
   updatedAt: string;
   url: string;

@@ -44,7 +44,9 @@ const initialState: {
   recently: resComicItem_T[];
   hot: resComicItem_T[];
   currentComic: resComicDetail_T | null;
-  currentChapter: resChapterDetail_T | null;
+  currentChapter: (resChapterDetail_T & {
+    id: number,
+  }) | null;
 } = {
   status: "loading",
   recently: [],
@@ -66,7 +68,7 @@ const homeSlice = createSlice({
     removeCurrentComic: (state, action: PayloadAction<undefined>) => {
       return {...state, currentComic: null}
     },
-    setCurrentChapter: (state, action: PayloadAction<resChapterDetail_T | undefined>) => {
+    setCurrentChapter: (state, action: PayloadAction<resChapterDetail_T & {id: number} | undefined>) => {
       return {...state, currentChapter: action.payload || null}
     },
     removeCurrentChapter: (state, action: PayloadAction<undefined>) => {

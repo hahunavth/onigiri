@@ -15,9 +15,10 @@ import {
   TouchableOpacity,
   View,
   ToastAndroid,
+  Animated,
 } from "react-native";
 import { FlatList } from "react-native";
-import { useApiChapter, useApiComicDetail } from "../../app/api";
+import { useApiChapter, useApiComicDetail } from "@/app/api";
 
 import * as Notifications from "expo-notifications";
 // import * as Permissions from "expo-permissions";
@@ -30,14 +31,14 @@ import * as Notifications from "expo-notifications";
 // } from "expo-notifications";
 // import { downloadToFolder } from "expo-file-dl";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   downloadAction,
   downloadComicThunk,
   downloadSelector,
-} from "../../app/downloadSlice";
-import { useDownloadComic } from "../../app/notification";
-import { selectHome } from "../../app/homeSlice";
+} from "@/app/downloadSlice";
+import { useDownloadComic } from "@/app/notification";
+import { selectHome } from "@/app/homeSlice";
 import { addMultipleImgs } from "@/utils/Download/ImgManager";
 
 // import { useDownloadComic } from "App";
@@ -64,10 +65,10 @@ const ChapterList: React.FunctionComponent<
   );
 
   const chapter1Details = useApiChapter(data?.chapters[0]?.path || "");
-  console.log(
-    "🚀 ~ file: ChapterList.tsx ~ line 52 ~ chapter1Details",
-    chapter1Details
-  );
+  // console.log(
+  //   "🚀 ~ file: ChapterList.tsx ~ line 52 ~ chapter1Details",
+  //   chapter1Details
+  // );
   // console.log(
   //   "🚀 ~ file: ChapterList.tsx ~ line 22 ~   props.route.params.path",
   //   props.route.params.path
@@ -171,13 +172,19 @@ const ChapterList: React.FunctionComponent<
   return (
     <FlatList
       data={isFetching ? [] : data?.chapters}
+      keyExtractor={(item, id) => id.toString()}
+      scrollEnabled={false}
+      nestedScrollEnabled={true}
       renderItem={(item: ListRenderItemInfo<resComicDetailChapterItem_T>) => (
         <Layout
           style={{ flexDirection: "row", justifyContent: "space-between" }}
         >
           <TouchableOpacity
             onPress={() =>
-              navigator.navigate("Chapter", { path: item.item.path })
+              navigator.navigate("Chapter", {
+                path: item.item.path,
+                id: item.index,
+              })
             }
           >
             <QuicksandText>{item.item.name}</QuicksandText>
@@ -185,42 +192,6 @@ const ChapterList: React.FunctionComponent<
           <TouchableOpacity
             onPress={async () => {
               dispatch(downloadComicThunk(item.item.path));
-              // console.log(
-              //   "🚀 ~ file: ChapterList.tsx ~ line 181 ~ onPress={ ~ home?.currentComic",
-              //   home?.currentComic
-              // );
-              // ToastAndroid.show(
-              //   `START ${chapter1Details.data?.data.images[0]}`,
-              //   ToastAndroid.SHORT
-              // );
-              // const fileUrls = await addMultipleImgs(
-              //   chapter1Details.data?.data.images || []
-              // );
-              // ToastAndroid.show("end", ToastAndroid.SHORT);
-
-              // dispatch(downloadAction.newComic(home?.currentComic));
-              // dispatch(
-              //   downloadAction.saveChapter({
-              //     chapter: chapter1Details.data?.data,
-              //     fileUrls: fileUrls || [],
-              //   })
-              // );
-              // console.log(
-              //   "🚀 ~ file: ChapterList.tsx ~ line 188 ~ onPress={ ~ chapter1Details.data?.data.images",
-              //   chapter1Details.data?.data.images
-              // );
-              // setChapter(chapter1Details.data?.data);
-              // setUriList(() => chapter1Details.data?.data.images);
-              // setComic(home?.currentComic || undefined);
-
-              // await run();
-
-              // console.log(
-              //   "############",
-              //   download.comics[Object.keys(download.comics)[0]]?.savedChapter
-              // );
-              // console.log("############", download.comics);
-              // Object.keys(download.comics).forEach((e) => console.log(e));
               ToastAndroid.show("done", ToastAndroid.SHORT);
             }}
           >
@@ -229,6 +200,55 @@ const ChapterList: React.FunctionComponent<
         </Layout>
       )}
     />
+  );
+
+  return (
+    <Animated.ScrollView
+      nestedScrollEnabled={true}
+      onScroll={Animated.event(
+        [
+          {
+            nativeEvent: {
+              contentOffset: { y: props.route.params.scrollViewRef },
+            },
+          },
+        ],
+        { useNativeDriver: false }
+      )}
+      contentInsetAdjustmentBehavior="automatic"
+    >
+      {/* <FlatList
+        data={isFetching ? [] : data?.chapters}
+        keyExtractor={(item, id) => id.toString()}
+        scrollEnabled={false}
+        nestedScrollEnabled={true}
+        renderItem={(item: ListRenderItemInfo<resComicDetailChapterItem_T>) => (
+          <Layout
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <TouchableOpacity
+              onPress={() =>
+                navigator.navigate("Chapter", {
+                  path: item.item.path,
+                  id: item.index,
+                })
+              }
+            >
+              <QuicksandText>{item.item.name}</QuicksandText>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={async () => {
+                dispatch(downloadComicThunk(item.item.path));
+                ToastAndroid.show("done", ToastAndroid.SHORT);
+              }}
+            >
+              <QuicksandText>download</QuicksandText>
+            </TouchableOpacity>
+          </Layout>
+        )}
+      /> */}
+      <View style={{ width: 10, height: 10000, backgroundColor: "red" }}></View>
+    </Animated.ScrollView>
   );
 };
 

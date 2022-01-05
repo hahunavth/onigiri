@@ -15,9 +15,8 @@ import { DashboardScreen } from "@/screens/DashboardScreen";
 import { FindComicScreen } from "@/screens/FindComic/index";
 import { SettingScreen } from "@/screens/SettingScreen";
 
-import { MainNavigationProps } from "../StackNavigator";
+import { MainNavigationProps, MainScreenProps } from "../StackNavigator";
 import { CompositeNavigationProp } from "@react-navigation/native";
-import { MainScreenProps } from "../StackNavigator";
 import QuicksandText from "@/components/Common/QuicksandText";
 import { IconProps, Layout } from "@ui-kitten/components";
 
@@ -27,7 +26,8 @@ import {
   Icon,
 } from "@ui-kitten/components";
 
-import { BlurView } from "@react-native-community/blur";
+// import { BlurView } from "@react-native-community/blur";
+import { MyBlurView } from "@/components/Common/MyBlurView.native";
 // export enum BTScreenName {
 //   home = "home",
 //   dashboard = "dashboard",
@@ -130,22 +130,28 @@ export const BottomMenu = (mainNavigation: MainScreenProps) => {
       <Tab.Navigator
         // tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}
         tabBar={(props) => <BottomTabBar {...props} />}
-        screenOptions={{
-          // header: (props) => <CustomHeader {...props} />,
-          headerTransparent: true,
-          headerBackground: () => (
-            <BlurView
-              blurAmount={50}
-              style={{
-                width: 100,
-                height: 100,
-              }}
-              blurType="light"
-            ></BlurView>
-          ),
-        }}
+        // screenOptions={{
+        //   // header: (props) => <CustomHeader {...props} />,
+        //   headerTransparent: true,
+        //   headerBackground: () => (
+        //     <MyBlurView
+        //       blurAmount={50}
+        //       style={{
+        //         width: 100,
+        //         height: 100,
+        //       }}
+        //       blurType="light"
+        //     ></MyBlurView>
+        //   ),
+        // }}
       >
-        <Tab.Screen name="home" component={AppsScreen} />
+        <Tab.Screen
+          name="home"
+          component={AppsScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Tab.Screen name="dashboard" component={DashboardScreen} />
         <Tab.Screen
           name="profile"

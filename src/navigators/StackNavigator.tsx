@@ -22,13 +22,15 @@ import {
   ComicListScreen,
   FindComicProps,
   FindComicResultScreen,
+  TestScreen,
+  TestScreen2,
 } from "@/screens";
 import { resComicItem_T } from "@/types/api";
 import { StyleSheet, Text, View } from "react-native";
-// import { BlurView } from "expo-blur";
-import { BlurView } from "@react-native-community/blur";
+// import { BlurView } from "@react-native-community/blur";
+import { MyBlurView } from "@/components/Common/MyBlurView.native";
 
-// Screen Props Type
+// NOTE: Screen Props Type
 export type ComicDetailsScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "ComicDetails"
@@ -50,7 +52,7 @@ export type FindComicResultScreenProps = NativeStackScreenProps<
   "FindComicResult"
 >;
 
-// Navigator Props
+// NOTE: Navigator Props
 export type ComicDetailsNavigationProps = NativeStackNavigationProp<
   RootStackParamList,
   "ComicDetails"
@@ -92,11 +94,15 @@ export type RootStackParamList = {
   };
   Chapter: {
     path: string;
+    id: number;
   };
   Find: undefined;
   FindComicResult: {
     query: FindComicProps;
   };
+  // Test Screen
+  Test: undefined;
+  Test2: undefined;
 };
 
 const Stack = createSharedElementStackNavigator<RootStackParamList>();
@@ -115,20 +121,20 @@ export function StackNavigator() {
         name="ComicDetails"
         component={ComicDetailsScreen}
         options={{
-          headerStatusBarHeight: -12,
+          // headerStatusBarHeight: -12,
           headerTitleStyle: {
             fontSize: 16,
             fontFamily: QFontFamily.Quicksand_600SemiBold,
           },
-          headerStyle: {
-            opacity: 0.5,
-            backgroundColor: "transparent",
-            right: 0,
-            left: 0,
-            top: 0,
-            position: "absolute",
-            borderBottomWidth: 0,
-          },
+          // headerStyle: {
+          //   opacity: 0.5,
+          //   backgroundColor: "transparent",
+          //   right: 0,
+          //   left: 0,
+          //   top: 0,
+          //   // position: "absolute",
+          //   borderBottomWidth: 0,
+          // },
           headerTitleAlign: "center",
           headerRight: () => (
             <QuicksandText style={{ color: "black" }}>a</QuicksandText>
@@ -147,7 +153,7 @@ export function StackNavigator() {
           // header: () => <BlurHeader />,
           // headerTransparent: true,
           headerTransparent: true,
-          headerStatusBarHeight: -12,
+          // headerStatusBarHeight: -12,
           headerBackground: (props) => (
             // <BlurView
             //   tint="dark"
@@ -157,7 +163,7 @@ export function StackNavigator() {
             //   <Text>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</Text>
             // </BlurView>
             <View style={{ flex: 1 }}>
-              <BlurView
+              {/* <MyBlurView
                 style={{
                   //   position: "absolute",
                   //   top: 0,
@@ -170,8 +176,8 @@ export function StackNavigator() {
                 // viewRef={this.state.viewRef}
                 blurType="light"
                 blurAmount={100}
-                reducedTransparencyFallbackColor="white"
-              ></BlurView>
+                // reducedTransparencyFallbackColor="white"
+              ></MyBlurView> */}
             </View>
           ),
           // headerStyle: {
@@ -187,6 +193,18 @@ export function StackNavigator() {
       />
       <Stack.Screen name="ComicListScreen" component={ComicListScreen} />
       <Stack.Screen name="FindComicResult" component={FindComicResultScreen} />
+      <Stack.Screen
+        name="Test"
+        component={TestScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Test2"
+        component={TestScreen2}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }

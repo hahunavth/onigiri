@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
 import {
+  Button,
   Card,
   Divider,
   Layout,
@@ -16,6 +17,7 @@ import ErrorView from "@/components/Common/ErrorView";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { settingAction, settingSelector } from "@/app/settingSlice";
 import QuicksandText from "@/components/Common/QuicksandText";
+import { navigate } from "@/navigators";
 
 const data = new Array(8).fill({
   title: "Item",
@@ -39,6 +41,12 @@ export const SettingScreen = () => {
         ></Toggle>
       </Layout>
       <Divider />
+      <Button onPress={() => navigate("Test")}>
+        <Text>Hello</Text>
+      </Button>
+      <Button onPress={() => navigate("Test2")}>
+        <Text>Hello2</Text>
+      </Button>
     </Layout>
   );
 };

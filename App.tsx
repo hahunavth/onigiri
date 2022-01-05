@@ -168,12 +168,12 @@ function UI() {
         theme={setting.theme === "light" ? eva.light : eva.dark}
       >
         <SafeAreaProvider>
-          <SafeAreaView style={{ flex: 1 }}>
-            <StackNavigator />
-          </SafeAreaView>
+          {/* <SafeAreaView style={{ flex: 1 }}> */}
+          <StackNavigator />
+          {/* </SafeAreaView> */}
         </SafeAreaProvider>
       </ApplicationProvider>
-      <StatusBar style="light" backgroundColor="#7cb5d6" />
+      <StatusBar style="light" backgroundColor="#32404750" translucent={true} />
     </>
   );
 }

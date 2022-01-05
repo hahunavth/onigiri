@@ -6,22 +6,18 @@ import {
   ScrollView,
   Dimensions,
   ScaledSize,
+  SafeAreaView,
 } from "react-native";
 import { useQueries, useQuery } from "react-query";
 import { ComicList } from "@/components/ComicListView";
 import { Session } from "@/components/Session";
-import ContentLoader, { Facebook } from "react-native-easy-content-loader";
 
-import { HomeBottomNavigation } from "../../navigators/Main/BottomMenu";
+import { HomeBottomNavigation } from "@/navigators/Main/BottomMenu";
 import { ApiRespone_T, resComicItem_T } from "@/types/api";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  fetchRecentlyAsync,
-  homeActions,
-  selectHome,
-} from "../../app/homeSlice";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { fetchRecentlyAsync, homeActions, selectHome } from "@/app/homeSlice";
 import { FlatlistBanner } from "@/components/ComicListView";
-import { useApiRecently } from "../../app/api";
+import { useApiRecently } from "@/app/api";
 
 type SessionList_T = {
   name: string;
@@ -133,7 +129,7 @@ export const AppsScreen = ({ navigation, route }: HomeBottomNavigation) => {
   //   );
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1 }}>
       {HomeSessionList.map((session) => (
         <Session
           name={session.name}
@@ -141,7 +137,7 @@ export const AppsScreen = ({ navigation, route }: HomeBottomNavigation) => {
           key={session.name}
         />
       ))}
-    </>
+    </SafeAreaView>
   );
 };
 
