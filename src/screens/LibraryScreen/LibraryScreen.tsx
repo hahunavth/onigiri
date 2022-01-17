@@ -29,11 +29,16 @@ import React from "react";
 import { View } from "react-native";
 import { withStyles } from "@ui-kitten/components";
 import {} from "@ui-kitten/components";
+import { LibraryTopNavigator } from "@/navigators/LibraryTopNavigator";
 
 const AwesomeView = (props: any) => {
   const { eva, style, ...restProps } = props;
 
-  return <View {...restProps} style={[eva.style.awesome, style]} />;
+  return (
+    <View {...restProps} style={[eva.style.awesome, style]}>
+      <LibraryTopNavigator />
+    </View>
+  );
 };
 
 export const DashboardScreen = withStyles(AwesomeView, (theme) => ({

@@ -37,7 +37,7 @@ const Details: React.FunctionComponent<detailcomicDetailsProps> = (props) => {
     try {
       const singleId = await getSingleGif(id);
       setUri(singleId);
-      console.log(selectedUri);
+      // console.log(selectedUri);
     } catch (e) {
       console.error("Couldn't load gif", e);
     }
@@ -48,7 +48,7 @@ const Details: React.FunctionComponent<detailcomicDetailsProps> = (props) => {
     deleteAllGifs();
   };
 
-  console.log(selectedUri);
+  // console.log(selectedUri);
 
   return (
     <View style={styles.container}>

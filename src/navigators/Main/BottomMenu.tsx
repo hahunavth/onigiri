@@ -11,7 +11,7 @@ import { useSafeArea } from "react-native-safe-area-context";
 
 // import { TabBar } from "@/components/BottomTab/TabBar";
 import { AppsScreen } from "@/screens/AppsScreen/AppsScreen";
-import { DashboardScreen } from "@/screens/DashboardScreen";
+import { DashboardScreen } from "@/screens/LibraryScreen";
 import { FindComicScreen } from "@/screens/FindComic/index";
 import { SettingScreen } from "@/screens/SettingScreen";
 

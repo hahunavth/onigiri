@@ -23,10 +23,9 @@ import {
   nodeFromRef,
 } from "react-native-shared-element";
 import { SharedElement } from "react-navigation-shared-element";
-import { endAncestor, endNode } from "@/screens/ChapterDetailsScreen/index";
 // import { Icon } from "@ui-kitten/components";
 import Icon from "react-native-vector-icons/FontAwesome";
-import QuicksandText from "../Common/QuicksandText";
+import QuicksandText, { QFontFamily } from "../Common/QuicksandText";
 // import { useAppDispatch, useAppSelector } from "@/app/hooks";
 // import { homeActions, selectHome } from "@/app/homeSlice";
 
@@ -60,7 +59,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
+export function ComicGrid({
+  list,
+  name,
+  limit,
+  onPressMore,
+  subtitle,
+}: comicListProps) {
   const navigation = useNavigation<HomeNavigationProps>();
 
   let data = list;
@@ -110,6 +115,7 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
     name,
     onPressMore,
     list,
+    subtitle,
   }: comicListProps): JSX.Element => {
     const HeaderHeight = 40;
 
@@ -117,20 +123,34 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
       <View
         style={{
           flexDirection: "row",
-          alignItems: "center",
+          alignItems: "flex-end",
           justifyContent: "space-between",
           marginLeft: 10,
         }}
       >
-        <QuicksandText
+        <View
           style={{
-            fontSize: 20,
-            marginLeft: 10,
-            fontFamily: "Quicksand_600SemiBold",
+            marginLeft: 4,
           }}
         >
-          {name}
-        </QuicksandText>
+          <QuicksandText
+            style={{
+              fontFamily: "Quicksand_600SemiBold",
+              fontSize: 18,
+            }}
+          >
+            {name}
+          </QuicksandText>
+          <QuicksandText
+            style={{
+              fontFamily: QFontFamily.Quicksand_500Medium,
+              fontSize: 13,
+              color: "#ccc",
+            }}
+          >
+            {subtitle}
+          </QuicksandText>
+        </View>
         <Pressable
           onPress={() => {
             onPressMore && onPressMore();
@@ -150,7 +170,7 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
               color: "#837d7d",
             }}
           >
-            More
+            Show more
           </QuicksandText>
           <Icon
             name="angle-right"
@@ -168,14 +188,19 @@ export function ComicGrid({ list, name, limit, onPressMore }: comicListProps) {
 
   return (
     <>
-      <RenderHeader name={name} onPressMore={onPressMore} list={list} />
+      <RenderHeader
+        name={name}
+        onPressMore={onPressMore}
+        list={list}
+        subtitle={subtitle}
+      />
       <FlatList
-        initialNumToRender={6}
+        initialNumToRender={1}
         style={styles.container}
         data={data}
         renderItem={ComicGridRenderItem}
         keyExtractor={(item, index) => {
-          return item.path + index.toString();
+          return index.toString();
         }}
         numColumns={numColumns}
         scrollEnabled={false}

@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
+import QuicksandText, { QFontFamily } from "../Common/QuicksandText";
+import { SharedElement } from "react-navigation-shared-element";
 
 export const PHOTO_SIZE = 120;
 
@@ -41,56 +43,56 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
 
   return (
     <View style={containerStyle}>
-      <View
-        style={{
-          position: "absolute",
-          height: 30,
-          left: 0,
-          right: 0,
-          top: 0,
-          zIndex: 10,
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <AntDesign
-          name="arrowleft"
-          size={30}
-          color={"white"}
-          style={{ margin: 2 }}
-        />
-        <View>
-          <AntDesign
-            name="menuunfold"
-            size={30}
-            color={"white"}
-            style={{ margin: 2 }}
-          />
-        </View>
-      </View>
       <ImageBackground
         style={styles.photo}
         blurRadius={4}
         source={photoSource}
       />
-      <View style={styles.textContainer}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.bio}>{bio}</Text>
-      </View>
-      <Image
-        source={photoSource}
-        width={100}
-        height={100}
-        style={{ width: 150, height: 200 }}
-      />
+      <LinearGradient
+        colors={["#000000d8", "#00000042", "#77777747"]}
+        start={{ x: 0, y: 1.1 }}
+        end={{ x: 0, y: 0 }}
+        style={{
+          flex: 1,
+          // justifyContent: "flex-end",
+          // alignItems: "flex-start",
+          flexDirection: "row",
+          // backgroundColor: "white",
+          alignItems: "flex-end",
+          padding: 12,
+        }}
+      >
+        <View style={styles.textContainer}>
+          <QuicksandText style={styles.name}>{name}</QuicksandText>
+          <Text style={styles.bio}>{bio}</Text>
+        </View>
+        <SharedElement id={`${photo}`}>
+          <Image
+            source={photoSource}
+            width={100}
+            height={100}
+            style={{
+              width: 130,
+              height: 180,
+              borderRadius: 10,
+              borderWidth: 3,
+              borderColor: "#333",
+            }}
+          />
+        </SharedElement>
+      </LinearGradient>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   textContainer: { marginLeft: 8, justifyContent: "flex-end", flex: 1 },
-  name: { fontSize: 24, fontWeight: "700", color: "white" },
-  bio: { fontSize: 15, marginTop: 4, color: "white" },
+  name: {
+    fontSize: 20,
+    fontFamily: QFontFamily.Quicksand_700Bold,
+    color: "white",
+  },
+  bio: { fontSize: 15, marginTop: 4, color: "#ccc" },
   photo: {
     // height: PHOTO_SIZE,
     // width: width,
@@ -103,11 +105,19 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: "row",
-    backgroundColor: "white",
-    alignItems: "flex-end",
-    padding: 24,
+    // backgroundColor: "white",
+    // alignItems: "flex-end",
+    // padding: 24,
     height: 280,
   },
 });
 
 export default memo(Header);
+
+// FIXME: Fix type of sharedElement config
+// @ts-ignore
+Header.sharedElements = (navigation: any) => {
+  // const item = navigation.getParam("ComicDetails");
+  console.log(navigation.route.params.comic.posterUrl);
+  return [`${navigation.route.params.comic.posterUrl}`];
+};

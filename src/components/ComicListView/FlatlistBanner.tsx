@@ -40,7 +40,7 @@ export const FlatlistBanner = () => {
   }, [isFetching]);
 
   return (
-    <SafeAreaView>
+    <View>
       <SwiperFlatList
         autoplay
         autoplayDelay={25}
@@ -49,12 +49,13 @@ export const FlatlistBanner = () => {
         // autoplayInvertDirection
         data={isSuccess ? list : []}
         renderItem={(props) => <Item {...props} />}
-        // showPagination
+        showPagination
         initialNumToRender={1}
-        // PaginationComponent={CustomPagination}
+        PaginationComponent={CustomPagination}
+
         // horizontal
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -118,7 +119,7 @@ const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
               >
                 {item?.name}
               </QuicksandText>
-              <View>
+              <View style={{ marginBottom: 10 }}>
                 <QuicksandText style={{ color: "white" }}>
                   {item?.lastedChapters && item?.lastedChapters[0].chapterName}
                 </QuicksandText>
@@ -128,7 +129,7 @@ const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
                 </QuicksandText>
               </View>
             </View>
-            <SharedElement id={`poster.${item.posterUrl}`}>
+            <SharedElement id={`${item.posterUrl}`}>
               <Image
                 // ref={imgRef}
                 style={styles.image}

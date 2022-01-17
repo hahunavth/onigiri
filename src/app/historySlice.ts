@@ -1,92 +1,70 @@
+import { resComicDetailChapterItem_T, resComicDetail_T } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 // import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs'
 
-type WriteTime = {
-  createdAt: Date;
-  updatedAt: Date;
+type TimestampT = {
+  createdAt?: Date | number | string;
+  updatedAt?: Date | number | string;
 };
 
+type HistoryComicT = resComicDetail_T &
+  TimestampT & {
+    chapters: (resComicDetailChapterItem_T & TimestampT)[];
+    lastedReadChapter?: string;
+  };
+
 type HistoryStoreT = {
-  comics: {
-    [k: string]: WriteTime;
-  };
-  chapters: {
-    [k: string]: WriteTime;
-  };
+  comics: HistoryComicT[];
 };
 
 const initialState: HistoryStoreT = {
-  comics: {},
-  chapters: {},
+  comics: [],
 };
 
 const historySlice = createSlice({
   name: "history",
   initialState,
   reducers: {
-    pushComic: (state, action: PayloadAction<string>) => {
-      const comicPath = action.payload;
-      if (!comicPath) {
-        return state;
-      }
-
-      if (state.comics[comicPath]) {
-        const prevComic = state.comics[comicPath];
-        const nextComic: WriteTime = {
-          ...prevComic,
-          updatedAt: new Date(),
-        };
-        return {
-          ...state,
-          comics: { ...state.comics, [comicPath]: nextComic },
-        };
-      }
-
+    pushComic: (state, action: PayloadAction<resComicDetail_T>) => {
+      const historyComic: HistoryComicT = {
+        ...action.payload,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        lastedReadChapter: "",
+      };
       return {
         ...state,
-        comics: {
-          ...state.comics,
-          [comicPath]: {
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-        },
+        comics: [...state.comics, historyComic],
       };
     },
-
-    pushChapter: (state, action: PayloadAction<string>) => {
-      const chapterPath = action.payload;
-      if (!chapterPath) {
-        return state;
-      }
-
-      if (state.chapters[chapterPath]) {
-        const prevComic = state.chapters[chapterPath];
-        const nextComic: WriteTime = {
-          ...prevComic,
-          updatedAt: new Date(),
-        };
-        return {
-          ...state,
-          chapters: { ...state.chapters, [chapterPath]: nextComic },
-        };
-      }
-
+    pushChapter: (
+      state,
+      action: PayloadAction<{ comicPath: string; chapterPath: string }>
+    ) => {
       return {
         ...state,
-        chapters: {
-          ...state.chapters,
-          [chapterPath]: {
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-        },
+        comics: state.comics.map((c) => {
+          if (c.path === action.payload.comicPath) {
+            return {
+              ...c,
+              chapters: c.chapters.map((cpt) => {
+                if (cpt.path === action.payload.chapterPath) {
+                  return {
+                    ...cpt,
+                    createdAt: Date.now(),
+                  };
+                }
+                return cpt;
+              }),
+            };
+          }
+          return c;
+        }),
       };
     },
   },
 });
-
 
 export const historyAction = historySlice.actions;
 export const historySelector = (state: RootState) => state.history;

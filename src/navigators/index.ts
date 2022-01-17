@@ -7,8 +7,7 @@ export const navigationRef = createNavigationContainerRef<RootStackParamList>();
 // STUB: Wrap navigate function to use autocomplete prop
 function wrap<T extends Function>(fn: T): T {
   return <any>function (...args: any) {
-    if (navigationRef.isReady())
-     fn(...args);
+    if (navigationRef.isReady()) fn(...args);
   };
 }
 // STUB: If use js

@@ -14,7 +14,7 @@ const MyIcon = (props: IconProps) => <Icon {...props} />;
 const CategoryBtn = (props: CategoryBtnProps) => {
   return (
     <TouchableOpacity style={styles.container}>
-      <MyIcon name={props.iconName} style={styles.icon} />
+      <MyIcon name={props.iconName} style={styles.icon} fill="#ffffff" />
       <QuicksandText style={styles.text}>{props.name}</QuicksandText>
     </TouchableOpacity>
   );
@@ -33,10 +33,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   icon: {
-    width: 52,
-    height: 52,
-    padding: 1,
-    backgroundColor: "blue",
+    width: 32,
+    height: 32,
+    margin: 8,
   },
   text: {
     textAlign: "center",

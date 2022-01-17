@@ -42,10 +42,7 @@ interface initialStateT {
  */
 export const downloadComicThunk = createAsyncThunk(
   "downloadComicThunk",
-  async (
-    chapterPath: string,
-    { getState, dispatch,signal }
-  )=> {
+  async (chapterPath: string, { getState, dispatch, signal }) => {
     // get state
     const state = getState() as RootState;
 
@@ -60,9 +57,9 @@ export const downloadComicThunk = createAsyncThunk(
     const comicRes = await fetch(
       `https://hahunavth-express-api.herokuapp.com/api/v1${comicPath}`
     );
-    const comic = (await comicRes.json());
+    const comic = await comicRes.json();
 
-    console.log(comic, comicRes)
+    // console.log(comic, comicRes)
 
     // handle request error
     if (!comic) throw Error("Can't get comic");
@@ -81,9 +78,11 @@ export const downloadComicThunk = createAsyncThunk(
     // save image
     const fileUrls = chapter ? await addMultipleImgs(chapter?.images) : [];
 
-    // change state 
-    dispatch(downloadSlice.actions.newComic(comic))
-    dispatch(downloadSlice.actions.saveChapter({chapter, fileUrls: fileUrls || []}))
+    // change state
+    dispatch(downloadSlice.actions.newComic(comic));
+    dispatch(
+      downloadSlice.actions.saveChapter({ chapter, fileUrls: fileUrls || [] })
+    );
 
     // Success
     await scheduleCustomNotification({
@@ -94,7 +93,7 @@ export const downloadComicThunk = createAsyncThunk(
       },
       trigger: { seconds: 1 },
     });
-    
+
     return {
       fileUrls: fileUrls || [],
       chapter: chapter,
@@ -184,7 +183,7 @@ const downloadSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(downloadComicThunk.fulfilled, (state, action) => {
-      console.log(action.payload)
+      console.log(action.payload);
       return state;
     });
     builder.addCase(downloadComicThunk.rejected, (state, action) => {

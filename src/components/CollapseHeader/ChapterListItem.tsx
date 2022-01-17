@@ -10,6 +10,7 @@ import {
   ViewProps,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import QuicksandText, { QFontFamily } from "../Common/QuicksandText";
 
 export const PHOTO_SIZE = 40;
 
@@ -30,14 +31,19 @@ const ConnectionItem: FC<Props> = ({ style, chapter: connection, id }) => {
       onPress={() => navigate("Chapter", { path: connection.path, id })}
     >
       {/* <Image style={styles.image} source={{ uri: photo }} /> */}
-      <Text style={styles.name}>{name}</Text>
-      <Text>{updatedDistance}</Text>
+      <QuicksandText style={styles.name}>{name}</QuicksandText>
+      <QuicksandText style={{ color: "#ccc" }}>{updatedDistance}</QuicksandText>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { alignItems: "center", flexDirection: "row", padding: 16 },
+  container: {
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 16,
+    justifyContent: "space-between",
+  },
   image: {
     height: PHOTO_SIZE,
     width: PHOTO_SIZE,
@@ -46,7 +52,8 @@ const styles = StyleSheet.create({
   name: {
     marginLeft: 8,
     fontSize: 15,
-    fontWeight: "500",
+    // fontWeight: "500",
+    fontFamily: QFontFamily.Quicksand_600SemiBold,
   },
 });
 

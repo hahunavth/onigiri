@@ -20,12 +20,6 @@ import { HomeNavigationProps } from "src/navigators/Main/BottomMenu";
 import { RootStackParamList } from "src/navigators/StackNavigator";
 import { comicListProps } from "./ComicList";
 import { resComicItem_T } from "src/types/api";
-import {
-  SharedElement,
-  SharedElementTransition,
-  nodeFromRef,
-} from "react-native-shared-element";
-import { endAncestor, endNode } from "@/screens/ChapterDetailsScreen/index";
 // import { Icon } from "@ui-kitten/components";
 import Icon from "react-native-vector-icons/FontAwesome";
 import QuicksandText from "../Common/QuicksandText";
@@ -63,25 +57,34 @@ const RenderHeader = ({
   name,
   onPressMore,
   list,
+  subtitle,
 }: comicListProps): JSX.Element => {
   return (
     <View
       style={{
         flexDirection: "row",
-        alignItems: "center",
+        alignItems: "flex-end",
         justifyContent: "space-between",
         marginLeft: 10,
       }}
     >
-      <QuicksandText
+      <View
         style={{
-          fontSize: 20,
-          marginLeft: 10,
-          fontFamily: "Quicksand_600SemiBold",
+          marginLeft: 4,
         }}
       >
-        {name}
-      </QuicksandText>
+        <QuicksandText
+          style={{
+            fontSize: 20,
+            fontFamily: "Quicksand_600SemiBold",
+          }}
+        >
+          {name}
+        </QuicksandText>
+        <QuicksandText style={{ fontSize: 13, color: "#ccc" }}>
+          {subtitle}
+        </QuicksandText>
+      </View>
       <Pressable
         onPress={() => {
           onPressMore && onPressMore();
@@ -101,7 +104,7 @@ const RenderHeader = ({
             color: "#837d7d",
           }}
         >
-          More
+          Show more
         </QuicksandText>
         <Icon
           name="angle-right"
@@ -118,7 +121,13 @@ const RenderHeader = ({
   );
 };
 
-export function ComicGrid2({ list, name, limit, onPressMore }: comicListProps) {
+export function ComicGrid2({
+  list,
+  name,
+  limit,
+  onPressMore,
+  subtitle,
+}: comicListProps) {
   // console.log("🚀 ~ file: ComicIconList.tsx ~ line 50 ~ Grid ~ list", list);
   let data = list;
 
@@ -142,7 +151,7 @@ export function ComicGrid2({ list, name, limit, onPressMore }: comicListProps) {
             comic: item,
             // ComicDetails: item,
           });
-          console.log(item.path);
+          // console.log(item.path);
         }}
       >
         <View style={styles.itemContainer}>
@@ -164,7 +173,12 @@ export function ComicGrid2({ list, name, limit, onPressMore }: comicListProps) {
 
   return (
     <>
-      <RenderHeader list={list} name={name} onPressMore={onPressMore} />
+      <RenderHeader
+        list={list}
+        name={name}
+        onPressMore={onPressMore}
+        subtitle={subtitle}
+      />
       <FlatList
         style={styles.container}
         data={data}

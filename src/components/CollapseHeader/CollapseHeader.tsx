@@ -1,4 +1,8 @@
-import { resComicDetailChapterItem_T, resComicDetail_T } from "@/types";
+import {
+  resComicDetailChapterItem_T,
+  resComicDetail_T,
+  resComicItem_T,
+} from "@/types";
 import React, { FC, memo, useCallback, useMemo, useRef, useState } from "react";
 import {
   Dimensions,
@@ -44,9 +48,12 @@ import { Button, Icon, Layout } from "@ui-kitten/components";
 import { AntDesign } from "@expo/vector-icons";
 import QuicksandText from "../Common/QuicksandText";
 import DetailList from "./DetailList";
+import { useAppSelector } from "@/app/hooks";
+import { selectHome } from "@/app/homeSlice";
 
 type Props = {
   comic?: resComicDetail_T;
+  routeParam?: resComicItem_T;
 };
 
 // Constant
@@ -251,84 +258,92 @@ export const CollapseHeader = (props: Props) => {
   );
 
   return (
-    <View style={styles.container}>
-      <Animated.View onLayout={handleHeaderLayout} style={headerContainerStyle}>
-        <Header
-          name={props.comic?.title || ""}
-          bio="Let's get started 🚀"
-          photo={props.comic?.posterUrl || ""}
-        />
-      </Animated.View>
-      <Animated.View style={collapsedOverlayStyle}>
-        <HeaderOverlay name={props.comic?.title || ""} />
-      </Animated.View>
-      <Tab.Navigator
-        tabBar={renderTabBar}
-        pageMargin={10}
-        screenOptions={{
-          tabBarStyle: {},
-          tabBarLabelStyle: {},
-          tabBarItemStyle: {
-            margin: -5,
-            justifyContent: "center",
-            alignItems: "center",
-          },
-          tabBarIndicatorStyle: {
-            backgroundColor: "red",
-          },
-          tabBarActiveTintColor: "red",
-          tabBarAllowFontScaling: false,
-          tabBarInactiveTintColor: "gray",
-          tabBarPressColor: "transparent",
-          // tabBarContentContainerStyle: { backgroundColor: "blue" },
-          // tabBarShowLabel: false,
-          // tabBarBounces: true,
-          // lazy: true,
-        }}
-      >
-        <Tab.Screen name="Friends">{renderFriends}</Tab.Screen>
-        <Tab.Screen name="Suggestions">{renderSuggestions}</Tab.Screen>
-      </Tab.Navigator>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: 5,
-          // height: 64,
-          // margin: 0,
-          // padding: -10,
-          // position: "absolute",
-          // bottom: 0,
-          // left: 0,
-          // right: 0,
-          // height: 100,
-        }}
-      >
-        <TouchableOpacity
-          style={{ margin: "auto", alignItems: "center", marginLeft: 24 }}
+    <SafeAreaView style={{ marginTop: -28, flex: 1 }}>
+      <View style={styles.container}>
+        <Animated.View
+          onLayout={handleHeaderLayout}
+          style={headerContainerStyle}
         >
-          <AntDesign name="sharealt" size={24} />
-          <QuicksandText style={{ fontSize: 11 }}>Share</QuicksandText>
-        </TouchableOpacity>
-        <TouchableOpacity style={{ margin: "auto", alignItems: "center" }}>
-          <AntDesign name="adduser" size={24} />
-          <QuicksandText style={{ fontSize: 11 }}>Subscribe</QuicksandText>
-        </TouchableOpacity>
-        <Button
-          status={"danger"}
-          style={{
-            width: 210,
-            borderRadius: 100,
-            margin: 0,
-            padding: 0,
-            marginRight: 12,
+          <Header
+            name={props.routeParam?.name || props.comic?.title || ""}
+            bio={`Rating: ${props.comic?.rate}`}
+            photo={props.routeParam?.posterUrl || props.comic?.posterUrl || ""}
+          />
+        </Animated.View>
+        <Animated.View style={collapsedOverlayStyle}>
+          <HeaderOverlay
+            name={props.comic?.title || ""}
+            numChapter={props.comic?.chapters?.length || 0}
+          />
+        </Animated.View>
+        <Tab.Navigator
+          tabBar={renderTabBar}
+          pageMargin={10}
+          screenOptions={{
+            tabBarStyle: {},
+            tabBarLabelStyle: {},
+            tabBarItemStyle: {
+              margin: -5,
+              justifyContent: "center",
+              alignItems: "center",
+            },
+            tabBarIndicatorStyle: {
+              backgroundColor: "red",
+            },
+            tabBarActiveTintColor: "red",
+            tabBarAllowFontScaling: false,
+            tabBarInactiveTintColor: "gray",
+            tabBarPressColor: "transparent",
+            // tabBarContentContainerStyle: { backgroundColor: "blue" },
+            // tabBarShowLabel: false,
+            // tabBarBounces: true,
+            // lazy: true,
           }}
         >
-          Read from first
-        </Button>
+          <Tab.Screen name="Friends">{renderFriends}</Tab.Screen>
+          <Tab.Screen name="Suggestions">{renderSuggestions}</Tab.Screen>
+        </Tab.Navigator>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: 5,
+            // height: 64,
+            // margin: 0,
+            // padding: -10,
+            // position: "absolute",
+            // bottom: 0,
+            // left: 0,
+            // right: 0,
+            // height: 100,
+          }}
+        >
+          <TouchableOpacity
+            style={{ margin: "auto", alignItems: "center", marginLeft: 24 }}
+          >
+            <AntDesign name="sharealt" size={24} />
+            <QuicksandText style={{ fontSize: 11 }}>Share</QuicksandText>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ margin: "auto", alignItems: "center" }}>
+            <AntDesign name="adduser" size={24} />
+            <QuicksandText style={{ fontSize: 11 }}>Subscribe</QuicksandText>
+          </TouchableOpacity>
+          <Button
+            status={"danger"}
+            style={{
+              width: 210,
+              borderRadius: 100,
+              margin: 0,
+              padding: 0,
+              marginRight: 12,
+            }}
+          >
+            Read now!
+          </Button>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

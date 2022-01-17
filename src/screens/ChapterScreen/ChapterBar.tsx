@@ -2,7 +2,13 @@ import { MyBlurView } from "@/components/Common/MyBlurView.native";
 import QuicksandText from "@/components/Common/QuicksandText";
 import { Icon } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
-import { View, useWindowDimensions, StyleSheet } from "react-native";
+import {
+  View,
+  useWindowDimensions,
+  StyleSheet,
+  ViewProps,
+  ViewStyle,
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useAppSelector } from "@/app/hooks";
@@ -10,8 +16,11 @@ import { selectHome } from "@/app/homeSlice";
 import { useNavigation } from "@react-navigation/native";
 import { MainNavigationProps } from "@/navigators";
 import { usePrefetch } from "@/app/api";
+import Animated from "react-native-reanimated";
 
-interface Props {}
+interface Props {
+  style?: ViewStyle;
+}
 
 const ChapterBar = (props: Props) => {
   const home = useAppSelector(selectHome);
@@ -29,35 +38,32 @@ const ChapterBar = (props: Props) => {
     const length = home.currentComic?.chapters.length;
     const id = home.currentChapter?.id;
     const list = home.currentComic?.chapters;
-
     if (id && length && list) {
       if (id < length - 1) {
         setNextChapter(() => list[id + 1].path);
-        chapterCallback(list[id + 1].path);
+        if (list[id + 1].path) chapterCallback(list[id + 1].path);
       }
       if (id > 0) {
         setPrevChapter(() => list[id - 1].path);
-        chapterCallback(list[id + 1].path);
+        if (list[id - 1].path) chapterCallback(list[id - 1].path);
       }
     }
-
-    console.log(prevChapter, nextChapter, length, id);
-
-    // home.currentComic?.chapters.indexOf();
   }, [home.currentChapter?.chapterName]);
 
   return (
-    <View
-      style={{
-        position: "absolute",
-        bottom: 4,
-        width: width - PADDING,
-        height: 64,
-        marginHorizontal: PADDING / 2,
-        marginBottom: 4,
-        backgroundColor: "transparent",
-        // flex: 1,
-      }}
+    <Animated.View
+      style={[
+        {
+          position: "absolute",
+          bottom: 4,
+          width: width - PADDING,
+          height: 64,
+          marginHorizontal: PADDING / 2,
+          marginBottom: 4,
+          backgroundColor: "transparent",
+        },
+        props.style,
+      ]}
     >
       <MyBlurView
         style={[
@@ -106,12 +112,7 @@ const ChapterBar = (props: Props) => {
             }
           }}
         >
-          {/* <Icon
-            name="arrowhead-left-outline"
-            style={{ width: 32, height: 32, color: "white" }}
-          /> */}
           <AntDesign name={"arrowleft"} size={32} style={{ color: "white" }} />
-          {/* <QuicksandText>aaaaaaa</QuicksandText> */}
         </TouchableOpacity>
         <TouchableOpacity>
           <AntDesign name={"like2"} size={32} style={{ color: "white" }} />
@@ -142,7 +143,7 @@ const ChapterBar = (props: Props) => {
       >
         {home.currentChapter?.chapterName}
       </QuicksandText>
-    </View>
+    </Animated.View>
   );
 };
 

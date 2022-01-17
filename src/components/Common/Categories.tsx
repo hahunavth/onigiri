@@ -13,10 +13,10 @@ import SessionHeader from "./SessionHeader";
 interface Props {}
 
 const CategoryList: CategoryBtnProps[] = [
-  { name: "Bang xep Hang", iconName: "home", onPress: () => null },
-  { name: "Phan loai", iconName: "home", onPress: () => null },
-  { name: "Tim kiem", iconName: "home", onPress: () => null },
-  { name: "More", iconName: "home", onPress: () => null },
+  { name: "Bang xep Hang", iconName: "map-outline", onPress: () => null },
+  { name: "Phan loai", iconName: "pantone-outline", onPress: () => null },
+  { name: "Tim kiem", iconName: "search-outline", onPress: () => null },
+  { name: "More", iconName: "more-horizontal-outline", onPress: () => null },
 ];
 
 const Categories = (props: Props) => {

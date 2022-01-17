@@ -19,18 +19,6 @@ import { Animated } from "react-native";
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<ComicDetailsTopTabNavigatorParamList>();
 
-const UsersScreen = () => (
-  <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <Text category="h1">USERS</Text>
-  </Layout>
-);
-
-const OrdersScreen = () => (
-  <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <Text category="h1">ORDERS</Text>
-  </Layout>
-);
-
 const TopTabBar = ({ navigation, state }: MaterialTopTabBarProps) => (
   <TabBar
     selectedIndex={state.index}

@@ -286,21 +286,21 @@ export const ComicDetailsScreen = (props: ComicDetailsScreenProps) => {
     };
   }, [data]);
 
-  if (isLoading) {
-    return <View></View>;
-  }
+  // if (isLoading || !props.route.params.comic) {
+  //   return <View></View>;
+  // }
 
   return (
     <View style={{ flex: 1 }}>
-      <CollapseHeader comic={data} />
+      <CollapseHeader comic={data} routeParam={props.route.params.comic} />
     </View>
   );
 };
 
-// FIXME: Fix type of sharedElement config
-// @ts-ignore
-ComicDetailsScreen.sharedElements = (navigation: any) => {
-  // const item = navigation.getParam("ComicDetails");
-  // console.log(navigation.route.params.comic.posterUrl);
-  return [`${navigation.route.params.comic.posterUrl}`];
-};
+// // FIXME: Fix type of sharedElement config
+// // @ts-ignore
+// ComicDetailsScreen.sharedElements = (navigation: any) => {
+//   // const item = navigation.getParam("ComicDetails");
+//   // console.log(navigation.route.params.comic.posterUrl);
+//   return [`${navigation.route.params.comic.posterUrl}`];
+// };

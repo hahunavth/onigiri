@@ -29,6 +29,8 @@ import { resComicItem_T } from "@/types/api";
 import { StyleSheet, Text, View } from "react-native";
 // import { BlurView } from "@react-native-community/blur";
 import { MyBlurView } from "@/components/Common/MyBlurView.native";
+import { Icon } from "@ui-kitten/components";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 // NOTE: Screen Props Type
 export type ComicDetailsScreenProps = NativeStackScreenProps<
@@ -126,6 +128,7 @@ export function StackNavigator() {
             fontSize: 16,
             fontFamily: QFontFamily.Quicksand_600SemiBold,
           },
+          // headerShown: false,
           // headerStyle: {
           //   opacity: 0.5,
           //   backgroundColor: "transparent",
@@ -135,24 +138,51 @@ export function StackNavigator() {
           //   // position: "absolute",
           //   borderBottomWidth: 0,
           // },
+          headerTransparent: true,
           headerTitleAlign: "center",
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                width: 40,
+                justifyContent: "center",
+                alignItems: "flex-end",
+              }}
+            >
+              <Icon
+                name="arrow-back-outline"
+                style={{ width: 32, height: 32 }}
+                fill="#8F9BB3"
+              />
+            </TouchableOpacity>
+          ),
           headerRight: () => (
-            <QuicksandText style={{ color: "black" }}>a</QuicksandText>
+            <TouchableOpacity
+              style={{ flex: 1, width: 40, justifyContent: "center" }}
+            >
+              <Icon
+                name="menu-2-outline"
+                style={{ width: 32, height: 32 }}
+                fill="#8F9BB3"
+              />
+            </TouchableOpacity>
           ),
-          headerBackground: () => (
-            <LinearGradient
-              colors={["#cedae7", "#d6c8c8"]}
-              style={{ flex: 1 }}
-            ></LinearGradient>
-          ),
+          headerTitle: "",
+          // headerBackground: () => (
+          //   // <LinearGradient
+          //   //   colors={["#cedae7", "#d6c8c8"]}
+          //   //   style={{ flex: 1, opacity: 0.7 }}
+          //   // ></LinearGradient>
+          // ),
         }}
       />
       <Stack.Screen
         name="Chapter"
         options={{
+          // headerStyle:
           // header: () => <BlurHeader />,
           // headerTransparent: true,
-          headerTransparent: true,
+          // headerTransparent: true,
           // headerStatusBarHeight: -12,
           headerBackground: (props) => (
             // <BlurView

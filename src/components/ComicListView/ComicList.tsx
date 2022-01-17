@@ -25,6 +25,7 @@ const data = new Array(8).fill({
 export type comicListProps = {
   list: resComicItem_T[] | undefined;
   name: string;
+  subtitle?: string;
   limit?: number;
   onPressMore?: () => any;
 };
