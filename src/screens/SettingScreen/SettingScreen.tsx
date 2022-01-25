@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Image, InteractionManager } from "react-native";
 import {
   Button,
   Card,
@@ -18,38 +18,56 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { settingAction, settingSelector } from "@/app/settingSlice";
 import QuicksandText from "@/components/Common/QuicksandText";
 import { navigate } from "@/navigators";
+import FadeInView from "@/components/Common/FadeInView";
+import { SafeAreaView } from "react-native-safe-area-context";
+import NavigatorHeader from "@/components/Common/NavigatorHeader";
 
-const data = new Array(8).fill({
-  title: "Item",
-});
 // ListCustomItemShowcase
-export const SettingScreen = () => {
+export function SettingScreen() {
   const styles = useStyleSheet(themeStyled);
 
   const dispatch = useAppDispatch();
   const setting = useAppSelector(settingSelector);
 
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    InteractionManager.runAfterInteractions(() => setIsReady(true));
+  }, []);
+
   return (
-    <Layout style={styles.container} level="4">
-      <Layout style={styles.settingItem} level={"2"}>
-        <QuicksandText numberOfLines={1} style={styles.title}>
-          Dark theme
-        </QuicksandText>
-        <Toggle
-          checked={setting.theme === "light"}
-          onChange={() => dispatch(settingAction.switchTheme())}
-        ></Toggle>
-      </Layout>
-      <Divider />
-      <Button onPress={() => navigate("Test")}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <Layout style={styles.container} level="4">
+        <NavigatorHeader
+          title="Setting"
+          headerContainerStyle={{ position: "relative", paddingTop: -40 }}
+        />
+        {isReady ? (
+          <>
+            <FadeInView>
+              <Layout style={styles.settingItem} level={"2"}>
+                <QuicksandText numberOfLines={1} style={styles.title}>
+                  Dark theme
+                </QuicksandText>
+                <Toggle
+                  checked={setting.theme === "light"}
+                  onChange={() => dispatch(settingAction.switchTheme())}
+                ></Toggle>
+              </Layout>
+              <Divider />
+            </FadeInView>
+          </>
+        ) : null}
+        {/* <Button onPress={() => navigate("Test")}>
         <Text>Hello</Text>
       </Button>
       <Button onPress={() => navigate("Test2")}>
         <Text>Hello2</Text>
-      </Button>
-    </Layout>
+      </Button> */}
+      </Layout>
+    </SafeAreaView>
   );
-};
+}
 
 const themeStyled = StyleService.create({
   container: {

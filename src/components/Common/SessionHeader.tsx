@@ -3,69 +3,61 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { comicListProps } from "../ComicListView/ComicList";
 import QuicksandText from "./QuicksandText";
-import { Layout } from "@ui-kitten/components";
+import { Layout, StyleService, useStyleSheet } from "@ui-kitten/components";
+import { ColorSchemeE } from "@/styles/colorScheme";
 
 const SessionHeader = ({
   name,
   onPressMore,
 }: Partial<comicListProps>): JSX.Element => {
-  const HeaderHeight = 40;
+  const styles = useStyleSheet(themedStyles);
 
   return (
-    <Layout
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginLeft: 10,
-      }}
-    >
-      <QuicksandText
-        style={{
-          fontSize: 20,
-          marginLeft: 10,
-          fontFamily: "Quicksand_600SemiBold",
-        }}
-      >
-        {name}
-      </QuicksandText>
+    <View style={styles.container}>
+      <QuicksandText style={styles.title}>{name}</QuicksandText>
       {onPressMore && (
         <>
           <Pressable
             onPress={() => {
               onPressMore();
             }}
-            style={{
-              // width: HeaderHeight,
-              // height: HeaderHeight,
-              // flex: 1,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
+            style={styles.btn}
           >
-            <QuicksandText
-              style={{
-                // width: HeaderHeight, height: HeaderHeight,
-                fontSize: 14,
-                color: "#837d7d",
-              }}
-            >
-              More
-            </QuicksandText>
-            <Icon
-              name="angle-right"
-              style={{
-                fontSize: 20,
-                color: "#837d7d",
-                marginLeft: 4,
-                marginRight: 16,
-              }}
-            />
+            <QuicksandText style={styles.btnText}>More</QuicksandText>
+            <Icon name="angle-right" style={styles.btnIcon} />
           </Pressable>{" "}
         </>
       )}
-    </Layout>
+    </View>
   );
 };
+
+const themedStyles = StyleService.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginLeft: 10,
+  },
+  title: {
+    fontSize: 20,
+    marginLeft: 10,
+    fontFamily: "Quicksand_600SemiBold",
+  },
+  btn: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  btnText: {
+    fontSize: 14,
+    color: ColorSchemeE["text-hint-color"],
+  },
+  btnIcon: {
+    fontSize: 20,
+    color: ColorSchemeE["text-hint-color"],
+    marginLeft: 4,
+    marginRight: 16,
+  },
+});
 
 export default SessionHeader;

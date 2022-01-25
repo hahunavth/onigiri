@@ -6,6 +6,7 @@ import {
   BottomTabNavigationProp,
   BottomTabHeaderProps,
 } from "@react-navigation/bottom-tabs";
+// import {} from "@react-navigation/material-top-tabs"
 import { View } from "react-native";
 import { useSafeArea } from "react-native-safe-area-context";
 
@@ -26,15 +27,14 @@ import {
   Icon,
 } from "@ui-kitten/components";
 
-// import { BlurView } from "@react-native-community/blur";
-import { MyBlurView } from "@/components/Common/MyBlurView.native";
+import { MyBlurView } from "@/components/Common/MyBlurView";
+import FadeInView from "@/components/Common/FadeInView";
 // export enum BTScreenName {
 //   home = "home",
 //   dashboard = "dashboard",
 //   profile = "profile",
 //   setting = "setting",
 // }
-
 export const BottomTabScreenName = {
   home: "home",
   dashboard: "dashboard",
@@ -97,7 +97,7 @@ const SettingIconSelected = (props: IconProps) => {
 };
 
 const BottomTabBar = ({ navigation, state }: BottomTabBarProps) => {
-  console.log(state);
+  // console.log(state);
 
   const routeList = [
     { title: "Home", icon: HomeIcon, selectedIcon: HomeIconSelected },
@@ -125,6 +125,11 @@ const BottomTabBar = ({ navigation, state }: BottomTabBarProps) => {
 };
 
 export const BottomMenu = (mainNavigation: MainScreenProps) => {
+  const forFade = ({ current }: any) => ({
+    cardStyle: {
+      opacity: current.progress,
+    },
+  });
   return (
     <View style={{ flex: 1, position: "relative" }}>
       <Tab.Navigator
@@ -144,21 +149,46 @@ export const BottomMenu = (mainNavigation: MainScreenProps) => {
         //     ></MyBlurView>
         //   ),
         // }}
+        // detachInactiveScreens={false}
+        screenOptions={{
+          tabBarVisibilityAnimationConfig: {
+            show: {
+              config: {
+                stiffness: 1000,
+                damping: 500,
+                mass: 3,
+                overshootClamping: true,
+                restDisplacementThreshold: 0.01,
+                restSpeedThreshold: 0.01,
+              },
+              animation: "spring",
+            },
+          },
+          // unmountOnBlur: true,
+        }}
       >
         <Tab.Screen
           name="home"
-          component={AppsScreen}
+          component={FadeAppScreen}
           options={{
             headerShown: false,
           }}
         />
-        <Tab.Screen name="dashboard" component={DashboardScreen} />
+        <Tab.Screen
+          name="dashboard"
+          component={DashboardScreen}
+          options={{ headerShown: false }}
+        />
         <Tab.Screen
           name="profile"
           component={FindComicScreen}
           options={{ headerShown: false }}
         />
-        <Tab.Screen name="setting" component={SettingScreen} />
+        <Tab.Screen
+          name="setting"
+          component={SettingScreen}
+          options={{ headerShown: false }}
+        />
       </Tab.Navigator>
       {useSafeArea().bottom > 0 && (
         <View
@@ -190,3 +220,9 @@ function CustomHeader(props: BottomTabHeaderProps) {
     </Layout>
   );
 }
+
+const FadeAppScreen = (props: any) => (
+  <FadeInView>
+    <AppsScreen {...props} />
+  </FadeInView>
+);

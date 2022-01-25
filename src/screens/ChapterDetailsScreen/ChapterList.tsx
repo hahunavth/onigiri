@@ -184,6 +184,7 @@ const ChapterList: React.FunctionComponent<
               navigator.navigate("Chapter", {
                 path: item.item.path,
                 id: item.index,
+                name: item.item.name,
               })
             }
           >

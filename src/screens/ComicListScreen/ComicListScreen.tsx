@@ -17,6 +17,7 @@ import {
 
 import { useApiRecently } from "@/app/api";
 import { ComicListScreenProps } from "@/navigators/StackNavigator";
+import { Layout, withStyles } from "@ui-kitten/components";
 
 export const ComicListScreen = ({
   navigation,
@@ -73,7 +74,7 @@ export const ComicListScreen = ({
     );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Layout level={"3"} style={styles.container}>
       <FlatList
         data={[1]}
         renderItem={() => <ComicList list={comicList} name="" />}
@@ -105,7 +106,7 @@ export const ComicListScreen = ({
           color={"red"}
         />
       ) : null}
-    </SafeAreaView>
+    </Layout>
   );
 };
 

@@ -6,7 +6,7 @@ interface Props {}
 
 export const SubscribeTab = (props: Props) => {
   return (
-    <Layout>
+    <Layout style={{ flex: 1 }}>
       <Text>Subscribe tab</Text>
     </Layout>
   );

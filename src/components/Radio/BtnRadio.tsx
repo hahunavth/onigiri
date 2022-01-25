@@ -8,55 +8,6 @@ import {
   SelectItem,
 } from "@ui-kitten/components";
 
-interface BtnRadioProps {
-  list: number[] | string[];
-  onChange: (value: any) => any;
-  selectedId: number | boolean[];
-  isMultiSelect?: boolean;
-}
-
-export const BtnRadio = ({
-  list,
-  selectedId: selected,
-  isMultiSelect,
-  onChange,
-}: BtnRadioProps) => {
-  return (
-    <Layout
-      style={{
-        flexDirection: "row",
-        flexWrap: "wrap",
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-      }}
-    >
-      {isMultiSelect
-        ? list.map((num, id) => (
-            <MemoBtnMulti
-              key={id}
-              value={num}
-              isActivated={
-                typeof selected === "object" &&
-                typeof selected[id] === "boolean" &&
-                selected[id] === true
-              }
-              id={id}
-              onChange={onChange}
-            />
-          ))
-        : list.map((num, id) => (
-            <MemoBtn
-              key={id}
-              value={num}
-              isActivated={selected === id}
-              onChange={onChange}
-              id={id}
-            />
-          ))}
-    </Layout>
-  );
-};
-
 type MemoBtnProps = Pick<BtnRadioProps, "onChange"> & {
   value: string | number;
   isActivated: boolean;
@@ -108,3 +59,54 @@ const MemoBtnMulti = React.memo(
     );
   }
 );
+
+interface BtnRadioProps {
+  list: number[] | string[];
+  onChange: (value: any) => any;
+  selectedId: number | boolean[];
+  isMultiSelect?: boolean;
+}
+
+export const BtnRadio1 = ({
+  list,
+  selectedId: selected,
+  isMultiSelect,
+  onChange,
+}: BtnRadioProps) => {
+  return (
+    <Layout
+      style={{
+        flexDirection: "row",
+        flexWrap: "wrap",
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+      }}
+    >
+      {isMultiSelect
+        ? list.map((num, id) => (
+            <MemoBtnMulti
+              key={id}
+              value={num}
+              isActivated={
+                typeof selected === "object" &&
+                typeof selected[id] === "boolean" &&
+                selected[id] === true
+              }
+              id={id}
+              onChange={onChange}
+            />
+          ))
+        : list.map((num, id) => (
+            <MemoBtn
+              key={id}
+              value={num}
+              isActivated={selected === id}
+              onChange={onChange}
+              id={id}
+            />
+          ))}
+    </Layout>
+  );
+};
+
+export const BtnRadio = React.memo(BtnRadio1);

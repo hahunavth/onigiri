@@ -28,7 +28,7 @@ const ConnectionItem: FC<Props> = ({ style, chapter: connection, id }) => {
   return (
     <TouchableOpacity
       style={mergedStyle}
-      onPress={() => navigate("Chapter", { path: connection.path, id })}
+      onPress={() => navigate("Chapter", { path: connection.path, id, name })}
     >
       {/* <Image style={styles.image} source={{ uri: photo }} /> */}
       <QuicksandText style={styles.name}>{name}</QuicksandText>

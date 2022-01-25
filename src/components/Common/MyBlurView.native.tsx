@@ -1,7 +1,13 @@
 import React from "react";
-import { Platform, StyleProp, View, ViewStyle } from "react-native";
+import {
+  Platform,
+  PlatformColor,
+  StyleProp,
+  View,
+  ViewStyle,
+} from "react-native";
 import { BlurView } from "@react-native-community/blur";
-// // import { BlurView as EBlurView } from "expo-blur";
+import { BlurView as EBlurView } from "expo-blur";
 
 export interface BlurViewProperties {
   blurType?:
@@ -36,6 +42,8 @@ export interface BlurViewProperties {
   downsampleFactor?: number;
   overlayColor?: string;
 }
+
+// const Component = Platform.select({})();
 
 // NOTE: Specific platform
 // Use expo-blur in web

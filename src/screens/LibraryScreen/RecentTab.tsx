@@ -8,13 +8,10 @@ interface Props {}
 
 export const RecentTab = (props: Props) => {
   const history = useAppSelector(historySelector);
-  console.log(Object.keys(history.comics).length);
+  // console.log(Object.keys(history.comics).length);
   return (
-    <Layout>
+    <Layout style={{ flex: 1 }}>
       <Text>Recent tab</Text>
-      {Object.keys(history.comics).map((e) => (
-        <Text>{e}</Text>
-      ))}
     </Layout>
   );
 };

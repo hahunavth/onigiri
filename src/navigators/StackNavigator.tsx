@@ -4,7 +4,7 @@ import React from "react";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { NavigatorScreenParams } from "@react-navigation/native";
+import { NavigatorScreenParams, useNavigation } from "@react-navigation/native";
 
 // Linear Gradient
 import { LinearGradient } from "expo-linear-gradient";
@@ -27,8 +27,7 @@ import {
 } from "@/screens";
 import { resComicItem_T } from "@/types/api";
 import { StyleSheet, Text, View } from "react-native";
-// import { BlurView } from "@react-native-community/blur";
-import { MyBlurView } from "@/components/Common/MyBlurView.native";
+import { MyBlurView } from "@/components/Common/MyBlurView";
 import { Icon } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -97,6 +96,7 @@ export type RootStackParamList = {
   Chapter: {
     path: string;
     id: number;
+    name: string;
   };
   Find: undefined;
   FindComicResult: {
@@ -110,6 +110,8 @@ export type RootStackParamList = {
 const Stack = createSharedElementStackNavigator<RootStackParamList>();
 
 export function StackNavigator() {
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -148,6 +150,7 @@ export function StackNavigator() {
                 justifyContent: "center",
                 alignItems: "flex-end",
               }}
+              onPress={() => navigation.canGoBack() && navigation.goBack()}
             >
               <Icon
                 name="arrow-back-outline"
@@ -179,6 +182,7 @@ export function StackNavigator() {
       <Stack.Screen
         name="Chapter"
         options={{
+          headerShown: false,
           // headerStyle:
           // header: () => <BlurHeader />,
           // headerTransparent: true,
@@ -221,7 +225,11 @@ export function StackNavigator() {
         }}
         component={ChapterScreen}
       />
-      <Stack.Screen name="ComicListScreen" component={ComicListScreen} />
+      <Stack.Screen
+        name="ComicListScreen"
+        options={{ title: "Comic list" }}
+        component={ComicListScreen}
+      />
       <Stack.Screen name="FindComicResult" component={FindComicResultScreen} />
       <Stack.Screen
         name="Test"

@@ -62,6 +62,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
           >
             {item.kind.map((kind) => (
               <Button
+                key={kind}
                 style={{ margin: 4 }}
                 size={"tiny"}
                 status={"danger"}
@@ -135,19 +136,21 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
   );
 
   return (
-    <AnimatedFlatList
-      ref={ref}
-      style={styles.container}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      {...props}
-    />
+    <Layout style={{ flex: 1 }} level={"3"}>
+      <AnimatedFlatList
+        ref={ref}
+        style={styles.container}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        {...props}
+      />
+    </Layout>
   );
 });
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    // backgroundColor: "white",
     flex: 1,
   },
 });
@@ -162,11 +165,12 @@ const RoundView = ({
   style?: ViewStyle;
 }) => {
   return (
-    <View
+    <Layout
+      level={"1"}
       style={[
         {
           borderRadius: 10,
-          backgroundColor: "#555",
+          // backgroundColor: "#555",
           padding: 12,
           margin: 12,
         },
@@ -174,9 +178,11 @@ const RoundView = ({
       ]}
     >
       {children}
-    </View>
+    </Layout>
   );
 };
+
+const AnimatedLayout = Animated.createAnimatedComponent(Layout);
 
 const CollapseRoundView = ({
   children,
@@ -200,11 +206,12 @@ const CollapseRoundView = ({
   });
 
   return (
-    <Animated.View
+    <AnimatedLayout
+      level={"1"}
       style={[
         {
           borderRadius: 10,
-          backgroundColor: "#555",
+          // backgroundColor: "#555",
           margin: 12,
           // maxHeight: collapse ? 150 : undefined,
         },
@@ -212,8 +219,8 @@ const CollapseRoundView = ({
       ]}
     >
       <LinearGradient
-        colors={["transparent", collapse ? "#00000099" : "transparent"]}
-        start={{ x: 0, y: 0.7 }}
+        colors={["transparent", collapse ? "#b93f5e60" : "transparent"]}
+        start={{ x: 0, y: 0.85 }}
         style={{
           padding: 12,
           borderRadius: 10,
@@ -234,7 +241,8 @@ const CollapseRoundView = ({
             style={{
               fontSize: 14,
               fontFamily: QFontFamily.Quicksand_500Medium,
-              color: "#eee",
+              // color: "#eee",
+
               zIndex: -1,
             }}
           >
@@ -248,7 +256,7 @@ const CollapseRoundView = ({
           position: "absolute",
           bottom: -16,
           // right: 0,
-          backgroundColor: "#ddd",
+          backgroundColor: "#dd7cad5c",
           borderRadius: 100,
           alignSelf: "center",
           width: 36,
@@ -256,16 +264,17 @@ const CollapseRoundView = ({
           justifyContent: "center",
           alignItems: "center",
           borderWidth: 1,
+          borderColor: "#a03d4e",
 
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
+          // shadowColor: "#000000",
+          // shadowOffset: {
+          //   width: 0,
+          //   height: 10,
+          // },
+          // shadowOpacity: 0.25,
+          // shadowRadius: 3.84,
 
-          elevation: 5,
+          // elevation: 5,
         }}
         onPress={() => {
           setCollapse(!collapse);
@@ -278,9 +287,9 @@ const CollapseRoundView = ({
             collapse ? "arrow-ios-downward-outline" : "arrow-ios-upward-outline"
           }
           style={{ width: 24, height: 24 }}
-          fill="#1a3242"
+          fill="#db1b7bb5"
         />
       </TouchableOpacity>
-    </Animated.View>
+    </AnimatedLayout>
   );
 };

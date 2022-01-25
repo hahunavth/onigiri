@@ -1,5 +1,11 @@
-import React, { useCallback, useState } from "react";
-import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  InteractionManager,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import {
   Button,
   Layout,
@@ -21,6 +27,7 @@ import { BtnRadio } from "@/components/Radio/BtnRadio";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MainNavigationProps } from "@/navigators/StackNavigator";
+import FadeInView from "@/components/Common/FadeInView";
 
 const initialGenresList = GENRES_LIST.map(() => false);
 
@@ -52,7 +59,7 @@ export const FindComicScreen = () => {
     []
   );
 
-  const getQuery = () => {
+  const getQuery = useCallback(() => {
     const res: FindComicProps = {
       minchapter: numChapters === -1 ? "1" : numChapters,
       genres: toIdListStr(
@@ -66,70 +73,94 @@ export const FindComicScreen = () => {
       gender: forUser === -1 ? "-1" : FOR_USER[forUser].key,
     };
     return res;
-  };
+  }, []);
+  const [isReady, setIsReady] = useState(false);
+
+  const submitForm = useCallback(() => {
+    const query = getQuery();
+    navigation.navigate("FindComicResult", {
+      query: query,
+    });
+  }, [navigation, getQuery]);
+
+  const STATUS_VALUES = useMemo(
+    () => STATUS.map((item) => item.value),
+    [STATUS]
+  );
+  const SORT_BY_VALUES = useMemo(
+    () => SORT_BY.map((item) => item.value),
+    [SORT_BY]
+  );
+  const FOR_USER_VALUES = useMemo(
+    () => FOR_USER.map((item) => item.value),
+    [FOR_USER]
+  );
+
+  useEffect(() => {
+    InteractionManager.runAfterInteractions(() => setIsReady(true));
+  }, []);
 
   return (
     <Layout style={{ flex: 1 }}>
-      <Header
-        onSubmit={() => {
-          const query = getQuery();
-          navigation.navigate("FindComicResult", {
-            query: query,
-          });
-        }}
-      />
+      {isReady ? (
+        <>
+          <MemoHeader onSubmit={submitForm} />
 
-      <ScrollView>
-        <Layout>
-          <QuicksandText style={styles.headerText}>
-            Chapter Numbers
-          </QuicksandText>
-          <BtnRadio
-            list={NUM_CHAPTER}
-            onChange={handleNumChaptersChange}
-            selectedId={numChapters}
-            isMultiSelect={false}
-          />
-        </Layout>
-        <Layout>
-          <QuicksandText style={styles.headerText}>Genres</QuicksandText>
-          <BtnRadio
-            list={GENRES_LIST}
-            onChange={handleGenresIdListChange}
-            selectedId={genresIdList}
-            isMultiSelect={true}
-          />
-        </Layout>
-        <Layout>
-          <QuicksandText style={styles.headerText}>Status</QuicksandText>
-          <BtnRadio
-            list={STATUS.map((item) => item.value)}
-            onChange={handleStatusChange}
-            selectedId={status}
-            isMultiSelect={false}
-          />
-        </Layout>
-        <Layout>
-          <QuicksandText style={styles.headerText}>Sort</QuicksandText>
-          <BtnRadio
-            list={SORT_BY.map((item) => item.value)}
-            onChange={handleSortChange}
-            selectedId={sort}
-            isMultiSelect={false}
-          />
-        </Layout>
-        <Layout>
-          <QuicksandText style={styles.headerText}>
-            For Users Group
-          </QuicksandText>
-          <BtnRadio
-            list={FOR_USER.map((item) => item.value)}
-            onChange={handleForUserChange}
-            selectedId={forUser}
-            isMultiSelect={false}
-          />
-        </Layout>
-      </ScrollView>
+          <FadeInView>
+            <ScrollView>
+              <Layout>
+                <QuicksandText style={styles.headerText}>
+                  Chapter Numbers
+                </QuicksandText>
+                <BtnRadio
+                  list={NUM_CHAPTER}
+                  onChange={handleNumChaptersChange}
+                  selectedId={numChapters}
+                  isMultiSelect={false}
+                />
+              </Layout>
+              <Layout>
+                <QuicksandText style={styles.headerText}>Genres</QuicksandText>
+                <BtnRadio
+                  list={GENRES_LIST}
+                  onChange={handleGenresIdListChange}
+                  selectedId={genresIdList}
+                  isMultiSelect={true}
+                />
+              </Layout>
+              <Layout>
+                <QuicksandText style={styles.headerText}>Status</QuicksandText>
+                <BtnRadio
+                  list={STATUS_VALUES}
+                  onChange={handleStatusChange}
+                  selectedId={status}
+                  isMultiSelect={false}
+                />
+              </Layout>
+              <Layout>
+                <QuicksandText style={styles.headerText}>Sort</QuicksandText>
+                <BtnRadio
+                  list={SORT_BY_VALUES}
+                  onChange={handleSortChange}
+                  selectedId={sort}
+                  isMultiSelect={false}
+                />
+              </Layout>
+              <Layout>
+                <QuicksandText style={styles.headerText}>
+                  For Users Group
+                </QuicksandText>
+                <BtnRadio
+                  list={FOR_USER_VALUES}
+                  onChange={handleForUserChange}
+                  selectedId={forUser}
+                  isMultiSelect={false}
+                />
+              </Layout>
+            </ScrollView>
+          </FadeInView>
+        </>
+      ) : null}
     </Layout>
   );
 };
@@ -149,6 +180,7 @@ type HeaderProps = {
 };
 
 function Header(props: HeaderProps) {
+  console.log("render Header");
   return (
     <Layout
       style={{
@@ -174,6 +206,8 @@ function Header(props: HeaderProps) {
     </Layout>
   );
 }
+
+const MemoHeader = React.memo(Header);
 
 export type FindComicProps = {
   genres: number | string;

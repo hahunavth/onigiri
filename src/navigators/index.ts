@@ -19,6 +19,9 @@ function wrap<T extends Function>(fn: T): T {
 
 // NOTE: Use navigate without call hook
 export const navigate = wrap(navigationRef.navigate);
+export const goBack = () => {
+  navigationRef.canGoBack() && navigationRef.goBack();
+};
 
 export * from "./StackNavigator";
 export * from "./Main/BottomMenu";

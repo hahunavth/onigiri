@@ -1,5 +1,6 @@
 {
   "expo": {
+    "plugins": ["expo-community-flipper"],
     "name": "Comic Net",
     "slug": "comic-net-native-eas",
     "version": "1.0.0",
@@ -30,6 +31,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "jsEngine": "hermes"
+
   }
 }

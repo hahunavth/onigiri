@@ -1,7 +1,6 @@
-import { resComicDetail_T, resComicItem_T } from "@/types/api";
+import { resComicItem_T } from "@/types/api";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Animated,
   Dimensions,
   Image,
   ImageBackground,
@@ -15,16 +14,14 @@ import SwiperFlatList from "react-native-swiper-flatlist";
 import { useApiRecently } from "@/app/api";
 import QuicksandText, { QFontFamily } from "@/components/Common/QuicksandText";
 
-// import { fox, cat, background, element, lion } from "./images";
 import { CustomPagination } from "./CustomPagination";
-import FlatlistBannerItem from "./FlatlistBannerItem";
 import { LinearGradient } from "expo-linear-gradient";
 
 // Shared Element
 import { SharedElement } from "react-navigation-shared-element";
 import { useNavigation } from "@react-navigation/native";
 import { MainNavigationProps } from "@/navigators/StackNavigator";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { BannerLoader } from "../Loader";
 
 const { width, height } = Dimensions.get("window");
 
@@ -41,20 +38,24 @@ export const FlatlistBanner = () => {
 
   return (
     <View>
-      <SwiperFlatList
-        autoplay
-        autoplayDelay={25}
-        // index={3}
-        autoplayLoop
-        // autoplayInvertDirection
-        data={isSuccess ? list : []}
-        renderItem={(props) => <Item {...props} />}
-        showPagination
-        initialNumToRender={1}
-        PaginationComponent={CustomPagination}
+      {isSuccess ? (
+        <SwiperFlatList
+          autoplay
+          autoplayDelay={25}
+          // index={3}
+          autoplayLoop
+          // autoplayInvertDirection
+          data={isSuccess ? list : []}
+          renderItem={(props) => <Item {...props} />}
+          showPagination
+          initialNumToRender={1}
+          PaginationComponent={CustomPagination}
 
-        // horizontal
-      />
+          // horizontal
+        />
+      ) : (
+        <BannerLoader />
+      )}
     </View>
   );
 };
@@ -129,13 +130,13 @@ const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
                 </QuicksandText>
               </View>
             </View>
-            <SharedElement id={`${item.posterUrl}`}>
-              <Image
-                // ref={imgRef}
-                style={styles.image}
-                source={{ uri: item.posterUrl }}
-              />
-            </SharedElement>
+            {/* <SharedElement id={`${item.posterUrl}`}> */}
+            <Image
+              // ref={imgRef}
+              style={styles.image}
+              source={{ uri: item.posterUrl }}
+            />
+            {/* </SharedElement> */}
           </View>
         </LinearGradient>
       </ImageBackground>

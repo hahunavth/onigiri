@@ -14,4 +14,4 @@
 - [ ] Login
 - [ ] Subscribe comic
 - [ ] Comment
-- [ ] Leech and save on db
+- [x] Leech and save on db

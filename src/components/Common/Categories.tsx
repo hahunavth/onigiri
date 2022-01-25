@@ -33,7 +33,7 @@ const Categories = (props: Props) => {
           keyExtractor={(item, index) => item.name + index.toString()}
           scrollEnabled={false}
           nestedScrollEnabled={true}
-          style={{ height: 100 }}
+          style={styles.btnList}
         />
       </View>
     </SafeAreaView>
@@ -47,4 +47,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 10,
   },
+  btnList: { height: 100 },
 });

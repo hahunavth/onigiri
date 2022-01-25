@@ -1,6 +1,5 @@
 import React from "react";
 import { Platform, StyleProp, View, ViewStyle } from "react-native";
-// import { BlurViewProperties } from "@react-native-community/blur";
 // import { BlurView } from "expo-blur";
 
 export interface BlurViewProperties {

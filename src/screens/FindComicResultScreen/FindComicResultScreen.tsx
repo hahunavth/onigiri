@@ -16,6 +16,7 @@ import {
   ComicListScreenProps,
   FindComicResultScreenProps,
 } from "@/navigators/StackNavigator";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const FindComicResultScreen = ({
   navigation,
@@ -62,9 +63,9 @@ export const FindComicResultScreen = ({
   // );
 
   return (
-    <View
-      // style={styles.container}
-      style={{ height: Dimensions.get("window").height }}
+    <SafeAreaView
+      style={styles.container}
+      // style={{ height: Dimensions.get("window").height }}
     >
       <View
         style={{
@@ -93,7 +94,7 @@ export const FindComicResultScreen = ({
           />
         }
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

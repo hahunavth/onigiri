@@ -25,6 +25,13 @@ module.exports = async function (env, argv) {
     config.devServer.compress = false;
   }
 
+  // NOTE: RN REANIMATED 2
+  // config.entry = ["babel-polyfill", "./index.js"];
+  // config.plugins = [new webpack.DefinePlugin({ process: { env: {} } })];
+  // config.entry = ["babel-polyfill", ...config.entry];
+
+  // console.log(config.plugins);
+
   // Or prevent minimizing the bundle when you build.
   // if (config.mode === "production") {
   //   config.optimization.minimize = false

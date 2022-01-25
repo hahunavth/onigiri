@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout } from "@ui-kitten/components";
 import QuicksandText from "@/components/Common/QuicksandText";
-import { MyBlurView } from "@/components/Common/MyBlurView.native";
+import { MyBlurView } from "@/components/Common/MyBlurView";
 import { View } from "react-native";
 
 interface BlurHeaderProps {}

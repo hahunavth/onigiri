@@ -1,11 +1,6 @@
-import {
-  NavigationProp,
-  ParamListBase,
-  useNavigation,
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
-  Animated,
   Dimensions,
   Image,
   ListRenderItemInfo,
@@ -17,12 +12,12 @@ import {
 } from "react-native";
 import { FlatList } from "react-native";
 import { HomeNavigationProps } from "src/navigators/Main/BottomMenu";
-import { RootStackParamList } from "src/navigators/StackNavigator";
 import { comicListProps } from "./ComicList";
 import { resComicItem_T } from "src/types/api";
 // import { Icon } from "@ui-kitten/components";
 import Icon from "react-native-vector-icons/FontAwesome";
 import QuicksandText from "../Common/QuicksandText";
+import { RenderHeader } from "./ComicGrid";
 
 const numColumns = 2;
 const ratio = 1;
@@ -53,74 +48,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const RenderHeader = ({
-  name,
-  onPressMore,
-  list,
-  subtitle,
-}: comicListProps): JSX.Element => {
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "flex-end",
-        justifyContent: "space-between",
-        marginLeft: 10,
-      }}
-    >
-      <View
-        style={{
-          marginLeft: 4,
-        }}
-      >
-        <QuicksandText
-          style={{
-            fontSize: 20,
-            fontFamily: "Quicksand_600SemiBold",
-          }}
-        >
-          {name}
-        </QuicksandText>
-        <QuicksandText style={{ fontSize: 13, color: "#ccc" }}>
-          {subtitle}
-        </QuicksandText>
-      </View>
-      <Pressable
-        onPress={() => {
-          onPressMore && onPressMore();
-        }}
-        style={{
-          // width: HeaderHeight,
-          // height: HeaderHeight,
-          // flex: 1,
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <QuicksandText
-          style={{
-            // width: HeaderHeight, height: HeaderHeight,
-            fontSize: 14,
-            color: "#837d7d",
-          }}
-        >
-          Show more
-        </QuicksandText>
-        <Icon
-          name="angle-right"
-          style={{
-            // width: HeaderHeight, height: HeaderHeight,
-            fontSize: 20,
-            color: "#837d7d",
-            marginLeft: 4,
-            marginRight: 16,
-          }}
-        />
-      </Pressable>
-    </View>
-  );
-};
-
 export function ComicGrid2({
   list,
   name,
@@ -136,6 +63,7 @@ export function ComicGrid2({
   if (!list) return <Text>Error list props not found in ComicGrid2</Text>;
 
   if (limit) data = list.filter((item, id) => id < limit);
+
   const ComicGridRenderItem2 = ({
     item,
   }:
@@ -149,9 +77,7 @@ export function ComicGrid2({
           navigation.navigate("ComicDetails", {
             path: item.path || "",
             comic: item,
-            // ComicDetails: item,
           });
-          // console.log(item.path);
         }}
       >
         <View style={styles.itemContainer}>
@@ -191,3 +117,71 @@ export function ComicGrid2({
     </>
   );
 }
+
+// const RenderHeader = ({
+//   name,
+//   onPressMore,
+//   list,
+//   subtitle,
+// }: comicListProps): JSX.Element => {
+//   return (
+//     <View
+//       style={{
+//         flexDirection: "row",
+//         alignItems: "flex-end",
+//         justifyContent: "space-between",
+//         marginLeft: 10,
+//       }}
+//     >
+//       <View
+//         style={{
+//           marginLeft: 4,
+//         }}
+//       >
+//         <QuicksandText
+//           style={{
+//             fontSize: 20,
+//             fontFamily: "Quicksand_600SemiBold",
+//           }}
+//         >
+//           {name}
+//         </QuicksandText>
+//         <QuicksandText style={{ fontSize: 13, color: "#ccc" }}>
+//           {subtitle}
+//         </QuicksandText>
+//       </View>
+//       <Pressable
+//         onPress={() => {
+//           onPressMore && onPressMore();
+//         }}
+//         style={{
+//           // width: HeaderHeight,
+//           // height: HeaderHeight,
+//           // flex: 1,
+//           flexDirection: "row",
+//           alignItems: "center",
+//         }}
+//       >
+//         <QuicksandText
+//           style={{
+//             // width: HeaderHeight, height: HeaderHeight,
+//             fontSize: 14,
+//             color: "#837d7d",
+//           }}
+//         >
+//           Show more
+//         </QuicksandText>
+//         <Icon
+//           name="angle-right"
+//           style={{
+//             // width: HeaderHeight, height: HeaderHeight,
+//             fontSize: 20,
+//             color: "#837d7d",
+//             marginLeft: 4,
+//             marginRight: 16,
+//           }}
+//         />
+//       </Pressable>
+//     </View>
+//   );
+// };

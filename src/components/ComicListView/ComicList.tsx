@@ -79,16 +79,18 @@ export const ComicList = ({ list, name, limit }: comicListProps) => {
               />
             </Layout>
             <Layout style={styles.infoWrapper}>
-              <Text
-                category={"s1"}
-                // status={info}
-                // style={{ textDecorationColor: "#fff" }}
-              >
-                {info.item.name || "Haha"}
-              </Text>
+              {info.item.name && (
+                <Text
+                  category={"s1"}
+                  // status={info}
+                  // style={{ textDecorationColor: "#fff" }}
+                >
+                  {info.item.name}
+                </Text>
+              )}
               <Layout style={styles.detailWrapper}>
                 <Text category={"p1"}>
-                  Author: {info.item.author || "Haha"}
+                  Author: {info.item.author || "Dang cap nhat"}
                 </Text>
                 <Text category={"p1"}>
                   Lasted Chapter:{" "}
@@ -97,7 +99,7 @@ export const ComicList = ({ list, name, limit }: comicListProps) => {
                     "Haha"}
                 </Text>
                 <Text category={"p1"}>
-                  Updated At: {info.item.updateAt || "Haha"}
+                  Updated At: {info.item.updatedAt || "Not found"}
                 </Text>
               </Layout>
             </Layout>
@@ -116,7 +118,7 @@ export const ComicList = ({ list, name, limit }: comicListProps) => {
         data={list}
         scrollEnabled={false}
         renderItem={renderItem}
-        ListHeaderComponent={renderItemHeader}
+        // ListHeaderComponent={renderItemHeader}
         initialNumToRender={limit}
       />
     </>

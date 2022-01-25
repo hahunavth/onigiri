@@ -14,6 +14,7 @@ import {
   StyleProp,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   useWindowDimensions,
   View,
@@ -44,16 +45,39 @@ import useScrollSync from "./useScrollSync";
 import { Connection } from "@/screens/TestScreen/Connection";
 import ChapterList, { ListHeader } from "./ChapterList";
 import TabBar from "./TabBar";
-import { Button, Icon, Layout } from "@ui-kitten/components";
+import {
+  Button,
+  Icon,
+  Layout,
+  StyleService,
+  useStyleSheet,
+} from "@ui-kitten/components";
 import { AntDesign } from "@expo/vector-icons";
 import QuicksandText from "../Common/QuicksandText";
 import DetailList from "./DetailList";
 import { useAppSelector } from "@/app/hooks";
 import { selectHome } from "@/app/homeSlice";
+import { ColorSchemeE } from "@/styles/colorScheme";
+import { navigate } from "@/navigators";
 
 type Props = {
   comic?: resComicDetail_T;
   routeParam?: resComicItem_T;
+};
+
+const themedStyles = StyleService.create({
+  tabBar: {
+    backgroundColor: ColorSchemeE["background-basic-color-1"],
+  },
+  iconColor: {
+    backgroundColor: ColorSchemeE["text-basic-color"],
+  },
+});
+
+const AnimatedLayout = Animated.createAnimatedComponent(Layout);
+
+const ToastComingSoon = () => {
+  ToastAndroid.show("Coming Soon!", 500);
 };
 
 // Constant
@@ -68,6 +92,7 @@ const Tab = createMaterialTopTabNavigator();
 // );
 
 export const CollapseHeader = (props: Props) => {
+  const tbStyle = useStyleSheet(themedStyles);
   // Get safe area
   const { top, bottom } = useSafeAreaInsets();
 
@@ -192,17 +217,17 @@ export const CollapseHeader = (props: Props) => {
         ref={suggestionsRef}
         data={props.comic?.chapters}
         onScroll={suggestionsScrollHandler}
-        initialNumToRender={10}
+        initialNumToRender={8}
         maxToRenderPerBatch={10}
         windowSize={10}
         {...sharedProps}
-        ListHeaderComponent={() => (
-          <ListHeader
-            lastedChapter={props.comic?.chapters[0].name || ""}
-            sortType="newer"
-            onSortTypeChange={(type) => null}
-          />
-        )}
+        //   ListHeaderComponent={() => (
+        //     <ListHeader
+        //       lastedChapter={props.comic?.chapters[0].name || ""}
+        //       sortType="newer"
+        //       onSortTypeChange={(type) => null}
+        //     />
+        //   )}
       />
     ),
     [suggestionsRef, suggestionsScrollHandler, sharedProps]
@@ -266,34 +291,46 @@ export const CollapseHeader = (props: Props) => {
         >
           <Header
             name={props.routeParam?.name || props.comic?.title || ""}
-            bio={`Rating: ${props.comic?.rate}`}
+            bio={
+              props.comic?.rate ? `Rating: ${props.comic?.rate}` : "Loading..."
+            }
             photo={props.routeParam?.posterUrl || props.comic?.posterUrl || ""}
           />
         </Animated.View>
-        <Animated.View style={collapsedOverlayStyle}>
+        <AnimatedLayout style={collapsedOverlayStyle}>
           <HeaderOverlay
             name={props.comic?.title || ""}
             numChapter={props.comic?.chapters?.length || 0}
           />
-        </Animated.View>
+        </AnimatedLayout>
         <Tab.Navigator
           tabBar={renderTabBar}
           pageMargin={10}
           screenOptions={{
-            tabBarStyle: {},
+            tabBarStyle: tbStyle.tabBar,
             tabBarLabelStyle: {},
             tabBarItemStyle: {
               margin: -5,
               justifyContent: "center",
               alignItems: "center",
             },
+            tabBarPressOpacity: 0.1,
             tabBarIndicatorStyle: {
-              backgroundColor: "red",
+              backgroundColor: "#f0125cdf",
+              // margin: "auto",
+              flex: 1,
+              height: 38,
+              // marginBottom: 1,
+              // margin: -100,
+              borderWidth: 5,
+              borderRadius: 12,
+              borderColor: "transparent",
             },
-            tabBarActiveTintColor: "red",
+            tabBarActiveTintColor: "white",
             tabBarAllowFontScaling: false,
             tabBarInactiveTintColor: "gray",
             tabBarPressColor: "transparent",
+
             // tabBarContentContainerStyle: { backgroundColor: "blue" },
             // tabBarShowLabel: false,
             // tabBarBounces: true,
@@ -321,12 +358,24 @@ export const CollapseHeader = (props: Props) => {
         >
           <TouchableOpacity
             style={{ margin: "auto", alignItems: "center", marginLeft: 24 }}
+            onPress={ToastComingSoon}
           >
-            <AntDesign name="sharealt" size={24} />
+            <AntDesign
+              name="sharealt"
+              size={24}
+              color={tbStyle.iconColor.backgroundColor}
+            />
             <QuicksandText style={{ fontSize: 11 }}>Share</QuicksandText>
           </TouchableOpacity>
-          <TouchableOpacity style={{ margin: "auto", alignItems: "center" }}>
-            <AntDesign name="adduser" size={24} />
+          <TouchableOpacity
+            onPress={ToastComingSoon}
+            style={{ margin: "auto", alignItems: "center" }}
+          >
+            <AntDesign
+              name="adduser"
+              size={24}
+              color={tbStyle.iconColor.backgroundColor}
+            />
             <QuicksandText style={{ fontSize: 11 }}>Subscribe</QuicksandText>
           </TouchableOpacity>
           <Button
@@ -337,6 +386,17 @@ export const CollapseHeader = (props: Props) => {
               margin: 0,
               padding: 0,
               marginRight: 12,
+            }}
+            onPress={() => {
+              const chapter1 =
+                props.comic?.chapters[props.comic?.chapters.length - 1];
+              chapter1?.path &&
+                props.comic?.chapters.length &&
+                navigate("Chapter", {
+                  id: props.comic?.chapters.length - 1,
+                  path: chapter1?.path,
+                  name: chapter1?.name,
+                });
             }}
           >
             Read now!
@@ -350,7 +410,7 @@ export const CollapseHeader = (props: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    // backgroundColor: "black",
   },
   tabBarContainer: {
     top: 0,
@@ -367,7 +427,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     justifyContent: "center",
     zIndex: 2,
   },

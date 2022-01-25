@@ -33,6 +33,9 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { downloadAction, downloadSelector } from "@/app/downloadSlice";
 import { homeActions, selectHome } from "@/app/homeSlice";
 import { CollapseHeader } from "@/components/CollapseHeader";
+import { SqlQuery } from "@/app/sqlite/query";
+import { CREATE_TABLE, db } from "@/app/sqlite/createTable";
+import { insertComicItem, queryAllComicItem } from "@/db/ComicItem";
 
 // import Animated, {
 //   interpolate,
@@ -274,26 +277,19 @@ import { CollapseHeader } from "@/components/CollapseHeader";
 export const ComicDetailsScreen = (props: ComicDetailsScreenProps) => {
   const { data, isLoading } = useApiComicDetail(props.route.params.path);
 
-  const [sort, setSort] = useState<"newer" | "older">("newer");
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(homeActions.setCurrentComic(data));
-
     return () => {
       dispatch(homeActions.removeCurrentComic());
     };
   }, [data]);
 
-  // if (isLoading || !props.route.params.comic) {
-  //   return <View></View>;
-  // }
-
   return (
-    <View style={{ flex: 1 }}>
+    <Layout level={"3"} style={{ flex: 1 }}>
       <CollapseHeader comic={data} routeParam={props.route.params.comic} />
-    </View>
+    </Layout>
   );
 };
 

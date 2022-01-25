@@ -83,13 +83,17 @@ export async function schedulePushNotification() {
       title: "You've got mail! 📬",
       body: "Here is the notification body",
       data: { data: "goes here" },
+      autoDismiss: true,
+      vibrate: [50],
     },
     trigger: { seconds: 10 },
   });
 }
 
 // TODO: Continue
-export async function scheduleCustomNotification(info: Notifications.NotificationRequestInput) {
+export async function scheduleCustomNotification(
+  info: Notifications.NotificationRequestInput
+) {
   await Notifications.scheduleNotificationAsync(info);
 }
 
@@ -171,7 +175,10 @@ export function useDownloadComic() {
   async function run() {
     if (uriList) {
       const savedImgs = await addMultipleImgs(uriList);
-      console.log("🚀 ~ file: notification.ts ~ line 180 ~ run ~ savedImgs", uriList)
+      console.log(
+        "🚀 ~ file: notification.ts ~ line 180 ~ run ~ savedImgs",
+        uriList
+      );
       if (chapter && savedImgs)
         dispatch(
           downloadAction.saveChapter({

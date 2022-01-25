@@ -12,17 +12,17 @@ export type ApiRespone_T<T> = {
 // "https://hahunavth-express-api.herokuapp.com/api/v1/recently"
 // ApiRespone_T<resComicItem_T>
 export type resComicItem_T = {
+  name?: string;
+  path?: string;
   kind?: string[];
   author?: string;
   anotherName?: string;
   status?: string;
   views?: string;
   follows?: string;
-  updateAt?: string;
+  updatedAt?: string;
   updatedDistance?: string;
-  name?: string;
   posterUrl?: string;
-  path?: string;
   id?: string;
   lastedChapters?: [
     {

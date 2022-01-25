@@ -27,23 +27,42 @@
 
 import React from "react";
 import { View } from "react-native";
-import { withStyles } from "@ui-kitten/components";
+import { Layout, withStyles } from "@ui-kitten/components";
 import {} from "@ui-kitten/components";
 import { LibraryTopNavigator } from "@/navigators/LibraryTopNavigator";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { RecentTab } from "./RecentTab";
+import { SubscribeTab } from "./SubscribeTab";
+import { DownloadTab } from "./DownloadTab";
+import FadeInView from "@/components/Common/FadeInView";
+import { SafeAreaView } from "react-native-safe-area-context";
+import NavigatorHeader from "@/components/Common/NavigatorHeader";
 
 const AwesomeView = (props: any) => {
-  const { eva, style, ...restProps } = props;
+  // const { eva, style, ...restProps } = props;
 
   return (
-    <View {...restProps} style={[eva.style.awesome, style]}>
-      <LibraryTopNavigator />
-    </View>
+    // <Layout
+    //   //  {...restProps} style={[eva.style.awesome, style, { flex: 1 }]}
+    //   style={{ flex: 1, backgroundColor: "red" }}
+    // >
+    <SafeAreaView style={{ flex: 1 }}>
+      <FadeInView>
+        <NavigatorHeader
+          title="Library"
+          headerContainerStyle={{ position: "relative", paddingTop: -40 }}
+          // titleStyle={{ backgroundColor: "red" }}
+        />
+        <LibraryTopNavigator />
+      </FadeInView>
+    </SafeAreaView>
+    // </Layout>
   );
 };
 
 export const DashboardScreen = withStyles(AwesomeView, (theme) => ({
   awesome: {
-    backgroundColor: theme["color-primary-100"],
+    // backgroundColor: theme["color-primary-100"],
     flex: 1,
   },
 }));

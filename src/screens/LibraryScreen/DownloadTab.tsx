@@ -6,7 +6,7 @@ interface Props {}
 
 export const DownloadTab = (props: Props) => {
   return (
-    <Layout>
+    <Layout style={{ flex: 1 }}>
       <Text>Download tab</Text>
     </Layout>
   );

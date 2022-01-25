@@ -1,4 +1,4 @@
-import { MyBlurView } from "@/components/Common/MyBlurView.native";
+import { MyBlurView } from "@/components/Common/MyBlurView";
 import QuicksandText from "@/components/Common/QuicksandText";
 import { Icon } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
@@ -51,99 +51,112 @@ const ChapterBar = (props: Props) => {
   }, [home.currentChapter?.chapterName]);
 
   return (
-    <Animated.View
-      style={[
-        {
-          position: "absolute",
-          bottom: 4,
-          width: width - PADDING,
-          height: 64,
-          marginHorizontal: PADDING / 2,
-          marginBottom: 4,
-          backgroundColor: "transparent",
-        },
-        props.style,
-      ]}
-    >
-      <MyBlurView
+    <>
+      <Animated.View
         style={[
           {
             position: "absolute",
-            top: 0,
-            left: 0,
             bottom: 0,
-            right: 0,
-            borderRadius: 0,
-            // justifyContent: "center",
-            backgroundColor: "#1e282b83",
-            // padding: 20,
-            // backgroundColor: "red",
-            // borderBottomLeftRadius: 20,
+            // width: width - PADDING,
+            width: "100%",
+            height: 64,
+            // marginHorizontal: PADDING / 2,
+            marginBottom: 0,
+            // backgroundColor: "transparent",
           },
-          StyleSheet.absoluteFill,
+          props.style,
         ]}
-        // blurType="light"
-        blurAmount={20}
-        blurRadius={15}
-        downsampleFactor={4}
-        overlayColor="transparent"
-      />
-      <View
-        style={{
-          position: "relative",
-          flex: 1,
-          backgroundColor: "transparent",
-          // borderBottomLeftRadius: 20,
-          justifyContent: "space-around",
-          alignItems: "center",
-          flexDirection: "row",
-          marginBottom: -4,
-          marginTop: 2,
-        }}
       >
-        <TouchableOpacity
-          disabled={!nextChapter}
-          onPress={() => {
-            if (nextChapter && home.currentChapter?.id) {
-              navigation.navigate("Chapter", {
-                path: nextChapter,
-                id: home.currentChapter?.id + 1,
-              });
-            }
+        <MyBlurView
+          style={[
+            {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              borderRadius: 0,
+              // justifyContent: "center",
+              backgroundColor: "#1e282b83",
+              // padding: 20,
+              // backgroundColor: "red",
+              // borderBottomLeftRadius: 20,
+            },
+            StyleSheet.absoluteFill,
+          ]}
+          // blurType="light"
+          blurAmount={20}
+          blurRadius={15}
+          downsampleFactor={4}
+          overlayColor="transparent"
+        />
+        <View
+          style={{
+            position: "relative",
+            flex: 1,
+            backgroundColor: "transparent",
+            // borderBottomLeftRadius: 20,
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "row",
+            marginBottom: -4,
+            marginTop: 2,
           }}
         >
-          <AntDesign name={"arrowleft"} size={32} style={{ color: "white" }} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <AntDesign name={"like2"} size={32} style={{ color: "white" }} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <AntDesign name={"message1"} size={28} style={{ color: "white" }} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <AntDesign name={"reload1"} size={28} style={{ color: "white" }} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          disabled={!prevChapter}
-          onPress={() => {
-            if (prevChapter && home.currentChapter?.id) {
-              navigation.navigate("Chapter", {
-                path: prevChapter,
-                id: home.currentChapter?.id - 1,
-              });
-            }
-          }}
+          <TouchableOpacity
+            disabled={!nextChapter}
+            onPress={() => {
+              if (nextChapter && home.currentChapter?.id) {
+                navigation.navigate("Chapter", {
+                  path: nextChapter,
+                  id: home.currentChapter?.id + 1,
+                  name: nextChapter,
+                });
+              }
+            }}
+          >
+            <AntDesign
+              name={"arrowleft"}
+              size={32}
+              style={{ color: "white" }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <AntDesign name={"like2"} size={32} style={{ color: "white" }} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <AntDesign name={"message1"} size={28} style={{ color: "white" }} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <AntDesign name={"reload1"} size={28} style={{ color: "white" }} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            disabled={!prevChapter}
+            onPress={() => {
+              if (prevChapter && home.currentChapter?.id) {
+                navigation.navigate("Chapter", {
+                  path: prevChapter,
+                  id: home.currentChapter?.id - 1,
+                  name: prevChapter,
+                });
+              }
+            }}
+          >
+            <AntDesign
+              name={"arrowright"}
+              size={32}
+              style={{ color: "white" }}
+            />
+          </TouchableOpacity>
+        </View>
+        <QuicksandText
+          style={{ alignSelf: "center", color: "white" }}
+          numberOfLines={1}
         >
-          <AntDesign name={"arrowright"} size={32} style={{ color: "white" }} />
-        </TouchableOpacity>
-      </View>
-      <QuicksandText
-        style={{ alignSelf: "center", color: "white" }}
-        numberOfLines={1}
-      >
-        {home.currentChapter?.chapterName}
-      </QuicksandText>
-    </Animated.View>
+          {home.currentChapter?.chapterName}
+        </QuicksandText>
+      </Animated.View>
+    </>
   );
 };
 
