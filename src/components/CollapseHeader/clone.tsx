@@ -20,6 +20,8 @@ import {
   View,
   ViewProps,
   ViewStyle,
+  Animated as RNAnimated,
+  Easing,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Header, { HeaderConfig, Visibility } from "./Header";
@@ -55,16 +57,9 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import QuicksandText from "../Common/QuicksandText";
 import DetailList from "./DetailList";
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { selectHome } from "@/app/homeSlice";
+
 import { ColorSchemeE } from "@/styles/colorScheme";
 import { navigate } from "@/navigators";
-import {
-  historyAction,
-  historySelector,
-  toggleSubscribeComicThunk,
-} from "@/app/historySlice";
-import { useDispatch } from "react-redux";
 
 type Props = {
   comic?: resComicDetail_T;
@@ -99,12 +94,6 @@ const Tab = createMaterialTopTabNavigator();
 
 export const CollapseHeader = (props: Props) => {
   const tbStyle = useStyleSheet(themedStyles);
-
-  const dispatch = useAppDispatch();
-  const subscribed = !!useAppSelector(historySelector).subscribeComics.find(
-    (path) => path === props.comic?.path
-  );
-
   // Get safe area
   const { top, bottom } = useSafeAreaInsets();
 
@@ -164,22 +153,42 @@ export const CollapseHeader = (props: Props) => {
     [tabIndex, friendsScrollValue, suggestionsScrollValue]
   );
 
-  const translateY = useDerivedValue(
-    () => -Math.min(сurrentScrollValue.value, headerDiff)
-  );
+  // STUB: V2 TRANSLATE Y
+  // const translateY = useDerivedValue(
+  //   () => -Math.min(сurrentScrollValue.value, headerDiff)
+  // );
+  // ANCHOR:
+  const translateY = useRef(new RNAnimated.Value(0)).current;
 
-  const tabBarAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
-  }));
-
-  const headerAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
-    opacity: interpolate(
-      translateY.value,
-      [-headerDiff, 0],
-      [Visibility.Hidden, Visibility.Visible]
-    ),
-  }));
+  // STUB: V2 TRANSLATE Y
+  // const tabBarAnimatedStyle = useAnimatedStyle(() => ({
+  //   transform: [{ translateY: translateY.value }],
+  // }));
+  // ANCHOR:
+  const tabBarAnimatedStyle = {
+    transform: [{ translateY: 100 }],
+  };
+  // STUB: V2 TRANSLATE Y
+  // const headerAnimatedStyle = useAnimatedStyle(() => ({
+  //   transform: [{ translateY: translateY.value }],
+  //   opacity: interpolate(
+  //     translateY.value,
+  //     [-headerDiff, 0],
+  //     [Visibility.Hidden, Visibility.Visible]
+  //   ),
+  // }));
+  // ANCHOR:
+  const headerTranslateYOpacity = translateY.interpolate({
+    // inputRange: [-headerDiff, 0],
+    inputRange: [0, 1000],
+    outputRange: [Visibility.Hidden, Visibility.Visible],
+    easing: Easing.linear,
+  });
+  const headerAnimatedStyle = {
+    transform: [{ translateY: 200 }],
+    opacity: headerTranslateYOpacity,
+  };
+  //
 
   const contentContainerStyle = useMemo<StyleProp<ViewStyle>>(
     () => ({
@@ -249,6 +258,7 @@ export const CollapseHeader = (props: Props) => {
     () => [
       rendered ? styles.tabBarContainer : undefined,
       { top: rendered ? headerHeight : undefined },
+      // @ts-ignore
       tabBarAnimatedStyle,
     ],
     [rendered, headerHeight, tabBarAnimatedStyle]
@@ -271,23 +281,34 @@ export const CollapseHeader = (props: Props) => {
       {
         paddingTop: top,
       },
+      // @ts-ignore
       headerAnimatedStyle,
     ],
 
     [rendered, top, headerAnimatedStyle]
   );
 
-  const collapsedOverlayAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(
-      translateY.value,
-      [-headerDiff, OVERLAY_VISIBILITY_OFFSET - headerDiff, 0],
-      [Visibility.Visible, Visibility.Hidden, Visibility.Hidden]
-    ),
-  }));
+  // STUB: V2 TRANSLATE Y
+  // const collapsedOverlayAnimatedStyle = useAnimatedStyle(() => ({
+  //   opacity: interpolate(
+  //     translateY.value,
+  //     [-headerDiff, OVERLAY_VISIBILITY_OFFSET - headerDiff, 0],
+  //     [Visibility.Visible, Visibility.Hidden, Visibility.Hidden]
+  //   ),
+  // }));
+  // ANCHOR:
+  // const collapsedOverlayOpacity
+  const collapsedOverlayAnimatedStyle = translateY.interpolate({
+    // inputRange: [-headerDiff, OVERLAY_VISIBILITY_OFFSET - headerDiff, 0],
+    inputRange: [0, 200, 400],
+    outputRange: [Visibility.Visible, Visibility.Hidden, Visibility.Hidden],
+    easing: Easing.linear,
+  });
 
   const collapsedOverlayStyle = useMemo<StyleProp<ViewStyle>>(
     () => [
       styles.collapsedOverlay,
+      // @ts-ignore
       collapsedOverlayAnimatedStyle,
       { height: heightCollapsed, paddingTop: top },
     ],
@@ -298,8 +319,10 @@ export const CollapseHeader = (props: Props) => {
     <SafeAreaView style={{ marginTop: -28, flex: 1 }}>
       <View style={styles.container}>
         <Animated.View
+          // ANCHOR: STATE OK
           onLayout={handleHeaderLayout}
           style={headerContainerStyle}
+          //
         >
           <Header
             name={props.routeParam?.name || props.comic?.title || ""}
@@ -329,11 +352,8 @@ export const CollapseHeader = (props: Props) => {
             tabBarPressOpacity: 0.1,
             tabBarIndicatorStyle: {
               backgroundColor: "#f0125cdf",
-              // margin: "auto",
               flex: 1,
               height: 38,
-              // marginBottom: 1,
-              // margin: -100,
               borderWidth: 5,
               borderRadius: 12,
               borderColor: "transparent",
@@ -342,11 +362,6 @@ export const CollapseHeader = (props: Props) => {
             tabBarAllowFontScaling: false,
             tabBarInactiveTintColor: "gray",
             tabBarPressColor: "transparent",
-
-            // tabBarContentContainerStyle: { backgroundColor: "blue" },
-            // tabBarShowLabel: false,
-            // tabBarBounces: true,
-            // lazy: true,
           }}
         >
           <Tab.Screen name="Friends" component={renderFriends}></Tab.Screen>
@@ -355,20 +370,13 @@ export const CollapseHeader = (props: Props) => {
             component={renderSuggestions}
           ></Tab.Screen>
         </Tab.Navigator>
+        {/* NOTE: Bottom bar */}
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
             padding: 5,
-            // height: 64,
-            // margin: 0,
-            // padding: -10,
-            // position: "absolute",
-            // bottom: 0,
-            // left: 0,
-            // right: 0,
-            // height: 100,
           }}
         >
           <TouchableOpacity
@@ -383,25 +391,15 @@ export const CollapseHeader = (props: Props) => {
             <QuicksandText style={{ fontSize: 11 }}>Share</QuicksandText>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {
-              if (props.comic) dispatch(toggleSubscribeComicThunk(props.comic));
-            }}
-            style={{
-              margin: "auto",
-              alignItems: "center",
-            }}
+            onPress={ToastComingSoon}
+            style={{ margin: "auto", alignItems: "center" }}
           >
             <AntDesign
               name="adduser"
               size={24}
-              // color={tbStyle.iconColor.backgroundColor}
-              color={subscribed ? "pink" : tbStyle.iconColor.backgroundColor}
+              color={tbStyle.iconColor.backgroundColor}
             />
-            <QuicksandText
-              style={{ fontSize: 11, color: subscribed ? "pink" : "white" }}
-            >
-              Subscribe
-            </QuicksandText>
+            <QuicksandText style={{ fontSize: 11 }}>Subscribe</QuicksandText>
           </TouchableOpacity>
           <Button
             status={"danger"}
@@ -427,6 +425,7 @@ export const CollapseHeader = (props: Props) => {
             Read now!
           </Button>
         </View>
+        {/*  */}
       </View>
     </SafeAreaView>
   );

@@ -29,7 +29,7 @@ const ChapterBar = (props: Props) => {
   const { width, height } = useWindowDimensions();
   const chapterCallback = usePrefetch("getChapterByPath", {});
 
-  const PADDING = 32;
+  // const PADDING = 32;
 
   const [nextChapter, setNextChapter] = useState("");
   const [prevChapter, setPrevChapter] = useState("");
@@ -57,11 +57,11 @@ const ChapterBar = (props: Props) => {
           {
             position: "absolute",
             bottom: 0,
-            // width: width - PADDING,
             width: "100%",
             height: 64,
-            // marginHorizontal: PADDING / 2,
             marginBottom: 0,
+            // marginHorizontal: PADDING / 2,
+            // width: width - PADDING,
             // backgroundColor: "transparent",
           },
           props.style,
@@ -76,8 +76,8 @@ const ChapterBar = (props: Props) => {
               bottom: 0,
               right: 0,
               borderRadius: 0,
-              // justifyContent: "center",
               backgroundColor: "#1e282b83",
+              // justifyContent: "center",
               // padding: 20,
               // backgroundColor: "red",
               // borderBottomLeftRadius: 20,

@@ -80,7 +80,8 @@ const TabNavigator = (props: {
   //  scrollRef: Animated.Value
 }) => (
   <Navigator
-  //  tabBar={(props) => <TopTabBar {...props} />}
+    backBehavior="none"
+    //  tabBar={(props) => <TopTabBar {...props} />}
   >
     <Screen
       name="detail"

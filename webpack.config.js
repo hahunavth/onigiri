@@ -1,3 +1,4 @@
+const { withEntry } = require("@expo/webpack-config/addons");
 const createExpoWebpackConfigAsync = require("@expo/webpack-config");
 
 // Expo CLI will await this method so you can optionally return a promise.
@@ -29,6 +30,8 @@ module.exports = async function (env, argv) {
   // config.entry = ["babel-polyfill", "./index.js"];
   // config.plugins = [new webpack.DefinePlugin({ process: { env: {} } })];
   // config.entry = ["babel-polyfill", ...config.entry];
+
+  const entry = withEntry(config, env, { entryPath: "babel-polyfill" });
 
   // console.log(config.plugins);
 

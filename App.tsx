@@ -28,18 +28,18 @@ import { StackNavigator } from "@/navigators/StackNavigator";
 import store, { persistor } from "@/app/store";
 import { settingSelector } from "@/app/settingSlice";
 
-import { schedulePushNotification, useNotification } from "@/app/notification";
+// import { schedulePushNotification, useNotification } from "@/app/notification";
 import { navigationRef } from "@/navigators";
 
-import "react-native-gesture-handler";
-import "react-native-reanimated";
+// import "react-native-gesture-handler";
 
 // @ts-ignore
 import { connectToDevTools } from "react-devtools-core";
 import { useAppSelector } from "@/app/hooks";
+import { Platform } from "react-native";
 
 // FLIPPER CONNECT
-if (__DEV__) {
+if (__DEV__ && Platform.OS !== "web") {
   connectToDevTools({
     host: "localhost",
     port: 8097,
@@ -57,10 +57,10 @@ export default function App() {
     Quicksand_700Bold,
   });
 
-  const { expoPushToken, notification } = useNotification();
+  // const { expoPushToken, notification } = useNotification();
 
   useEffect(() => {
-    schedulePushNotification();
+    if (Platform.OS !== "web") schedulePushNotification();
   });
 
   // Splash screen

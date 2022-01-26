@@ -20,7 +20,7 @@ import {
 import { FlatList } from "react-native";
 import { useApiChapter, useApiComicDetail } from "@/app/api";
 
-import * as Notifications from "expo-notifications";
+// import * as Notifications from "expo-notifications";
 // import * as Permissions from "expo-permissions";
 // import {
 //   AndroidImportance,

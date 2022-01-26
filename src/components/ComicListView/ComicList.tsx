@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet, View, Image, ListRenderItemInfo } from "react-native";
 import { Card, Layout, List, Text, TextProps } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { resComicItem_T } from "@/types/api";
+import { SafeAreaView } from "react-native-safe-area-context";
+import NavigatorHeader from "../Common/NavigatorHeader";
 
-const data = new Array(8).fill({
-  title: "Item",
-});
 //
 // export type ComicProps = {
 //   name?: string;
@@ -48,79 +47,97 @@ export const ComicList = ({ list, name, limit }: comicListProps) => {
     </Layout>
   );
 
-  const renderItem = (info: ListRenderItemInfo<resComicItem_T>) => {
-    // console.log("render ", info.item.name);
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          // console.log(navigation.getState());
-          navigation.navigate("ComicDetails", {
-            path: info.item.path,
-            comic: info.item,
-          });
-        }}
-      >
-        <Layout style={styles.container}>
-          {/* // <Card
-    //   style={styles.item}
-    //   status="basic"
-    //   // header={(headerProps) => renderItemHeader(headerProps, info)}
-    //   // footer={renderItemFooter}
-    // > */}
-          <Layout style={styles.layoutContainer}>
-            <Layout style={{ paddingRight: 15 }}>
-              <Image
-                style={styles.poster}
-                source={{
-                  uri:
-                    info.item.posterUrl ||
-                    "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
-                }}
-              />
-            </Layout>
-            <Layout style={styles.infoWrapper}>
-              {info.item.name && (
-                <Text
-                  category={"s1"}
-                  // status={info}
-                  // style={{ textDecorationColor: "#fff" }}
-                >
-                  {info.item.name}
-                </Text>
-              )}
-              <Layout style={styles.detailWrapper}>
-                <Text category={"p1"}>
-                  Author: {info.item.author || "Dang cap nhat"}
-                </Text>
-                <Text category={"p1"}>
-                  Lasted Chapter:{" "}
-                  {(info.item.lastedChapters &&
-                    info.item.lastedChapters[0].chapterName) ||
-                    "Haha"}
-                </Text>
-                <Text category={"p1"}>
-                  Updated At: {info.item.updatedAt || "Not found"}
-                </Text>
+  const renderItem = useCallback(
+    (info: ListRenderItemInfo<resComicItem_T>) => {
+      // console.log("render ", info.item.name);
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            // console.log(navigation.getState());
+            navigation.navigate("ComicDetails", {
+              path: info.item.path,
+              comic: info.item,
+            });
+          }}
+        >
+          <Layout style={styles.container}>
+            <Layout style={styles.layoutContainer}>
+              <Layout style={{ paddingRight: 15 }}>
+                <Image
+                  style={styles.poster}
+                  source={{
+                    uri:
+                      info.item.posterUrl ||
+                      "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
+                  }}
+                />
+              </Layout>
+              <Layout style={styles.infoWrapper}>
+                {info.item.name && (
+                  <Text
+                    category={"s1"}
+                    // status={info}
+                    // style={{ textDecorationColor: "#fff" }}
+                  >
+                    {info.item.name}
+                  </Text>
+                )}
+                <Layout style={styles.detailWrapper}>
+                  <Text category={"p1"}>
+                    Author: {info.item.author || "Dang cap nhat"}
+                  </Text>
+                  <Text category={"p1"}>
+                    Lasted Chapter:{" "}
+                    {(info.item.lastedChapters &&
+                      info.item.lastedChapters[0].chapterName) ||
+                      "Haha"}
+                  </Text>
+                  <Text category={"p1"}>
+                    Updated At: {info.item.updatedAt || "Not found"}
+                  </Text>
+                </Layout>
               </Layout>
             </Layout>
+            {/* </Card> */}
           </Layout>
-          {/* </Card> */}
-        </Layout>
-      </TouchableOpacity>
-    );
-  };
+        </TouchableOpacity>
+      );
+    },
+    [list]
+  );
 
   return (
     <>
-      <List
-        style={styles.listContainer}
-        contentContainerStyle={styles.contentContainer}
-        data={list}
-        scrollEnabled={false}
-        renderItem={renderItem}
-        // ListHeaderComponent={renderItemHeader}
-        initialNumToRender={limit}
-      />
+      <SafeAreaView style={{ flex: 1, position: "relative" }}>
+        {/* <NavigatorHeader
+          title="Comic List"
+          headerContainerStyle={{
+            position: "absolute",
+            zIndex: 1000,
+            top: 0,
+            width: "100%",
+            // height: 30,
+          }}
+        /> */}
+        <Layout>
+          <List
+            style={styles.listContainer}
+            contentContainerStyle={styles.contentContainer}
+            data={list}
+            scrollEnabled={false}
+            renderItem={renderItem}
+            initialNumToRender={limit}
+            // ListHeaderComponent={renderItemHeader}
+            // ListHeaderComponentStyle={{
+            //   position: "absolute",
+            //   top: 100,
+            //   left: 0,
+            //   right: 0,
+            //   zIndex: 100,
+            // }}4
+          />
+        </Layout>
+      </SafeAreaView>
     </>
   );
 };

@@ -1,17 +1,33 @@
 import { historySelector } from "@/app/historySlice";
 import { useAppSelector } from "@/app/hooks";
-import { Layout } from "@ui-kitten/components";
+import QuicksandText, { QFontFamily } from "@/components/Common/QuicksandText";
+import { navigate } from "@/navigators";
+import { RecentTabProps } from "@/navigators/LibraryTopNavigator";
+import { ColorSchemeE } from "@/styles/colorScheme";
+import { resComicDetail_T } from "@/types";
+import { Layout, StyleService, useStyleSheet } from "@ui-kitten/components";
 import React from "react";
-import { Text } from "react-native";
+
+import LibraryList from "./LibraryList";
 
 interface Props {}
 
-export const RecentTab = (props: Props) => {
+export const RecentTab: React.FunctionComponent<RecentTabProps> = (props) => {
   const history = useAppSelector(historySelector);
-  // console.log(Object.keys(history.comics).length);
+
   return (
     <Layout style={{ flex: 1 }}>
-      <Text>Recent tab</Text>
+      <LibraryList
+        data={
+          (history.readComics
+            .map((path) => history.comics[path])
+            .filter((n) => n) as resComicDetail_T[]) || []
+        }
+        addonFieldName={"Lasted read: "}
+        addonFieldExtractor={(item) => {
+          return item.lastedReadChapter || "";
+        }}
+      />
     </Layout>
   );
 };

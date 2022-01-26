@@ -30,23 +30,47 @@ export const ComicListScreen = ({
   const [nextBatchStatus, setNextBatchStatus] = useState<
     "pending" | "fulfilled"
   >("pending");
-  const [comicList, setComicList] = useState<resComicItem_T[]>([]);
+  const [comicList, setComicList] = useState<resComicItem_T[][]>([]);
 
-  const { data, isLoading, isError, refetch } = useApiRecently(page.toString());
+  const { data, isLoading, isError, refetch, isFetching, isSuccess } =
+    useApiRecently(page.toString());
 
   useEffect(() => {
-    if (data?.data && !isLoading) {
+    console.log(
+      " useEffect ",
+      !!data?.data,
+      isSuccess,
+      !!(page === comicList.length + 1)
+    );
+    if (data?.data && isSuccess && page === comicList.length + 1) {
       // console.log(`${data.data.length} ${comicList.length}`);
-      setComicList((comicList) => comicList.concat(data.data));
-      setNextBatchStatus("fulfilled");
+      setNextBatchStatus(() => "fulfilled");
+      setComicList((comicList) => {
+        comicList.push(data.data);
+        return comicList;
+      });
+      setPage(page + 1);
     }
-  }, [data]);
+  }, [isSuccess, page]);
+  // console.log(comicList.length);
+  // console.log(page);
 
   const endReached = useCallback(() => {
-    if (!isLoading && data?.data && nextBatchStatus === "fulfilled") {
+    console.log(
+      "🚀 ~ file: ComicListScreen.tsx ~ line 50 ~ endReached ~ ",
+      isSuccess,
+      !!data?.data,
+      // !!(nextBatchStatus === "fulfilled")
+      page,
+      comicList.length
+    );
+    if (isSuccess && data?.data && page === comicList.length) {
+      setPage(page + 1);
       setNextBatchStatus("pending");
-      setPage((page) => page + 1);
     }
+    console.log(
+      "🚀 ~ file: ComicListScreen.tsx ~ line 52 ~ endReached ~ endReached"
+    );
   }, []);
 
   const onRefresh = React.useCallback(async () => {
@@ -59,25 +83,13 @@ export const ComicListScreen = ({
     }
   }, [refreshing]);
 
-  if (isLoading || isError)
-    return (
-      // <ContentLoader
-      // active
-      // title={true}
-      // avatar
-      // pRows={2}
-      // pHeight={[window?.height / 4, 28, 200]}
-      // pWidth={[window?.width - 24, window?.width - 24, 100]}
-      // loading={true}
-      // />
-      null
-    );
+  // if (isFetching || isError) return null;
 
   return (
     <Layout level={"3"} style={styles.container}>
       <FlatList
-        data={[1]}
-        renderItem={() => <ComicList list={comicList} name="" />}
+        data={comicList}
+        renderItem={({ item }) => <ComicList list={item} name="" />}
         keyExtractor={(item, index) => index.toString()}
         refreshing={refreshing}
         // onLayout={(e) => console.log(e.nativeEvent)}

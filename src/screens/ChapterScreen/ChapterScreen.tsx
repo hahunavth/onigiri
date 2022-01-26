@@ -52,8 +52,8 @@ export function ChapterScreen({
     params: { path, id, name },
   },
 }: ChapterScreenProps) {
+  // ANCHOR: ANIMATION
   const offset = useSharedValue(0);
-
   const animatedStyles = useAnimatedStyle(() => {
     return {
       // top: offset.value,
@@ -68,7 +68,6 @@ export function ChapterScreen({
       ],
     };
   });
-
   const headerAnimatedStyles = useAnimatedStyle(() => {
     return {
       // top: offset.value,
@@ -83,9 +82,7 @@ export function ChapterScreen({
       ],
     };
   });
-
   const splashOffset = useSharedValue(0);
-
   const splashStyles = useAnimatedStyle(() => {
     return {
       opacity: withTiming(1 - splashOffset.value / 2, {
@@ -103,28 +100,31 @@ export function ChapterScreen({
     };
   });
 
+  // ANCHOR: DATA LOGIC
   const home = useAppSelector(selectHome);
   const history = useAppSelector(historySelector);
-  console.log(history);
+  // console.log(history);
   // const [oldOffset, setOldOffset] = useState(0);
 
   const { data, isLoading, isFetching } = useApiChapter(path);
   const dispatch = useAppDispatch();
-
   const chapterInfo = data?.data;
 
   useEffect(() => {
     if (!isFetching && data) {
       dispatch(homeActions.setCurrentChapter({ ...data?.data, id: id }));
       if (home.currentComic) {
-        // dispatch(historyAction.pushComic(home.currentComic));
-        // dispatch(
-        // historyAction.pushChapter({
-        // comicPath: home.currentComic?.path,
-        // chapterPath: data?.data.path,
-        // })
-        // );
-        // console.log(home.currentComic);
+        console.log("setcomic");
+        dispatch(historyAction.pushReadComic(home.currentComic));
+        dispatch(
+          historyAction.pushChapter({
+            comicPath: home.currentComic?.path,
+            chapterPath: data?.data.path,
+          })
+        );
+        console.log(home.currentComic?.path, data.data.path);
+
+        // NOTE: SPLASH ANIMATION ON RENDER
         splashOffset.value = 1;
       }
     }

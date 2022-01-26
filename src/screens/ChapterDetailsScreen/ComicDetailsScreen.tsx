@@ -35,7 +35,6 @@ import { homeActions, selectHome } from "@/app/homeSlice";
 import { CollapseHeader } from "@/components/CollapseHeader";
 import { SqlQuery } from "@/app/sqlite/query";
 import { CREATE_TABLE, db } from "@/app/sqlite/createTable";
-import { insertComicItem, queryAllComicItem } from "@/db/ComicItem";
 
 // import Animated, {
 //   interpolate,

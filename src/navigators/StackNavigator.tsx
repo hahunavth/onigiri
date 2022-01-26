@@ -227,7 +227,7 @@ export function StackNavigator() {
       />
       <Stack.Screen
         name="ComicListScreen"
-        options={{ title: "Comic list" }}
+        options={{ title: "Comic list", headerShown: false }}
         component={ComicListScreen}
       />
       <Stack.Screen name="FindComicResult" component={FindComicResultScreen} />

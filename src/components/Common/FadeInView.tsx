@@ -15,37 +15,37 @@ type Props = {
 };
 
 const FadeInView = (props: Props) => {
-  // const fadeAnim = useSharedValue(0); // Initial value for opacity: 0
+  const fadeAnim = useSharedValue(0); // Initial value for opacity: 0
 
-  // const fadeStyle = useAnimatedStyle(() => {
-  //   return {
-  //     opacity: withTiming(fadeAnim.value, {
-  //       duration: 300,
-  //       easing: Easing.in(Easing.linear),
-  //     }),
-  //   };
-  // });
+  const fadeStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(fadeAnim.value, {
+        duration: 300,
+        easing: Easing.in(Easing.linear),
+      }),
+    };
+  });
 
-  // useFocusEffect(() => {
-  //   // Animated.timing(fadeAnim, {
-  //   //   toValue: 1,
-  //   //   duration: 500,
-  //   //   useNativeDriver: true,
-  //   // }).start();
-  //   fadeAnim.value = 1;
-  //   return () => {
-  //     fadeAnim.value = 0;
-  //     // Animated.timing(fadeAnim, {
-  //     //   toValue: 0,
-  //     //   duration: 250,
-  //     //   useNativeDriver: true,
-  //     // }).start();
-  //   };
-  // });
+  useFocusEffect(() => {
+    // Animated.timing(fadeAnim, {
+    //   toValue: 1,
+    //   duration: 500,
+    //   useNativeDriver: true,
+    // }).start();
+    fadeAnim.value = 1;
+    return () => {
+      fadeAnim.value = 0;
+      // Animated.timing(fadeAnim, {
+      //   toValue: 0,
+      //   duration: 250,
+      //   useNativeDriver: true,
+      // }).start();
+    };
+  });
 
   return (
     <Layout level={"1"} style={{ flex: 1 }}>
-      {/* <Animated.View // Special animatable View
+      <Animated.View // Special animatable View
         // level={"4"}
         style={[
           {
@@ -54,9 +54,9 @@ const FadeInView = (props: Props) => {
           },
           fadeStyle,
         ]}
-      > */}
-      {props.children}
-      {/* </Animated.View> */}
+      >
+        {props.children}
+      </Animated.View>
     </Layout>
   );
 };

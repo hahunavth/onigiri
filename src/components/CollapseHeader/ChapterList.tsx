@@ -1,6 +1,13 @@
 import { resComicDetailChapterItem_T } from "@/types";
 import { Layout } from "@ui-kitten/components";
-import React, { forwardRef, memo, useCallback, useMemo, useState } from "react";
+import React, {
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   Dimensions,
   FlatList,
@@ -13,20 +20,51 @@ import {
 import Animated from "react-native-reanimated";
 import QuicksandText, { QFontFamily } from "../Common/QuicksandText";
 import ChapterListItem from "./ChapterListItem";
+import { MotiScrollView } from "moti";
+import { useAppSelector } from "@/app/hooks";
+import { historySelector } from "@/app/historySlice";
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
   Animated.createAnimatedComponent(FlatList);
 
-type Props = Omit<FlatListProps<resComicDetailChapterItem_T>, "renderItem">;
+type Props = Omit<
+  FlatListProps<
+    resComicDetailChapterItem_T & {
+      visited?: boolean;
+    }
+  >,
+  "renderItem"
+>;
 
 const ConnectionList = forwardRef<FlatList, Props>((props, ref) => {
   const [sortNewer, setSortNewer] = useState(true);
+  // const [nList, setNList] = useState<
+  //   (resComicDetailChapterItem_T & {
+  //     visited?: boolean;
+  //   })[]
+  // >([]);
+  const history = useAppSelector(historySelector);
 
-  const keyExtractor = useCallback((_, index) => index.toString(), []);
+  // useEffect(() => {
+  //   props.data &&
+  //     setNList(
+  //       props.data.map((cdi) => ({
+  //         ...cdi,
+  //         visited: !!history.readCpt[cdi.path],
+  //       }))
+  //     );
+  // }, [props.data]);
+
+  const keyExtractor = useCallback(
+    (_: resComicDetailChapterItem_T, index) => _.path,
+    []
+  );
 
   const renderItem = useCallback<ListRenderItem<resComicDetailChapterItem_T>>(
-    ({ item, index }) => <ChapterListItem chapter={item} id={index} />,
+    ({ item, index }) => (
+      <ChapterListItem readCptObj={history.readCpt} chapter={item} id={index} />
+    ),
     []
   );
 

@@ -6,10 +6,10 @@ import {
 } from "@/types/api";
 import { addMultipleImgs } from "@/utils/Download/ImgManager";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  scheduleCustomNotification,
-  schedulePushNotification,
-} from "./notification";
+// import {
+//   scheduleCustomNotification,
+//   schedulePushNotification,
+// } from "./notification";
 import { RootState } from "./store";
 
 type saveChapterT = {
@@ -66,14 +66,14 @@ export const downloadComicThunk = createAsyncThunk(
     if (!chapter) throw Error("Can't get chapter");
 
     // console.log("🚀 ~ file: downloadSlice.ts ~ line 49 ~ chapter", chapter);
-    await scheduleCustomNotification({
-      content: {
-        title: "Download comic",
-        body: "Start download",
-        data: { data: "goes here" },
-      },
-      trigger: { seconds: 1 },
-    });
+    // await scheduleCustomNotification({
+    //   content: {
+    //     title: "Download comic",
+    //     body: "Start download",
+    //     data: { data: "goes here" },
+    //   },
+    //   trigger: { seconds: 1 },
+    // });
 
     // save image
     const fileUrls = chapter ? await addMultipleImgs(chapter?.images) : [];
@@ -85,14 +85,14 @@ export const downloadComicThunk = createAsyncThunk(
     );
 
     // Success
-    await scheduleCustomNotification({
-      content: {
-        title: "Download comic",
-        body: "Done",
-        data: { data: "goes here" },
-      },
-      trigger: { seconds: 1 },
-    });
+    // await scheduleCustomNotification({
+    //   content: {
+    //     title: "Download comic",
+    //     body: "Done",
+    //     data: { data: "goes here" },
+    //   },
+    //   trigger: { seconds: 1 },
+    // });
 
     return {
       fileUrls: fileUrls || [],

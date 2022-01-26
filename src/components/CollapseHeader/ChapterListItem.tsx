@@ -1,3 +1,5 @@
+import { historySelector } from "@/app/historySlice";
+import { useAppSelector } from "@/app/hooks";
 import { navigate } from "@/navigators";
 import { resComicDetailChapterItem_T } from "@/types";
 import React, { FC, memo, useMemo } from "react";
@@ -18,12 +20,26 @@ export const PHOTO_SIZE = 40;
 type Props = Pick<TouchableOpacityProps, "style"> & {
   chapter: resComicDetailChapterItem_T;
   id: number;
+  // visited?: boolean;
+  readCptObj?: {
+    [path: string]: number;
+  };
 };
 
-const ConnectionItem: FC<Props> = ({ style, chapter: connection, id }) => {
+const ConnectionItem: FC<Props> = ({
+  style,
+  chapter: connection,
+  id,
+  // visited,
+  readCptObj,
+}) => {
   const { path, updatedDistance, name } = connection;
 
   const mergedStyle = useMemo(() => [styles.container, style], [style]);
+
+  // const visited = useMemo(() => readCptObj && readCptObj[path], [path]);
+
+  const visited = !!useAppSelector(historySelector).readCpt[path];
 
   return (
     <TouchableOpacity
@@ -31,7 +47,11 @@ const ConnectionItem: FC<Props> = ({ style, chapter: connection, id }) => {
       onPress={() => navigate("Chapter", { path: connection.path, id, name })}
     >
       {/* <Image style={styles.image} source={{ uri: photo }} /> */}
-      <QuicksandText style={styles.name}>{name}</QuicksandText>
+      <QuicksandText
+        style={[styles.name, visited ? { color: "purple" } : null]}
+      >
+        {name}
+      </QuicksandText>
       <QuicksandText style={{ color: "#ccc" }}>{updatedDistance}</QuicksandText>
     </TouchableOpacity>
   );

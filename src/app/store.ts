@@ -37,7 +37,7 @@ const reducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  blacklist: [comicApi.reducerPath, "home", "history"],
+  blacklist: [comicApi.reducerPath, "home"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
@@ -47,8 +47,9 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware({
       serializableCheck: false,
+      immutableCheck: false,
       // {
-      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       // },
     }).concat(
       comicApi.middleware

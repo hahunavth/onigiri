@@ -1,8 +1,15 @@
-import { View, Text, TextStyle, StyleSheet, ViewStyle } from "react-native";
+import {
+  View,
+  Text,
+  TextStyle,
+  StyleSheet,
+  ViewStyle,
+  SafeAreaView,
+} from "react-native";
 import React from "react";
 import { Layout } from "@ui-kitten/components";
 import QuicksandText, { QFontFamily } from "./QuicksandText";
-import { SafeAreaView } from "react-native-safe-area-context";
+// import { SafeAreaView, SafeAreaViewProps } from "react-native-safe-area-context";
 import { MyBlurView } from "./MyBlurView";
 import Animated from "react-native-reanimated";
 import { BlurView } from "expo-blur";

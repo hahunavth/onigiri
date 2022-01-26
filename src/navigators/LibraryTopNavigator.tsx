@@ -1,9 +1,15 @@
 import React from "react";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import {
+  createMaterialTopTabNavigator,
+  MaterialTopTabBarProps,
+  MaterialTopTabNavigationProp,
+} from "@react-navigation/material-top-tabs";
 import { DownloadTab, RecentTab, SubscribeTab } from "@/screens/LibraryScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleService, useStyleSheet } from "@ui-kitten/components";
 import { ColorSchemeE } from "@/styles/colorScheme";
+import { TabBarProps } from "react-native-tab-view";
+import { useAppDispatch } from "@/app/hooks";
 
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<LibraryTopNavigatorParamList>();
@@ -25,8 +31,10 @@ const themedStyles = StyleService.create({
 
 export const LibraryTopNavigator = () => {
   const styles = useStyleSheet(themedStyles);
+
   return (
     <Navigator
+      backBehavior="none"
       screenOptions={{
         tabBarStyle: styles.tabBar,
 
@@ -51,10 +59,24 @@ export const LibraryTopNavigator = () => {
         tabBarInactiveTintColor: "gray",
         tabBarPressColor: "transparent",
       }}
+      showPageIndicator
     >
-      <Screen name="recent">{RecentTab}</Screen>
-      <Screen name="subscribes">{SubscribeTab}</Screen>
-      <Screen name="downloads">{DownloadTab}</Screen>
+      <Screen name="recent" component={RecentTab}></Screen>
+      <Screen name="subscribes" component={SubscribeTab}></Screen>
+      <Screen name="downloads" component={DownloadTab}></Screen>
     </Navigator>
   );
 };
+
+export type RecentTabProps = MaterialTopTabNavigationProp<
+  LibraryTopNavigatorParamList,
+  "recent"
+>;
+export type SubscribeTabProps = MaterialTopTabNavigationProp<
+  LibraryTopNavigatorParamList,
+  "recent"
+>;
+export type DownloadTabProps = MaterialTopTabNavigationProp<
+  LibraryTopNavigatorParamList,
+  "recent"
+>;
