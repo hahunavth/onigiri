@@ -60,7 +60,7 @@ export default function App() {
   // const { expoPushToken, notification } = useNotification();
 
   useEffect(() => {
-    if (Platform.OS !== "web") schedulePushNotification();
+    // if (Platform.OS !== "web") schedulePushNotification();
   });
 
   // Splash screen

@@ -10,6 +10,8 @@ import {
   ViewStyle,
   StyleProp,
   ViewProps,
+  InteractionManager,
+  Text,
 } from "react-native";
 import {
   ComicDetailsNavigationProps,
@@ -279,8 +281,11 @@ export const ComicDetailsScreen = (props: ComicDetailsScreenProps) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(homeActions.setCurrentComic(data));
+    const interaction = InteractionManager.runAfterInteractions(() =>
+      dispatch(homeActions.setCurrentComic(data))
+    );
     return () => {
+      interaction.cancel();
       dispatch(homeActions.removeCurrentComic());
     };
   }, [data]);
@@ -288,6 +293,9 @@ export const ComicDetailsScreen = (props: ComicDetailsScreenProps) => {
   return (
     <Layout level={"3"} style={{ flex: 1 }}>
       <CollapseHeader comic={data} routeParam={props.route.params.comic} />
+      {/* <SharedElement id={`${props.route.params.comic.posterUrl}`}>
+        <Text>Hello</Text>
+      </SharedElement> */}
     </Layout>
   );
 };
@@ -296,6 +304,6 @@ export const ComicDetailsScreen = (props: ComicDetailsScreenProps) => {
 // // @ts-ignore
 // ComicDetailsScreen.sharedElements = (navigation: any) => {
 //   // const item = navigation.getParam("ComicDetails");
-//   // console.log(navigation.route.params.comic.posterUrl);
+//   console.log(navigation.route.params.comic.posterUrl);
 //   return [`${navigation.route.params.comic.posterUrl}`];
 // };

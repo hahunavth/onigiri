@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  TouchableOpacity,
   Dimensions,
   Animated,
   StyleSheet,
+  TouchableNativeFeedback,
 } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
@@ -79,7 +79,7 @@ export const TabBar = ({
           };
 
           return (
-            <TouchableOpacity
+            <TouchableNativeFeedback
               accessibilityRole="button"
               // accessibilityStates={isFocused ? ["selected"] : []}
               accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -93,7 +93,7 @@ export const TabBar = ({
                 iconName={label.toString()}
                 isCurrent={isFocused}
               />
-            </TouchableOpacity>
+            </TouchableNativeFeedback>
           );
         })}
       </View>

@@ -18,6 +18,7 @@ import {
 } from "react-native";
 import Animated, {
   Easing,
+  FadeInDown,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
@@ -30,6 +31,7 @@ import {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
+import FadeInView from "../Common/FadeInView";
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -42,7 +44,8 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
 
   const renderItem = useCallback<ListRenderItem<resComicDetail_T>>(
     ({ item }) => (
-      <View style={{}}>
+      <Animated.View>
+        {/* <FadeInView style={{ backgroundColor: "transparent" }}> */}
         <CollapseRoundView detail={item.detail}></CollapseRoundView>
         <RoundView>
           <QuicksandText
@@ -130,7 +133,8 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
             </QuicksandText>
           </View>
         </RoundView>
-      </View>
+        {/* </FadeInView> */}
+      </Animated.View>
     ),
     []
   );

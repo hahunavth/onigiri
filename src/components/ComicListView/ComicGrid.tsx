@@ -20,6 +20,7 @@ import { StyleService, useStyleSheet } from "@ui-kitten/components";
 import { ColorSchemeE } from "@/styles/colorScheme";
 
 import { navigate } from "@/navigators/index";
+import { SharedElement } from "react-navigation-shared-element";
 
 const numColumns = 3;
 const ratio = 1.5;
@@ -106,16 +107,16 @@ export function ComicGrid({
               }}
             >
               <View style={itemStyles.itemContainer}>
-                {/* <SharedElement id={`${item.posterUrl}`}> */}
-                <Image
-                  style={itemStyles.poster as any}
-                  source={{
-                    uri:
-                      item.posterUrl ||
-                      "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
-                  }}
-                />
-                {/* </SharedElement> */}
+                <SharedElement id={`${item.posterUrl}`}>
+                  <Image
+                    style={itemStyles.poster as any}
+                    source={{
+                      uri:
+                        item.posterUrl ||
+                        "http://st.imageinstant.net/data/comics/32/vo-luyen-dinh-phong.jpg",
+                    }}
+                  />
+                </SharedElement>
                 <QuicksandText numberOfLines={2} style={itemStyles.item}>
                   {item.name}
                 </QuicksandText>

@@ -318,6 +318,7 @@ export const CollapseHeader = (props: Props) => {
         <Tab.Navigator
           tabBar={renderTabBar}
           pageMargin={10}
+          backBehavior="none"
           screenOptions={{
             tabBarStyle: tbStyle.tabBar,
             tabBarLabelStyle: {},
@@ -349,11 +350,16 @@ export const CollapseHeader = (props: Props) => {
             // lazy: true,
           }}
         >
-          <Tab.Screen name="Friends" component={renderFriends}></Tab.Screen>
+          <Tab.Screen name="Friends">{renderFriends}</Tab.Screen>
           <Tab.Screen
             name="Suggestions"
-            component={renderSuggestions}
-          ></Tab.Screen>
+            // component={renderSuggestions}
+            // NOTE: Do not use component props like above
+            //       It will rerender component when navigate
+            //       Use children props will render once
+          >
+            {renderSuggestions}
+          </Tab.Screen>
         </Tab.Navigator>
         <View
           style={{

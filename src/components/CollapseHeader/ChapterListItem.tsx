@@ -7,6 +7,9 @@ import {
   Image,
   StyleSheet,
   Text,
+  Touchable,
+  TouchableNativeFeedback,
+  TouchableNativeFeedbackBase,
   TouchableOpacityProps,
   View,
   ViewProps,
@@ -42,18 +45,22 @@ const ConnectionItem: FC<Props> = ({
   const visited = !!useAppSelector(historySelector).readCpt[path];
 
   return (
-    <TouchableOpacity
+    <TouchableNativeFeedback
       style={mergedStyle}
       onPress={() => navigate("Chapter", { path: connection.path, id, name })}
     >
-      {/* <Image style={styles.image} source={{ uri: photo }} /> */}
-      <QuicksandText
-        style={[styles.name, visited ? { color: "purple" } : null]}
-      >
-        {name}
-      </QuicksandText>
-      <QuicksandText style={{ color: "#ccc" }}>{updatedDistance}</QuicksandText>
-    </TouchableOpacity>
+      <View style={mergedStyle}>
+        {/* <Image style={styles.image} source={{ uri: photo }} /> */}
+        <QuicksandText
+          style={[styles.name, visited ? { color: "purple" } : null]}
+        >
+          {name}
+        </QuicksandText>
+        <QuicksandText style={{ color: "#ccc" }}>
+          {updatedDistance}
+        </QuicksandText>
+      </View>
+    </TouchableNativeFeedback>
   );
 };
 

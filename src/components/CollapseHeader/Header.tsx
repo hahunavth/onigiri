@@ -114,10 +114,10 @@ const styles = StyleSheet.create({
 
 export default memo(Header);
 
-// FIXME: Fix type of sharedElement config
-// @ts-ignore
-Header.sharedElements = (navigation: any) => {
-  // const item = navigation.getParam("ComicDetails");
-  console.log(navigation.route.params.comic.posterUrl);
-  return [`${navigation.route.params.comic.posterUrl}`];
-};
+// // FIXME: Fix type of sharedElement config
+// // @ts-ignore
+// Header.sharedElements = (navigation: any) => {
+//   // const item = navigation.getParam("ComicDetails");
+//   console.log(navigation.route.params);
+//   return [`${navigation.route.params.comic.posterUrl}`];
+// };

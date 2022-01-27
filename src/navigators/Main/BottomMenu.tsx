@@ -174,6 +174,7 @@ export const BottomMenu = (mainNavigation: MainScreenProps) => {
             headerShown: false,
           }}
         />
+
         <Tab.Screen
           name="dashboard"
           component={DashboardScreen}

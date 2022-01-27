@@ -11,6 +11,7 @@ import {
   ListRenderItemInfo,
   Dimensions,
   ActivityIndicator,
+  InteractionManager,
 } from "react-native";
 // import ImageSize from "react-native-image-size";
 
@@ -111,24 +112,27 @@ export function ChapterScreen({
   const chapterInfo = data?.data;
 
   useEffect(() => {
-    if (!isFetching && data) {
-      dispatch(homeActions.setCurrentChapter({ ...data?.data, id: id }));
-      if (home.currentComic) {
-        console.log("setcomic");
-        dispatch(historyAction.pushReadComic(home.currentComic));
-        dispatch(
-          historyAction.pushChapter({
-            comicPath: home.currentComic?.path,
-            chapterPath: data?.data.path,
-          })
-        );
-        console.log(home.currentComic?.path, data.data.path);
+    const interaction = InteractionManager.runAfterInteractions(() => {
+      if (!isFetching && data) {
+        dispatch(homeActions.setCurrentChapter({ ...data?.data, id: id }));
+        if (home.currentComic) {
+          console.log("setcomic");
+          dispatch(historyAction.pushReadComic(home.currentComic));
+          dispatch(
+            historyAction.pushChapter({
+              comicPath: home.currentComic?.path,
+              chapterPath: data?.data.path,
+            })
+          );
+          console.log(home.currentComic?.path, data.data.path);
 
-        // NOTE: SPLASH ANIMATION ON RENDER
-        splashOffset.value = 1;
+          // NOTE: SPLASH ANIMATION ON RENDER
+          splashOffset.value = 1;
+        }
       }
-    }
+    });
     return () => {
+      interaction.cancel();
       dispatch(homeActions.removeCurrentChapter());
     };
   }, [isFetching, data]);
@@ -219,7 +223,7 @@ export function ChapterScreen({
             <List
               data={chapterInfo?.images || []}
               renderItem={renderItem}
-              initialNumToRender={3}
+              initialNumToRender={2}
               keyExtractor={(item, id) => item}
               style={{ zIndex: 11 }}
               onScroll={(e) => {

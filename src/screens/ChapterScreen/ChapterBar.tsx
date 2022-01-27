@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ViewProps,
   ViewStyle,
+  InteractionManager,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
@@ -35,19 +36,24 @@ const ChapterBar = (props: Props) => {
   const [prevChapter, setPrevChapter] = useState("");
 
   useEffect(() => {
-    const length = home.currentComic?.chapters.length;
-    const id = home.currentChapter?.id;
-    const list = home.currentComic?.chapters;
-    if (id && length && list) {
-      if (id < length - 1) {
-        setNextChapter(() => list[id + 1].path);
-        if (list[id + 1].path) chapterCallback(list[id + 1].path);
+    const interaction = InteractionManager.runAfterInteractions(() => {
+      const length = home.currentComic?.chapters.length;
+      const id = home.currentChapter?.id;
+      const list = home.currentComic?.chapters;
+      if (id && length && list) {
+        if (id < length - 1) {
+          setNextChapter(() => list[id + 1].path);
+          if (list[id + 1].path) chapterCallback(list[id + 1].path);
+        }
+        if (id > 0) {
+          setPrevChapter(() => list[id - 1].path);
+          if (list[id - 1].path) chapterCallback(list[id - 1].path);
+        }
       }
-      if (id > 0) {
-        setPrevChapter(() => list[id - 1].path);
-        if (list[id - 1].path) chapterCallback(list[id - 1].path);
-      }
-    }
+    });
+    return () => {
+      interaction.cancel();
+    };
   }, [home.currentChapter?.chapterName]);
 
   return (

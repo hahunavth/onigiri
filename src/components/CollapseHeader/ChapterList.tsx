@@ -12,6 +12,7 @@ import {
   Dimensions,
   FlatList,
   FlatListProps,
+  InteractionManager,
   ListRenderItem,
   StyleSheet,
   TouchableOpacity,

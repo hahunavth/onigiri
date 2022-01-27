@@ -124,6 +124,17 @@ export function StackNavigator() {
       <Stack.Screen
         name="ComicDetails"
         component={ComicDetailsScreen}
+        sharedElements={(route, otherRoute, showing) => {
+          const { item } = route.params;
+          return [
+            {
+              id: `${route.params?.comic?.posterUrl}`,
+              animation: "fade",
+              resize: "auto",
+              align: "center-top",
+            },
+          ];
+        }}
         options={{
           // headerStatusBarHeight: -12,
           headerTitleStyle: {

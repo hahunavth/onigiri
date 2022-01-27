@@ -37,7 +37,7 @@ import {
   downloadComicThunk,
   downloadSelector,
 } from "@/app/downloadSlice";
-import { useDownloadComic } from "@/app/notification";
+// import { useDownloadComic } from "@/app/notification";
 import { selectHome } from "@/app/homeSlice";
 import { addMultipleImgs } from "@/utils/Download/ImgManager";
 
@@ -163,7 +163,7 @@ const ChapterList: React.FunctionComponent<
   //     downloadProgressCallback: downloadProgressUpdater,
   //   });
   // }
-  const { uriList, setUriList, setComic, setChapter, run } = useDownloadComic();
+  // const { uriList, setUriList, setComic, setChapter, run } = useDownloadComic();
 
   // const download = useAppSelector(downloadSelector);
   const home = useAppSelector(selectHome);

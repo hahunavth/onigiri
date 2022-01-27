@@ -48,6 +48,7 @@ const ScaledImage = ({ src }: { src: string }) => {
       return () => Dimensions.removeEventListener("change", onChange);
     };
   }, []);
+
   useEffect(() => {
     let isMounted = true;
     fetch(

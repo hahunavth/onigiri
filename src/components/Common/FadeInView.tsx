@@ -7,11 +7,13 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { ViewStyle } from "react-native";
 
 // const AnimatedLayout = Animated.createAnimatedComponent(Layout);
 
 type Props = {
   children: React.ReactNode;
+  style?: ViewStyle;
 };
 
 const FadeInView = (props: Props) => {
@@ -44,7 +46,7 @@ const FadeInView = (props: Props) => {
   });
 
   return (
-    <Layout level={"1"} style={{ flex: 1 }}>
+    <Layout level={"1"} style={[{ flex: 1 }, props.style]}>
       <Animated.View // Special animatable View
         // level={"4"}
         style={[
