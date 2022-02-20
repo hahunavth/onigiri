@@ -1,0 +1,9 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "scripts": {},
+  "license": "MIT",
+  "dependencies": {
+    "native-base": "^3.3.4"
+  }
+}
