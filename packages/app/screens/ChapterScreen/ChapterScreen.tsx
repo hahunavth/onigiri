@@ -94,13 +94,18 @@ export function ChapterScreen({
 
   // ANCHOR: DATA LOGIC
   const home = useAppSelector(homeSelector)
-  const history = useAppSelector(historySelector)
-  // console.log(history);
-  // const [oldOffset, setOldOffset] = useState(0);
 
   const { data, isLoading, isFetching } = useApiChapter(path)
   const dispatch = useAppDispatch()
   const chapterInfo = data?.data
+
+  const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([])
+
+  useEffect(() => {
+    if (!imgs) {
+      setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })))
+    }
+  }, [isFetching])
 
   useEffect(() => {
     const interaction = InteractionManager.runAfterInteractions(() => {
@@ -115,8 +120,7 @@ export function ChapterScreen({
               chapterPath: data?.data.path
             })
           )
-          console.log(home.currentComic?.path, data.data.path)
-
+          // console.log(home.currentComic?.path, data.data.path)
           // NOTE: SPLASH ANIMATION ON RENDER
         }
         splashOffset.value = 1
@@ -127,6 +131,23 @@ export function ChapterScreen({
       dispatch(homeActions.removeCurrentChapter())
     }
   }, [isFetching, data])
+
+  const renderItem = React.useCallback(
+    ({ item, index }: ListRenderItemInfo<{ uri: string; h: number }>) => {
+      return (
+        <ScaledImage
+          src={
+            'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' +
+            item.uri
+          }
+          id={index}
+          h={item.h || 0}
+          setImgs={setImgs}
+        />
+      )
+    },
+    []
+  )
 
   if (isFetching || !data)
     return (
@@ -202,10 +223,10 @@ export function ChapterScreen({
           {/* <BlurHeader /> */}
 
           <FlatList
-            data={chapterInfo?.images || []}
+            data={imgs || []}
             renderItem={renderItem}
             // initialNumToRender={2}
-            keyExtractor={(item, id) => item}
+            keyExtractor={(item, id) => id.toString()}
             style={{ zIndex: 11 }}
             //#endregion
 
@@ -240,13 +261,5 @@ export function ChapterScreen({
       {/* </Text> */}
       {/* )} */}
     </>
-  )
-}
-
-const renderItem = ({ item }: ListRenderItemInfo<string>) => {
-  return (
-    <ScaledImage
-      src={'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' + item}
-    />
   )
 }

@@ -44,7 +44,7 @@ import { ScrollPair } from './ScrollPair'
 import useScrollSync from './useScrollSync'
 import ChapterList, { ListHeader } from './ChapterList'
 import TabBar from './TabBar'
-import { Button, View, Text, useColorModeValue } from 'native-base'
+import { Button, View, Text, useColorModeValue, Badge } from 'native-base'
 // import Text from '../Common/QuicksandText'
 import DetailList from './DetailList'
 import { useAppDispatch, useAppSelector } from 'app/store/hooks'
@@ -61,6 +61,7 @@ import { TouchableNativeFeedback } from 'react-native'
 type Props = {
   comic?: resComicDetail_T
   routeParam?: resComicItem_T
+  offline?: boolean
 }
 
 const tbStyle = StyleSheet.create({
@@ -93,6 +94,8 @@ export const CollapseHeader = (props: Props) => {
   // const tbStyle = useStyleSheet(themedStyles)
 
   const dispatch = useAppDispatch()
+  const { comics, downloadComics, downloadCpt } =
+    useAppSelector(historySelector)
   const subscribed = !!useAppSelector(historySelector).subscribeComics.find(
     (path) => path === props.comic?.path
   )
@@ -195,6 +198,12 @@ export const CollapseHeader = (props: Props) => {
     [contentContainerStyle, sync, heightExpanded]
   )
 
+  const downloadedChapterList = useMemo(() => {
+    return props.offline
+      ? props.comic.chapters.filter((item) => !!downloadCpt[item.path])
+      : props.comic?.chapters
+  }, [props.comic, props.offline])
+
   // NOTE: Render List
   const renderFriends = useCallback(
     () => (
@@ -219,11 +228,12 @@ export const CollapseHeader = (props: Props) => {
     () => (
       <ChapterList
         ref={suggestionsRef}
-        data={props.comic?.chapters}
+        data={downloadedChapterList}
         onScroll={suggestionsScrollHandler}
         initialNumToRender={8}
         maxToRenderPerBatch={10}
         windowSize={10}
+        offline={props.offline}
         {...sharedProps}
         //   ListHeaderComponent={() => (
         //     <ListHeader
@@ -305,13 +315,19 @@ export const CollapseHeader = (props: Props) => {
         >
           <AntDesign name="arrowleft" size={32} color="white" />
           <View style={{ alignSelf: 'flex-end', flexDirection: 'row' }}>
-            <TouchableNativeFeedback
-              onPress={() =>
-                navigate('select-download-chapter', { comic: props.comic })
-              }
-            >
-              <Ionicons name="ios-download-outline" size={32} color="white" />
-            </TouchableNativeFeedback>
+            {props.offline ? (
+              <Badge variant={'subtle'} colorScheme={'danger'}>
+                Offline
+              </Badge>
+            ) : (
+              <TouchableNativeFeedback
+                onPress={() =>
+                  navigate('select-download-chapter', { comic: props.comic })
+                }
+              >
+                <Ionicons name="ios-download-outline" size={32} color="white" />
+              </TouchableNativeFeedback>
+            )}
             <AntDesign name="menuunfold" size={28} color="white" />
           </View>
         </View>

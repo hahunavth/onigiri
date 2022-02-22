@@ -27,6 +27,8 @@ type Props = Pick<TouchableOpacityProps, 'style'> & {
   readCptObj?: {
     [path: string]: number
   }
+  offline?: boolean
+  comicPath?: string
 }
 
 const ConnectionItem: FC<Props> = ({
@@ -34,7 +36,9 @@ const ConnectionItem: FC<Props> = ({
   chapter: connection,
   id,
   // visited,
-  readCptObj
+  readCptObj,
+  offline,
+  comicPath
 }) => {
   const { path, updatedDistance, name } = connection
 
@@ -48,11 +52,16 @@ const ConnectionItem: FC<Props> = ({
     <TouchableNativeFeedback
       style={mergedStyle}
       onPress={() =>
-        navigate('chapter', {
-          id: id,
-          path: connection.path,
-          name: connection.name
-        })
+        offline
+          ? navigate('offline-chapter-screen', {
+              comicPath: comicPath,
+              chapterPath: connection.path
+            })
+          : navigate('chapter', {
+              id: id,
+              path: connection.path,
+              name: connection.name
+            })
       }
     >
       <View style={mergedStyle}>

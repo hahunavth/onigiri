@@ -20,11 +20,11 @@ import {
 } from 'react-native'
 import { Text } from 'native-base'
 import Animated from 'react-native-reanimated'
-// import QuicksandText, { QFontFamily } from "../Common/QuicksandText";
 import ChapterListItem from './ChapterListItem'
 import { MotiScrollView } from 'moti'
 import { useAppSelector } from 'app/store/hooks'
 import { historySelector } from 'app/store/historySlice'
+import { homeSelector } from '../../store/homeSlice'
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -39,37 +39,34 @@ type Props = Omit<
   'renderItem'
 >
 
-const ConnectionList = forwardRef<FlatList, Props>((props, ref) => {
+const ConnectionList = forwardRef<
+  FlatList,
+  Props & {
+    // This props for downloaded offline comic
+    offline?: boolean
+  }
+>((props, ref) => {
   const [sortNewer, setSortNewer] = useState(true)
-  // const [nList, setNList] = useState<
-  //   (resComicDetailChapterItem_T & {
-  //     visited?: boolean;
-  //   })[]
-  // >([]);
   const history = useAppSelector(historySelector)
+  const { currentComic } = useAppSelector(homeSelector)
 
-  // useEffect(() => {
-  //   props.data &&
-  //     setNList(
-  //       props.data.map((cdi) => ({
-  //         ...cdi,
-  //         visited: !!history.readCpt[cdi.path],
-  //       }))
-  //     );
-  // }, [props.data]);
-
+  // Memo
   const keyExtractor = useCallback(
     (_: resComicDetailChapterItem_T, index) => _.path,
     []
   )
-
   const renderItem = useCallback<ListRenderItem<resComicDetailChapterItem_T>>(
     ({ item, index }) => (
-      <ChapterListItem readCptObj={history.readCpt} chapter={item} id={index} />
+      <ChapterListItem
+        readCptObj={history.readCpt}
+        chapter={item}
+        id={index}
+        offline={props.offline}
+        comicPath={currentComic?.path}
+      />
     ),
-    []
+    [props.offline]
   )
-
   const olderList = useMemo(() => {
     const list = []
     if (props.data)
@@ -80,10 +77,7 @@ const ConnectionList = forwardRef<FlatList, Props>((props, ref) => {
   }, [props.data])
 
   return (
-    <View
-      style={{ flex: 1 }}
-      // level={'2'}
-    >
+    <View style={{ flex: 1 }}>
       <AnimatedFlatList
         ref={ref}
         style={styles.container}
@@ -147,7 +141,6 @@ export const ListHeader = ({
             {
               fontSize: 10,
               paddingRight: 10
-              // fontFamily: QFontFamily.Quicksand_600SemiBold,
             },
             sortType && listHeaderStyle.activate
           ]}
@@ -166,7 +159,6 @@ export const ListHeader = ({
             {
               fontSize: 10,
               paddingRight: 5
-              // fontFamily: QFontFamily.Quicksand_600SemiBold,
             },
             !sortType && listHeaderStyle.activate
           ]}
@@ -181,7 +173,6 @@ export const ListHeader = ({
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "white",
     flex: 1
   }
 })

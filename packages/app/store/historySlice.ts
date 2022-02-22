@@ -67,6 +67,12 @@ const historySlice = createSlice({
    */
   reducers: {
     /**
+     * RESET STATE TO INITIAL
+     */
+    reset: (state, action: PayloadAction<null>) => {
+      return initialState
+    },
+    /**
      * Push comic to list if not exists
      * Update chapter list in comic if exists in state
      */
@@ -269,7 +275,8 @@ const historySlice = createSlice({
       if (result) {
         // ANCHOR: MODIFY STATE
         state.downloadCpt[chapterPath] = action.payload.chapter
-        state.downloadComics.push(comicPath)
+        if (state.downloadComics.indexOf(comicPath) === -1)
+          state.downloadComics.push(comicPath)
 
         const dc = state.comics[comicPath]?.downloadCount
         const comic = state.comics[comicPath]

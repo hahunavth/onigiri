@@ -13,12 +13,19 @@ import {
   LoginScreen,
   SignupScreen,
   TestScreen,
-  TopComicScreen
+  TopComicScreen,
+  OfflineChapterScreen,
+  OfflineComicScreen
 } from 'app/screens'
 
 import BottomNav from './BottomNav'
-import type { resComicItem_T, resComicDetail_T } from '../types'
+import type {
+  resComicItem_T,
+  resComicDetail_T,
+  resChapterDetail_T
+} from '../types'
 import { SelectDownloadChapter } from '../screens/SelectDownloadChapterScreen/SelectDownloadChapter'
+import { HistoryComicT } from '../store/historySlice'
 
 /**
  * Using common params
@@ -53,6 +60,15 @@ export type StackNavParamsList = {
     id: number
     preloadItem?: Partial<resComicDetail_T>
   }
+  'offline-comic-screen': {
+    path: string
+    // Load comic from source and pass navigate
+    // comic: Partial<HistoryComicT>
+  }
+  'offline-chapter-screen': {
+    comicPath: string
+    chapterPath: string
+  }
 }
 
 /**
@@ -74,6 +90,14 @@ export type DownloadedChapterScreen = NativeStackScreenProps<
   StackNavParamsList,
   'downloaded-chapter'
 >
+export type OfflineComicScreenProps = NativeStackScreenProps<
+  StackNavParamsList,
+  'offline-comic-screen'
+>
+export type OfflineChapterScreenProps = NativeStackScreenProps<
+  StackNavParamsList,
+  'offline-chapter-screen'
+>
 
 /**
  * Export navigation
@@ -83,9 +107,11 @@ const { Navigator, Screen } = createNativeStackNavigator<StackNavParamsList>()
 export function StackNav() {
   return (
     <Navigator
-      screenOptions={{
-        header: NavigationHeader
-      }}
+      screenOptions={
+        {
+          // header: NavigationHeader
+        }
+      }
     >
       <Screen
         name="main"
@@ -168,6 +194,14 @@ export function StackNav() {
         }}
         component={SelectDownloadChapter}
       ></Screen>
+
+      <Screen
+        name="offline-comic-screen"
+        options={{ headerShown: false }}
+        component={OfflineComicScreen}
+      />
+
+      <Screen name="offline-chapter-screen" component={OfflineChapterScreen} />
     </Navigator>
   )
 }
