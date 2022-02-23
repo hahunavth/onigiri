@@ -147,7 +147,7 @@ export function SelectDownloadChapter(props: SelectDownloadChapterProps) {
         ></SelectableBadge>
       )
     },
-    [downloadComics[comic.path], comics[comic.path]?.downloadCount]
+    [downloadComics[comic?.path], comics[comic?.path]?.downloadCount]
   )
 
   return (
@@ -214,7 +214,7 @@ export function SelectDownloadChapter(props: SelectDownloadChapterProps) {
         <View pt={4} pb={4}>
           <Text alignSelf={'center'}>Selected: {selectedCount}</Text>
           <Text alignSelf={'center'}>
-            Download: {comics[comic.path]?.downloadCount}
+            Download: {comics[comic?.path]?.downloadCount}
           </Text>
         </View>
         <HStack
@@ -237,7 +237,6 @@ export function SelectDownloadChapter(props: SelectDownloadChapterProps) {
           <Button
             onPress={() => {
               setIsDownloading(true)
-              console.log()
             }}
             isLoading={isDownloading}
           >

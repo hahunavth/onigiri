@@ -44,8 +44,6 @@ type Props = Omit<FlatListProps<resComicDetail_T>, 'renderItem'>
 const Details = forwardRef<FlatList, Props>((props, ref) => {
   const keyExtractor = useCallback((_, index) => index.toString(), [])
 
-  console.log(props.data)
-
   const renderItem = useCallback<ListRenderItem<resComicDetail_T>>(
     ({ item }) => (
       <Animated.View>

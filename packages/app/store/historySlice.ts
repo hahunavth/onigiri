@@ -134,8 +134,8 @@ const historySlice = createSlice({
           )
         }
         // Add if not exists
-        if (state.readComics.find((path) => path === action.payload.path)) {
-          state.readComics.push(action.payload.path)
+        if (state.readComics.indexOf(action.payload.path) === -1) {
+          state.readComics.unshift(action.payload.path)
         }
       }
 

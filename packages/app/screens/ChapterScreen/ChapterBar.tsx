@@ -48,9 +48,6 @@ const ChapterBar = (props: Props) => {
       }
     })
 
-    console.log('log' + prevChapter + nextChapter)
-    console.log('object ' + home.currentComic?.title)
-
     return () => {
       interaction.cancel()
     }

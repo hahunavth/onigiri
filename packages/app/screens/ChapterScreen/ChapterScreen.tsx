@@ -100,11 +100,11 @@ export function ChapterScreen({
   const chapterInfo = data?.data
 
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([])
-
   useEffect(() => {
-    if (!imgs) {
-      setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })))
+    if (!imgs.length) {
+      setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })) || [])
     }
+    // console.log(imgs)
   }, [isFetching])
 
   useEffect(() => {
@@ -120,7 +120,8 @@ export function ChapterScreen({
               chapterPath: data?.data.path
             })
           )
-          // console.log(home.currentComic?.path, data.data.path)
+          console.log(home.currentComic?.path, data.data.path)
+
           // NOTE: SPLASH ANIMATION ON RENDER
         }
         splashOffset.value = 1
@@ -141,7 +142,7 @@ export function ChapterScreen({
             item.uri
           }
           id={index}
-          h={item.h || 0}
+          h={item.h}
           setImgs={setImgs}
         />
       )
@@ -226,7 +227,7 @@ export function ChapterScreen({
             data={imgs || []}
             renderItem={renderItem}
             // initialNumToRender={2}
-            keyExtractor={(item, id) => id.toString()}
+            keyExtractor={(item, id) => item.uri}
             style={{ zIndex: 11 }}
             //#endregion
 

@@ -26,6 +26,7 @@ import type {
 } from '../types'
 import { SelectDownloadChapter } from '../screens/SelectDownloadChapterScreen/SelectDownloadChapter'
 import { HistoryComicT } from '../store/historySlice'
+import { FindOptionT } from '../screens/DiscoverScreen/constants'
 
 /**
  * Using common params
@@ -44,7 +45,10 @@ export type StackNavParamsList = {
     id: number
     preloadItem?: Partial<resComicDetail_T>
   }
-  'find-result': undefined
+  'find-result': {
+    path: string
+    findOption: FindOptionT
+  }
   'top-comic': undefined
   test: {
     name: string
@@ -97,6 +101,10 @@ export type OfflineComicScreenProps = NativeStackScreenProps<
 export type OfflineChapterScreenProps = NativeStackScreenProps<
   StackNavParamsList,
   'offline-chapter-screen'
+>
+export type FindResultScreenProps = NativeStackScreenProps<
+  StackNavParamsList,
+  'find-result'
 >
 
 /**

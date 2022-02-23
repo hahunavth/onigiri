@@ -1,3 +1,4 @@
+import { FindOptionT, toIdListStr } from './../screens/DiscoverScreen/constants'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type {
   ApiResponse_T,
@@ -45,14 +46,22 @@ export const comicApi = createApi({
       }
     }),
 
-    // findComic: builder.query<ApiResponse_T<resComicItem_T[]>, FindComicProps>({
-    //   query: (param: FindComicProps) => {
-    //     console.log(
-    //       `🚀  /find?genres=${param.genres}&nogenres=&gender=${param.gender}&status=${param.status}&sort=${param.sort}`
-    //     );
-    //     return `/find?genres=${param.genres}&nogenres=&gender=${param.gender}&status=${param.status}&sort=${param.sort}`;
-    //   },
-    // }),
+    findComic: builder.query<ApiResponse_T<resComicItem_T[]>, FindOptionT>({
+      query: (param: FindOptionT) => {
+        const getFindPath = () => {
+          // Ex: http://www.nettruyenpro.com/tim-truyen-nang-cao?genres=&notgenres=&gender=-1&status=2&minchapter=1&sort=5
+          return `genres=${toIdListStr(param.genres.map((g) => g.id))}&gender=${
+            param.forUser?.id || -1
+          }&status=${param.status?.id || -1}&minchapter=${
+            param.numChapter?.id || -1
+          }&sort=${param.sortBy?.id || 0}`
+          // console.log(param.selectedForUser)
+        }
+
+        console.log(`🚀  ${getFindPath()}`)
+        return `/find?${getFindPath()}`
+      }
+    }),
     findComicByName: builder.query<ApiResponse_T<resChapterDetail_T>, string>({
       query: (path) => {
         console.log('🚀🚀🚀 ~api.ts`', `${path}`)
@@ -72,6 +81,7 @@ export const useApiComicDetail =
 
 export const useApiChapter = comicApi.endpoints.getChapterByPath.useQuery
 
+export const useApiFindComic = comicApi.endpoints.findComic.useQuery
 // export const useApiFindComic = comicApi.endpoints.findComic.useQuery;
 
 export const usePrefetch = comicApi.usePrefetch

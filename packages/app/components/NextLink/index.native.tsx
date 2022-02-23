@@ -5,7 +5,6 @@ import { LinkProps } from './types'
 import { View } from 'native-base'
 
 export const NextLink = (props: LinkProps) => {
-  useEffect(() => console.log('rerender'))
   return (
     <TouchableNativeFeedback>
       <View style={props.style}>

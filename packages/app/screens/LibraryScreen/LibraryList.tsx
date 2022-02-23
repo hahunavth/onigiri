@@ -10,11 +10,7 @@ import {
 import React from 'react'
 import { HistoryComicT, historySelector } from 'app/store/historySlice'
 import { useAppSelector } from 'app/store/hooks'
-// import QuicksandText, { QFontFamily } from "app/components/Common/QuicksandText";
 import { navigate } from 'app/navigators'
-// import { RecentTabProps } from "app/navigators/LibraryTopNavigator";
-// import { ColorSchemeE } from "app/styles/colorScheme";
-// import { Layout, StyleService, useStyleSheet } from "appui-kitten/components";
 import { resComicDetail_T } from 'app/types'
 
 type Props = {
