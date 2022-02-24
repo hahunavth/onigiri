@@ -3,7 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 // NOTE: IMPORT COMPONENT
-import { BottomTabNavigationHeader } from 'app/components/NavigationHeader'
+import {
+  BottomTabNavigationHeader,
+  SearchNavigationHeader
+} from 'app/components/NavigationHeader'
 import {
   HomeScreen,
   LibraryScreen,
@@ -34,6 +37,7 @@ export default function BottomNav() {
   return (
     <Navigator
       screenOptions={{
+        headerShown: false,
         header: BottomTabNavigationHeader,
         tabBarActiveTintColor: text,
         tabBarActiveBackgroundColor: background,
@@ -78,11 +82,14 @@ export default function BottomNav() {
         component={MainTestScreen}
         options={{
           tabBarIcon: TestIcon
+          // header: (props) => <SearchNavigationHeader {...props} />
+          // headerStyle: { backgroundColor: 'red', zIndex: 1000000 }
         }}
       ></Screen>
     </Navigator>
   )
 }
+
 /**
  * ANCHOR: BOTTOM BAR ICONS
  */

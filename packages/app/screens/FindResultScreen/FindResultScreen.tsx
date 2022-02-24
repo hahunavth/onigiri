@@ -4,6 +4,10 @@ import { API_URL } from '../../types'
 import axios from 'axios'
 import { useApiFindComic } from '../../store/api'
 import { ComicListVertical } from '../../components/ComicListVertical/ComicListVertical'
+import { useColorModeStyle } from '../../hooks/useColorModeStyle'
+import { Loading } from '../../components/Loading'
+import React from 'react'
+import { InteractionManager } from 'react-native'
 
 export const FindResultScreen = (props: FindResultScreenProps) => {
   const { findOption, path } = props.route.params
@@ -18,14 +22,34 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
   //   // .then((res) => res.json())
   //   .then((data) => console.log(data.data))
   // console.log(`http://www.nettruyenpro.com${path}`)
+  // const colorStyled = useColorModeStyle('', 'Secondary')
 
-  const { isSuccess, isLoading, data } = useApiFindComic(findOption)
+  const [page, setPage] = React.useState(1)
 
-  console.log(data?.data.length)
+  const { isSuccess, isLoading, data } = useApiFindComic({
+    ...findOption,
+    page: 1
+  })
+
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    const interaction = InteractionManager.runAfterInteractions(() => {
+      // console.log('object')
+      setLoading(false)
+    })
+    return () => {
+      interaction.cancel()
+    }
+  })
+
   return (
     <View flex={1}>
-      {/* <Text>{path}</Text> */}
-      <ComicListVertical list={data?.data || []} />
+      {isLoading || loading ? (
+        <Loading text="Fetching" />
+      ) : (
+        <ComicListVertical list={data?.data || []} />
+      )}
     </View>
   )
 }

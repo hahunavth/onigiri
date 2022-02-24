@@ -4,7 +4,10 @@ import {
   NativeStackScreenProps
 } from '@react-navigation/native-stack'
 
-import { NavigationHeader } from 'app/components/NavigationHeader'
+import {
+  NavigationHeader,
+  SearchNavigationHeader
+} from 'app/components/NavigationHeader'
 import {
   ChapterScreen,
   ComicDetailScreen,
@@ -27,6 +30,12 @@ import type {
 import { SelectDownloadChapter } from '../screens/SelectDownloadChapterScreen/SelectDownloadChapter'
 import { HistoryComicT } from '../store/historySlice'
 import { FindOptionT } from '../screens/DiscoverScreen/constants'
+import Header from '../components/CollapseHeader/Header'
+import { Icon, Text, View } from 'native-base'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
+import { MotiView } from 'moti'
+import { FindByNameResultScreen } from '../screens/FindByNameResultScreen'
 
 /**
  * Using common params
@@ -48,6 +57,9 @@ export type StackNavParamsList = {
   'find-result': {
     path: string
     findOption: FindOptionT
+  }
+  'find-by-name-result': {
+    name: string
   }
   'top-comic': undefined
   test: {
@@ -106,6 +118,10 @@ export type FindResultScreenProps = NativeStackScreenProps<
   StackNavParamsList,
   'find-result'
 >
+export type FindByNameResultScreenProps = NativeStackScreenProps<
+  StackNavParamsList,
+  'find-by-name-result'
+>
 
 /**
  * Export navigation
@@ -113,6 +129,32 @@ export type FindResultScreenProps = NativeStackScreenProps<
 const { Navigator, Screen } = createNativeStackNavigator<StackNavParamsList>()
 
 export function StackNav() {
+  const renderHeader = React.useCallback(
+    (props: any) => <NavigationHeader {...props} />,
+    []
+  )
+
+  const renderRight = React.useCallback((props: any) => {
+    return (
+      <MotiView
+        from={{
+          transform: [{ scale: 0 }, { translateX: -10 }]
+        }}
+        animate={{
+          transform: [{ scale: 1 }, { translateX: 0 }]
+        }}
+      >
+        {/* <MaterialCommunityIcons
+          name="feature-search"
+          size={24}
+          color="#000000"
+        /> */}
+        <AntDesign name="upsquare" size={24} color="black" />
+        {/* <Text>aaa</Text> */}
+      </MotiView>
+    )
+  }, [])
+
   return (
     <Navigator
       screenOptions={
@@ -124,7 +166,8 @@ export function StackNav() {
       <Screen
         name="main"
         options={{
-          headerShown: false
+          headerShown: true,
+          header: (props) => <SearchNavigationHeader {...props} />
         }}
         component={BottomNav}
       ></Screen>
@@ -158,9 +201,17 @@ export function StackNav() {
       <Screen
         name="find-result"
         options={{
-          title: 'Find Result Screen'
+          title: 'Find Result Screen',
+          header: renderHeader,
+          headerRight: renderRight
         }}
         component={FindResultScreen}
+      ></Screen>
+
+      <Screen
+        name="find-by-name-result"
+        options={{}}
+        component={FindByNameResultScreen}
       ></Screen>
 
       <Screen

@@ -120,4 +120,5 @@ export type FindOptionT = {
   status: Partial<OptionT>
   forUser: Partial<OptionT>
   sortBy: Partial<OptionT>
+  page?: number
 }

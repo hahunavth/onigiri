@@ -14,8 +14,22 @@ import {
   FindOptionT
 } from './constants'
 import { navigate } from '../../navigators'
+//
+import { Dropdown } from 'react-native-element-dropdown'
+import { SelectOne } from '../../components/DropdownSelect'
 
 type Props = {}
+
+const data = [
+  { label: 'Item 1', value: '1' },
+  { label: 'Item 2', value: '2' },
+  { label: 'Item 3', value: '3' },
+  { label: 'Item 4', value: '4' },
+  { label: 'Item 5', value: '5' },
+  { label: 'Item 6', value: '6' },
+  { label: 'Item 7', value: '7' },
+  { label: 'Item 8', value: '8' }
+]
 
 export const DiscoverScreen = (props: Props) => {
   const [selectedForUser, setSelectedForUser] = React.useState<
@@ -110,6 +124,7 @@ export const DiscoverScreen = (props: Props) => {
         onChange={onSortByChange()}
         hideInputFilter={true}
       />
+      {/* <SelectOne /> */}
       <Button
         mx={4}
         my={8}
@@ -161,12 +176,26 @@ function SelectBoxSingle(props: any) {
       // onChange={onForUserChange()}
       hideInputFilter={false}
       containerStyle={{
-        // backgroundColor: 'white',
-        paddingRight: 12,
-        paddingLeft: 12,
-        borderRadius: 4,
-        borderWidth: 1,
-        borderColor: '#ddd'
+        // NOTE: PREV STYLE
+        // paddingRight: 12,
+        // paddingLeft: 12,
+        // borderRadius: 4,
+        // borderWidth: 1,
+        // borderColor: '#ddd',
+
+        height: 40,
+        backgroundColor: 'white',
+        borderRadius: 12,
+        padding: 12,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 1
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+
+        elevation: 2
       }}
       labelStyle={{
         fontSize: 12,
@@ -199,7 +228,6 @@ function SelectBoxSingle(props: any) {
         width: 300,
         paddingLeft: 8
       }}
-      // isMulti
       {...props}
     />
   )

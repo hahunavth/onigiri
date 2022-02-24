@@ -1,5 +1,6 @@
 import { Box, Center, View, Text, Factory } from 'native-base'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 
 import {
   NativeSyntheticEvent,
@@ -15,8 +16,8 @@ type Props = {
   rightLabel?: string | null
   leftLabel?: string | null
   title?: string
-  headerRight?: React.ReactNode
-  headerLeft?: React.ReactNode
+  headerRight?: (props: any) => React.ReactNode
+  headerLeft?: (props: any) => React.ReactNode
 }
 
 export const NavigationHeader = React.memo(function ({
@@ -29,6 +30,8 @@ export const NavigationHeader = React.memo(function ({
   headerRight
 }: Props) {
   const FSafeAreaView = Factory(SafeAreaView)
+  const HeaderRight = React.useMemo(() => headerRight && headerRight(null), [])
+  const HeaderLeft = React.useMemo(() => headerLeft && headerLeft(null), [])
 
   return (
     <FSafeAreaView
@@ -37,7 +40,6 @@ export const NavigationHeader = React.memo(function ({
       height={16}
       pl={2}
       pr={2}
-      // flexDirection={'row'}
     >
       <View>
         {/* Left */}
@@ -50,7 +52,7 @@ export const NavigationHeader = React.memo(function ({
             top={-6}
           >
             <Text _light={{ color: '$light.textSecondary' }}>
-              {leftLabel || headerLeft}
+              {leftLabel || HeaderLeft}
             </Text>
           </View>
         </TouchableNativeFeedback>
@@ -65,7 +67,7 @@ export const NavigationHeader = React.memo(function ({
             top={-6}
           >
             <Text _light={{ color: '$light.textSecondary' }}>
-              {rightLabel || headerRight}
+              {rightLabel || HeaderRight}
             </Text>
           </View>
         </TouchableNativeFeedback>

@@ -9945,6 +9945,11 @@ react-native-codegen@^0.0.6:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-element-dropdown@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/react-native-element-dropdown/-/react-native-element-dropdown-1.7.1.tgz#06a2aaeb5bf3d35e154db258c738871d36179bd1"
+  integrity sha512-uYc1FK1TEhNaxwFNinHlRBAopWeMNtRdETPHxg7tzzf/dQI0+/Io8IyTM3gBinQxM1/UzZm8/sXdIxaIBgZOMA==
+
 react-native-flipper@^0.131.1:
   version "0.131.1"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.131.1.tgz#b1a43e40a442187fa78c5ed6d478471ff4a2686c"

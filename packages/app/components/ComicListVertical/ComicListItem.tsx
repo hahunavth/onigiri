@@ -1,14 +1,18 @@
 import React from 'react'
-import { View, Text, Image } from 'native-base'
+import { View, Text, Image, Box } from 'native-base'
 import { TouchableOpacity, ImageStyle, StyleSheet } from 'react-native'
 import { resComicItem_T } from '../../types'
 import { navigate } from '../../navigators'
+import { useColorModeStyle } from '../../hooks/useColorModeStyle'
 
 type Props = {
   item: resComicItem_T
 }
 
 export function ComicListItem({ item }: Props) {
+  const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
+  const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle('', 'Secondary')
+
   if (!item) return null
   return (
     <TouchableOpacity
@@ -16,18 +20,32 @@ export function ComicListItem({ item }: Props) {
         navigate('comic-detail', { preloadItem: item, path: item.path })
       }
     >
-      <View style={styles.itemContainer}>
+      <View
+        style={styles.itemContainer}
+        {...bs1}
+        borderColor={bs2.backgroundColor}
+      >
         <Image
           source={{ uri: item.posterUrl }}
           style={styles.poster as ImageStyle}
           alt={'avatar'}
         />
         <View style={styles.infoContainer}>
-          <View>
-            <Text style={styles.titleText}>{item.name}</Text>
-            <Text style={styles.detailText}>Author: {item.author}</Text>
-            <Text style={styles.detailText}>Status: {item.status}</Text>
-          </View>
+          <Box>
+            <Text
+              style={[styles.titleText]}
+              color={ts1.color}
+              numberOfLines={1}
+            >
+              {item.name}
+            </Text>
+            <Text style={styles.detailText} color={ts2.color} opacity={0.8}>
+              Author: {item.author}
+            </Text>
+            <Text style={styles.detailText} color={ts2.color} opacity={0.8}>
+              Status: {item.status}
+            </Text>
+          </Box>
 
           {/* <View>
             {!!addonFieldExtractor && (

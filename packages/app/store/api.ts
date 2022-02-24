@@ -54,7 +54,7 @@ export const comicApi = createApi({
             param.forUser?.id || -1
           }&status=${param.status?.id || -1}&minchapter=${
             param.numChapter?.id || -1
-          }&sort=${param.sortBy?.id || 0}`
+          }&sort=${param.sortBy?.id || 0}&page=${param.page || 1}`
           // console.log(param.selectedForUser)
         }
 
@@ -62,7 +62,7 @@ export const comicApi = createApi({
         return `/find?${getFindPath()}`
       }
     }),
-    findComicByName: builder.query<ApiResponse_T<resChapterDetail_T>, string>({
+    findComicByName: builder.query<ApiResponse_T<resComicItem_T[]>, string>({
       query: (path) => {
         console.log('🚀🚀🚀 ~api.ts`', `${path}`)
         return `/find-by-name?name=${path}`
@@ -82,6 +82,7 @@ export const useApiComicDetail =
 export const useApiChapter = comicApi.endpoints.getChapterByPath.useQuery
 
 export const useApiFindComic = comicApi.endpoints.findComic.useQuery
+export const useApiFindComicByName = comicApi.endpoints.findComicByName.useQuery
 // export const useApiFindComic = comicApi.endpoints.findComic.useQuery;
 
 export const usePrefetch = comicApi.usePrefetch
