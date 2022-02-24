@@ -20,7 +20,7 @@ import { navigate } from 'app/navigators/index'
 interface Props {
   style?: ViewStyle
 }
-
+// FIXME: CHAPTER BAR CHANGE CHAPTER
 const ChapterBar = (props: Props) => {
   const home = useAppSelector(homeSelector)
   // console.log(home)

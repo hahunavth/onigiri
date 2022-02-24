@@ -91,10 +91,13 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
     return {
       transform: [
         {
-          translateX: withTiming(-offset.value, {
-            duration: 500,
-            easing: Easing.out(Easing.exp)
-          })
+          translateX: withTiming(
+            -offset.value
+            //    {
+            //   duration: 500,
+            //   easing: Easing.out(Easing.exp)
+            // }
+          )
         }
       ]
     }
@@ -104,10 +107,13 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
     return {
       transform: [
         {
-          translateX: withTiming(offset.value, {
-            duration: 500,
-            easing: Easing.out(Easing.exp)
-          })
+          translateX: withTiming(
+            offset.value
+            //   {
+            //   duration: 500,
+            //   easing: Easing.out(Easing.exp)
+            // }
+          )
         }
       ]
     }
@@ -115,10 +121,10 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
 
   const animatedStyles4 = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(offset.value / 78 + 0.5, {
-        duration: 500,
-        easing: Easing.out(Easing.exp)
-      }),
+      // opacity: withTiming(offset.value / 78 + 0.5, {
+      //   duration: 500,
+      //   easing: Easing.out(Easing.exp)
+      // }),
       transform: [
         {
           translateX: withTiming(-offset.value * 1.8, {

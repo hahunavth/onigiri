@@ -5,6 +5,7 @@ import { FindByNameResultScreenProps } from '../../navigators/StackNav'
 import { useApiFindComic, useApiFindComicByName } from '../../store/api'
 import { ComicListVertical } from '../../components/ComicListVertical/ComicListVertical'
 import { Loading } from '../../components/Loading'
+import useInteraction from '../../hooks/useInteraction'
 
 export const FindByNameResultScreen = (props: FindByNameResultScreenProps) => {
   const { name } = props.route.params
@@ -13,16 +14,7 @@ export const FindByNameResultScreen = (props: FindByNameResultScreenProps) => {
   const { isLoading, data } = useApiFindComicByName(name)
   // console.log(data?.data ? data?.data[0][0] : null)
 
-  // Interaction
-  const [loading, setLoading] = React.useState(true)
-  React.useEffect(() => {
-    const interaction = InteractionManager.runAfterInteractions(() => {
-      setLoading(false)
-    })
-    return () => {
-      interaction.cancel()
-    }
-  })
+  const { loading } = useInteraction({})
 
   return (
     <View flex={1} bg={'red.100'}>
