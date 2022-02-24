@@ -39,6 +39,8 @@ import Animated, {
 import { NextLink } from '../NextLink'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SelectableBadge } from '../SelectableBadge'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { recentAction, recentSelector } from '../../store/recentSlice'
 
 export function NavigationHeader(props: NativeStackHeaderProps) {
   const leftLabel = React.useMemo(() => {
@@ -79,6 +81,8 @@ const AnimatedButton = Animated.createAnimatedComponent(Button)
 export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
   props: NativeStackHeaderProps
 ) => {
+  const { findNames } = useAppSelector(recentSelector)
+
   // Animation
   const insets = useSafeAreaInsets()
   const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
@@ -172,6 +176,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
       >
         {/* Only 16 px */}
         <View maxH={16} pl={2} pr={2} mt={1} pb={1} justifyContent={'center'}>
+          {/*  Right icon */}
           <View
             style={{
               position: 'absolute',
@@ -195,6 +200,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
             </View>
           </View>
 
+          {/*  Left icon */}
           <View
             style={{
               position: 'absolute',
@@ -220,14 +226,12 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
             </View>
           </View>
 
+          {/*  Cancel btn */}
           <AnimatedBox
             style={[
               {
                 position: 'absolute',
-                // top: 0
-                // bottom: 0,
                 right: -50
-                // width: 120
               },
               animatedStyles4
             ]}
@@ -300,19 +304,26 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
             >
             Home
           </Button> */}
-            {new Array(10).fill(1).map((v, id) => (
+            {findNames.slice(0, 10).map((v, id) => (
               <Button
                 key={id}
                 size={'md'}
                 variant={'subtle'}
                 py={0}
-                px={1}
+                px={3}
                 rounded={'full'}
                 colorScheme={'warning'}
                 mb={1}
                 mr={1}
+                onPress={() => {
+                  if (inputRef.current) {
+                    inputRef.current.setNativeProps({
+                      text: v
+                    })
+                  }
+                }}
               >
-                This is a history
+                {v}
               </Button>
             ))}
           </HStack>
@@ -329,6 +340,8 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
  * @summary Handle navigate here!
  */
 const RefAnimatedInput = React.forwardRef((props: any, ref) => {
+  const dispatch = useAppDispatch()
+
   const [text, setText] = React.useState('')
   const handleChange = (text) => setText(text)
   // ref = text
@@ -341,10 +354,13 @@ const RefAnimatedInput = React.forwardRef((props: any, ref) => {
       }),
       transform: [
         {
-          translateX: withTiming(-props.offset.value + 8, {
+          translateX: withTiming(-props.offset.value + 42, {
             duration: 500,
             easing: Easing.out(Easing.exp)
           })
+        },
+        {
+          translateY: -3
         }
       ]
     }
@@ -356,10 +372,10 @@ const RefAnimatedInput = React.forwardRef((props: any, ref) => {
         ref={ref}
         placeholder="Search"
         variant="outline"
-        mx={35}
+        // mx={35}
         size={'xs'}
         py={-12}
-        mt={-1}
+        // mt={-1}
         h={31}
         fontSize={14}
         color={props.bs1._text.color}
@@ -373,7 +389,11 @@ const RefAnimatedInput = React.forwardRef((props: any, ref) => {
         onChangeText={handleChange}
         blurOnSubmit
         onSubmitEditing={(e) => {
-          if (text) navigate('find-by-name-result', { name: text })
+          if (text) {
+            navigate('find-by-name-result', { name: text })
+            dispatch(recentAction.pushFindName(text))
+          }
+
           setText('')
           // console.log(text)
         }}

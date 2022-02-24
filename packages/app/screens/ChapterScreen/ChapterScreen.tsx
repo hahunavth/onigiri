@@ -33,6 +33,7 @@ import FadeInView from 'app/components/FadeInView'
 // import SessionHeader from 'app/components/Common/SessionHeader'
 import { NavigationHeader } from 'app/components/NavigationHeader/index.web'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import useUpdateCurrentChapter from '../../hooks/useUpdateCurrentChapter'
 
 let oldOffset = 0
 let headerVisible = true
@@ -107,31 +108,12 @@ export function ChapterScreen({
     // console.log(imgs)
   }, [isFetching])
 
-  useEffect(() => {
-    const interaction = InteractionManager.runAfterInteractions(() => {
-      if (!isFetching && data) {
-        dispatch(homeActions.setCurrentChapter({ ...data?.data, id: id }))
-        if (home.currentComic) {
-          // console.log('setcomic')
-          dispatch(historyAction.pushReadComic(home.currentComic))
-          dispatch(
-            historyAction.pushChapter({
-              comicPath: home.currentComic?.path,
-              chapterPath: data?.data.path
-            })
-          )
-          console.log(home.currentComic?.path, data.data.path)
-
-          // NOTE: SPLASH ANIMATION ON RENDER
-        }
-        splashOffset.value = 1
-      }
-    })
-    return () => {
-      interaction.cancel()
-      dispatch(homeActions.removeCurrentChapter())
-    }
-  }, [isFetching, data])
+  const { loading } = useUpdateCurrentChapter({
+    chapterDetail: data?.data,
+    id,
+    isFetching,
+    callback: () => (splashOffset.value = 2)
+  })
 
   const renderItem = React.useCallback(
     ({ item, index }: ListRenderItemInfo<{ uri: string; h: number }>) => {

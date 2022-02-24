@@ -1,4 +1,4 @@
-import { ApiResponse_T } from './../types/api'
+import type { ApiResponse_T } from './../types/api'
 import axios from 'axios'
 import {
   resComicDetailChapterItem_T,

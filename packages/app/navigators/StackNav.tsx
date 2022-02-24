@@ -53,6 +53,7 @@ export type StackNavParamsList = {
     path: string
     id: number
     preloadItem?: Partial<resComicDetail_T>
+    name?: string
   }
   'find-result': {
     path: string

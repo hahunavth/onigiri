@@ -15,6 +15,7 @@ import { comicApi } from './api'
 import homeSlice from './homeSlice'
 import settingReducer from './settingSlice'
 import historyReducer from './historySlice'
+import recentReducer from './recentSlice'
 
 // STUB: FLIPPER REDUX
 // NEED REBUILD EAS
@@ -34,6 +35,7 @@ const reducer = combineReducers({
   home: homeSlice,
   setting: settingReducer,
   history: historyReducer,
+  recent: recentReducer,
   [comicApi.reducerPath]: comicApi.reducer
 })
 
@@ -52,9 +54,7 @@ const store = configureStore({
       serializableCheck: false,
       immutableCheck: false,
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-    }).concat(
-      comicApi.middleware
-    )
+    }).concat(comicApi.middleware)
 
     // IF DEV -> CONCAT MIDDLEWARE
     if (createFlipperDebugger) {
