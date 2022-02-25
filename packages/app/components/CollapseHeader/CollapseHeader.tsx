@@ -57,6 +57,7 @@ import {
 } from 'app/store/historySlice'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { TouchableNativeFeedback } from 'react-native'
+import { useColorModeStyle } from '../../hooks/useColorModeStyle'
 
 type Props = {
   comic?: resComicDetail_T
@@ -296,6 +297,9 @@ export const CollapseHeader = (props: Props) => {
     [collapsedOverlayAnimatedStyle, heightCollapsed, top]
   )
 
+  // NOTE:color
+  const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
+
   return (
     <SafeAreaView style={{ marginTop: -28, flex: 1 }}>
       <View style={styles.container}>
@@ -313,7 +317,7 @@ export const CollapseHeader = (props: Props) => {
             right: 0
           }}
         >
-          <AntDesign name="arrowleft" size={32} color="white" />
+          <AntDesign name="arrowleft" size={32} color={bs1._text.color} />
           <View style={{ alignSelf: 'flex-end', flexDirection: 'row' }}>
             {props.offline ? (
               <Badge variant={'subtle'} colorScheme={'danger'}>
@@ -325,7 +329,11 @@ export const CollapseHeader = (props: Props) => {
                   navigate('select-download-chapter', { comic: props.comic })
                 }
               >
-                <Ionicons name="ios-download-outline" size={32} color="white" />
+                <Ionicons
+                  name="ios-download-outline"
+                  size={32}
+                  color={bs1._text.color}
+                />
               </TouchableNativeFeedback>
             )}
             <AntDesign name="menuunfold" size={28} color="white" />

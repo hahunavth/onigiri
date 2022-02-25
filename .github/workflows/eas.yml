@@ -1,0 +1,38 @@
+name: EAS Build
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Install and build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: v14.18.2
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v5
+        with:
+          expo-version: 4.3
+          expo-token: ${{ secrets.EXPO_TOKEN }}
+          expo-cache: true
+
+      - name: Install dependencies
+        run: |
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+      - name: Build on EAS
+        run: cd ./package/expo && yarn build:production:android

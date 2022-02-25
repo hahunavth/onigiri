@@ -39,7 +39,8 @@ export const FlatlistBanner = () => {
   })
 
   useEffect(() => {
-    if (isSuccess) setList(() => data?.data.filter((item, id) => id < 6))
+    if (isSuccess)
+      setList((list) => data?.data.filter((item, id) => id < 6) || list)
   }, [isFetching])
 
   return (

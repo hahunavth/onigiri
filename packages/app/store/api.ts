@@ -50,11 +50,13 @@ export const comicApi = createApi({
       query: (param: FindOptionT) => {
         const getFindPath = () => {
           // Ex: http://www.nettruyenpro.com/tim-truyen-nang-cao?genres=&notgenres=&gender=-1&status=2&minchapter=1&sort=5
-          return `genres=${toIdListStr(param.genres.map((g) => g.id))}&gender=${
-            param.forUser?.id || -1
-          }&status=${param.status?.id || -1}&minchapter=${
-            param.numChapter?.id || -1
-          }&sort=${param.sortBy?.id || 0}&page=${param.page || 1}`
+          return `genres=${toIdListStr(
+            param.genres.map((g) => g.id) as number[]
+          )}&gender=${param.forUser?.id || -1}&status=${
+            param.status?.id || -1
+          }&minchapter=${param.numChapter?.id || -1}&sort=${
+            param.sortBy?.id || 0
+          }&page=${param.page || 1}`
           // console.log(param.selectedForUser)
         }
 
