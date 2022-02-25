@@ -2,7 +2,7 @@ name: EAS Build
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
@@ -35,4 +35,4 @@ jobs:
           npm i
           fi
       - name: Build on EAS
-        run: cd ./package/expo && yarn build:production:android
+        run: cd ./packages/expo && STAGE=production eas-cli build --profile production --platform android  --non-interactive

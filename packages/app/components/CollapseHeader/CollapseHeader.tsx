@@ -201,7 +201,7 @@ export const CollapseHeader = (props: Props) => {
 
   const downloadedChapterList = useMemo(() => {
     return props.offline
-      ? props.comic.chapters.filter((item) => !!downloadCpt[item.path])
+      ? props.comic?.chapters.filter((item) => !!downloadCpt[item.path])
       : props.comic?.chapters
   }, [props.comic, props.offline])
 
@@ -317,7 +317,11 @@ export const CollapseHeader = (props: Props) => {
             right: 0
           }}
         >
-          <AntDesign name="arrowleft" size={32} color={bs1._text.color} />
+          <AntDesign
+            name="arrowleft"
+            size={32}
+            color={bs1._text.color as string}
+          />
           <View style={{ alignSelf: 'flex-end', flexDirection: 'row' }}>
             {props.offline ? (
               <Badge variant={'subtle'} colorScheme={'danger'}>
@@ -326,13 +330,14 @@ export const CollapseHeader = (props: Props) => {
             ) : (
               <TouchableNativeFeedback
                 onPress={() =>
+                  props.comic &&
                   navigate('select-download-chapter', { comic: props.comic })
                 }
               >
                 <Ionicons
                   name="ios-download-outline"
                   size={32}
-                  color={bs1._text.color}
+                  color={bs1._text.color as string}
                 />
               </TouchableNativeFeedback>
             )}
