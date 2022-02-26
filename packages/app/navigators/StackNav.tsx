@@ -147,13 +147,7 @@ export function StackNav() {
           transform: [{ scale: 1 }, { translateX: 0 }]
         }}
       >
-        {/* <MaterialCommunityIcons
-          name="feature-search"
-          size={24}
-          color="#000000"
-        /> */}
         <AntDesign name="upsquare" size={24} color="black" />
-        {/* <Text>aaa</Text> */}
       </MotiView>
     )
   }, [])
@@ -166,7 +160,11 @@ export function StackNav() {
         // animation: 'slide_from_right'
         // NOTE: For shaered element stack
         animationEnabled: true,
-        animationTypeForReplace:'pop',
+        animationTypeForReplace:'push',
+        gestureEnabled: false,
+        // transitionSpec: {}
+        header: renderHeader,
+        headerRight: renderRight
       }}
     >
       <Screen
@@ -185,6 +183,16 @@ export function StackNav() {
           headerShown: false
         }}
         component={ComicDetailScreen}
+        // ANCHOR: SHARED ELEMENT CONFIG
+        sharedElements={(route, otherRoute, showing) => {
+          // Only transition when coming from a specific route
+          // console.log(route.name, otherRoute.name, showing)
+          if (otherRoute.name === 'find-result') {
+            const { preloadItem } = route.params;
+            return [`item.${preloadItem?.posterUrl}.photo`];
+          }
+          // return [`${preloadItem?.posterUrl}`];
+        }}
       ></Screen>
 
       <Screen

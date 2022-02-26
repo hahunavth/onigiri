@@ -86,7 +86,7 @@ const sections: SectionT[] = [
       },
       {
         name: 'Language',
-        type: 'select'
+        type: 'select',
       }
     ]
   },
@@ -235,11 +235,9 @@ const SelectOption = ({ data }: { data: DataT }) => {
           }}
           mt={1}
           onValueChange={(itemValue) => setService(itemValue)}
-          defaultValue={'1'}
+          // defaultValue={'1'}
         >
           <Select.Item label="English" value="1" key={1} />
-          <Select.Item label="Vietnamese" value="2" key={2} />
-          <Select.Item label="Japanese" value="3" key={3} />
         </Select>
       </Box>
     </HStack>

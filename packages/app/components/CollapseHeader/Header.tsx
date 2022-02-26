@@ -1,4 +1,3 @@
-import { resComicDetail_T } from 'app/types'
 import React, { FC, memo, useMemo } from 'react'
 import {
   Dimensions,
@@ -12,7 +11,6 @@ import {
 } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { AntDesign } from '@expo/vector-icons'
-// import QuicksandText, { QFontFamily } from "../Common/QuicksandText";
 import { SharedElement } from 'react-navigation-shared-element'
 
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -24,6 +22,7 @@ export type HeaderConfig = {
   heightExpanded: number
   heightCollapsed: number
 }
+
 export enum Visibility {
   Hidden = 0,
   Visible = 1
@@ -44,7 +43,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
   // const photoSource = { uri: photo };
 
   return (
-    <SafeAreaView style={containerStyle}>
+    <View style={containerStyle}>
       <ImageBackground
         style={styles.photo}
         blurRadius={4}
@@ -68,7 +67,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.bio}>{bio}</Text>
         </View>
-        <SharedElement id={`${photo}`}>
+        <SharedElement id={`item.${photo}.photo`} >
           <Image
             source={photoSource}
             width={100}
@@ -83,7 +82,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
           />
         </SharedElement>
       </LinearGradient>
-    </SafeAreaView>
+    </View>
   )
 }
 

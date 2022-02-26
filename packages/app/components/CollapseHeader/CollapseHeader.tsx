@@ -304,7 +304,10 @@ export const CollapseHeader = (props: Props) => {
   )
 
   return (
-    <SafeAreaView style={{ marginTop: -28, flex: 1 }}>
+    <View style={{
+       // marginTop: -28,
+        flex: 1
+       }}>
       <View style={styles.container}>
         {/* Custom Header Icon */}
         <SafeAreaView
@@ -497,7 +500,7 @@ export const CollapseHeader = (props: Props) => {
           </Button>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   )
 }
 
@@ -521,7 +524,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    // backgroundColor: "white",
     justifyContent: 'center',
     zIndex: 2
   },

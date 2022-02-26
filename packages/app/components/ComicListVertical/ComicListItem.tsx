@@ -4,6 +4,7 @@ import { TouchableOpacity, ImageStyle, StyleSheet } from 'react-native'
 import { resComicItem_T } from '../../types'
 import { navigate } from '../../navigators'
 import { useColorModeStyle } from '../../hooks/useColorModeStyle'
+import { SharedElement } from 'react-navigation-shared-element';
 
 type Props = {
   item: resComicItem_T
@@ -25,11 +26,17 @@ export function ComicListItem({ item }: Props) {
         {...bs1}
         borderColor={bs2.backgroundColor}
       >
-        <Image
-          source={{ uri: item.posterUrl }}
-          style={styles.poster as ImageStyle}
-          alt={'avatar'}
-        />
+        <SharedElement
+        id={`item.${item.posterUrl}.photo`}
+
+        >
+          <Image
+            source={{ uri: item.posterUrl }}
+            style={styles.poster as ImageStyle}
+            alt={'avatar'}
+          />
+        </SharedElement
+        >
         <View style={styles.infoContainer}>
           <Box>
             <Text
