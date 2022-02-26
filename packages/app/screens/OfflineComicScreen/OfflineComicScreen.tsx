@@ -5,6 +5,7 @@ import { OfflineComicScreenProps } from '../../navigators/StackNav'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { historySelector } from '../../store/historySlice'
 import { homeActions } from '../../store/homeSlice'
+import useUpdateCurrentComic from '../../hooks/useUpdateCurrentComic'
 
 export const OfflineComicScreen = (props: OfflineComicScreenProps) => {
   const { path } = props.route.params
@@ -13,17 +14,19 @@ export const OfflineComicScreen = (props: OfflineComicScreenProps) => {
 
   const dispatch = useAppDispatch()
 
-  React.useEffect(() => {
-    const interaction = InteractionManager.runAfterInteractions(() => {
-      if (comics[path]) {
-        dispatch(homeActions.setCurrentComic(comics[path]))
-      }
-    })
-    return () => {
-      interaction.cancel()
-      dispatch(homeActions.removeCurrentComic())
-    }
-  }, [path])
+  const {} = useUpdateCurrentComic(comics[path])
+
+  // React.useEffect(() => {
+  //   const interaction = InteractionManager.runAfterInteractions(() => {
+  //     if (comics[path]) {
+  //       dispatch(homeActions.setCurrentComic(comics[path]))
+  //     }
+  //   })
+  //   return () => {
+  //     interaction.cancel()
+  //     dispatch(homeActions.removeCurrentComic())
+  //   }
+  // }, [path])
 
   return <CollapseHeader comic={comics[path]} offline={true} />
 }

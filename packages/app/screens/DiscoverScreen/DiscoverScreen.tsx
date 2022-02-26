@@ -1,7 +1,11 @@
 import { View, Text, Select, CheckIcon, Button } from 'native-base'
 import React from 'react'
+// NOTE: This lib does not have type declaration
+// @ts-ignore
 import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
+// TODO: Use this instead
+import { Dropdown } from 'react-native-element-dropdown'
 
 import {
   FOR_USER,
@@ -14,8 +18,6 @@ import {
   FindOptionT
 } from './constants'
 import { navigate } from '../../navigators'
-//
-import { Dropdown } from 'react-native-element-dropdown'
 import { SelectOne } from '../../components/DropdownSelect'
 
 type Props = {}
@@ -31,6 +33,7 @@ const data = [
   { label: 'Item 8', value: '8' }
 ]
 
+// TODO: Optimize using useCallback
 export const DiscoverScreen = (props: Props) => {
   const [selectedForUser, setSelectedForUser] = React.useState<
     Partial<OptionT>
@@ -46,6 +49,8 @@ export const DiscoverScreen = (props: Props) => {
   )
 
   const [selectedGenres, setSelectedGenres] = React.useState([])
+
+  console.log('rerender2')
 
   function onForUserChange() {
     return (val) => setSelectedForUser(val)
@@ -142,6 +147,8 @@ export const DiscoverScreen = (props: Props) => {
 }
 
 function SelectBoxMultiple(props: any) {
+  console.log('rerender')
+
   return (
     <SelectBox
       // label="Select genres"

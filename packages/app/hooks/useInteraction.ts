@@ -1,6 +1,4 @@
 import React from 'react'
-import { InteractionManager } from 'react-native'
-
 type Param = {
   dependencyList?: any[]
   callback?: (dependencyList?: any[]) => any
@@ -9,19 +7,33 @@ type Param = {
 
 export default function useInteraction(param?: Param) {
   const [loading, setLoading] = React.useState(true)
-
-  let result
+  let result: any = null;
   React.useEffect(() => {
-    const interaction = InteractionManager.runAfterInteractions(() => {
+    // NOTE: DEPRECATED
+    // const interaction = InteractionManager.runAfterInteractions(() => {
+    //   param && param.callback && param.callback(param?.dependencyList)
+    //   setLoading(false)
+    // })
+    // return () => {
+    //   param &&
+    //     param.cleanupCallback &&
+    //     param.cleanupCallback(result, param?.dependencyList)
+    //   interaction.cancel()
+    // }
+    // NOTE: Use setImmediate instead of interaction
+    const immediate = setImmediate(() => {
       param && param.callback && param.callback(param?.dependencyList)
       setLoading(false)
     })
+
     return () => {
       param &&
         param.cleanupCallback &&
         param.cleanupCallback(result, param?.dependencyList)
-      interaction.cancel()
+      // interaction.cancel()
+      clearImmediate(immediate)
     }
+
   }, param?.dependencyList || [])
 
   return {

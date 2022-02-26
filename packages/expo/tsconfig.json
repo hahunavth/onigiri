@@ -19,7 +19,7 @@
       "node"
     ],
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "webpack.config.js"],
   "exclude": ["node_modules"],
   "extends": "expo/tsconfig.base"
 }

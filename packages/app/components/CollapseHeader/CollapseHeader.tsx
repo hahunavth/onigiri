@@ -49,7 +49,7 @@ import { Button, View, Text, useColorModeValue, Badge } from 'native-base'
 import DetailList from './DetailList'
 import { useAppDispatch, useAppSelector } from 'app/store/hooks'
 import { homeSelector } from 'app/store/homeSlice'
-import { navigate } from 'app/navigators'
+import { goBack, navigate } from 'app/navigators'
 import {
   historyAction,
   historySelector,
@@ -298,37 +298,46 @@ export const CollapseHeader = (props: Props) => {
   )
 
   // NOTE:color
-  const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
+  const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle(
+    'Blue',
+    'Secondary'
+  )
 
   return (
     <SafeAreaView style={{ marginTop: -28, flex: 1 }}>
       <View style={styles.container}>
         {/* Custom Header Icon */}
-        <View
+        <SafeAreaView
           style={{
             position: 'absolute',
             zIndex: 100,
-            marginTop: 28,
+            // marginTop: 28,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            // flex: 1,
-            // width: 'auto'
             left: 0,
-            right: 0
+            right: 0,
+            height: 72,
+            alignItems: 'center',
+            marginHorizontal: 4
+            // backgroundColor: 'red'
           }}
         >
-          <AntDesign
-            name="arrowleft"
-            size={32}
-            color={bs1._text.color as string}
-          />
+          <TouchableOpacity onPress={() => goBack()}>
+            <AntDesign
+              name="arrowleft"
+              size={34}
+              style={{ marginVertical: 'auto' }}
+              // color={bs1._text.color as string}
+              color={bs1.backgroundColor}
+            />
+          </TouchableOpacity>
           <View style={{ alignSelf: 'flex-end', flexDirection: 'row' }}>
             {props.offline ? (
               <Badge variant={'subtle'} colorScheme={'danger'}>
                 Offline
               </Badge>
             ) : (
-              <TouchableNativeFeedback
+              <TouchableOpacity
                 onPress={() =>
                   props.comic &&
                   navigate('select-download-chapter', { comic: props.comic })
@@ -336,14 +345,20 @@ export const CollapseHeader = (props: Props) => {
               >
                 <Ionicons
                   name="ios-download-outline"
-                  size={32}
-                  color={bs1._text.color as string}
+                  size={34}
+                  color={bs1.backgroundColor}
+                  style={{ marginRight: 4, marginBottom: 4 }}
                 />
-              </TouchableNativeFeedback>
+              </TouchableOpacity>
             )}
-            <AntDesign name="menuunfold" size={28} color="white" />
+            <AntDesign
+              name="menuunfold"
+              size={30}
+              style={{ marginTop: 4 }}
+              color={bs1.backgroundColor}
+            />
           </View>
-        </View>
+        </SafeAreaView>
 
         <Animated.View
           onLayout={handleHeaderLayout}

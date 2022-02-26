@@ -15,6 +15,8 @@ import { AntDesign } from '@expo/vector-icons'
 // import QuicksandText, { QFontFamily } from "../Common/QuicksandText";
 import { SharedElement } from 'react-navigation-shared-element'
 
+import { SafeAreaView } from 'react-native-safe-area-context'
+
 export const PHOTO_SIZE = 120
 
 // NOTE: Animation config
@@ -42,7 +44,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
   // const photoSource = { uri: photo };
 
   return (
-    <View style={containerStyle}>
+    <SafeAreaView style={containerStyle}>
       <ImageBackground
         style={styles.photo}
         blurRadius={4}
@@ -81,7 +83,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
           />
         </SharedElement>
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   )
 }
 

@@ -20,7 +20,12 @@ export default function useUpdateCurrentChapter(param: Param) {
     dependencyList: [isFetching, chapterDetail],
     callback: () => {
       if (!isFetching && chapterDetail) {
-        dispatch(homeActions.setCurrentChapter({ ...chapterDetail, id: id }))
+        dispatch(
+          homeActions.setCurrentChapter({
+            ...chapterDetail,
+            id: id !== undefined ? id : -1
+          })
+        )
         if (home.currentComic) {
           // console.log('setcomic')
           dispatch(historyAction.pushReadComic(home.currentComic))

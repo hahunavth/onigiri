@@ -110,8 +110,8 @@ export const SORT_BY: OptionT[] = [
  * Format array in url for multi select value
  * Ex: [1, 2, 3] -> genres=1,2,3
  */
-export function toIdListStr(ids: number[]) {
-  return ids.reduce((prev, id) => (prev ? prev + ',' + id : prev + id), '')
+export function toIdListStr(ids: (string | number)[]) {
+  return ids.reduce((prev, id) => (prev ? prev + ',' + id : `${prev}${id}`), '')
 }
 
 export type FindOptionT = {

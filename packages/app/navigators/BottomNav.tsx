@@ -43,6 +43,7 @@ export default function BottomNav() {
         tabBarActiveBackgroundColor: background,
         tabBarInactiveBackgroundColor: background
       }}
+      // detachInactiveScreens={false}
     >
       <Screen
         name="main/home"

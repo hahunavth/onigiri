@@ -37,6 +37,8 @@ import { AntDesign } from '@expo/vector-icons'
 import { MotiView } from 'moti'
 import { FindByNameResultScreen } from '../screens/FindByNameResultScreen'
 
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+
 /**
  * Using common params
  * Routing expo with react navigation and next.js with same params
@@ -127,7 +129,7 @@ export type FindByNameResultScreenProps = NativeStackScreenProps<
 /**
  * Export navigation
  */
-const { Navigator, Screen } = createNativeStackNavigator<StackNavParamsList>()
+const { Navigator, Screen } = createSharedElementStackNavigator<StackNavParamsList>()
 
 export function StackNav() {
   const renderHeader = React.useCallback(
@@ -158,11 +160,14 @@ export function StackNav() {
 
   return (
     <Navigator
-      screenOptions={
-        {
-          // header: NavigationHeader
-        }
-      }
+      screenOptions={{
+        // NOTE: Configure for native stack
+        // header: NavigationHeader
+        // animation: 'slide_from_right'
+        // NOTE: For shaered element stack
+        animationEnabled: true,
+        animationTypeForReplace:'pop',
+      }}
     >
       <Screen
         name="main"

@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { historySelector } from '../../store/historySlice'
 
 import type { OfflineChapterScreenProps } from 'app/navigators/StackNav'
+import useUpdateCurrentChapter from '../../hooks/useUpdateCurrentChapter'
 
 export const OfflineChapterScreen = (props: OfflineChapterScreenProps) => {
   const { comicPath, chapterPath } = props.route.params
@@ -16,12 +17,20 @@ export const OfflineChapterScreen = (props: OfflineChapterScreenProps) => {
 
   const history = useAppSelector(historySelector)
 
+  const {} = useUpdateCurrentChapter({
+    chapterDetail: history.downloadCpt[chapterPath],
+    id: -1,
+    isFetching: false
+  })
+
   React.useEffect(() => {
     let isMounted = true
 
     ;(async () => {
+      const images = history.downloadCpt[chapterPath]?.images || []
+
       const fileUrls = await Promise.all(
-        history.downloadCpt[chapterPath].images.map((url) => {
+        images.map((url) => {
           return getSingleImg(url, comicPath, chapterPath)
         })
       )
@@ -81,12 +90,13 @@ const LocalComicImage = React.memo(function (
         const imageHeight = height / scaleFactor
 
         if (isMounted) {
-          props.setImgs((arr) =>
-            arr.map((item, id) => {
-              if (id !== props.id) return item
-              return { ...item, h: imageHeight }
-            })
-          )
+          props.setImgs &&
+            props.setImgs((arr) =>
+              arr.map((item, id) => {
+                if (id !== props.id) return item
+                return { ...item, h: imageHeight }
+              })
+            )
         }
       })
     }

@@ -7,7 +7,7 @@ import {
   VStack,
   HStack
 } from 'native-base'
-import { ImageProps, Dimensions } from 'react-native'
+import { ImageProps, Dimensions, InteractionManager } from 'react-native'
 import React from 'react'
 import { deleteAllImgs, getSingleImg } from 'app/utils/imgManager'
 import { useApiComicDetail } from '../../store/api'
@@ -163,45 +163,65 @@ export type SelectChapterListItem = {
 }
 
 export function TestScreen() {
+  // const [selectChapterList, setSelectChapterList] = React.useState<
+  //   SelectChapterListItem[]
+  // >([
+  //   { name: 'Adventure', status: 't' },
+  //   { name: 'Action', status: 'f' },
+  //   { name: 'Harem', status: 'f' },
+  //   { name: 'Romance', status: 'd' },
+  //   { name: 'Adventure2', status: 't' },
+  //   { name: 'Action2', status: 'f' },
+  //   { name: 'Harem2', status: 'f' },
+  //   { name: 'Romance2', status: 'd' },
+  //   { name: 'Adventure3', status: 't' },
+  //   { name: 'Action3', status: 'f' },
+  //   { name: 'Harem3', status: 'f' },
+  //   { name: 'Romance3', status: 'd' },
+  //   { name: 'Adventure4', status: 't' },
+  //   { name: 'Action4', status: 'f' },
+  //   { name: 'Harem4', status: 'f' },
+  //   { name: 'Romance4', status: 'd' }
+  // ])
+
   const [selectChapterList, setSelectChapterList] = React.useState<
     SelectChapterListItem[]
-  >([
-    { name: 'Adventure', status: 't' },
-    { name: 'Action', status: 'f' },
-    { name: 'Harem', status: 'f' },
-    { name: 'Romance', status: 'd' },
-    { name: 'Adventure2', status: 't' },
-    { name: 'Action2', status: 'f' },
-    { name: 'Harem2', status: 'f' },
-    { name: 'Romance2', status: 'd' },
-    { name: 'Adventure3', status: 't' },
-    { name: 'Action3', status: 'f' },
-    { name: 'Harem3', status: 'f' },
-    { name: 'Romance3', status: 'd' },
-    { name: 'Adventure4', status: 't' },
-    { name: 'Action4', status: 'f' },
-    { name: 'Harem4', status: 'f' },
-    { name: 'Romance4', status: 'd' }
-  ])
+  >([])
 
-  const onPress = React.useCallback(
-    (id: number) =>
-      setSelectChapterList(
-        // () => {
-        //   isSelect[id].isSelect = !isSelect[id].isSelect
-        //   return isSelect
-        // }
-        (state) => {
-          // console.log(id)
-          return state.map((a, i) =>
-            i === id && a.status !== 'd'
-              ? { ...a, status: a.status === 't' ? 'f' : 't' }
-              : a
-          )
-        }
-      ),
-    []
-  )
+  React.useEffect(() => {
+    // InteractionManager.runAfterInteractions(() => {
+    setSelectChapterList(
+      Array(10000)
+        .fill(1)
+        .map((v, i) => ({ name: 'Adventure' + i, status: 't' }))
+    )
+    // })
+  }, [])
+
+  const [process, setProcess] = React.useState(-1)
+
+  const onPress = React.useCallback((id: number) => setProcess(id), [])
+
+  React.useEffect(() => {
+    setImmediate(() => {
+      const id = process
+      if (process !== -1)
+        setSelectChapterList(
+          // () => {
+          //   isSelect[id].isSelect = !isSelect[id].isSelect
+          //   return isSelect
+          // }
+          (state) => {
+            // console.log(id)
+            return state.map((a, i) =>
+              i === id && a.status !== 'd'
+                ? { ...a, status: a.status === 't' ? 'f' : 't' }
+                : a
+            )
+          }
+        )
+    })
+  }, [process])
 
   return (
     <VStack flex={1} maxW={1000} bg={'$light.backgroundPrimary'}>
