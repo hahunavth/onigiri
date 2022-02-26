@@ -1,12 +1,9 @@
 import {
-  resChapterDetail_T,
-  resComicDetailChapterItem_T,
   resComicDetail_T
 } from 'app/types'
 // import { Button, Icon, Layout } from "@ui-kitten/components";
 import React, { forwardRef, memo, useCallback, useState } from 'react'
 import {
-  Dimensions,
   FlatList,
   FlatListProps,
   ListRenderItem,
@@ -21,15 +18,12 @@ import { Button } from 'native-base'
 import Animated, {
   Easing,
   // FadeInDown,
-  withSpring,
   withTiming
 } from 'react-native-reanimated'
 // import Text, { QFontFamily } from "../Common/Text";
-import ChapterListItem from './ChapterListItem'
 
 import {
   useSharedValue,
-  useAnimatedScrollHandler,
   useAnimatedStyle
 } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -42,6 +36,7 @@ export const AnimatedFlatList: typeof FlatList =
 type Props = Omit<FlatListProps<resComicDetail_T>, 'renderItem'>
 
 const Details = forwardRef<FlatList, Props>((props, ref) => {
+  console.log('rererere')
   const keyExtractor = useCallback((_, index) => index.toString(), [])
 
   const renderItem = useCallback<ListRenderItem<resComicDetail_T>>(
@@ -158,6 +153,10 @@ const styles = StyleSheet.create({
 
 export default memo(Details)
 
+
+/**
+ * Helper component
+ */
 const RoundView = ({
   children,
   style

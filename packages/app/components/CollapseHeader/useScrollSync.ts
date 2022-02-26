@@ -1,3 +1,4 @@
+import React from "react";
 import { FlatListProps } from "react-native";
 import { HeaderConfig } from "./Header";
 import { ScrollPair } from "./ScrollPair";
@@ -6,7 +7,8 @@ const useScrollSync = (
   scrollPairs: ScrollPair[],
   headerConfig: HeaderConfig
 ) => {
-  const sync: NonNullable<FlatListProps<any>["onMomentumScrollEnd"]> = (
+  const sync = React.useCallback<NonNullable<FlatListProps<any>["onMomentumScrollEnd"]>> (
+  (
     event
   ) => {
     const { y } = event.nativeEvent.contentOffset;
@@ -27,7 +29,8 @@ const useScrollSync = (
         animated: false,
       });
     }
-  };
+  }
+  , [scrollPairs, headerConfig])
 
   return { sync };
 };
