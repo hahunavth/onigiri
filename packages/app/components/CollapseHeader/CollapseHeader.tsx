@@ -1,63 +1,57 @@
-import type {
-  resComicDetailChapterItem_T,
-  resComicDetail_T,
-  resComicItem_T
-} from 'app/types'
-import React, { FC, memo, useCallback, useMemo, useRef, useState } from 'react'
+// Lib
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import {
-  Dimensions,
   FlatList,
   FlatListProps,
-  Image,
-  ImageBackground,
-  ImageProps,
   StyleProp,
   StyleSheet,
-  // Text,
   ToastAndroid,
   TouchableOpacity,
   useWindowDimensions,
-  // View,
   ViewProps,
-  ViewStyle
+  ViewStyle,
+  InteractionManager
 } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
-import Header, { HeaderConfig, Visibility } from './Header'
+import { Button, View, Text, Badge } from 'native-base'
+import { AntDesign, Ionicons } from '@expo/vector-icons'
 import Animated, {
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useDerivedValue,
-  useSharedValue
+  useSharedValue,
+  interpolateColor,
 } from 'react-native-reanimated'
-import HeaderOverlay from './HeaderOverlay'
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabBarProps
 } from '@react-navigation/material-top-tabs'
 import {
   useSafeAreaInsets,
-  Edge,
   SafeAreaView
 } from 'react-native-safe-area-context'
-import { ScrollPair } from './ScrollPair'
-import useScrollSync from './useScrollSync'
-import ChapterList, { ListHeader } from './ChapterList'
-import TabBar from './TabBar'
-import { Button, View, Text, useColorModeValue, Badge } from 'native-base'
-// import Text from '../Common/QuicksandText'
-import DetailList from './DetailList'
+// App
 import { useAppDispatch, useAppSelector } from 'app/store/hooks'
-import { homeSelector } from 'app/store/homeSlice'
 import { goBack, navigate } from 'app/navigators'
 import {
-  historyAction,
   historySelector,
   toggleSubscribeComicThunk
 } from 'app/store/historySlice'
-import { AntDesign, Ionicons } from '@expo/vector-icons'
-import { TouchableNativeFeedback } from 'react-native'
-import { useColorModeStyle } from '../../hooks/useColorModeStyle'
+import { useColorModeStyle } from 'app/hooks/useColorModeStyle'
+// Local
+import Header, { HeaderConfig, Visibility } from './Header'
+import HeaderOverlay from './HeaderOverlay'
+import { ScrollPair } from './ScrollPair'
+import useScrollSync from './useScrollSync'
+import ChapterList from './ChapterList'
+import TabBar from './TabBar'
+import DetailList from './DetailList'
+// Type
+import type {
+  resComicDetailChapterItem_T,
+  resComicDetail_T,
+  resComicItem_T
+} from 'app/types'
 
 type Props = {
   comic?: resComicDetail_T
@@ -86,6 +80,8 @@ const HEADER_HEIGHT = 48
 const OVERLAY_VISIBILITY_OFFSET = 32
 
 const Tab = createMaterialTopTabNavigator()
+const AnimatedAntDesign = Animated.createAnimatedComponent(AntDesign)
+const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons)
 
 // const getItemLayout = (data, index) => (
 //   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
@@ -95,7 +91,7 @@ export const CollapseHeader = (props: Props) => {
   // const tbStyle = useStyleSheet(themedStyles)
 
   const dispatch = useAppDispatch()
-  const { comics, downloadComics, downloadCpt } =
+  const { downloadCpt } =
     useAppSelector(historySelector)
   const subscribed = !!useAppSelector(historySelector).subscribeComics.find(
     (path) => path === props.comic?.path
@@ -168,14 +164,43 @@ export const CollapseHeader = (props: Props) => {
     transform: [{ translateY: translateY.value }]
   }))
 
+  const [a, setA] = React.useState(0)
+  React.useEffect(() => {
+    InteractionManager.runAfterInteractions(() => setA(1))
+  }, [])
+
   const headerAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
+    transform: [{ translateY: a && translateY.value }],
     opacity: interpolate(
       translateY.value,
       [-headerDiff, 0],
       [Visibility.Hidden, Visibility.Visible]
     )
   }))
+
+  // header icon color transform
+  // const backgroundColor = useDerivedValue(() =>
+  //   mixColor(translateY.value/headerDiff, "#ff3884", "#38ffb3")
+  // );
+
+  const headerIconStyle = useAnimatedStyle(() => {
+    console.log(-translateY.value/headerDiff)
+    return {
+      color: interpolateColor(-translateY.value, [0, headerDiff], ["#fff", "#111"])
+    }
+  })
+
+  const headerIconStyle2 = useAnimatedStyle(() => {
+    return {
+      color: interpolateColor(-translateY.value, [0, headerDiff], ["#fff", "#111"])
+    }
+  })
+
+  const headerIconStyle3 = useAnimatedStyle(() => {
+    return {
+      color: interpolateColor(-translateY.value, [0, headerDiff], ["#fff", "#111"])
+    }
+  })
 
   const contentContainerStyle = useMemo<StyleProp<ViewStyle>>(
     () => ({
@@ -236,13 +261,13 @@ export const CollapseHeader = (props: Props) => {
         windowSize={10}
         offline={props.offline}
         {...sharedProps}
-        //   ListHeaderComponent={() => (
-        //     <ListHeader
-        //       lastedChapter={props.comic?.chapters[0].name || ""}
-        //       sortType="newer"
-        //       onSortTypeChange={(type) => null}
-        //     />
-        //   )}
+      //   ListHeaderComponent={() => (
+      //     <ListHeader
+      //       lastedChapter={props.comic?.chapters[0].name || ""}
+      //       sortType="newer"
+      //       onSortTypeChange={(type) => null}
+      //     />
+      //   )}
       />
     ),
     [suggestionsRef, suggestionsScrollHandler, sharedProps]
@@ -270,13 +295,12 @@ export const CollapseHeader = (props: Props) => {
 
   const headerContainerStyle = useMemo<StyleProp<ViewStyle>>(
     () => [
-      rendered ? styles.headerContainer : undefined,
+      styles.headerContainer,
       {
-        paddingTop: top
+        paddingTop: 0
       },
       headerAnimatedStyle
     ],
-
     [rendered, top, headerAnimatedStyle]
   )
 
@@ -305,9 +329,9 @@ export const CollapseHeader = (props: Props) => {
 
   return (
     <View style={{
-       // marginTop: -28,
-        flex: 1
-       }}>
+      // marginTop: -28,
+      flex: 1
+    }}>
       <View style={styles.container}>
         {/* Custom Header Icon */}
         <SafeAreaView
@@ -326,12 +350,12 @@ export const CollapseHeader = (props: Props) => {
           }}
         >
           <TouchableOpacity onPress={() => goBack()}>
-            <AntDesign
+            <AnimatedAntDesign
               name="arrowleft"
               size={34}
-              style={{ marginVertical: 'auto' }}
+              style={ headerIconStyle }
               // color={bs1._text.color as string}
-              color={bs1.backgroundColor}
+              // color={bs1.backgroundColor}
             />
           </TouchableOpacity>
           <View style={{ alignSelf: 'flex-end', flexDirection: 'row' }}>
@@ -346,19 +370,18 @@ export const CollapseHeader = (props: Props) => {
                   navigate('select-download-chapter', { comic: props.comic })
                 }
               >
-                <Ionicons
+                <AnimatedIonicons
                   name="ios-download-outline"
                   size={34}
                   color={bs1.backgroundColor}
-                  style={{ marginRight: 4, marginBottom: 4 }}
+                  style={[{ marginRight: 4, marginBottom: 4 }, headerIconStyle2]}
                 />
               </TouchableOpacity>
             )}
-            <AntDesign
+            <AnimatedAntDesign
               name="menuunfold"
               size={30}
-              style={{ marginTop: 4 }}
-              color={bs1.backgroundColor}
+              style={[{ marginTop: 4 }, headerIconStyle3]}
             />
           </View>
         </SafeAreaView>
@@ -419,10 +442,10 @@ export const CollapseHeader = (props: Props) => {
           <Tab.Screen name="Friends">{renderFriends}</Tab.Screen>
           <Tab.Screen
             name="Suggestions"
-            // component={renderSuggestions}
-            // NOTE: Do not use component props like above
-            //       It will rerender component when navigate
-            //       Use children props will render once
+          // component={renderSuggestions}
+          // NOTE: Do not use component props like above
+          //       It will rerender component when navigate
+          //       Use children props will render once
           >
             {renderSuggestions}
           </Tab.Screen>
@@ -450,7 +473,6 @@ export const CollapseHeader = (props: Props) => {
             <AntDesign
               name="sharealt"
               size={24}
-              // color={tbStyle.iconColor.backgroundColor}
             />
             <Text style={{ fontSize: 11 }}>Share</Text>
           </TouchableOpacity>
@@ -466,8 +488,6 @@ export const CollapseHeader = (props: Props) => {
             <AntDesign
               name="adduser"
               size={24}
-              // color={tbStyle.iconColor.backgroundColor}
-              // color={subscribed ? 'pink' : tbStyle.iconColor.backgroundColor}
             />
             <Text
               style={{ fontSize: 11, color: subscribed ? 'pink' : 'white' }}

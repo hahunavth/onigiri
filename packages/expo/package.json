@@ -77,6 +77,7 @@
     "react-native-performance": "^2.1.0",
     "react-native-performance-flipper-reporter": "^2.0.0",
     "react-native-reanimated": "~2.2.0",
+    "react-native-redash": "^16.2.3",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
     "react-native-shared-element": "^0.8.4",

@@ -223,6 +223,14 @@ export function TestScreen() {
     })
   }, [process])
 
+  React.useEffect(() => {
+    function otherWorklet() {
+      'worklet';
+      console.log('Captured width is', process);
+    }
+    otherWorklet();
+  }, [])
+
   return (
     <VStack flex={1} maxW={1000} bg={'$light.backgroundPrimary'}>
       <HStack
@@ -265,8 +273,8 @@ export function TestScreen() {
                 item.status === 'd'
                   ? 'solid'
                   : item.status === 't'
-                  ? 'subtle'
-                  : 'outline'
+                    ? 'subtle'
+                    : 'outline'
               }
             >
               Adventure
