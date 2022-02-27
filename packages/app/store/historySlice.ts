@@ -139,7 +139,7 @@ const historySlice = createSlice({
         }
       }
 
-      console.log('history/comic: No effect')
+      // console.log('history/comic: No effect')
     },
     /**
      * Save chapter history

@@ -10,21 +10,20 @@ type Param = {
   id: number | undefined
   callback?: () => any
   cleanupCallback?: () => any
-  sid?: number
 }
 
 export default function useUpdateCurrentChapter(param: Param) {
-  const { chapterDetail, isFetching, id, sid } = param
+  const { chapterDetail, isFetching, id } = param
   const home = useAppSelector(homeSelector)
   const dispatch = useAppDispatch()
   const { loading } = useInteraction({
-    dependencyList: [isFetching, chapterDetail, sid],
+    dependencyList: [isFetching, chapterDetail],
     callback: () => {
       if (!isFetching && chapterDetail) {
         dispatch(
           homeActions.setCurrentChapter({
             ...chapterDetail,
-            id: typeof sid === 'number' ? sid : typeof id === 'number' ? id : -1
+            id: id !== undefined ? id : -1
           })
         )
         if (home.currentComic) {

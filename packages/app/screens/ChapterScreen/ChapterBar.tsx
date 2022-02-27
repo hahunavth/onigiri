@@ -19,19 +19,17 @@ import Animated from 'react-native-reanimated'
 import { navigate } from 'app/navigators/index'
 import { useColorModeStyle } from '../../hooks/useColorModeStyle'
 import { resComicDetailChapterItem_T } from '../../types'
+import { ChapterContext } from './ChapterScreenContext'
 interface Props {
   style?: ViewStyle
 }
 // FIXME: CHAPTER BAR CHANGE CHAPTER
 const ChapterBar = (props: Props) => {
   const home = useAppSelector(homeSelector)
-
+  const {changeChapter} = React.useContext(ChapterContext)
   // Prefetch next and prev chapter if exists
   const prefetchChapter = usePrefetch('getChapterByPath', {})
 
-  const dispatch = useAppDispatch()
-
-  const [cid, setCId] = useState(home.currentChapter?.id || 0)
   const [nextChapter, setNextChapter] = useState<resComicDetailChapterItem_T>()
   const [prevChapter, setPrevChapter] = useState<resComicDetailChapterItem_T>()
 
@@ -42,7 +40,7 @@ const ChapterBar = (props: Props) => {
       const list = home.currentComic?.chapters
 
       function findAndSetChapterById ( id: number, length: number, list: resComicDetailChapterItem_T[] ) {
-        if (id < length - 1) {
+        if (id < length - 1 ) {
           setNextChapter(() => list[id + 1])
           if (list[id + 1].path) prefetchChapter(list[id + 1].path)
         }
@@ -74,7 +72,7 @@ const ChapterBar = (props: Props) => {
     return () => {
       interaction.cancel()
     }
-  }, [home.currentChapter?.chapterName, cid])
+  }, [home.currentChapter?.chapterName])
 
   const { boxStyle, textStyle } = useColorModeStyle('', 'Secondary')
 
@@ -146,13 +144,22 @@ const ChapterBar = (props: Props) => {
                   name: nextChapter.name
                 }) */}
 
-                dispatch(homeActions.setCurrentChapter(
+                changeChapter && changeChapter(
+                  {
+                    ctxName: nextChapter.name,
+                    ctxPath: nextChapter.path,
+                    ctxId : home.currentChapter?.id + 1
+                  }
+                )
+
+                {/* dispatch(homeActions.setCurrentChapter(
                   {
                     ...home.currentChapter,
+                    chapterName: nextChapter.name,
                     path: nextChapter.path,
                     id : home.currentChapter?.id + 1
                   }
-                ))
+                )) */}
               }
             }}
           >
@@ -179,12 +186,19 @@ const ChapterBar = (props: Props) => {
             style={{ opacity: prevChapter ? 1 : 0.5 }}
             onPress={() => {
               if (prevChapter && home.currentChapter?.id) {
-                setCId((cid) => cid+1)
+                {/* setCId((cid) => cid+1)
                 navigate('chapter', {
-                  path: prevChapter.path,
-                  id: home.currentChapter?.id - 1,
-                  name: prevChapter.name
-                })
+                  ctxPath: prevChapter.path,
+                  namexId: home.currentChapter?.id - 1,
+                  idame: prevChapter.name
+                }) */}
+                changeChapter && changeChapter(
+                  {
+                    ctxPath: prevChapter.path,
+                    ctxId: home.currentChapter?.id - 1,
+                    ctxName: prevChapter.name
+                  }
+                )
               }
             }}
           >

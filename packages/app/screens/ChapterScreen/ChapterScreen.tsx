@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useContext } from 'react'
 import {
   ListRenderItemInfo,
   Dimensions,
   ActivityIndicator,
   InteractionManager,
-  StyleSheet
+  StyleSheet,
+  FlatList as FlatListT
 } from 'react-native'
 import { View, Text, FlatList } from 'native-base'
 import { ChapterScreenProps } from 'app/navigators/StackNav'
@@ -22,16 +23,34 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import useUpdateCurrentChapter from '../../hooks/useUpdateCurrentChapter'
 import useInteraction from '../../hooks/useInteraction'
 import ChapterViewListScreen from './ChapterViewListScreen'
-import { homeSelector } from '../../store/homeSlice'
+import ChapterScreenContext, { ChapterContext } from './ChapterScreenContext'
+import BottomSheet from '@gorhom/bottom-sheet';
+
+export function ChapterScreen (props: ChapterScreenProps) {
+  return (
+    <ChapterScreenContext>
+      <ChapterScreenNode {...props}/>
+    </ChapterScreenContext>
+  )
+}
 
 let oldOffset = 0
-
 const screenHeight = Dimensions.get('screen').height
+function ChapterScreenNode(props: ChapterScreenProps) {
 
-export function ChapterScreen(props: ChapterScreenProps) {
+  const {
+    ctxId, ctxName, ctxPath, setCtxId, setCtxName, setCtxPath
+   } = useContext(ChapterContext)
 
-  const { path, id, name, preloadItem } = props.route.params
-  const sid = useAppSelector(homeSelector).currentChapter?.id
+  const { path, name, id, preloadItem } = props.route.params
+  const flatListRef = React.useRef<FlatListT>(null)
+
+  useEffect(() => {
+    setCtxId && setCtxId(id)
+    setCtxName && setCtxName(name || '')
+    setCtxPath && setCtxPath(path)
+  }, [])
+
   // const {} = props.navigation.
   // ANCHOR: ANIMATION
   const offset = useSharedValue(0)
@@ -89,7 +108,7 @@ export function ChapterScreen(props: ChapterScreenProps) {
 
   // ANCHOR: DATA LOGIC
   // VAr
-  const { data, isFetching } = useApiChapter(path)
+  const { data, isFetching } = useApiChapter(ctxPath || path)
   const chapterInfo = data?.data
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([])
 
@@ -106,26 +125,26 @@ export function ChapterScreen(props: ChapterScreenProps) {
   // NOTE: Start animation when change chapter
   React.useEffect(() => {
     // reset
-    splashOffset.value = 0
     setImgs([])
-  }, [path, sid])
+    flatListRef.current?.scrollToIndex({animated: true, index: 0})
+    splashOffset.value = 0
+  }, [ctxPath])
 
   useInteraction(
     {
       callback: () => {
             setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })) || [])
       },
-      dependencyList: [path, sid],
+      dependencyList: [ctxPath, chapterInfo],
     }
   )
 
   // DISPATCH ACTION
   const {loading} = useUpdateCurrentChapter({
     chapterDetail: data?.data,
-    id,
-    sid,
+    id: ctxId,
     isFetching,
-    callback: () => (splashOffset.value = 2),
+    callback: () => (splashOffset.value = 2)
   })
 
   // MEMO
@@ -150,6 +169,16 @@ export function ChapterScreen(props: ChapterScreenProps) {
     }
     oldOffset = currentOffset
   }, [])
+// Bottom sheet
+//   // ref
+// const bottomSheetRef = useRef<BottomSheet>(null);
+// // variables
+// const snapPoints = React.useMemo(() => ['25%', '50%', Dimensions.get('window').height], []);
+// // callbacks
+// const handleSheetChanges = React.useCallback((index: number) => {
+//   console.log('handleSheetChanges', index);
+// }, []);
+
 
   return (
     <>
@@ -164,7 +193,7 @@ export function ChapterScreen(props: ChapterScreenProps) {
           <Text
             style={style.splashText}
           >
-            {name}
+            {ctxName}
           </Text>
         </Animated.View>
 
@@ -172,15 +201,27 @@ export function ChapterScreen(props: ChapterScreenProps) {
         {
           loading ? null :
           <View style={style.container}>
-            <ChapterViewListScreen handleScroll={handleScroll} imgs={imgs} setImgs={setImgs} />
+            <ChapterViewListScreen ref={flatListRef as any} handleScroll={handleScroll} imgs={imgs} setImgs={setImgs} />
           </View>
         }
 
       </SafeAreaView>
 
       {/* Floading */}
-      <ChapterHeader style={headerAnimatedStyles} name={name} />
+      <ChapterHeader style={headerAnimatedStyles} name={ctxName} />
       <ChapterBar style={animatedStyles} />
+      {/* <BottomSheet
+         ref={bottomSheetRef}
+         index={1}
+         snapPoints={snapPoints}
+         onChange={handleSheetChanges}
+       >
+         <View style={{
+           flex: 1
+         }}>
+           <Text>Awesome 🎉</Text>
+         </View>
+       </BottomSheet> */}
     </>
   )
 }
