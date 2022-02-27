@@ -18,16 +18,14 @@ import { Button } from 'native-base'
 import Animated, {
   Easing,
   // FadeInDown,
-  withTiming
-} from 'react-native-reanimated'
-// import Text, { QFontFamily } from "../Common/Text";
-
-import {
-  useSharedValue,
-  useAnimatedStyle
+  withTiming,
+  useAnimatedStyle,
+  useSharedValue
 } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
+
 import FadeInView from '../FadeInView'
+import useInteraction from '../../hooks/useInteraction'
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -36,7 +34,7 @@ export const AnimatedFlatList: typeof FlatList =
 type Props = Omit<FlatListProps<resComicDetail_T>, 'renderItem'>
 
 const Details = forwardRef<FlatList, Props>((props, ref) => {
-  console.log('rererere')
+  // console.log('rererere')
   const keyExtractor = useCallback((_, index) => index.toString(), [])
 
   const renderItem = useCallback<ListRenderItem<resComicDetail_T>>(
@@ -127,20 +125,40 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
     ),
     []
   )
+  const offset = useSharedValue(100)
+  const offsetStyle = useAnimatedStyle(() => {
+    return (
+      {
+        transform: [{translateY: withTiming(offset.value)}],
+        opacity: withTiming((100-offset.value) / 100)
+      }
+    )
+  })
+
+  const [loading, setLoading ] = React.useState(true)
+  React.useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+      offset.value = 0
+    }, 1000)
+  }, [])
 
   return (
-    <View
-      style={{ flex: 1 }}
+    <Animated.View
+      style={[{ flex: 1 }, offsetStyle]}
       // level={'3'}
     >
-      <AnimatedFlatList
+    {
+      loading ? null
+      : <AnimatedFlatList
         ref={ref}
         style={styles.container}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         {...props}
       />
-    </View>
+    }
+    </Animated.View>
   )
 })
 

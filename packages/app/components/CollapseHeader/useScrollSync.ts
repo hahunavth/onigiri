@@ -5,7 +5,7 @@ import { ScrollPair } from "./ScrollPair";
 
 const useScrollSync = (
   scrollPairs: ScrollPair[],
-  headerConfig: HeaderConfig
+  headerDiff: number
 ) => {
   const sync = React.useCallback<NonNullable<FlatListProps<any>["onMomentumScrollEnd"]>> (
   (
@@ -13,9 +13,8 @@ const useScrollSync = (
   ) => {
     const { y } = event.nativeEvent.contentOffset;
 
-    const { heightCollapsed, heightExpanded } = headerConfig;
-
-    const headerDiff = heightExpanded - heightCollapsed;
+    // const { heightCollapsed, heightExpanded } = headerConfig;
+    // const headerDiff = heightExpanded - heightCollapsed;
 
     for (const { list, position } of scrollPairs) {
       const scrollPosition = position.value ?? 0;
@@ -30,7 +29,7 @@ const useScrollSync = (
       });
     }
   }
-  , [scrollPairs, headerConfig])
+  , [scrollPairs, headerDiff])
 
   return { sync };
 };

@@ -10,40 +10,63 @@ import {
 } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { AntDesign } from '@expo/vector-icons'
-import { useAppSelector } from 'app/store/hooks'
-import { homeSelector } from 'app/store/homeSlice'
+import { useAppDispatch, useAppSelector } from 'app/store/hooks'
+import { homeActions, homeSelector } from 'app/store/homeSlice'
 import { useNavigation } from '@react-navigation/native'
 import { ComicDetailScreenProps } from 'app/navigators/StackNav'
 import { usePrefetch } from 'app/store/api'
 import Animated from 'react-native-reanimated'
 import { navigate } from 'app/navigators/index'
+import { useColorModeStyle } from '../../hooks/useColorModeStyle'
+import { resComicDetailChapterItem_T } from '../../types'
 interface Props {
   style?: ViewStyle
 }
 // FIXME: CHAPTER BAR CHANGE CHAPTER
 const ChapterBar = (props: Props) => {
   const home = useAppSelector(homeSelector)
-  // console.log(home)
 
   // Prefetch next and prev chapter if exists
-  const chapterCallback = usePrefetch('getChapterByPath', {})
+  const prefetchChapter = usePrefetch('getChapterByPath', {})
 
-  const [nextChapter, setNextChapter] = useState('')
-  const [prevChapter, setPrevChapter] = useState('')
+  const dispatch = useAppDispatch()
+
+  const [cid, setCId] = useState(home.currentChapter?.id || 0)
+  const [nextChapter, setNextChapter] = useState<resComicDetailChapterItem_T>()
+  const [prevChapter, setPrevChapter] = useState<resComicDetailChapterItem_T>()
 
   useEffect(() => {
     const interaction = InteractionManager.runAfterInteractions(() => {
       const length = home.currentComic?.chapters.length
       const id = home.currentChapter?.id
       const list = home.currentComic?.chapters
-      if (id && length && list) {
+
+      function findAndSetChapterById ( id: number, length: number, list: resComicDetailChapterItem_T[] ) {
         if (id < length - 1) {
-          setNextChapter(() => list[id + 1].path)
-          if (list[id + 1].path) chapterCallback(list[id + 1].path)
+          setNextChapter(() => list[id + 1])
+          if (list[id + 1].path) prefetchChapter(list[id + 1].path)
         }
         if (id > 0) {
-          setPrevChapter(() => list[id - 1].path)
-          if (list[id - 1].path) chapterCallback(list[id - 1].path)
+          setPrevChapter(() => list[id - 1])
+          if (list[id - 1].path) prefetchChapter(list[id - 1].path)
+        }
+      }
+
+      if (length && list) {
+        if(typeof id === 'number' && id > -1) {
+          findAndSetChapterById(id, length, list)
+        } else {
+          let curId = -1;
+          list.every((item, id) => {
+            if(item.path === home.currentChapter?.path) {
+              curId = id;
+              return false;
+            }
+            return true;
+          })
+          if(curId > -1) {
+            findAndSetChapterById(curId, length, list)
+          }
         }
       }
     })
@@ -51,7 +74,9 @@ const ChapterBar = (props: Props) => {
     return () => {
       interaction.cancel()
     }
-  }, [home.currentChapter?.chapterName])
+  }, [home.currentChapter?.chapterName, cid])
+
+  const { boxStyle, textStyle } = useColorModeStyle('', 'Secondary')
 
   return (
     <>
@@ -62,7 +87,8 @@ const ChapterBar = (props: Props) => {
             bottom: 0,
             width: '100%',
             height: 64,
-            marginBottom: 0
+            marginBottom: 0,
+            backgroundColor: boxStyle.backgroundColor
             // marginHorizontal: PADDING / 2,
             // width: width - PADDING,
             // backgroundColor: "transparent",
@@ -70,7 +96,7 @@ const ChapterBar = (props: Props) => {
           props.style
         ]}
       >
-        <BlurView
+        {/* <BlurView
           style={[
             {
               position: 'absolute',
@@ -94,7 +120,7 @@ const ChapterBar = (props: Props) => {
           // blurRadius={15}
           // downsampleFactor={4}
           // overlayColor="transparent"
-        />
+        /> */}
         <View
           style={{
             position: 'relative',
@@ -113,38 +139,51 @@ const ChapterBar = (props: Props) => {
             style={{ opacity: prevChapter ? 1 : 0.5 }}
             onPress={() => {
               if (nextChapter && home.currentChapter?.id) {
+                {/* setCId((cid) => cid+1)
                 navigate('chapter', {
-                  path: nextChapter,
+                  path: nextChapter.path,
                   id: home.currentChapter?.id + 1,
-                  name: nextChapter
-                })
+                  name: nextChapter.name
+                }) */}
+
+                dispatch(homeActions.setCurrentChapter(
+                  {
+                    ...home.currentChapter,
+                    path: nextChapter.path,
+                    id : home.currentChapter?.id + 1
+                  }
+                ))
               }
             }}
           >
             <AntDesign
               name={'arrowleft'}
               size={32}
-              style={{ color: 'white' }}
+              color={textStyle.color}
+
             />
           </TouchableOpacity>
           <TouchableOpacity>
-            <AntDesign name={'like2'} size={32} style={{ color: 'white' }} />
+            <AntDesign name={'like2'} size={32} color={textStyle.color}
+            />
           </TouchableOpacity>
           <TouchableOpacity>
-            <AntDesign name={'message1'} size={28} style={{ color: 'white' }} />
+            <AntDesign name={'message1'} size={28} color={textStyle.color}
+            />
           </TouchableOpacity>
           <TouchableOpacity>
-            <AntDesign name={'reload1'} size={28} style={{ color: 'white' }} />
+            <AntDesign name={'reload1'} size={28} color={textStyle.color}
+            />
           </TouchableOpacity>
           <TouchableOpacity
-            // disabled={!prevChapter}
             style={{ opacity: prevChapter ? 1 : 0.5 }}
             onPress={() => {
               if (prevChapter && home.currentChapter?.id) {
+                setCId((cid) => cid+1)
                 navigate('chapter', {
-                  path: prevChapter,
+                  path: prevChapter.path,
                   id: home.currentChapter?.id - 1,
-                  name: prevChapter
+                  name: prevChapter.name
                 })
               }
             }}
@@ -152,11 +191,12 @@ const ChapterBar = (props: Props) => {
             <AntDesign
               name={'arrowright'}
               size={32}
-              style={{ color: 'white' }}
+              color={textStyle.color}
+
             />
           </TouchableOpacity>
         </View>
-        <Text style={{ alignSelf: 'center', color: 'white' }} numberOfLines={1}>
+        <Text style={[{ alignSelf: 'center', color: 'white' }, textStyle]} numberOfLines={1}>
           {home.currentChapter?.chapterName}
         </Text>
       </Animated.View>

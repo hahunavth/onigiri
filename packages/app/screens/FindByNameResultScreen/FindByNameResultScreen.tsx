@@ -17,13 +17,13 @@ export const FindByNameResultScreen = (props: FindByNameResultScreenProps) => {
   const { loading } = useInteraction({})
 
   return (
-    <View flex={1} bg={'red.100'}>
-      <Text>{name}</Text>
-      {/* FIXME: ANY HERE */}
+    <View flex={1}
+       >
+      {/* <Text>{name}</Text> */}
       {isLoading || loading ? (
         <Loading text="Fetching" />
       ) : (
-        <ComicListVertical list={(data?.data[0] as any) || []} />
+        <ComicListVertical list={(data?.data) || []} />
       )}
     </View>
   )

@@ -75,7 +75,7 @@ export const comicApi = createApi({
 
 export const useApiRecently = comicApi.endpoints.getRecentlyByPage.useQuery
 export const useApiTopMonth = comicApi.endpoints.getTopMonthByPage.useQuery
-// export const useApiRecentlyState = comicApi.endpoints.getRecentlyByPage.useQueryState;
+
 export const useApiHot = comicApi.endpoints.getHotByPage.useQuery
 
 export const useApiComicDetail =
@@ -85,6 +85,5 @@ export const useApiChapter = comicApi.endpoints.getChapterByPath.useQuery
 
 export const useApiFindComic = comicApi.endpoints.findComic.useQuery
 export const useApiFindComicByName = comicApi.endpoints.findComicByName.useQuery
-// export const useApiFindComic = comicApi.endpoints.findComic.useQuery;
 
 export const usePrefetch = comicApi.usePrefetch

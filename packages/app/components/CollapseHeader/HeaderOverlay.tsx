@@ -9,7 +9,6 @@ const HeaderOverlay: FC<Props> = ({ style, name, numChapter }) => {
   const containerStyle = useMemo(() => [styles.container, style], [style])
 
   const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
-
   return (
     <View style={[containerStyle, bs1]}>
       <Text style={styles.title} numberOfLines={1}>

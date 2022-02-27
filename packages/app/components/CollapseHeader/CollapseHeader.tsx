@@ -21,16 +21,14 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
   interpolateColor,
+  withTiming
 } from 'react-native-reanimated'
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabBarProps,
   MaterialTopTabNavigationOptions
 } from '@react-navigation/material-top-tabs'
-import {
-  useSafeAreaInsets,
-  SafeAreaView
-} from 'react-native-safe-area-context'
+import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context'
 // App
 import { useAppDispatch, useAppSelector } from 'app/store/hooks'
 import { goBack, navigate } from 'app/navigators'
@@ -53,6 +51,7 @@ import type {
   resComicDetail_T,
   resComicItem_T
 } from 'app/types'
+import useInteraction from '../../hooks/useInteraction'
 
 type Props = {
   comic?: resComicDetail_T
@@ -72,7 +71,6 @@ const OVERLAY_VISIBILITY_OFFSET = 32
 const Tab = createMaterialTopTabNavigator()
 const AnimatedAntDesign = Animated.createAnimatedComponent(AntDesign)
 const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons)
-
 // const getItemLayout = (data, index) => (
 //   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
 // );
@@ -80,8 +78,7 @@ const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons)
 export const CollapseHeader = (props: Props) => {
   // STORE
   const dispatch = useAppDispatch()
-  const { downloadCpt } =
-    useAppSelector(historySelector)
+  const { downloadCpt } = useAppSelector(historySelector)
   const subscribed = !!useAppSelector(historySelector).subscribeComics.find(
     (path) => path === props.comic?.path
   )
@@ -136,7 +133,7 @@ export const CollapseHeader = (props: Props) => {
   )
 
   // const { sync } = useScrollSync(scrollPairs, headerConfig)
-  const { sync } = useScrollSync(scrollPairs, headerConfig)
+  const { sync } = useScrollSync(scrollPairs, headerDiff)
 
   const currentScrollValue = useDerivedValue(
     () =>
@@ -148,18 +145,20 @@ export const CollapseHeader = (props: Props) => {
     () => -Math.min(currentScrollValue.value, headerDiff)
   )
 
-  const tabBarAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }]
-  }))
-
   // NOTE: Set position for poster before animation
   // -> Fix shared animation transition
   const [predefinePosterImage, setPredefinePosterImage] = React.useState(0)
   React.useEffect(() => {
     InteractionManager.runAfterInteractions(() => setPredefinePosterImage(1))
   }, [])
+  const newTranslateY = useDerivedValue(() => {
+    return predefinePosterImage && translateY.value
+  })
+  const tabBarAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: newTranslateY.value }]
+  }))
   const headerAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: predefinePosterImage && translateY.value }],
+    transform: [{ translateY: newTranslateY.value }],
     opacity: interpolate(
       translateY.value,
       [-headerDiff, 0],
@@ -173,22 +172,33 @@ export const CollapseHeader = (props: Props) => {
   // );
 
   const headerIconStyle = useAnimatedStyle(() => {
-    // console.log(-translateY.value/headerDiff)
     return {
-      color: interpolateColor(-translateY.value, [0, headerDiff], ["#fff", "#111"])
+      color: interpolateColor(
+        -translateY.value,
+        [0, headerDiff],
+        ['#fff', '#111']
+      )
     }
   })
   const headerIconStyle2 = useAnimatedStyle(() => {
     return {
       marginRight: 4,
       marginBottom: 4,
-      color: interpolateColor(-translateY.value, [0, headerDiff], ["#fff", "#111"])
+      color: interpolateColor(
+        -translateY.value,
+        [0, headerDiff],
+        ['#fff', '#111']
+      )
     }
   })
   const headerIconStyle3 = useAnimatedStyle(() => {
     return {
       marginTop: 4,
-      color: interpolateColor(-translateY.value, [0, headerDiff], ["#fff", "#111"])
+      color: interpolateColor(
+        -translateY.value,
+        [0, headerDiff],
+        ['#fff', '#111']
+      )
     }
   })
 
@@ -220,9 +230,9 @@ export const CollapseHeader = (props: Props) => {
       : props.comic?.chapters
   }, [props.comic, props.offline])
 
-  const detailData = useMemo(() => {
-    return props.comic ? [props.comic] : []
-  }, [props.comic])
+  // const detailData = useMemo(() => {
+  //   return props.comic ? [props.comic] : []
+  // }, [props.comic])
 
   // NOTE: Render List
   const renderFriends = useCallback(
@@ -230,7 +240,7 @@ export const CollapseHeader = (props: Props) => {
       <DetailList
         ref={friendsRef}
         // @ts-ignore
-        data={detailData}
+        data={props.comic ? [props.comic] : []}
         onScroll={friendsScrollHandler}
         // Performance settings
         removeClippedSubviews={true} // Unmount components when outside of window
@@ -241,7 +251,7 @@ export const CollapseHeader = (props: Props) => {
         {...sharedProps}
       />
     ),
-    [friendsRef, friendsScrollHandler, sharedProps]
+    [friendsRef, friendsScrollHandler, sharedProps, props.comic]
   )
 
   const renderSuggestions = useCallback(
@@ -257,7 +267,12 @@ export const CollapseHeader = (props: Props) => {
         {...sharedProps}
       />
     ),
-    [suggestionsRef, suggestionsScrollHandler, sharedProps]
+    [
+      suggestionsRef,
+      suggestionsScrollHandler,
+      sharedProps,
+      downloadedChapterList
+    ]
   )
 
   const tabBarStyle = useMemo<StyleProp<ViewStyle>>(
@@ -281,10 +296,7 @@ export const CollapseHeader = (props: Props) => {
   )
 
   const headerContainerStyle = useMemo<StyleProp<ViewStyle>>(
-    () => [
-      styles.headerContainer,
-      headerAnimatedStyle
-    ],
+    () => [styles.headerContainer, headerAnimatedStyle],
     [rendered, top, headerAnimatedStyle]
   )
 
@@ -306,22 +318,23 @@ export const CollapseHeader = (props: Props) => {
   )
 
   // NOTE:color
-  const { boxStyle: bs1 } = useColorModeStyle(
-    'Blue',
-    'Secondary'
-  )
+  const { boxStyle: bs1 } = useColorModeStyle('Blue', 'Secondary')
 
   // NOTE: Handle function
   const handleGoBack = useCallback(() => goBack(), [])
-  const handleDownloadClick = useCallback(() =>
-    props.comic &&
-    navigate('select-download-chapter', { comic: props.comic }), [props.comic])
+  const handleDownloadClick = useCallback(
+    () =>
+      props.comic &&
+      navigate('select-download-chapter', { comic: props.comic }),
+    [props.comic]
+  )
+
   const handleSubscribeClick = useCallback(() => {
     if (props.comic) dispatch(toggleSubscribeComicThunk(props.comic))
   }, [props.comic])
+
   const handleReadNowClick = useCallback(() => {
-    const chapter1 =
-      props.comic?.chapters[props.comic?.chapters.length - 1]
+    const chapter1 = props.comic?.chapters[props.comic?.chapters.length - 1]
     chapter1?.path &&
       props.comic?.chapters.length &&
       navigate('chapter', {
@@ -330,42 +343,66 @@ export const CollapseHeader = (props: Props) => {
         path: chapter1.path
       })
   }, [props.comic])
-  const screenOptions = useMemo<MaterialTopTabNavigationOptions>(() => ({
-    tabBarLabelStyle: {},
-    tabBarItemStyle: {
-      margin: -5,
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    tabBarPressOpacity: 0.1,
-    tabBarIndicatorStyle: {
-      backgroundColor: '#f0125cdf',
+
+  const screenOptions = useMemo<MaterialTopTabNavigationOptions>(
+    () => ({
+      tabBarLabelStyle: {},
+      tabBarItemStyle: {
+        margin: -5,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      tabBarPressOpacity: 0.1,
+      tabBarIndicatorStyle: {
+        backgroundColor: '#f0125cdf',
+        flex: 1,
+        height: 38,
+        borderWidth: 5,
+        borderRadius: 12,
+        borderColor: 'transparent'
+      },
+      tabBarActiveTintColor: 'white',
+      tabBarAllowFontScaling: false,
+      tabBarInactiveTintColor: 'gray',
+      tabBarPressColor: 'transparent',
+      lazyPreloadDistance: 2
+    }),
+    []
+  )
+
+  const offset = useSharedValue(0)
+
+  const opacityStyle2 = useAnimatedStyle(() => {
+    return {
       flex: 1,
-      height: 38,
-      borderWidth: 5,
-      borderRadius: 12,
-      borderColor: 'transparent'
-    },
-    tabBarActiveTintColor: 'white',
-    tabBarAllowFontScaling: false,
-    tabBarInactiveTintColor: 'gray',
-    tabBarPressColor: 'transparent',
-    lazyPreloadDistance: 2,
-  }), [])
+      opacity: withTiming(offset.value, {
+        duration: 1000
+      }),
+      transform: [{translateY: withTiming(
+        (1 - offset.value) * 100,
+        {
+          duration: 1000
+        }
+      )}]
+    }
+  })
+
+  const { loading } = useInteraction({
+    callback: () => {
+      offset.value = 1
+    }
+  })
 
   return (
     <View style={styles.wrapperContainer}>
       <View style={styles.container}>
-
         {/* Custom Header Icon */}
-        <SafeAreaView
-          style={styles.headerIconContainer}
-        >
+        <SafeAreaView style={styles.headerIconContainer}>
           <TouchableOpacity onPress={handleGoBack}>
             <AnimatedAntDesign
               name="arrowleft"
               size={34}
-              style={ headerIconStyle }
+              style={headerIconStyle}
             />
           </TouchableOpacity>
           <View style={styles.downloadIconContainer}>
@@ -374,21 +411,19 @@ export const CollapseHeader = (props: Props) => {
                 Offline
               </Badge>
             ) : (
-              <TouchableOpacity
-                onPress={handleDownloadClick}
-              >
+              <TouchableOpacity onPress={handleDownloadClick}>
                 <AnimatedIonicons
                   name="ios-download-outline"
                   size={34}
                   color={bs1.backgroundColor}
-                  style={ headerIconStyle2 }
+                  style={headerIconStyle2}
                 />
               </TouchableOpacity>
             )}
             <AnimatedAntDesign
               name="menuunfold"
               size={30}
-              style={ headerIconStyle3 }
+              style={headerIconStyle3}
             />
           </View>
         </SafeAreaView>
@@ -405,68 +440,101 @@ export const CollapseHeader = (props: Props) => {
             photo={props.routeParam?.posterUrl || props.comic?.posterUrl || ''}
           />
         </Animated.View>
-        <Animated.View style={collapsedOverlayStyle}>
-          <HeaderOverlay
-            name={props.comic?.title || ''}
-            numChapter={props.comic?.chapters?.length || 0}
-          />
-        </Animated.View>
-        <Tab.Navigator
-          tabBar={renderTabBar}
-          pageMargin={10}
-          backBehavior="none"
-          screenOptions={screenOptions}
-        >
-          <Tab.Screen name="Friends">{renderFriends}</Tab.Screen>
-          <Tab.Screen
-            name="Suggestions"
-          // component={renderSuggestions}
-          // NOTE: Do not use component props like above
-          //       It will rerender component when navigate
-          //       Use children props will render once
-          >
-            {renderSuggestions}
-          </Tab.Screen>
-        </Tab.Navigator>
-
-        <View
-          style={styles.shareIconContainer}
-        >
-          <TouchableOpacity
-            style={styles.shareIconTouchOpacity}
-            onPress={ToastComingSoon}
-          >
-            <AntDesign
-              name="sharealt"
-              size={24}
+        {loading ? null : (
+          <Animated.View style={collapsedOverlayStyle}>
+            <HeaderOverlay
+              name={props.comic?.title || ''}
+              numChapter={props.comic?.chapters?.length || 0}
             />
-            <Text style={styles.shareIconText}>Share</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleSubscribeClick}
-            style={styles.subscribeTouchOpacity}
-          >
-            <AntDesign
-              name="adduser"
-              size={24}
-            />
-            <Text
-              style={{ fontSize: 11, color: subscribed ? 'pink' : 'white' }}
+          </Animated.View>
+        )}
+        {loading ? null : (
+          <Animated.View style={[opacityStyle2]}>
+            <Tab.Navigator
+              tabBar={renderTabBar}
+              // pageMargin={10}
+              backBehavior="none"
+              screenOptions={screenOptions}
             >
-              Subscribe
-            </Text>
-          </TouchableOpacity>
-          <Button
-            style={styles.readNowBtn}
-            onPress={handleReadNowClick}
-          >
-            Read now!
-          </Button>
-        </View>
+              <Tab.Screen name="Friends">{renderFriends}</Tab.Screen>
+              <Tab.Screen
+                name="Suggestions"
+                // component={renderSuggestions}
+                // NOTE: Do not use component props like above
+                //       It will rerender component when navigate
+                //       Use children props will render once
+              >
+                {renderSuggestions}
+              </Tab.Screen>
+            </Tab.Navigator>
+          </Animated.View>
+        )}
+
+        {loading ? null : (
+          <ComicDetailBottomBar
+            handleReadNowClick={handleReadNowClick}
+            handleSubscribeClick={handleSubscribeClick}
+            subscribed={subscribed}
+          />
+        )}
       </View>
     </View>
   )
 }
+
+type ComicDetailBottomBarProps = {
+  subscribed: boolean
+  handleReadNowClick: () => any
+  handleSubscribeClick: () => any
+}
+const ComicDetailBottomBar = React.memo(
+  ({
+    handleReadNowClick,
+    handleSubscribeClick,
+    subscribed
+  }: ComicDetailBottomBarProps) => {
+    const { boxStyle: bs1 } = useColorModeStyle('Blue', 'Secondary')
+
+    return (
+      <View style={styles.shareIconContainer}>
+        <TouchableOpacity
+          style={styles.shareIconTouchOpacity}
+          onPress={ToastComingSoon}
+        >
+          <AntDesign
+            name="sharealt"
+            size={24}
+            style={{ color: bs1._text.color }}
+          />
+          <Text style={[styles.shareIconText, { color: bs1._text.color }]}>
+            Share
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleSubscribeClick}
+          style={styles.subscribeTouchOpacity}
+        >
+          <AntDesign
+            name="adduser"
+            size={24}
+            style={{ color: subscribed ? 'red' : bs1._text.color }}
+          />
+          <Text
+            style={{
+              fontSize: 11,
+              color: subscribed ? 'red' : bs1._text.color
+            }}
+          >
+            Subscribe
+          </Text>
+        </TouchableOpacity>
+        <Button style={styles.readNowBtn} onPress={handleReadNowClick}>
+          Read now!
+        </Button>
+      </View>
+    )
+  }
+)
 
 const styles = StyleSheet.create({
   wrapperContainer: {
@@ -518,7 +586,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5
   },
-  shareIconTouchOpacity: { margin: 'auto', alignItems: 'center', marginLeft: 24 },
+  shareIconTouchOpacity: {
+    margin: 'auto',
+    alignItems: 'center',
+    marginLeft: 24
+  },
   shareIconText: { fontSize: 11 },
   subscribeTouchOpacity: {
     margin: 'auto',

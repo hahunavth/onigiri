@@ -40,7 +40,7 @@ export function BlurView({
   ...props
 }: BlurProps) {
   // don't collide this style with other blurs
-  // TODO how should I set this?
+  // TODO: how should I set this?
   const id = React.useRef(`${Math.random()}`).current
   const blurStyle = getBlurStyle(id, { tint, intensity })
   return (

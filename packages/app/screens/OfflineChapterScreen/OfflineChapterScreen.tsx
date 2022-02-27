@@ -17,7 +17,7 @@ export const OfflineChapterScreen = (props: OfflineChapterScreenProps) => {
 
   const history = useAppSelector(historySelector)
 
-  const {} = useUpdateCurrentChapter({
+  const {loading} = useUpdateCurrentChapter({
     chapterDetail: history.downloadCpt[chapterPath],
     id: -1,
     isFetching: false
@@ -55,22 +55,24 @@ export const OfflineChapterScreen = (props: OfflineChapterScreenProps) => {
 
   return (
     <View>
-      <Button>Download</Button>
-      <FlatList
-        data={imgs}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.uri}
-        initialNumToRender={4}
-        maxToRenderPerBatch={5}
-        removeClippedSubviews={true}
-        // minimumZoomScale={5}
-      />
-
-      <Text>TestScreen 222</Text>
+      {
+        loading ? null :
+        <FlatList
+          data={imgs}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.uri}
+          initialNumToRender={4}
+          maxToRenderPerBatch={5}
+          removeClippedSubviews={true}
+        />
+      }
     </View>
   )
 }
 
+/**
+  * Child component
+  */
 const w = Dimensions.get('window').width
 
 const LocalComicImage = React.memo(function (
@@ -80,9 +82,11 @@ const LocalComicImage = React.memo(function (
     id?: number
   }
 ) {
+  // console.log('rerender', props.id)
   React.useEffect(() => {
     let isMounted = true
     if (!props.h) {
+      console.log('getSize', props.id)
       // @ts-ignore
       Image.getSize(props.source?.uri || '', (width, height) => {
         const screenWidth = w

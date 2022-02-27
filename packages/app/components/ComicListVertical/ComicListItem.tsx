@@ -28,7 +28,6 @@ export function ComicListItem({ item }: Props) {
       >
         <SharedElement
         id={`item.${item.posterUrl}.photo`}
-
         >
           <Image
             source={{ uri: item.posterUrl }}
@@ -39,6 +38,7 @@ export function ComicListItem({ item }: Props) {
         >
         <View style={styles.infoContainer}>
           <Box>
+
             <Text
               style={[styles.titleText]}
               color={ts1.color}

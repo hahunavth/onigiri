@@ -1,4 +1,4 @@
-import React, { FC, memo, useMemo } from 'react'
+import React, { FC, memo, useMemo, useEffect } from 'react'
 import {
   Dimensions,
   Image,
@@ -7,13 +7,16 @@ import {
   StyleSheet,
   Text,
   View,
-  ViewProps
+  ViewProps,
+  useWindowDimensions
 } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { AntDesign } from '@expo/vector-icons'
 import { SharedElement } from 'react-navigation-shared-element'
-
+import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, withTiming, withSpring} from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import useInteraction from '../../hooks/useInteraction'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export const PHOTO_SIZE = 120
 
@@ -34,26 +37,71 @@ type Props2 = Pick<ViewProps, 'style'> & {
   bio: string
 }
 
+const AnimatedImageBackground = Animated.createAnimatedComponent(ImageBackground)
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
+
+const {height} = Dimensions.get('screen')
+
 const Header: FC<Props2> = ({ style, name, photo, bio }) => {
+
+  // const { height } = useWindowDimensions()
+  // const { top } = useSafeAreaInsets()
   // REVIEW: Save Style
   const containerStyle = useMemo(() => [styles.container, style], [])
 
   // REVIEW: Save Image source for next render
   const photoSource = useMemo<ImageProps['source']>(() => ({ uri: photo }), [])
   // const photoSource = { uri: photo };
+  const offset = useSharedValue(0)
+  // const imageBackgroundHeight = useSharedValue(height)
+  // const imageBackgroundHeight = useDerivedValue(() => {
+  //   return offset.value * height
+  // })
+
+  const opacityStyle1 = useAnimatedStyle(() => {
+    return (
+      {
+        opacity: withTiming(offset.value)
+      }
+    )
+  })
+  const opacityStyle2 = useAnimatedStyle(() => {
+    return (
+      {
+        opacity: withTiming(offset.value),
+        // width: withTiming(imageBackgroundHeight.value, {
+        //   duration: 500,
+        // })
+      }
+    )
+  })
+
+  useInteraction({
+    callback: () => {
+      // imageBackgroundHeight.value = 280
+      offset.value = 1
+    }
+  })
+
+  // React.useEffect(() => {
+  //     requestAnimationFrame(() => {
+  //       offset.value = 1
+  //     })
+  // })
 
   return (
     <View style={containerStyle}>
-      <ImageBackground
-        style={styles.photo}
+      <AnimatedImageBackground
+        style={[styles.photo, opacityStyle2]}
         blurRadius={4}
         source={photoSource}
+        fadeDuration={500}
       />
-      <LinearGradient
+      <AnimatedLinearGradient
         colors={['#000000d8', '#00000042', '#77777747']}
         start={{ x: 0, y: 1.1 }}
         end={{ x: 0, y: 0 }}
-        style={{
+        style={[{
           flex: 1,
           // justifyContent: "flex-end",
           // alignItems: "flex-start",
@@ -61,7 +109,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
           // backgroundColor: "white",
           alignItems: 'flex-end',
           padding: 12
-        }}
+        }, opacityStyle1]}
       >
         <View style={styles.textContainer}>
           <Text style={styles.name}>{name}</Text>
@@ -77,11 +125,12 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
               height: 180,
               borderRadius: 10,
               borderWidth: 3,
-              borderColor: '#333'
+              borderColor: '#333',
+              opacity: 1
             }}
           />
         </SharedElement>
-      </LinearGradient>
+      </AnimatedLinearGradient>
     </View>
   )
 }

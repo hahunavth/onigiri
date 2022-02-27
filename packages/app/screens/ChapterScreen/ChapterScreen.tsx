@@ -3,56 +3,42 @@ import {
   ListRenderItemInfo,
   Dimensions,
   ActivityIndicator,
-  InteractionManager
+  InteractionManager,
+  StyleSheet
 } from 'react-native'
 import { View, Text, FlatList } from 'native-base'
-// import ImageSize from "react-native-image-size";
-
 import { ChapterScreenProps } from 'app/navigators/StackNav'
-import { ScaledImage } from 'app/components/ScaledImage'
-import { useApiChapter, usePrefetch } from 'app/store/api'
+import { useApiChapter } from 'app/store/api'
 import { useAppDispatch, useAppSelector } from 'app/store/hooks'
-// import { downloadAction, downloadSelector } from "app/store/downloadSlice";
-import { homeActions, homeSelector } from 'app/store/homeSlice'
-
-import { BlurHeader } from 'app/components/BlurHeader'
 import ChapterBar from './ChapterBar'
 import ChapterHeader from './ChapterHeader'
-// import {} from "app/types";
 import Animated, {
   Easing,
-  withSpring,
   withTiming,
   useSharedValue,
   useAnimatedStyle,
-  useAnimatedScrollHandler,
-  withDelay
 } from 'react-native-reanimated'
-import { historyAction, historySelector } from 'app/store/historySlice'
-import FadeInView from 'app/components/FadeInView'
-// import SessionHeader from 'app/components/Common/SessionHeader'
-import { NavigationHeader } from 'app/components/NavigationHeader/index.web'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import useUpdateCurrentChapter from '../../hooks/useUpdateCurrentChapter'
+import useInteraction from '../../hooks/useInteraction'
+import ChapterViewListScreen from './ChapterViewListScreen'
+import { homeSelector } from '../../store/homeSlice'
 
 let oldOffset = 0
-let headerVisible = true
 
 const screenHeight = Dimensions.get('screen').height
 
-export function ChapterScreen({
-  route: {
-    params: { path, id, name }
-  }
-}: ChapterScreenProps) {
+export function ChapterScreen(props: ChapterScreenProps) {
+
+  const { path, id, name, preloadItem } = props.route.params
+  const sid = useAppSelector(homeSelector).currentChapter?.id
+  // const {} = props.navigation.
   // ANCHOR: ANIMATION
   const offset = useSharedValue(0)
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      // top: offset.value,
       transform: [
         {
-          // offset.value,
           translateY: withTiming(offset.value, {
             duration: 200,
             easing: Easing.in(Easing.linear)
@@ -66,7 +52,6 @@ export function ChapterScreen({
       opacity: 1 - offset.value / 100,
       transform: [
         {
-          // offset.value,
           translateY: withTiming(-offset.value * 2, {
             duration: 200,
             easing: Easing.in(Easing.linear)
@@ -78,6 +63,15 @@ export function ChapterScreen({
   const splashOffset = useSharedValue(0)
   const splashStyles = useAnimatedStyle(() => {
     return {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 100,
+      backgroundColor: 'white',
       opacity: withTiming(1 - splashOffset.value / 2, {
         duration: 800,
         easing: Easing.inOut(Easing.sin)
@@ -94,155 +88,107 @@ export function ChapterScreen({
   })
 
   // ANCHOR: DATA LOGIC
-  const home = useAppSelector(homeSelector)
-
-  const { data, isLoading, isFetching } = useApiChapter(path)
-  const dispatch = useAppDispatch()
+  // VAr
+  const { data, isFetching } = useApiChapter(path)
   const chapterInfo = data?.data
-
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([])
-  useEffect(() => {
-    if (!imgs.length) {
-      setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })) || [])
+
+  // UPDATE IMAGE LIST
+  // useEffect(() => {
+  //   // NOTE: Do not using if here
+  //   // useEffect run when change path (navigate to new chapter)
+  //   // if (!imgs.length) {
+  //     setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })) || [])
+  //     setIsLoading(false)
+  //   // }
+  // }, [path])
+
+  // NOTE: Start animation when change chapter
+  React.useEffect(() => {
+    // reset
+    splashOffset.value = 0
+    setImgs([])
+  }, [path, sid])
+
+  useInteraction(
+    {
+      callback: () => {
+            setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })) || [])
+      },
+      dependencyList: [path, sid],
     }
-    // console.log(imgs)
-  }, [isFetching])
-
-  const { loading } = useUpdateCurrentChapter({
-    chapterDetail: data?.data,
-    id,
-    isFetching,
-    callback: () => (splashOffset.value = 2)
-  })
-
-  const renderItem = React.useCallback(
-    ({ item, index }: ListRenderItemInfo<{ uri: string; h: number }>) => {
-      return (
-        <ScaledImage
-          src={
-            'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' +
-            item.uri
-          }
-          id={index}
-          h={item.h}
-          setImgs={setImgs}
-        />
-      )
-    },
-    []
   )
 
-  if (isFetching || !data)
-    return (
-      <View
-        style={[
-          {
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            justifyContent: 'center',
-            alignItems: 'center'
-            // backgroundColor: "red",
-          }
-        ]}
-      >
-        <Text
-          style={{
-            fontSize: 18
-            // zIndex: 100
-            // fontFamily: QFontFamily.Quicksand_600SemiBold
-          }}
-        >
-          Loading...
-        </Text>
-        <Text
-          style={{
-            fontSize: 24
-            // fontFamily: QFontFamily.Quicksand_600SemiBold
-          }}
-        >
-          {name}
-        </Text>
-        {/* <Spinner size={'giant'} /> */}
-      </View>
-    )
+  // DISPATCH ACTION
+  const {loading} = useUpdateCurrentChapter({
+    chapterDetail: data?.data,
+    id,
+    sid,
+    isFetching,
+    callback: () => (splashOffset.value = 2),
+  })
+
+  // MEMO
+  const handleScroll = React.useCallback((e) => {
+    // NOTE: V1: Chapter bar show related with scroll
+    // const currentOffset = e.nativeEvent.contentOffset.y
+    // const newScrollValue = offset.value + currentOffset - oldOffset
+    // if (newScrollValue > 100) {
+    //   offset.value = 100
+    //   headerVisible = false
+    // } else if (newScrollValue < 0) offset.value = 0
+    // else offset.value = newScrollValue
+    // oldOffset = currentOffset
+
+    // NOTE: V2: Chapter bar when scroll end or tap
+    const currentOffset = e.nativeEvent.contentOffset.y
+    const scrollLen = currentOffset - oldOffset
+    if (scrollLen > 6 && currentOffset > 32) {
+      offset.value = 64
+    } else if (scrollLen < -10) {
+      offset.value = 0
+    }
+    oldOffset = currentOffset
+  }, [])
 
   return (
     <>
-      {/* {!isFetching && data && ( */}
-      {/* <Text style={{ flex: 1 }}> */}
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={style.container}>
+
+        {/* Splash */}
         <Animated.View
-          style={[
-            {
-              position: 'absolute',
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-              zIndex: 100,
-              backgroundColor: 'white'
-            },
+          style={
             splashStyles
-          ]}
-          // level={'2'}
+          }
         >
           <Text
-            style={{
-              fontSize: 24,
-              // fontFamily: QFontFamily.Quicksand_600SemiBold,
-              color: 'black'
-            }}
+            style={style.splashText}
           >
             {name}
           </Text>
         </Animated.View>
-        <View style={{ flex: 1 }}>
-          <ChapterHeader style={headerAnimatedStyles} />
-          {/* <BlurHeader /> */}
 
-          <FlatList
-            data={imgs || []}
-            renderItem={renderItem}
-            // initialNumToRender={2}
-            keyExtractor={(item, id) => item.uri}
-            style={{ zIndex: 11 }}
-            //#endregion
+        {/* ComicView */}
+        {
+          loading ? null :
+          <View style={style.container}>
+            <ChapterViewListScreen handleScroll={handleScroll} imgs={imgs} setImgs={setImgs} />
+          </View>
+        }
 
-            onScroll={(e) => {
-              // NOTE: V1: Chapter bar show related with scroll
-              // const currentOffset = e.nativeEvent.contentOffset.y
-              // const newScrollValue = offset.value + currentOffset - oldOffset
-              // if (newScrollValue > 100) {
-              //   offset.value = 100
-              //   headerVisible = false
-              // } else if (newScrollValue < 0) offset.value = 0
-              // else offset.value = newScrollValue
-              // oldOffset = currentOffset
-
-              // NOTE: V2: Chapter bar when scroll end or tap
-              const currentOffset = e.nativeEvent.contentOffset.y
-              //
-              const scrollLen = currentOffset - oldOffset
-              if (scrollLen > 6 && currentOffset > 32) {
-                offset.value = 64
-              } else if (scrollLen < -10) {
-                offset.value = 0
-              }
-              // Update new state
-              oldOffset = currentOffset
-            }}
-          />
-        </View>
       </SafeAreaView>
 
+      {/* Floading */}
+      <ChapterHeader style={headerAnimatedStyles} name={name} />
       <ChapterBar style={animatedStyles} />
-      {/* </Text> */}
-      {/* )} */}
     </>
   )
 }
+
+const style = StyleSheet.create({
+  splashText: {
+    fontSize: 24,
+    color: 'black'
+  },
+  container: { flex: 1 }
+})

@@ -25,6 +25,7 @@ import { MotiScrollView } from 'moti'
 import { useAppSelector } from 'app/store/hooks'
 import { historySelector } from 'app/store/historySlice'
 import { homeSelector } from '../../store/homeSlice'
+import useInteraction from '../../hooks/useInteraction'
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -39,6 +40,10 @@ type Props = Omit<
   'renderItem'
 >
 
+
+/**
+ * Main component
+ */
 const ConnectionList = forwardRef<
   FlatList,
   Props & {
@@ -46,6 +51,9 @@ const ConnectionList = forwardRef<
     offline?: boolean
   }
 >((props, ref) => {
+
+  console.log('render2')
+
   const [sortNewer, setSortNewer] = useState(true)
   const history = useAppSelector(historySelector)
   const { currentComic } = useAppSelector(homeSelector)
@@ -67,34 +75,52 @@ const ConnectionList = forwardRef<
     ),
     [props.offline]
   )
-  const olderList = useMemo(() => {
-    const list = []
-    if (props.data)
-      for (let i = props.data?.length - 1; i > 0; i--) {
-        list.push(props.data[i])
-      }
-    return list
-  }, [props.data])
+  // const olderList = useMemo(() => {
+  //   const list = []
+  //   if (props.data)
+  //     for (let i = props.data?.length - 1; i > 0; i--) {
+  //       list.push(props.data[i])
+  //     }
+  //   return list
+  // }, [props.data])
+
+  const [olderList, setOlderList] = useState<resComicDetailChapterItem_T[]>([])
+
+  const {loading} = useInteraction({
+    callback:
+      () => {
+        const list = []
+        if (props.data)
+          for (let i = props.data?.length - 1; i > 0; i--) {
+            list.push(props.data[i])
+          }
+        setOlderList(list)
+      },
+      dependencyList: [props.data],
+  })
 
   return (
     <View style={{ flex: 1 }}>
-      <AnimatedFlatList
-        ref={ref}
-        style={styles.container}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        {...props}
-        data={sortNewer ? props.data : olderList}
-        ListHeaderComponent={() => {
-          return (
-            <ListHeader
-              lastedChapter={(props.data && props.data[0].name) || ''}
-              sortType={sortNewer}
-              onSortTypeChange={setSortNewer}
-            />
-          )
-        }}
-      />
+      {
+        loading ? null :
+        <AnimatedFlatList
+          ref={ref}
+          style={styles.container}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          {...props}
+          data={sortNewer ? props.data : olderList}
+          ListHeaderComponent={() => {
+            return (
+              <ListHeader
+                lastedChapter={(props.data && props.data[0].name) || ''}
+                sortType={sortNewer}
+                onSortTypeChange={setSortNewer}
+              />
+            )
+          }}
+        />
+      }
     </View>
   )
 })

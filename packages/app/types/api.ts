@@ -6,6 +6,7 @@ export type ApiResponse_T<T> = {
   paginate?: {
     page: number;
     limit: number;
+    max: number;
   };
 };
 
