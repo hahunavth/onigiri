@@ -1,4 +1,4 @@
-import { FindOptionT, toIdListStr } from './../screens/DiscoverScreen/constants'
+import { FindOptionT, toIdListStr } from '../utils/findOption'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type {
   ApiResponse_T,
@@ -45,7 +45,6 @@ export const comicApi = createApi({
         return `${path}`
       }
     }),
-
     findComic: builder.query<ApiResponse_T<resComicItem_T[]>, FindOptionT>({
       query: (param: FindOptionT) => {
         const getFindPath = () => {
@@ -62,6 +61,14 @@ export const comicApi = createApi({
 
         console.log(`🚀  ${getFindPath()}`)
         return `/find?${getFindPath()}`
+      }
+    }),
+    findByGenres: builder.query<
+      ApiResponse_T<resComicItem_T[]>,
+      { genres: string | number; page: string | number }
+    >({
+      query: (param) => {
+        return `/find?genres=${param.genres}&notgenres=&gender=-1&status=-1&minchapter=1&sort=0&page=${param.page}`
       }
     }),
     findComicByName: builder.query<ApiResponse_T<resComicItem_T[]>, string>({
@@ -85,5 +92,7 @@ export const useApiChapter = comicApi.endpoints.getChapterByPath.useQuery
 
 export const useApiFindComic = comicApi.endpoints.findComic.useQuery
 export const useApiFindComicByName = comicApi.endpoints.findComicByName.useQuery
+
+export const useApiFindByGenres = comicApi.endpoints.findByGenres.useQuery
 
 export const usePrefetch = comicApi.usePrefetch

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useContext } from 'react'
 import {
   ListRenderItemInfo,
   Dimensions,
-  ActivityIndicator,
   InteractionManager,
   StyleSheet,
   FlatList as FlatListT
@@ -17,19 +16,19 @@ import Animated, {
   Easing,
   withTiming,
   useSharedValue,
-  useAnimatedStyle,
+  useAnimatedStyle
 } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import useUpdateCurrentChapter from '../../hooks/useUpdateCurrentChapter'
 import useInteraction from '../../hooks/useInteraction'
 import ChapterViewListScreen from './ChapterViewListScreen'
 import ChapterScreenContext, { ChapterContext } from './ChapterScreenContext'
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet'
 
-export function ChapterScreen (props: ChapterScreenProps) {
+export function ChapterScreen(props: ChapterScreenProps) {
   return (
     <ChapterScreenContext>
-      <ChapterScreenNode {...props}/>
+      <ChapterScreenNode {...props} />
     </ChapterScreenContext>
   )
 }
@@ -37,10 +36,8 @@ export function ChapterScreen (props: ChapterScreenProps) {
 let oldOffset = 0
 const screenHeight = Dimensions.get('screen').height
 function ChapterScreenNode(props: ChapterScreenProps) {
-
-  const {
-    ctxId, ctxName, ctxPath, setCtxId, setCtxName, setCtxPath
-   } = useContext(ChapterContext)
+  const { ctxId, ctxName, ctxPath, setCtxId, setCtxName, setCtxPath } =
+    useContext(ChapterContext)
 
   const { path, name, id, preloadItem } = props.route.params
   const flatListRef = React.useRef<FlatListT>(null)
@@ -126,21 +123,19 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   React.useEffect(() => {
     // reset
     setImgs([])
-    flatListRef.current?.scrollToIndex({animated: true, index: 0})
+    flatListRef.current?.scrollToIndex({ animated: true, index: 0 })
     splashOffset.value = 0
   }, [ctxPath])
 
-  useInteraction(
-    {
-      callback: () => {
-            setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })) || [])
-      },
-      dependencyList: [ctxPath, chapterInfo],
-    }
-  )
+  useInteraction({
+    callback: () => {
+      setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })) || [])
+    },
+    dependencyList: [ctxPath, chapterInfo]
+  })
 
   // DISPATCH ACTION
-  const {loading} = useUpdateCurrentChapter({
+  const { loading } = useUpdateCurrentChapter({
     chapterDetail: data?.data,
     id: ctxId,
     isFetching,
@@ -169,42 +164,35 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     }
     oldOffset = currentOffset
   }, [])
-// Bottom sheet
-//   // ref
-// const bottomSheetRef = useRef<BottomSheet>(null);
-// // variables
-// const snapPoints = React.useMemo(() => ['25%', '50%', Dimensions.get('window').height], []);
-// // callbacks
-// const handleSheetChanges = React.useCallback((index: number) => {
-//   console.log('handleSheetChanges', index);
-// }, []);
-
+  // Bottom sheet
+  //   // ref
+  // const bottomSheetRef = useRef<BottomSheet>(null);
+  // // variables
+  // const snapPoints = React.useMemo(() => ['25%', '50%', Dimensions.get('window').height], []);
+  // // callbacks
+  // const handleSheetChanges = React.useCallback((index: number) => {
+  //   console.log('handleSheetChanges', index);
+  // }, []);
 
   return (
     <>
       <SafeAreaView style={style.container}>
-
         {/* Splash */}
-        <Animated.View
-          style={
-            splashStyles
-          }
-        >
-          <Text
-            style={style.splashText}
-          >
-            {ctxName}
-          </Text>
+        <Animated.View style={splashStyles}>
+          <Text style={style.splashText}>{ctxName}</Text>
         </Animated.View>
 
         {/* ComicView */}
-        {
-          loading ? null :
+        {loading ? null : (
           <View style={style.container}>
-            <ChapterViewListScreen ref={flatListRef as any} handleScroll={handleScroll} imgs={imgs} setImgs={setImgs} />
+            <ChapterViewListScreen
+              ref={flatListRef as any}
+              handleScroll={handleScroll}
+              imgs={imgs}
+              setImgs={setImgs}
+            />
           </View>
-        }
-
+        )}
       </SafeAreaView>
 
       {/* Floading */}

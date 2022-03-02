@@ -4,6 +4,8 @@ import { TextInput } from 'react-native'
 import { useAppDispatch } from '../../store/hooks'
 import { historyAction } from 'app/store/historySlice'
 import { SearchNavigationHeader } from '../../components/NavigationHeader'
+import { navigate } from '../../navigators'
+import ZoomableImage from '../../components/ZoomableImage'
 
 type Props = {}
 
@@ -14,7 +16,7 @@ export const MainTestScreen = (props: Props) => {
   return (
     <View>
       <Text>MainTestScreen</Text>
-      <Button onPress={() => dispatch(historyAction.reset())}>
+      <Button onPress={() => dispatch(historyAction.reset(null))}>
         Reset history slice
       </Button>
       <Button onPress={() => toggleColorMode()}>Toggle color mode</Button>
@@ -24,6 +26,8 @@ export const MainTestScreen = (props: Props) => {
         onChangeText={(t) => setText(t)}
         placeholder="Text Input"
       />
+      <Button onPress={() => navigate('genres-list')}>Genres screen</Button>
+      <ZoomableImage />
     </View>
   )
 }

@@ -22,11 +22,15 @@ import { resComicDetailChapterItem_T } from '../../types'
 import { ChapterContext } from './ChapterScreenContext'
 interface Props {
   style?: ViewStyle
+  // id?: number
 }
 // FIXME: CHAPTER BAR CHANGE CHAPTER
 const ChapterBar = (props: Props) => {
+  const { ctxId } = React.useContext(ChapterContext)
+
   const home = useAppSelector(homeSelector)
-  const {changeChapter} = React.useContext(ChapterContext)
+  const list = home.currentComic?.chapters
+  const { changeChapter } = React.useContext(ChapterContext)
   // Prefetch next and prev chapter if exists
   const prefetchChapter = usePrefetch('getChapterByPath', {})
 
@@ -34,47 +38,63 @@ const ChapterBar = (props: Props) => {
   const [prevChapter, setPrevChapter] = useState<resComicDetailChapterItem_T>()
 
   useEffect(() => {
-    const interaction = InteractionManager.runAfterInteractions(() => {
-      const length = home.currentComic?.chapters.length
-      const id = home.currentChapter?.id
-      const list = home.currentComic?.chapters
-
-      function findAndSetChapterById ( id: number, length: number, list: resComicDetailChapterItem_T[] ) {
-        if (id < length - 1 ) {
-          setNextChapter(() => list[id + 1])
-          if (list[id + 1].path) prefetchChapter(list[id + 1].path)
-        }
-        if (id > 0) {
-          setPrevChapter(() => list[id - 1])
-          if (list[id - 1].path) prefetchChapter(list[id - 1].path)
-        }
+    // const interaction = InteractionManager.runAfterInteractions(() => {
+    const length = home.currentComic?.chapters.length
+    const id = ctxId
+    console.log(id, list?.length)
+    function findAndSetChapterById(
+      id: number,
+      length: number,
+      list: resComicDetailChapterItem_T[]
+    ) {
+      if (id < length - 1) {
+        setNextChapter(() => list[id + 1])
+        if (list[id + 1].path) prefetchChapter(list[id + 1].path)
       }
+      if (id > 0) {
+        setPrevChapter(() => list[id - 1])
+        if (list[id - 1].path) prefetchChapter(list[id - 1].path)
+      }
+    }
 
-      if (length && list) {
-        if(typeof id === 'number' && id > -1) {
-          findAndSetChapterById(id, length, list)
-        } else {
-          let curId = -1;
-          list.every((item, id) => {
-            if(item.path === home.currentChapter?.path) {
-              curId = id;
-              return false;
-            }
-            return true;
-          })
-          if(curId > -1) {
-            findAndSetChapterById(curId, length, list)
+    if (length && list) {
+      if (typeof id === 'number' && id > -1) {
+        findAndSetChapterById(id, length, list)
+      } else {
+        let curId = -1
+        list.every((item, id) => {
+          if (item?.path === home.currentChapter?.path) {
+            curId = id
+            return false
           }
+          return true
+        })
+        if (curId > -1) {
+          findAndSetChapterById(curId, length, list)
         }
       }
-    })
+    }
+    // })
 
     return () => {
-      interaction.cancel()
+      // interaction.cancel()
     }
   }, [home.currentChapter?.chapterName])
 
   const { boxStyle, textStyle } = useColorModeStyle('', 'Secondary')
+
+  const nextStyle = React.useMemo(() => {
+    return {
+      opacity:
+        typeof ctxId === 'number' && ctxId < (list?.length || 0) - 1 ? 1 : 0.5
+    }
+  }, [ctxId])
+
+  const prevStyle = React.useMemo(() => {
+    return {
+      opacity: typeof ctxId === 'number' && ctxId > 0 ? 1 : 0.5
+    }
+  }, [ctxId])
 
   return (
     <>
@@ -134,83 +154,82 @@ const ChapterBar = (props: Props) => {
         >
           <TouchableOpacity
             // disabled={!nextChapter}
-            style={{ opacity: prevChapter ? 1 : 0.5 }}
+            style={nextStyle}
+            // disabled={
+            //   typeof ctxId === 'number' && ctxId < (list?.length || 0) - 1
+            //     ? true
+            //     : false
+            // }
             onPress={() => {
-              if (nextChapter && home.currentChapter?.id) {
-                {/* setCId((cid) => cid+1)
+              if (nextChapter && typeof ctxId === 'number' && ctxId > -1) {
+                {
+                  /* setCId((cid) => cid+1)
                 navigate('chapter', {
                   path: nextChapter.path,
                   id: home.currentChapter?.id + 1,
                   name: nextChapter.name
-                }) */}
+                }) */
+                }
 
-                changeChapter && changeChapter(
-                  {
+                changeChapter &&
+                  changeChapter({
                     ctxName: nextChapter.name,
                     ctxPath: nextChapter.path,
-                    ctxId : home.currentChapter?.id + 1
-                  }
-                )
+                    ctxId: (ctxId || 0) + 1
+                  })
 
-                {/* dispatch(homeActions.setCurrentChapter(
+                {
+                  /* dispatch(homeActions.setCurrentChapter(
                   {
                     ...home.currentChapter,
                     chapterName: nextChapter.name,
                     path: nextChapter.path,
                     id : home.currentChapter?.id + 1
                   }
-                )) */}
+                )) */
+                }
               }
             }}
           >
-            <AntDesign
-              name={'arrowleft'}
-              size={32}
-              color={textStyle.color}
-
-            />
+            <AntDesign name={'arrowleft'} size={32} color={textStyle.color} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <AntDesign name={'like2'} size={32} color={textStyle.color}
-            />
+            <AntDesign name={'like2'} size={32} color={textStyle.color} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <AntDesign name={'message1'} size={28} color={textStyle.color}
-            />
+            <AntDesign name={'message1'} size={28} color={textStyle.color} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <AntDesign name={'reload1'} size={28} color={textStyle.color}
-            />
+            <AntDesign name={'reload1'} size={28} color={textStyle.color} />
           </TouchableOpacity>
           <TouchableOpacity
-            style={{ opacity: prevChapter ? 1 : 0.5 }}
+            style={prevStyle}
             onPress={() => {
-              if (prevChapter && home.currentChapter?.id) {
-                {/* setCId((cid) => cid+1)
+              if (!!prevChapter && typeof ctxId === 'number' && ctxId > -1) {
+                {
+                  /* setCId((cid) => cid+1)
                 navigate('chapter', {
                   ctxPath: prevChapter.path,
                   namexId: home.currentChapter?.id - 1,
                   idame: prevChapter.name
-                }) */}
-                changeChapter && changeChapter(
-                  {
+                }) */
+                }
+                changeChapter &&
+                  changeChapter({
                     ctxPath: prevChapter.path,
-                    ctxId: home.currentChapter?.id - 1,
+                    ctxId: (ctxId || 0) - 1,
                     ctxName: prevChapter.name
-                  }
-                )
+                  })
               }
             }}
           >
-            <AntDesign
-              name={'arrowright'}
-              size={32}
-              color={textStyle.color}
-
-            />
+            <AntDesign name={'arrowright'} size={32} color={textStyle.color} />
           </TouchableOpacity>
         </View>
-        <Text style={[{ alignSelf: 'center', color: 'white' }, textStyle]} numberOfLines={1}>
+        <Text
+          style={[{ alignSelf: 'center', color: 'white' }, textStyle]}
+          numberOfLines={1}
+        >
           {home.currentChapter?.chapterName}
         </Text>
       </Animated.View>

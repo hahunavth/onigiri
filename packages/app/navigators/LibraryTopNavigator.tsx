@@ -1,16 +1,11 @@
 import React from 'react'
 import {
   createMaterialTopTabNavigator,
-  MaterialTopTabBarProps,
   MaterialTopTabNavigationProp
 } from '@react-navigation/material-top-tabs'
 import { DownloadTab } from 'app/screens/LibraryScreen/DownloadTab'
 import { RecentTab } from 'app/screens/LibraryScreen/RecentTab'
 import { SubscribeTab } from 'app/screens/LibraryScreen/SubscribeTab'
-// import { createBottomTabNavigator } from "app/react-navigation/bottom-tabs";
-// import { ColorSchemeE } from "app/styles/colorScheme";
-// import { TabBarProps } from 'react-native-tab-view'
-// import { useAppDispatch } from 'app/store/hooks'
 import { StyleSheet } from 'react-native'
 
 const { Navigator, Screen } =

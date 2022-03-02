@@ -1,7 +1,9 @@
 import React, { FC, memo, useMemo } from 'react'
-import { StyleSheet, Text, View, ViewProps } from 'react-native'
+import { StyleSheet, Text, View, ViewProps, Dimensions } from 'react-native'
 import { useColorModeStyle } from '../../hooks/useColorModeStyle'
 // import QuicksandText, { QFontFamily } from '../Common/QuicksandText'
+
+const { width } = Dimensions.get('window')
 
 type Props = Pick<ViewProps, 'style'> & { name: string; numChapter: number }
 
@@ -34,8 +36,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   title: {
-    fontSize: 15
-    // fontFamily: QFontFa/\mily.Quicksand_600SemiBold
+    fontSize: 15,
+    maxWidth: width - 128
   }
 })
 

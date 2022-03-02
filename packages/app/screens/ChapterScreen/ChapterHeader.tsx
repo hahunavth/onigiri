@@ -27,38 +27,8 @@ interface Props {
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView)
 
 const ChapterHeader = (props: Props) => {
-  const home = useAppSelector(homeSelector)
+
   const { top } = useSafeAreaInsets()
-  const navigation = useNavigation<ComicDetailScreenProps>()
-  const { width, height } = useWindowDimensions()
-  const chapterCallback = usePrefetch('getChapterByPath', {})
-
-  // const PADDING = 32;
-  //
-  // const [nextChapter, setNextChapter] = useState('')
-  // const [prevChapter, setPrevChapter] = useState('')
-  //
-  // useEffect(() => {
-  //   const interaction = InteractionManager.runAfterInteractions(() => {
-  //     const length = home.currentComic?.chapters.length
-  //     const id = home.currentChapter?.id
-  //     const list = home.currentComic?.chapters
-  //     if (id && length && list) {
-  //       if (id < length - 1) {
-  //         setNextChapter(() => list[id + 1].path)
-  //         if (list[id + 1].path) chapterCallback(list[id + 1].path)
-  //       }
-  //       if (id > 0) {
-  //         setPrevChapter(() => list[id - 1].path)
-  //         if (list[id - 1].path) chapterCallback(list[id - 1].path)
-  //       }
-  //     }
-  //   })
-  //   return () => {
-  //     interaction.cancel()
-  //   }
-  // }, [home.currentChapter?.chapterName])
-
   const { boxStyle, textStyle } = useColorModeStyle('', 'Secondary')
 
   const containerStyle = React.useMemo(() => {

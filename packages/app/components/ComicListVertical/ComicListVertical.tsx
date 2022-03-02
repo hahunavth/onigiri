@@ -27,6 +27,11 @@ export const ComicListVertical = ({ list }: Props) => {
     []
   )
 
+  const keyExtractor = React.useCallback(
+    (item, index) => item.path || index.toString(),
+    []
+  )
+
   const { loading } = useInteraction()
 
   return loading ? (
@@ -66,7 +71,7 @@ export const ComicListVertical = ({ list }: Props) => {
         style={{ flex: 1 }}
         data={list}
         renderItem={renderItem}
-        keyExtractor={(item) => item.path}
+        keyExtractor={keyExtractor}
         // NOTE: FLATLIST CAUSE SLOW NAVIGATION
         // SOLUTION1: decrease initialNumToRender
         // SOLUTION2: use Interaction manager

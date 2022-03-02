@@ -1,10 +1,11 @@
-import { historySelector } from 'app/store/historySlice'
+import { HistoryComicT, historySelector } from 'app/store/historySlice'
 import { useAppSelector } from 'app/store/hooks'
 // import { Layout } from "@ui-kitten/components";
 import React from 'react'
 import { Text, Image } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { View } from 'native-base'
+import LibraryList from './LibraryList'
 interface Props {}
 
 export const SubscribeTab = (props: Props) => {
@@ -13,7 +14,7 @@ export const SubscribeTab = (props: Props) => {
   return (
     <View style={{ flex: 1 }}>
       {/* <Text>Recent tab</Text> */}
-      <FlatList
+      {/* <FlatList
         style={{ flex: 1 }}
         data={history.subscribeComics.map((path) => history.comics[path])}
         renderItem={({ item, index }) => {
@@ -34,6 +35,13 @@ export const SubscribeTab = (props: Props) => {
           )
         }}
         keyExtractor={(item, index) => index.toString()}
+      /> */}
+      <LibraryList
+        data={
+          (history.subscribeComics
+            .map((path) => history.comics[path])
+            .filter((a) => a) as HistoryComicT[]) || []
+        }
       />
     </View>
   )

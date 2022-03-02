@@ -6,27 +6,27 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { historySelector } from '../../store/historySlice'
 import { homeActions } from '../../store/homeSlice'
 import useUpdateCurrentComic from '../../hooks/useUpdateCurrentComic'
+import { PropsChecker } from '../../utils/PropsChecker'
+import MemoCollapseHeader from '../../components/CollapseHeader/CollapseHeader'
 
 export const OfflineComicScreen = (props: OfflineComicScreenProps) => {
   const { path } = props.route.params
   const { comics, downloadComics } = useAppSelector(historySelector)
   // TODO: HANDLE NOT IN DOWNLOAD COMIC
 
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
   const {} = useUpdateCurrentComic(comics[path])
+  console.log('OfflineComicScreen')
 
-  // React.useEffect(() => {
-  //   const interaction = InteractionManager.runAfterInteractions(() => {
-  //     if (comics[path]) {
-  //       dispatch(homeActions.setCurrentComic(comics[path]))
-  //     }
-  //   })
-  //   return () => {
-  //     interaction.cancel()
-  //     dispatch(homeActions.removeCurrentComic())
-  //   }
-  // }, [path])
-
-  return <CollapseHeader comic={comics[path]} offline={true} />
+  return <MemoCollapseHeader comic={comics[path]} offline={true} />
 }
+
+// export const OfflineComicScreen = (props: any) => {
+//   console.log('MemoOfflineComicScreen')
+//   return (
+//     <PropsChecker childrenProps={props}>
+//       {(props) => <OfflineComicScreenX {...props} />}
+//     </PropsChecker>
+//   )
+// }

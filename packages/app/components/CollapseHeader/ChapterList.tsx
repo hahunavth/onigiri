@@ -1,5 +1,4 @@
 import type { resComicDetailChapterItem_T } from 'app/types'
-// import { Layout } from "@ui-kitten/components";
 import React, {
   forwardRef,
   memo,
@@ -26,6 +25,7 @@ import { useAppSelector } from 'app/store/hooks'
 import { historySelector } from 'app/store/historySlice'
 import { homeSelector } from '../../store/homeSlice'
 import useInteraction from '../../hooks/useInteraction'
+import usePrevious from 'react-use/esm/usePrevious'
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -40,7 +40,6 @@ type Props = Omit<
   'renderItem'
 >
 
-
 /**
  * Main component
  */
@@ -51,29 +50,35 @@ const ConnectionList = forwardRef<
     offline?: boolean
   }
 >((props, ref) => {
-
-  console.log('render2')
-
-  const [sortNewer, setSortNewer] = useState(true)
   const history = useAppSelector(historySelector)
+  const [sortNewer, setSortNewer] = useState(true)
   const { currentComic } = useAppSelector(homeSelector)
+  // const prev = usePrevious(currentComic)
+  // console.log('render chapter list', prev === currentComic)
 
   // Memo
   const keyExtractor = useCallback(
     (_: resComicDetailChapterItem_T, index) => _.path,
     []
   )
+
   const renderItem = useCallback<ListRenderItem<resComicDetailChapterItem_T>>(
     ({ item, index }) => (
       <ChapterListItem
         readCptObj={history.readCpt}
         chapter={item}
-        id={index}
+        id={
+          props.data?.length
+            ? sortNewer
+              ? index
+              : props.data?.length - 1 - index
+            : -1
+        }
         offline={props.offline}
         comicPath={currentComic?.path}
       />
     ),
-    [props.offline]
+    [props.offline, sortNewer]
   )
   // const olderList = useMemo(() => {
   //   const list = []
@@ -86,23 +91,39 @@ const ConnectionList = forwardRef<
 
   const [olderList, setOlderList] = useState<resComicDetailChapterItem_T[]>([])
 
-  const {loading} = useInteraction({
-    callback:
-      () => {
-        const list = []
-        if (props.data)
-          for (let i = props.data?.length - 1; i > 0; i--) {
-            list.push(props.data[i])
-          }
-        setOlderList(list)
-      },
-      dependencyList: [props.data],
+  const { loading } = useInteraction({
+    callback: () => {
+      const list = []
+      if (props.data)
+        for (let i = props.data?.length - 1; i > 0; i--) {
+          list.push(props.data[i])
+        }
+      setOlderList(list)
+    },
+    dependencyList: [props.data]
   })
 
+  const ListHeaderComponent = () => {
+    return (
+      <ListHeader
+        lastedChapter={(props.data && props.data[0].name) || ''}
+        sortType={sortNewer}
+        onSortTypeChange={setSortNewer}
+      />
+    )
+  }
+
+  const getItemLayout = React.useCallback((data, index) => {
+    return {
+      index,
+      offset: index * 50,
+      length: 50
+    }
+  }, [])
+
   return (
-    <View style={{ flex: 1 }}>
-      {
-        loading ? null :
+    <View style={styles.container}>
+      {loading ? null : (
         <AnimatedFlatList
           ref={ref}
           style={styles.container}
@@ -110,22 +131,16 @@ const ConnectionList = forwardRef<
           keyExtractor={keyExtractor}
           {...props}
           data={sortNewer ? props.data : olderList}
-          ListHeaderComponent={() => {
-            return (
-              <ListHeader
-                lastedChapter={(props.data && props.data[0].name) || ''}
-                sortType={sortNewer}
-                onSortTypeChange={setSortNewer}
-              />
-            )
-          }}
+          getItemLayout={getItemLayout}
+          ListHeaderComponent={ListHeaderComponent}
         />
-      }
+      )}
     </View>
   )
 })
 
 const listHeaderStyle = StyleSheet.create({
+  flex1: { flex: 1 },
   text: {
     fontSize: 10,
     paddingRight: 10

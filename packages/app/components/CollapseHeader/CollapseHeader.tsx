@@ -12,7 +12,7 @@ import {
   ViewStyle,
   InteractionManager
 } from 'react-native'
-import { Button, View, Text, Badge } from 'native-base'
+import { Button, View, Text, Badge, usePlatformProps } from 'native-base'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 import Animated, {
   interpolate,
@@ -34,6 +34,8 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks'
 import { goBack, navigate } from 'app/navigators'
 import {
   historySelector,
+  selectDownloadedChapters,
+  selectThisComicIsSubcribed,
   toggleSubscribeComicThunk
 } from 'app/store/historySlice'
 import { useColorModeStyle } from 'app/hooks/useColorModeStyle'
@@ -52,6 +54,10 @@ import type {
   resComicItem_T
 } from 'app/types'
 import useInteraction from '../../hooks/useInteraction'
+import usePrevious from 'react-use/esm/usePrevious'
+import ComicDetailBottomBar, { styles } from './ComicDetailBottomBar'
+import CollapseTab from './CollapseTab'
+import CollapseTop from './CollapseTop'
 
 type Props = {
   comic?: resComicDetail_T
@@ -59,18 +65,11 @@ type Props = {
   offline?: boolean
 }
 
-const ToastComingSoon = () => {
-  ToastAndroid.show('Coming Soon!', 500)
-}
-
 // Constant
 const TAB_BAR_HEIGHT = 48
 const HEADER_HEIGHT = 48
 const OVERLAY_VISIBILITY_OFFSET = 32
 
-const Tab = createMaterialTopTabNavigator()
-const AnimatedAntDesign = Animated.createAnimatedComponent(AntDesign)
-const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons)
 // const getItemLayout = (data, index) => (
 //   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
 // );
@@ -78,14 +77,16 @@ const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons)
 export const CollapseHeader = (props: Props) => {
   // STORE
   const dispatch = useAppDispatch()
-  const { downloadCpt } = useAppSelector(historySelector)
-  const subscribed = !!useAppSelector(historySelector).subscribeComics.find(
-    (path) => path === props.comic?.path
-  )
+  const downloadCpt = useAppSelector(selectDownloadedChapters)
+  // const subscribed = !!useAppSelector(historySelector).subscribeComics.find(
+  //   (path) => path === props.comic?.path
+  // )
+
+  const prev = usePrevious(props)
+  console.log('CollapseHeader', props === prev)
 
   // Get safe area
   const { top, bottom } = useSafeAreaInsets()
-
   const { height: screenHeight } = useWindowDimensions()
 
   const friendsRef = useRef<FlatList>(null)
@@ -170,37 +171,6 @@ export const CollapseHeader = (props: Props) => {
   // const backgroundColor = useDerivedValue(() =>
   //   mixColor(translateY.value/headerDiff, "#ff3884", "#38ffb3")
   // );
-
-  const headerIconStyle = useAnimatedStyle(() => {
-    return {
-      color: interpolateColor(
-        -translateY.value,
-        [0, headerDiff],
-        ['#fff', '#111']
-      )
-    }
-  })
-  const headerIconStyle2 = useAnimatedStyle(() => {
-    return {
-      marginRight: 4,
-      marginBottom: 4,
-      color: interpolateColor(
-        -translateY.value,
-        [0, headerDiff],
-        ['#fff', '#111']
-      )
-    }
-  })
-  const headerIconStyle3 = useAnimatedStyle(() => {
-    return {
-      marginTop: 4,
-      color: interpolateColor(
-        -translateY.value,
-        [0, headerDiff],
-        ['#fff', '#111']
-      )
-    }
-  })
 
   const contentContainerStyle = useMemo<StyleProp<ViewStyle>>(
     () => ({
@@ -317,18 +287,7 @@ export const CollapseHeader = (props: Props) => {
     [collapsedOverlayAnimatedStyle, heightCollapsed, top]
   )
 
-  // NOTE:color
-  const { boxStyle: bs1 } = useColorModeStyle('Blue', 'Secondary')
-
   // NOTE: Handle function
-  const handleGoBack = useCallback(() => goBack(), [])
-  const handleDownloadClick = useCallback(
-    () =>
-      props.comic &&
-      navigate('select-download-chapter', { comic: props.comic }),
-    [props.comic]
-  )
-
   const handleSubscribeClick = useCallback(() => {
     if (props.comic) dispatch(toggleSubscribeComicThunk(props.comic))
   }, [props.comic])
@@ -344,32 +303,6 @@ export const CollapseHeader = (props: Props) => {
       })
   }, [props.comic])
 
-  const screenOptions = useMemo<MaterialTopTabNavigationOptions>(
-    () => ({
-      tabBarLabelStyle: {},
-      tabBarItemStyle: {
-        margin: -5,
-        justifyContent: 'center',
-        alignItems: 'center'
-      },
-      tabBarPressOpacity: 0.1,
-      tabBarIndicatorStyle: {
-        backgroundColor: '#f0125cdf',
-        flex: 1,
-        height: 38,
-        borderWidth: 5,
-        borderRadius: 12,
-        borderColor: 'transparent'
-      },
-      tabBarActiveTintColor: 'white',
-      tabBarAllowFontScaling: false,
-      tabBarInactiveTintColor: 'gray',
-      tabBarPressColor: 'transparent',
-      lazyPreloadDistance: 2
-    }),
-    []
-  )
-
   const offset = useSharedValue(0)
 
   const opacityStyle2 = useAnimatedStyle(() => {
@@ -377,13 +310,14 @@ export const CollapseHeader = (props: Props) => {
       flex: 1,
       opacity: withTiming(offset.value, {
         duration: 1000
-      }),
-      transform: [{translateY: withTiming(
-        (1 - offset.value) * 100,
-        {
-          duration: 1000
-        }
-      )}]
+      })
+      // transform: [
+      //   {
+      //     translateY: withTiming((1 - offset.value) * 100, {
+      //       duration: 1000
+      //     })
+      //   }
+      // ]
     }
   })
 
@@ -397,37 +331,12 @@ export const CollapseHeader = (props: Props) => {
     <View style={styles.wrapperContainer}>
       <View style={styles.container}>
         {/* Custom Header Icon */}
-        <SafeAreaView style={styles.headerIconContainer}>
-          <TouchableOpacity onPress={handleGoBack}>
-            <AnimatedAntDesign
-              name="arrowleft"
-              size={34}
-              style={headerIconStyle}
-            />
-          </TouchableOpacity>
-          <View style={styles.downloadIconContainer}>
-            {props.offline ? (
-              <Badge variant={'subtle'} colorScheme={'danger'}>
-                Offline
-              </Badge>
-            ) : (
-              <TouchableOpacity onPress={handleDownloadClick}>
-                <AnimatedIonicons
-                  name="ios-download-outline"
-                  size={34}
-                  color={bs1.backgroundColor}
-                  style={headerIconStyle2}
-                />
-              </TouchableOpacity>
-            )}
-            <AnimatedAntDesign
-              name="menuunfold"
-              size={30}
-              style={headerIconStyle3}
-            />
-          </View>
-        </SafeAreaView>
-
+        <CollapseTop
+          comic={props.comic}
+          headerDiff={headerDiff}
+          offline={props.offline}
+          translateY={translateY}
+        />
         <Animated.View
           onLayout={handleHeaderLayout}
           style={headerContainerStyle}
@@ -449,158 +358,35 @@ export const CollapseHeader = (props: Props) => {
           </Animated.View>
         )}
         {loading ? null : (
-          <Animated.View style={[opacityStyle2]}>
-            <Tab.Navigator
-              tabBar={renderTabBar}
-              // pageMargin={10}
-              backBehavior="none"
-              screenOptions={screenOptions}
-            >
-              <Tab.Screen name="Friends">{renderFriends}</Tab.Screen>
-              <Tab.Screen
-                name="Suggestions"
-                // component={renderSuggestions}
-                // NOTE: Do not use component props like above
-                //       It will rerender component when navigate
-                //       Use children props will render once
-              >
-                {renderSuggestions}
-              </Tab.Screen>
-            </Tab.Navigator>
-          </Animated.View>
-        )}
+          <>
+            <Animated.View style={opacityStyle2}>
+              <CollapseTab
+                renderFriends={renderFriends}
+                renderSuggestions={renderSuggestions}
+                renderTabBar={renderTabBar}
+              />
+            </Animated.View>
 
-        {loading ? null : (
-          <ComicDetailBottomBar
-            handleReadNowClick={handleReadNowClick}
-            handleSubscribeClick={handleSubscribeClick}
-            subscribed={subscribed}
-          />
+            <ComicDetailBottomBar
+              path={props.comic?.path || ''}
+              handleReadNowClick={handleReadNowClick}
+              handleSubscribeClick={handleSubscribeClick}
+            />
+          </>
         )}
       </View>
     </View>
   )
 }
 
-type ComicDetailBottomBarProps = {
-  subscribed: boolean
-  handleReadNowClick: () => any
-  handleSubscribeClick: () => any
-}
-const ComicDetailBottomBar = React.memo(
-  ({
-    handleReadNowClick,
-    handleSubscribeClick,
-    subscribed
-  }: ComicDetailBottomBarProps) => {
-    const { boxStyle: bs1 } = useColorModeStyle('Blue', 'Secondary')
-
-    return (
-      <View style={styles.shareIconContainer}>
-        <TouchableOpacity
-          style={styles.shareIconTouchOpacity}
-          onPress={ToastComingSoon}
-        >
-          <AntDesign
-            name="sharealt"
-            size={24}
-            style={{ color: bs1._text.color }}
-          />
-          <Text style={[styles.shareIconText, { color: bs1._text.color }]}>
-            Share
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleSubscribeClick}
-          style={styles.subscribeTouchOpacity}
-        >
-          <AntDesign
-            name="adduser"
-            size={24}
-            style={{ color: subscribed ? 'red' : bs1._text.color }}
-          />
-          <Text
-            style={{
-              fontSize: 11,
-              color: subscribed ? 'red' : bs1._text.color
-            }}
-          >
-            Subscribe
-          </Text>
-        </TouchableOpacity>
-        <Button style={styles.readNowBtn} onPress={handleReadNowClick}>
-          Read now!
-        </Button>
-      </View>
-    )
-  }
-)
-
-const styles = StyleSheet.create({
-  wrapperContainer: {
-    flex: 1
-  },
-  container: {
-    flex: 1
-  },
-  tabBarContainer: {
-    top: 0,
-    left: 0,
-    right: 0,
-    position: 'absolute',
-    zIndex: 1
-  },
-  headerIconContainer: {
-    position: 'absolute',
-    zIndex: 100,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    left: 0,
-    right: 0,
-    height: 72,
-    alignItems: 'center',
-    marginHorizontal: 4
-  },
-  overlayName: {
-    fontSize: 24
-  },
-  collapsedOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    justifyContent: 'center',
-    zIndex: 2
-  },
-  headerContainer: {
-    top: 0,
-    left: 0,
-    right: 0,
-    position: 'absolute',
-    zIndex: 1
-  },
-  downloadIconContainer: { alignSelf: 'flex-end', flexDirection: 'row' },
-  shareIconContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 5
-  },
-  shareIconTouchOpacity: {
-    margin: 'auto',
-    alignItems: 'center',
-    marginLeft: 24
-  },
-  shareIconText: { fontSize: 11 },
-  subscribeTouchOpacity: {
-    margin: 'auto',
-    alignItems: 'center'
-  },
-  readNowBtn: {
-    width: 210,
-    borderRadius: 100,
-    margin: 0,
-    padding: 0,
-    marginRight: 12
-  }
+/**
+ * NOTE: USE IT TO MEMO COMPONENT BEHIND SCREEN NAVIGATOR
+ */
+const MemoCollapseHeader = React.memo((props: any) => {
+  return (
+    <>
+      <CollapseHeader {...props} />
+    </>
+  )
 })
+export default MemoCollapseHeader

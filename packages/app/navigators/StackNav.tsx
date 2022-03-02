@@ -18,7 +18,9 @@ import {
   TestScreen,
   TopComicScreen,
   OfflineChapterScreen,
-  OfflineComicScreen
+  OfflineComicScreen,
+  GenresList,
+  Genres
 } from 'app/screens'
 
 import BottomNav from './BottomNav'
@@ -29,7 +31,7 @@ import type {
 } from '../types'
 import { SelectDownloadChapter } from '../screens/SelectDownloadChapterScreen/SelectDownloadChapter'
 import { HistoryComicT } from '../store/historySlice'
-import { FindOptionT } from '../screens/DiscoverScreen/constants'
+import { FindOptionT } from '../utils/findOption'
 import Header from '../components/CollapseHeader/Header'
 import { Icon, Text, View } from 'native-base'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -37,7 +39,7 @@ import { AntDesign } from '@expo/vector-icons'
 import { MotiView } from 'moti'
 import { FindByNameResultScreen } from '../screens/FindByNameResultScreen'
 
-import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
 
 /**
  * Using common params
@@ -88,6 +90,10 @@ export type StackNavParamsList = {
     comicPath: string
     chapterPath: string
   }
+  'genres-list': undefined
+  genres: {
+    genresName: string
+  }
 }
 
 /**
@@ -125,11 +131,16 @@ export type FindByNameResultScreenProps = NativeStackScreenProps<
   StackNavParamsList,
   'find-by-name-result'
 >
+export type GenresScreenProps = NativeStackScreenProps<
+  StackNavParamsList,
+  'genres'
+>
 
 /**
  * Export navigation
  */
-const { Navigator, Screen } = createSharedElementStackNavigator<StackNavParamsList>()
+const { Navigator, Screen } =
+  createSharedElementStackNavigator<StackNavParamsList>()
 
 export function StackNav() {
   const renderHeader = React.useCallback(
@@ -160,7 +171,7 @@ export function StackNav() {
         // animation: 'slide_from_right'
         // NOTE: For shaered element stack
         animationEnabled: true,
-        animationTypeForReplace:'push',
+        animationTypeForReplace: 'push',
         gestureEnabled: false,
         // transitionSpec: {}
         header: renderHeader,
@@ -171,7 +182,7 @@ export function StackNav() {
         name="main"
         options={{
           headerShown: true,
-          header: (props) => <SearchNavigationHeader {...props} />
+          header: (props) => <SearchNavigationHeader {...(props as any)} />
         }}
         component={BottomNav}
       ></Screen>
@@ -188,8 +199,8 @@ export function StackNav() {
           // Only transition when coming from a specific route
           // console.log(route.name, otherRoute.name, showing)
           if (otherRoute.name === 'find-result') {
-            const { preloadItem } = route.params;
-            return [`item.${preloadItem?.posterUrl}.photo`];
+            const { preloadItem } = route.params
+            return [`item.${preloadItem?.posterUrl}.photo`]
           }
           // return [`${preloadItem?.posterUrl}`];
         }}
@@ -227,6 +238,15 @@ export function StackNav() {
         options={{}}
         component={FindByNameResultScreen}
       ></Screen>
+
+      <Screen
+        name="genres"
+        options={(props) => ({
+          title: `Genres: ${props.route.params.genresName}`
+        })}
+        component={Genres}
+      ></Screen>
+      <Screen name="genres-list" component={GenresList}></Screen>
 
       <Screen
         name="login"

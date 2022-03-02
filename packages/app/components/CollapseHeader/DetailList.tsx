@@ -1,6 +1,4 @@
-import {
-  resComicDetail_T
-} from 'app/types'
+import { resComicDetail_T } from 'app/types'
 // import { Button, Icon, Layout } from "@ui-kitten/components";
 import React, { forwardRef, memo, useCallback, useState } from 'react'
 import {
@@ -20,12 +18,15 @@ import Animated, {
   // FadeInDown,
   withTiming,
   useAnimatedStyle,
-  useSharedValue
+  useSharedValue,
+  withDelay,
+  withSpring
 } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
 
 import FadeInView from '../FadeInView'
 import useInteraction from '../../hooks/useInteraction'
+import { navigate } from '../../navigators'
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -34,7 +35,6 @@ export const AnimatedFlatList: typeof FlatList =
 type Props = Omit<FlatListProps<resComicDetail_T>, 'renderItem'>
 
 const Details = forwardRef<FlatList, Props>((props, ref) => {
-  // console.log('rererere')
   const keyExtractor = useCallback((_, index) => index.toString(), [])
 
   const renderItem = useCallback<ListRenderItem<resComicDetail_T>>(
@@ -62,9 +62,14 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
               <Button
                 key={kind}
                 style={{ margin: 4 }}
-                // size={'tiny'}
-                // status={'danger'}
-                // appearance={'outline'}
+                size={'xs'}
+                variant={'subtle'}
+                colorScheme={'danger'}
+                onPress={() =>
+                  navigate('genres', {
+                    genresName: kind
+                  })
+                }
               >
                 {kind}
               </Button>
@@ -127,37 +132,41 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
   )
   const offset = useSharedValue(100)
   const offsetStyle = useAnimatedStyle(() => {
-    return (
-      {
-        transform: [{translateY: withTiming(offset.value)}],
-        opacity: withTiming((100-offset.value) / 100)
-      }
-    )
+    return {
+      // transform: [{ translateY: withTiming(offset.value) }],
+      opacity: withDelay(400, withSpring((100 - offset.value) / 100))
+    }
   })
 
-  const [loading, setLoading ] = React.useState(true)
-  React.useEffect(() => {
-    setTimeout(() => {
+  const [loading, setLoading] = React.useState(true)
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setLoading(false)
+  //     offset.value = 0
+  //   }, 1000)
+  // }, [])
+
+  useInteraction({
+    callback: () => {
       setLoading(false)
       offset.value = 0
-    }, 1000)
-  }, [])
+    }
+  })
 
   return (
     <Animated.View
       style={[{ flex: 1 }, offsetStyle]}
       // level={'3'}
     >
-    {
-      loading ? null
-      : <AnimatedFlatList
-        ref={ref}
-        style={styles.container}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        {...props}
-      />
-    }
+      {loading ? null : (
+        <AnimatedFlatList
+          ref={ref}
+          style={styles.container}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          {...props}
+        />
+      )}
     </Animated.View>
   )
 })
@@ -170,7 +179,6 @@ const styles = StyleSheet.create({
 })
 
 export default memo(Details)
-
 
 /**
  * Helper component

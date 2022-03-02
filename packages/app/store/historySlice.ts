@@ -8,6 +8,7 @@ import {
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from './store'
 import { addMultipleImgs } from '../utils/imgManager'
+import { createSelector } from 'reselect'
 
 // ANCHOR: TYPE DEFINITION
 type TimestampT = {
@@ -288,7 +289,7 @@ const historySlice = createSlice({
       action: PayloadAction<{ comicPath: string; chapterPath: string }>
     ) => {
       const { chapterPath, comicPath } = action.payload
-      const downloadCount = state.comics[comicPath].downloadCount
+      const downloadCount = state.comics[comicPath]?.downloadCount
       const comic = state.comics[comicPath]
       // ANCHOR: REMOVE downloadCpt
       // update downloadCount or remove comic, downloadComic
@@ -367,6 +368,24 @@ export const toggleSubscribeComicThunk = createAsyncThunk(
 /**
  * ANCHOR: EXPORT
  */
-export const historyAction = historySlice.actions
-export const historySelector = (state: RootState) => state.history
 export default historySlice.reducer
+export const historyAction = historySlice.actions
+
+export const historySelector = (state: RootState) => state.history
+export const selectDownloadedChapters = createSelector(
+  (state: RootState) => state.history.downloadCpt,
+  (state) => state
+)
+export const selectReadChapters = createSelector(
+  (state: RootState) => state.history.readCpt,
+  (state) => state
+)
+export const selectThisComicIsSubcribed = createSelector(
+  [
+    (state: RootState) => state.history.subscribeComics,
+    (state: any, myPath: string) => myPath
+  ],
+  (subcribeComics, myPath) => subcribeComics.find(
+    (path) => path === myPath
+  )
+)

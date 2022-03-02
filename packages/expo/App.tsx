@@ -12,7 +12,7 @@ import { navigationRef } from 'app/navigators'
 import { useFlipper } from '@react-navigation/devtools'
 
 import UI from 'app/ExpoUI'
-
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 // @ts-ignore
 import { connectToDevTools } from 'react-devtools-core'
 import { Platform } from 'react-native'
@@ -43,6 +43,7 @@ export default function App() {
   })
 
   return (
+    // <GestureHandlerRootView>
     <NavigationContainer ref={navigationRef}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
@@ -52,5 +53,6 @@ export default function App() {
         </PersistGate>
       </Provider>
     </NavigationContainer>
+    // </GestureHandlerRootView>
   )
 }

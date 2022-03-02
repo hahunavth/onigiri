@@ -1,4 +1,8 @@
-import { historySelector } from 'app/store/historySlice'
+import {
+  historySelector,
+  selectDownloadedChapters,
+  selectReadChapters
+} from 'app/store/historySlice'
 import { useAppSelector } from 'app/store/hooks'
 import { navigate } from 'app/navigators'
 import { resComicDetailChapterItem_T } from 'app/types'
@@ -41,22 +45,27 @@ const ConnectionItem: FC<Props> = ({
   comicPath
 }) => {
   const { path, updatedDistance, name } = connection
+  // const visited = !!useAppSelector(historySelector).readCpt[path]
+  // @ts-ignore
+  const visited = !!useAppSelector(selectReadChapters)[path]
 
   const mergedStyle = useMemo(() => [styles.container, style], [style])
-
+  const chapterTextStyle = useMemo(() => {
+    return [styles.name, visited ? { color: 'purple' } : null]
+  }, [visited])
   // const visited = useMemo(() => readCptObj && readCptObj[path], [path]);
-
-  const visited = !!useAppSelector(historySelector).readCpt[path]
 
   return (
     <TouchableNativeFeedback
       style={mergedStyle}
       onPress={() =>
         offline
-          ? navigate('offline-chapter-screen', {
-              comicPath: comicPath,
-              chapterPath: connection.path
-            })
+          ? comicPath
+            ? navigate('offline-chapter-screen', {
+                comicPath: comicPath,
+                chapterPath: connection.path
+              })
+            : null
           : navigate('chapter', {
               id: id,
               path: connection.path,
@@ -66,9 +75,7 @@ const ConnectionItem: FC<Props> = ({
     >
       <View style={mergedStyle}>
         {/* <Image style={styles.image} source={{ uri: photo }} /> */}
-        <Text style={[styles.name, visited ? { color: 'purple' } : null]}>
-          {name}
-        </Text>
+        <Text style={chapterTextStyle}>{name}</Text>
         <Text style={{ color: '#ccc' }}>{updatedDistance}</Text>
       </View>
     </TouchableNativeFeedback>

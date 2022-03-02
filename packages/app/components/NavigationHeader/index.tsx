@@ -1,6 +1,8 @@
 import React from 'react'
 import { NavigationHeader as WebNavigationHeader } from './index.web'
 import type { NativeStackHeaderProps } from '@react-navigation/native-stack'
+// import type {} from 'react-native-shared-'
+// import { HeaderP } from 'react-navigation-shared-element';
 import type { BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { goBack, navigate } from 'app/navigators/index'
 import {
@@ -34,6 +36,7 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
   withTiming,
+  withDelay,
   Easing
 } from 'react-native-reanimated'
 import { NextLink } from '../NextLink'
@@ -91,7 +94,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
   const { height, width } = useWindowDimensions()
   const offset = useSharedValue(0)
 
-  const animatedStyles2 = useAnimatedStyle(() => {
+  const leftStyle = useAnimatedStyle(() => {
     return {
       transform: [
         {
@@ -107,23 +110,20 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
     }
   })
 
-  const animatedStyles3 = useAnimatedStyle(() => {
+  const rightStyle = useAnimatedStyle(() => {
     return {
       transform: [
         {
-          translateX: withTiming(
-            offset.value
-            //   {
-            //   duration: 500,
-            //   easing: Easing.out(Easing.exp)
-            // }
-          )
+          translateX: withTiming(offset.value, {
+            duration: 500,
+            easing: Easing.out(Easing.exp)
+          })
         }
       ]
     }
   })
 
-  const animatedStyles4 = useAnimatedStyle(() => {
+  const btnStyle = useAnimatedStyle(() => {
     return {
       // opacity: withTiming(offset.value / 78 + 0.5, {
       //   duration: 500,
@@ -131,10 +131,13 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
       // }),
       transform: [
         {
-          translateX: withTiming(-offset.value * 1.8, {
-            duration: 500,
-            easing: Easing.out(Easing.exp)
-          })
+          translateX: withDelay(
+            100,
+            withTiming(-offset.value * 1.8, {
+              duration: 500,
+              easing: Easing.out(Easing.exp)
+            })
+          )
         },
         {
           translateY: 12
@@ -143,7 +146,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
     }
   })
 
-  const animatedStyles5 = useAnimatedStyle(() => {
+  const inputStyle = useAnimatedStyle(() => {
     return {
       // opacity: offset.value / 34
       opacity: withTiming(offset.value / 34, {
@@ -153,13 +156,13 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
       flex: 1,
       marginTop: 4
     }
-  })
+  }, [offset.value])
 
-  const animatedStyles6 = useAnimatedStyle(() => {
+  const viewStyle = useAnimatedStyle(() => {
     return {
       height: withTiming(offset.value * 10 + 40)
     }
-  })
+  }, [offset.value])
 
   /**
    * ANCHOR: Nested SafeAreaView sometime cause rerender -> lag
@@ -172,7 +175,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
     >
       <Animated.View
         // backgroundColor={bs2.backgroundColor}
-        style={[animatedStyles6]}
+        style={[viewStyle]}
       >
         {/* Only 16 px */}
         <View maxH={16} pl={2} pr={2} mt={1} pb={1} justifyContent={'center'}>
@@ -194,7 +197,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
                   name="md-person-circle-outline"
                   size={28}
                   color={ts1.color}
-                  style={animatedStyles3}
+                  style={[rightStyle]}
                 />
               </TouchableOpacity>
             </View>
@@ -220,7 +223,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
                   name="notifications-outline"
                   size={28}
                   color={ts1.color}
-                  style={animatedStyles2}
+                  style={[leftStyle]}
                 />
               </TouchableNativeFeedback>
             </View>
@@ -233,7 +236,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
                 position: 'absolute',
                 right: -50
               },
-              animatedStyles4
+              btnStyle
             ]}
           >
             <AnimatedButton
@@ -282,7 +285,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
               paddingTop: 4,
               paddingLeft: 12
             },
-            animatedStyles5
+            inputStyle
           ]}
         >
           <Text
@@ -343,7 +346,7 @@ const RefAnimatedInput = React.forwardRef((props: any, ref) => {
   const dispatch = useAppDispatch()
 
   const [text, setText] = React.useState('')
-  const handleChange = (text) => setText(text)
+  const handleChange = (text: string) => setText(text)
   // ref = text
   const { width } = useWindowDimensions()
   const animatedStyles = useAnimatedStyle(() => {

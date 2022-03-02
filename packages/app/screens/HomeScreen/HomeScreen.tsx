@@ -23,7 +23,7 @@ export const HomeScreen = () => {
       <ComicList2 />
       <ListHeader name="History" subtitle="New comic release!" color="Yellow" />
       <ComicHorizontalList />
-      <NextLink routeName="test">link</NextLink>
+      {/* <NextLink routeName="test">link</NextLink> */}
     </ScrollView>
   )
 }

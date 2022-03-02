@@ -1,15 +1,15 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Pagination, PaginationProps } from 'react-native-swiper-flatlist'
+import { ITEM_PADDING } from './size'
 
 const styles = StyleSheet.create({
   paginationContainer: {
     bottom: 0,
-    left: 18,
+    left: ITEM_PADDING * 4,
     padding: 0,
     margin: 0,
-    // width: ,
-    height: 20
+    height: ITEM_PADDING * 4
   },
   pagination: {
     // borderRadius: 2,

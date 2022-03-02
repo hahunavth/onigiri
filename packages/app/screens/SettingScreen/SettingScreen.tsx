@@ -15,13 +15,16 @@ import {
   Select,
   CheckIcon,
   Button,
-  useColorMode
+  useColorMode,
+  Toast
 } from 'native-base'
+import { Picker } from 'react-native'
 import React from 'react'
 import {
   SectionListRenderItemInfo,
   TouchableNativeFeedback
 } from 'react-native'
+// import { Picker } from '@react-native-picker/picker'
 import { AntDesign } from '@expo/vector-icons'
 
 /**
@@ -54,6 +57,7 @@ type DataT = {
   name: string
   type: 'Login' | 'boolean' | 'select' | 'navigate' | 'button' | 'component'
   default?: number | boolean
+  data?: any
   component?: (props: { data: DataT }) => React.ReactElement
 }
 
@@ -86,7 +90,7 @@ const sections: SectionT[] = [
       },
       {
         name: 'Language',
-        type: 'select',
+        type: 'select'
       }
     ]
   },
@@ -104,14 +108,15 @@ const sections: SectionT[] = [
     title: 'About',
     sectionType: 'form',
     data: [
-      { name: 'Tern', type: 'navigate' },
+      { name: 'Website', type: 'navigate', data: 'https://hahunavth.xyz' },
+      { name: 'Term', type: 'navigate' },
       { name: 'About us', type: 'navigate' },
       { name: 'Privacy', type: 'navigate' },
       { name: 'Contact', type: 'navigate' }
     ]
   },
   {
-    title: 'Dangerous location',
+    title: 'Dangerous',
     sectionType: 'form',
     data: [
       {
@@ -150,7 +155,7 @@ export const SettingScreen = (props: Props) => {
       else if (item.type === 'select') return <SelectOption data={item} />
       else if (item.type === 'button')
         return (
-          <Button variant={'subtle'} colorScheme="danger">
+          <Button variant={'subtle'} colorScheme="danger" mb={1}>
             {item.name}
           </Button>
         )
@@ -222,23 +227,17 @@ const SelectOption = ({ data }: { data: DataT }) => {
       >
         {data.name}
       </Text>
-      <Box w="1/4" maxW="200" pb={1} mt={0} mr={100}>
+      <Box w="1/2" maxW="200" pb={1} mt={0} mr={-4}>
         {/* // FIXME: SELECT REQUIRE KEY */}
-        <Select
+        <Picker
+          style={{ flex: 1, minWidth: 100 }}
           selectedValue={service}
-          minWidth="200"
-          accessibilityLabel="Choose Service"
-          placeholder="Choose Service"
-          _selectedItem={{
-            bg: 'teal.600',
-            endIcon: <CheckIcon size="5" />
-          }}
-          mt={1}
-          onValueChange={(itemValue) => setService(itemValue)}
-          // defaultValue={'1'}
+          onValueChange={(itemValue, itemIndex) => setService(itemValue)}
         >
-          <Select.Item label="English" value="1" key={1} />
-        </Select>
+          <Picker.Item label="English" value="en" />
+          <Picker.Item label="Vietnamese" value="vn" />
+          <Picker.Item label="Japanese" value="jp" />
+        </Picker>
       </Box>
     </HStack>
   )
@@ -284,9 +283,12 @@ const ToggleOption = ({
 }) => {
   // const [isOn, setIsOn] = React.useState((data.default as boolean) || false)
 
-  const handleChange = React.useCallback((value) => {
-    toggle ? toggle() : console.log('Not found toggle')
-  }, [])
+  const handleChange = React.useCallback(
+    (value) => {
+      toggle ? toggle() : console.log('Not found toggle')
+    },
+    [toggle, value]
+  )
 
   return (
     <HStack
@@ -321,7 +323,13 @@ const ToggleOption = ({
 
 const UserLogin = () => {
   return (
-    <TouchableNativeFeedback>
+    <TouchableNativeFeedback
+      onPress={() =>
+        Toast.show({
+          title: 'Coming soon'
+        })
+      }
+    >
       <HStack
         flex={1}
         h={84}
