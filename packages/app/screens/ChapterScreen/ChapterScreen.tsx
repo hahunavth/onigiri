@@ -6,7 +6,7 @@ import {
   StyleSheet,
   FlatList as FlatListT
 } from 'react-native'
-import { View, Text, FlatList } from 'native-base'
+import { View, Text, FlatList, HStack } from 'native-base'
 import { ChapterScreenProps } from 'app/navigators/StackNav'
 import { useApiChapter } from 'app/store/api'
 import { useAppDispatch, useAppSelector } from 'app/store/hooks'
@@ -24,6 +24,7 @@ import useInteraction from '../../hooks/useInteraction'
 import ChapterViewListScreen from './ChapterViewListScreen'
 import ChapterScreenContext, { ChapterContext } from './ChapterScreenContext'
 import BottomSheet from '@gorhom/bottom-sheet'
+import { FontAwesome } from '@expo/vector-icons'
 
 export function ChapterScreen(props: ChapterScreenProps) {
   return (
@@ -35,6 +36,7 @@ export function ChapterScreen(props: ChapterScreenProps) {
 
 let oldOffset = 0
 const screenHeight = Dimensions.get('screen').height
+
 function ChapterScreenNode(props: ChapterScreenProps) {
   const { ctxId, ctxName, ctxPath, setCtxId, setCtxName, setCtxPath } =
     useContext(ChapterContext)
@@ -63,13 +65,26 @@ function ChapterScreenNode(props: ChapterScreenProps) {
       ]
     }
   })
+
+  const animatedStyles2 = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: withTiming(offset.value, {
+            duration: 200,
+            easing: Easing.in(Easing.linear)
+          })
+        }
+      ]
+    }
+  })
   const headerAnimatedStyles = useAnimatedStyle(() => {
     return {
       opacity: 1 - offset.value / 100,
       transform: [
         {
           translateY: withTiming(-offset.value * 2, {
-            duration: 200,
+            duration: 100,
             easing: Easing.in(Easing.linear)
           })
         }
@@ -141,7 +156,8 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     isFetching,
     callback: () => (splashOffset.value = 2)
   })
-
+  // ref
+  const bottomSheetRef = useRef<BottomSheet>(null)
   // MEMO
   const handleScroll = React.useCallback((e) => {
     // NOTE: V1: Chapter bar show related with scroll
@@ -159,20 +175,27 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     const scrollLen = currentOffset - oldOffset
     if (scrollLen > 6 && currentOffset > 32) {
       offset.value = 64
+      // bottomSheetRef.current?.close()
     } else if (scrollLen < -10) {
       offset.value = 0
+      // bottomSheetRef.current?.snapToIndex(0)
     }
     oldOffset = currentOffset
   }, [])
   // Bottom sheet
-  //   // ref
-  // const bottomSheetRef = useRef<BottomSheet>(null);
-  // // variables
-  // const snapPoints = React.useMemo(() => ['25%', '50%', Dimensions.get('window').height], []);
-  // // callbacks
-  // const handleSheetChanges = React.useCallback((index: number) => {
-  //   console.log('handleSheetChanges', index);
-  // }, []);
+
+  // variables
+  const snapPoints = React.useMemo(
+    () => [88, '50%', Dimensions.get('window').height],
+    []
+  )
+  // callbacks
+  const handleSheetChanges = React.useCallback((index: number) => {
+    // console.log('handleSheetChanges', index)
+  }, [])
+  const expandSheet = React.useCallback(() => {
+    bottomSheetRef.current?.snapToIndex(0)
+  }, [])
 
   return (
     <>
@@ -190,6 +213,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
               handleScroll={handleScroll}
               imgs={imgs}
               setImgs={setImgs}
+              onEndReach={expandSheet}
             />
           </View>
         )}
@@ -197,19 +221,43 @@ function ChapterScreenNode(props: ChapterScreenProps) {
 
       {/* Floading */}
       <ChapterHeader style={headerAnimatedStyles} name={ctxName} />
-      <ChapterBar style={animatedStyles} />
-      {/* <BottomSheet
-         ref={bottomSheetRef}
-         index={1}
-         snapPoints={snapPoints}
-         onChange={handleSheetChanges}
-       >
-         <View style={{
-           flex: 1
-         }}>
-           <Text>Awesome 🎉</Text>
-         </View>
-       </BottomSheet> */}
+      <ChapterBar style={animatedStyles} onCommentClick={expandSheet} />
+      {loading ? null : (
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={-1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+          // enablePanDownToClose={false}
+          enableContentPanningGesture
+          enableHandlePanningGesture
+          enableOverDrag
+          enablePanDownToClose
+        >
+          <View
+            style={{
+              flex: 1
+            }}
+          >
+            <HStack justifyContent={'space-between'} mx={4}>
+              <Text fontSize={18} fontWeight={'bold'}>
+                Comment
+              </Text>
+              <HStack lineHeight={18}>
+                <Text fontSize={18} mr={1}>
+                  12345
+                </Text>
+                <FontAwesome
+                  name="commenting-o"
+                  size={20}
+                  color="black"
+                  style={{ marginTop: 4 }}
+                />
+              </HStack>
+            </HStack>
+          </View>
+        </BottomSheet>
+      )}
     </>
   )
 }

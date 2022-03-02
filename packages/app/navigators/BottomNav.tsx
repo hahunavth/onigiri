@@ -1,4 +1,4 @@
-import { useToken } from 'native-base'
+import { useColorModeValue, useToken } from 'native-base'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -29,10 +29,12 @@ type BottomNavParamsList = {
 const { Navigator, Screen } = createBottomTabNavigator<BottomNavParamsList>()
 
 export default function BottomNav() {
-  const [text, background] = useToken('colors', [
-    '$light.textPrimary',
-    '$light.backgroundSecondary'
-  ])
+  const textT = useColorModeValue('$light.textPrimary', '$dark.textPrimary')
+  const backgroundT = useColorModeValue(
+    '$light.backgroundSecondary',
+    '$dark.backgroundPrimary'
+  )
+  const [text, background] = useToken('colors', [textT, backgroundT])
 
   return (
     <Navigator

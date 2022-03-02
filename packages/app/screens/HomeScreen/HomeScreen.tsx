@@ -7,21 +7,23 @@ import { ComicGridGap3 } from '../../components/ComicGridGap3'
 import { useApiHot, useApiTopMonth } from '../../store/api'
 import { ComicGridGap2 } from '../../components/ComicGridGap2'
 import { ComicHorizontalList } from 'app/components/ComicHorizontalList'
+
 export const HomeScreen = () => {
   return (
-    <ScrollView>
+    <ScrollView
+      bg={'$light.backgroundSecondary'}
+      _dark={{
+        bg: '$dark.backgroundSecondary'
+      }}
+    >
       {/* <Text>HomeScreen</Text> */}
       <ListHeader name="Recently" subtitle="New comic release!" />
       <FlatlistBanner />
-      <ListHeader name="Hot" subtitle="New comic release!" color="Blue" />
+      <ListHeader name="Hot" subtitle="New comic release!" color="" />
       <ComicList1 />
-      <ListHeader
-        name="Top month"
-        subtitle="New comic release!"
-        color="Green"
-      />
+      <ListHeader name="Top month" subtitle="New comic release!" color="" />
       <ComicList2 />
-      <ListHeader name="History" subtitle="New comic release!" color="Yellow" />
+      <ListHeader name="History" subtitle="New comic release!" color="" />
       <ComicHorizontalList />
       {/* <NextLink routeName="test">link</NextLink> */}
     </ScrollView>

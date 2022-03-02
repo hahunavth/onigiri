@@ -22,6 +22,9 @@ import {
 } from 'native-base'
 import { colors } from 'app/colors'
 
+import { NavigationContainer } from '@react-navigation/native'
+import { navigationRef } from 'app/navigators'
+
 // NOTE: CONFIG LG IN NEXT.JS
 const config = {
   dependencies: {
@@ -31,6 +34,7 @@ const config = {
     // 'linear-gradient': require('react-native-linear-gradient').default
   }
 }
+
 const theme = extendTheme({
   colors: colors,
   config: {
@@ -95,11 +99,15 @@ export default function App({ Component, pageProps }: AppProps) {
             theme={theme}
             colorModeManager={colorModeManager}
           >
-            <SafeAreaProvider>
-              {/* <DripsyProvider theme={theme}> */}
-              <Component {...pageProps} />
-              {/* </DripsyProvider> */}
-            </SafeAreaProvider>
+            {/* NOTE: USE TOP TAB NAVIGATOR  IN COMIC DETAIL SCREEN */}
+            {/* WORKING */}
+            <NavigationContainer ref={navigationRef}>
+              <SafeAreaProvider>
+                {/* <DripsyProvider theme={theme}> */}
+                <Component {...pageProps} />
+                {/* </DripsyProvider> */}
+              </SafeAreaProvider>
+            </NavigationContainer>
           </NativeBaseProvider>
         </PersistGate>
       </Provider>

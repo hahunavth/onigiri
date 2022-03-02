@@ -14,6 +14,7 @@ export const comicApi = createApi({
     baseUrl: 'https://hahunavth-express-api.herokuapp.com/api/v1',
     fetchFn: fetch
   }),
+  tagTypes: ['FIND_COMIC'],
   endpoints: (builder) => ({
     getRecentlyByPage: builder.query<ApiResponse_T<resComicItem_T[]>, string>({
       query: (page) => {
@@ -61,7 +62,11 @@ export const comicApi = createApi({
 
         console.log(`🚀  ${getFindPath()}`)
         return `/find?${getFindPath()}`
-      }
+      },
+      providesTags: (result, error, arg) =>
+        result?.pagination?.page
+          ? [{ type: 'FIND_COMIC', id: result?.pagination.page }, 'FIND_COMIC']
+          : ['FIND_COMIC']
     }),
     findByGenres: builder.query<
       ApiResponse_T<resComicItem_T[]>,

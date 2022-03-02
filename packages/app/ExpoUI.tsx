@@ -9,6 +9,8 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import store, { persistor } from 'app/store/store'
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { useColorMode } from 'native-base'
 import { StackNav } from 'app/navigators/StackNav'
 
 import {
@@ -80,14 +82,18 @@ export default function UI() {
 
   return (
     <>
-      <StatusBar style="dark" />
       {/* <Container> */}
       <NativeBaseProvider
         config={config}
         theme={theme}
         colorModeManager={colorModeManager}
       >
-        <StackNav />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          {/* <StatusBar style="dark" /> */}
+          {/* <StatusBar /> */}
+          <ThemedStatusBar />
+          <StackNav />
+        </GestureHandlerRootView>
       </NativeBaseProvider>
       {/* </Container> */}
       {/* <Navigator>
@@ -96,4 +102,9 @@ export default function UI() {
       {/* <Box>aa</Box> */}
     </>
   )
+}
+
+function ThemedStatusBar() {
+  const theme = useColorMode()
+  return <StatusBar style={theme.colorMode === 'dark' ? 'light' : 'dark'} />
 }

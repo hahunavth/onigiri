@@ -10,9 +10,10 @@ import useInteraction from '../../hooks/useInteraction'
 
 type Props = {
   list: resComicItem_T[]
+  onEndReach?: () => any
 }
 
-export const ComicListVertical = ({ list }: Props) => {
+export const ComicListVertical = ({ list, onEndReach }: Props) => {
   /**
    * STUB: Wrap item component of flatlist inside function
    * So item component be able to call hook
@@ -28,7 +29,8 @@ export const ComicListVertical = ({ list }: Props) => {
   )
 
   const keyExtractor = React.useCallback(
-    (item, index) => item.path || index.toString(),
+    // FIXME: Find why have same key
+    (item, index) => item.path + index.toString(),
     []
   )
 
@@ -72,13 +74,16 @@ export const ComicListVertical = ({ list }: Props) => {
         data={list}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        onEndReachedThreshold={10000}
+        onEndReached={onEndReach}
         // NOTE: FLATLIST CAUSE SLOW NAVIGATION
         // SOLUTION1: decrease initialNumToRender
         // SOLUTION2: use Interaction manager
         // TODO: USE SOLUTION2
         initialNumToRender={30}
-        maxToRenderPerBatch={6}
-        removeClippedSubviews
+        maxToRenderPerBatch={10}
+
+        // removeClippedSubviews
         // FIXME: Sticky list too slow
         // stickyHeaderIndices={[1, 5]}
         // invertStickyHeaders
@@ -87,7 +92,6 @@ export const ComicListVertical = ({ list }: Props) => {
         // ListFooterComponentStyle={{ flex: 1, justifyContent: 'flex-end' }}
         // ListFooterComponent={<ListFooter />}
       />
-      <ListFooter />
     </View>
   )
 }

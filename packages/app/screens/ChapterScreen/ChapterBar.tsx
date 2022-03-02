@@ -22,6 +22,7 @@ import { resComicDetailChapterItem_T } from '../../types'
 import { ChapterContext } from './ChapterScreenContext'
 interface Props {
   style?: ViewStyle
+  onCommentClick?: () => void
   // id?: number
 }
 // FIXME: CHAPTER BAR CHANGE CHAPTER
@@ -196,7 +197,7 @@ const ChapterBar = (props: Props) => {
           <TouchableOpacity>
             <AntDesign name={'like2'} size={32} color={textStyle.color} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={props.onCommentClick}>
             <AntDesign name={'message1'} size={28} color={textStyle.color} />
           </TouchableOpacity>
           <TouchableOpacity>

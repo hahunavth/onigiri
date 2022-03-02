@@ -25,7 +25,8 @@ import { isNullOrUndefined } from 'util'
 // import { BannerLoader } from '../Loader'
 import { NextLink } from 'app/components/NextLink'
 import Item from './Item'
-import { ITEM_PADDING } from './size'
+import { ITEM_HEIGHT, ITEM_PADDING, ITEM_WIDTH } from './size'
+import { Box, Skeleton } from 'native-base'
 
 export const FlatlistBanner = () => {
   const [list, setList] = useState<resComicItem_T[]>([])
@@ -52,7 +53,16 @@ export const FlatlistBanner = () => {
           initialNumToRender={1}
           PaginationComponent={CustomPagination}
         />
-      ) : null}
+      ) : (
+        <Box bg={'$light.backgroundPrimary'}>
+          <Skeleton
+            w={ITEM_WIDTH}
+            h={ITEM_HEIGHT}
+            p={ITEM_PADDING / 4}
+            m="auto"
+          />
+        </Box>
+      )}
     </View>
   )
 }

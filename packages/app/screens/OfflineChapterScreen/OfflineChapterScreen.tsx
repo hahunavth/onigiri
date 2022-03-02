@@ -9,7 +9,8 @@ import { historySelector } from '../../store/historySlice'
 
 import type { OfflineChapterScreenProps } from 'app/navigators/StackNav'
 import useUpdateCurrentChapter from '../../hooks/useUpdateCurrentChapter'
-import {default as LocalComicImage} from './LocalImage'
+import { default as LocalComicImage } from './LocalImage'
+import PinchWrapper from '../../components/PinchWrapper'
 
 export const OfflineChapterScreen = (props: OfflineChapterScreenProps) => {
   const { comicPath, chapterPath } = props.route.params
@@ -18,7 +19,7 @@ export const OfflineChapterScreen = (props: OfflineChapterScreenProps) => {
 
   const history = useAppSelector(historySelector)
 
-  const {loading} = useUpdateCurrentChapter({
+  const { loading } = useUpdateCurrentChapter({
     chapterDetail: history.downloadCpt[chapterPath],
     id: -1,
     isFetching: false
@@ -56,17 +57,18 @@ export const OfflineChapterScreen = (props: OfflineChapterScreenProps) => {
 
   return (
     <View>
-      {
-        loading ? null :
-        <FlatList
-          data={imgs}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.uri}
-          initialNumToRender={4}
-          maxToRenderPerBatch={5}
-          removeClippedSubviews={true}
-        />
-      }
+      <PinchWrapper>
+        {loading ? null : (
+          <FlatList
+            data={imgs}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.uri}
+            initialNumToRender={4}
+            maxToRenderPerBatch={5}
+            removeClippedSubviews={true}
+          />
+        )}
+      </PinchWrapper>
     </View>
   )
 }

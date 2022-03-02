@@ -43,7 +43,6 @@ export default function App() {
   })
 
   return (
-    // <GestureHandlerRootView>
     <NavigationContainer ref={navigationRef}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
@@ -53,6 +52,5 @@ export default function App() {
         </PersistGate>
       </Provider>
     </NavigationContainer>
-    // </GestureHandlerRootView>
   )
 }

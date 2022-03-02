@@ -21,7 +21,7 @@ export function ComicListItem({ item }: Props) {
         item.path &&
         navigate('comic-detail', { preloadItem: item, path: item.path })
       }
-      delayPressIn={50}
+      delayPressIn={100}
     >
       <View
         style={styles.itemContainer}

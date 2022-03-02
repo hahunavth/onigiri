@@ -19,10 +19,20 @@ const withTM = require('next-transpile-modules')([
   'moti',
   '@motify/core',
   '@motify/components',
+  'react-native-reanimated',
+  'react-use'
 ])
 
 const nextConfig = {
-  distDir: 'build'
+  distDir: 'build',
+  images: {
+    disableStaticImages: true,
+    domains: ['st.nettruyengo.com', 'example2.com']
+  },
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // Important: return the modified config
+    return config
+  }
 }
 
 module.exports = withPlugins(

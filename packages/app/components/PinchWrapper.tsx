@@ -21,13 +21,13 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated'
 
-type Props = {}
-
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
+type Props = {
+  children: React.ReactNode
+}
 
 const { width, height } = Dimensions.get('window')
 
-const ZoomableImage = (props: Props) => {
+const PinchWrapper = (props: Props) => {
   // const scale = React.useRef(new RNAnimated.Value(1)).current
 
   // const onPinchEvent = RNAnimated.event(
@@ -67,7 +67,7 @@ const ZoomableImage = (props: Props) => {
       if (isScrolling.value) lastContentOffset.value = event.contentOffset.y
     },
     onBeginDrag: (e) => {
-      // console.log(e)
+      console.log(e)
       isScrolling.value = false
     },
     onEndDrag: (e) => {
@@ -78,26 +78,13 @@ const ZoomableImage = (props: Props) => {
   // Gesture handler
   // const gestureHandler =
 
-  const prevScale = useSharedValue(1)
   const scale = useSharedValue(1)
   const transX = useSharedValue(0)
-  const prevTransX = useSharedValue(0)
   const transY = useSharedValue(0)
-  const prevTransY = useSharedValue(0)
   const pinchHandler =
     useAnimatedGestureHandler<PinchGestureHandlerGestureEvent>({
-      onStart: (e) => {
-        // console.log(e.scale)
-        // e.
-      },
       onActive: (e) => {
-        // if (e.scale === 1) {
-        //   scale.value = e.scale + scale.value - 1
-        //   console.log(scale.value)
-        // } else if (scale.value > 0.8) scale.value = e.scale
-        // else scale.value = 0.8
-        if (e.scale + prevScale.value - 1 > 0.8)
-          scale.value = e.scale + prevScale.value - 1
+        if (e.scale > 0.8) scale.value = e.scale
         else scale.value = 0.8
         transX.value = e.focalX
         transY.value = e.focalY
@@ -108,10 +95,7 @@ const ZoomableImage = (props: Props) => {
           // transX.value = 0
           // transY.value = 0
         }
-        prevScale.value = e.scale
-        prevTransX.value = e.focalX
-        prevTransY.value = e.focalY
-        console.log('prevTransY', prevTransY.value, e.focalY)
+        // console.log(scale.value)
       }
     })
 
@@ -131,20 +115,20 @@ const ZoomableImage = (props: Props) => {
     }
   })
 
-  const renderItem = React.useCallback(() => {
-    return (
-      <Animated.Image
-        source={{
-          uri: 'https://avatars.githubusercontent.com/u/66118664?v=4'
-        }}
-        style={{
-          width: width,
-          height: 300
-        }}
-        resizeMode="contain"
-      ></Animated.Image>
-    )
-  }, [])
+  // const renderItem = React.useCallback(() => {
+  //   return (
+  //     <Animated.Image
+  //       source={{
+  //         uri: 'https://avatars.githubusercontent.com/u/66118664?v=4'
+  //       }}
+  //       style={{
+  //         width: width,
+  //         height: 300
+  //       }}
+  //       resizeMode="contain"
+  //     ></Animated.Image>
+  //   )
+  // }, [])
 
   return (
     // <FlingGestureHandler
@@ -166,22 +150,11 @@ const ZoomableImage = (props: Props) => {
         // transform: [{ scale: scale }]
         // }}
       >
-        <AnimatedFlatList
-          data={new Array(50).fill(1)}
-          renderItem={renderItem}
-          // scrollEnabled={false}
-          keyExtractor={(item, id) => id.toString()}
-          onScroll={scrollHandler}
-          style={{ maxWidth: width }}
-          scrollEventThrottle={2}
-          minimumZoomScale={1}
-          maximumZoomScale={5}
-          // onScroll
-        ></AnimatedFlatList>
+        {props.children}
       </Animated.View>
     </PinchGestureHandler>
     // </FlingGestureHandler>
   )
 }
 
-export default ZoomableImage
+export default PinchWrapper

@@ -7,7 +7,8 @@ import {
   ZStack,
   useToken,
   HStack,
-  VStack
+  VStack,
+  useColorMode
 } from 'native-base'
 import { TouchableNativeFeedback } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -15,6 +16,7 @@ import React from 'react'
 import { resComicItem_T } from '../../types'
 import { HistoryComicT } from '../../store/historySlice'
 import { NextLink } from '../NextLink'
+import { BlurView } from 'expo-blur'
 
 type Props = {
   item: Partial<HistoryComicT>
@@ -22,9 +24,11 @@ type Props = {
 
 export function ListItem({ item }: Props) {
   const [bgLight, bgDark] = useToken('colors', [
-    '$light.backgroundYellowPrimary',
-    '$light.backgroundYellowSecondary'
+    '$light.backgroundPrimary',
+    '$light.backgroundSecondary'
   ])
+
+  const { colorMode } = useColorMode()
 
   return (
     <NextLink
@@ -36,7 +40,10 @@ export function ListItem({ item }: Props) {
     >
       <Box
         p={1}
-        bg={'$light.backgroundYellowPrimary'}
+        bg={'$light.backgroundPrimary'}
+        _dark={{
+          bg: '$dark.backgroundPrimary'
+        }}
         rounded={'sm'}
         w={230}
         h={160}
@@ -64,14 +71,20 @@ export function ListItem({ item }: Props) {
             roundedBottom="sm"
             overflow={'hidden'}
           >
-            <LinearGradient
+            {/* <LinearGradient
               // Button Linear Gradient
-              colors={[bgDark, bgLight]}
+              // colors={[bgDark, bgLight]}
               style={{ flex: 1 }}
+            > */}
+            <BlurView
+              intensity={100}
+              tint={colorMode === 'dark' ? 'dark' : 'light'}
+              // style={{ margin: 1, borderRadius: 2 }}
             >
               <VStack>
                 <Text
-                  color={'$light.textYellowPrimary'}
+                  color={'$light.textPrimary'}
+                  _dark={{ color: '$dark.textPrimary' }}
                   fontWeight="bold"
                   numberOfLines={1}
                   fontSize={15}
@@ -82,20 +95,23 @@ export function ListItem({ item }: Props) {
                   <Text
                     fontWeight={500}
                     fontSize={12}
-                    color={'$light.textYellowSecondary'}
+                    color={'$light.textSecondary'}
+                    _dark={{ color: '$dark.textSecondary' }}
                   >
                     {item.lastedReadChapter}
                   </Text>
                   <Text
                     fontWeight={500}
                     fontSize={12}
-                    color={'$light.textYellowSecondary'}
+                    color={'$light.textSecondary'}
+                    _dark={{ color: '$dark.textSecondary' }}
                   >
                     {item.createdAt}
                   </Text>
                 </HStack>
               </VStack>
-            </LinearGradient>
+            </BlurView>
+            {/* </LinearGradient> */}
           </Box>
         </ZStack>
       </Box>

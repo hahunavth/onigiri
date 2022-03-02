@@ -18,7 +18,7 @@ import {
   useColorMode,
   Toast
 } from 'native-base'
-import { Picker } from 'react-native'
+import { Picker, Linking } from 'react-native'
 import React from 'react'
 import {
   SectionListRenderItemInfo,
@@ -55,7 +55,14 @@ type Props = {}
 
 type DataT = {
   name: string
-  type: 'Login' | 'boolean' | 'select' | 'navigate' | 'button' | 'component'
+  type:
+    | 'Login'
+    | 'boolean'
+    | 'select'
+    | 'navigate'
+    | 'button'
+    | 'component'
+    | 'link'
   default?: number | boolean
   data?: any
   component?: (props: { data: DataT }) => React.ReactElement
@@ -108,7 +115,7 @@ const sections: SectionT[] = [
     title: 'About',
     sectionType: 'form',
     data: [
-      { name: 'Website', type: 'navigate', data: 'https://hahunavth.xyz' },
+      { name: 'Website', type: 'link', data: 'https://hahunavth.xyz' },
       { name: 'Term', type: 'navigate' },
       { name: 'About us', type: 'navigate' },
       { name: 'Privacy', type: 'navigate' },
@@ -152,6 +159,7 @@ export const SettingScreen = (props: Props) => {
       if (item.type === 'Login') return <UserLogin />
       else if (item.type === 'boolean') return <ToggleOption data={item} />
       else if (item.type === 'navigate') return <NavigateOption data={item} />
+      else if (item.type === 'link') return <NavigateOption data={item} />
       else if (item.type === 'select') return <SelectOption data={item} />
       else if (item.type === 'button')
         return (
@@ -245,7 +253,11 @@ const SelectOption = ({ data }: { data: DataT }) => {
 
 const NavigateOption = ({ data }: { data: DataT }) => {
   return (
-    <TouchableNativeFeedback>
+    <TouchableNativeFeedback
+      onPress={() => {
+        data.type === 'link' ? Linking.openURL(data.data) : null
+      }}
+    >
       <HStack
         h={44}
         bg={'coolGray.50'}

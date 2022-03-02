@@ -7,6 +7,7 @@ import { DownloadTab } from 'app/screens/LibraryScreen/DownloadTab'
 import { RecentTab } from 'app/screens/LibraryScreen/RecentTab'
 import { SubscribeTab } from 'app/screens/LibraryScreen/SubscribeTab'
 import { StyleSheet } from 'react-native'
+import { useColorModeStyle } from '../hooks/useColorModeStyle'
 
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<LibraryTopNavigatorParamList>()
@@ -29,11 +30,16 @@ const styles = StyleSheet.create({
 export const LibraryTopNavigator = () => {
   // const styles = useStyleSheet(themedStyles);
 
+  const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
+  const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle('', 'Secondary')
+
   return (
     <Navigator
       backBehavior="none"
       screenOptions={{
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: {
+          backgroundColor: bs1.backgroundColor
+        },
 
         tabBarLabelStyle: {},
         tabBarItemStyle: {
@@ -44,16 +50,16 @@ export const LibraryTopNavigator = () => {
 
         tabBarPressOpacity: 0.1,
         tabBarIndicatorStyle: {
-          backgroundColor: '#1285f0df',
+          backgroundColor: bs2._text.color as any,
           flex: 1,
           height: 38,
           borderWidth: 5,
           borderRadius: 12,
           borderColor: 'transparent'
         },
-        tabBarActiveTintColor: 'white',
+        tabBarActiveTintColor: bs1.backgroundColor as any,
         tabBarAllowFontScaling: false,
-        tabBarInactiveTintColor: 'gray',
+        tabBarInactiveTintColor: bs1._text.color as any,
         tabBarPressColor: 'transparent'
       }}
       showPageIndicator

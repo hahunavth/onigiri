@@ -36,6 +36,7 @@ export const NavigationHeader = React.memo(function ({
   return (
     <FSafeAreaView
       _light={{ backgroundColor: '$light.backgroundSecondary' }}
+      _dark={{ backgroundColor: '$dark.backgroundYellowPrimary' }}
       justifyContent={'center'}
       height={16}
       pl={2}
@@ -51,7 +52,7 @@ export const NavigationHeader = React.memo(function ({
             padding={1}
             top={-6}
           >
-            <Text _light={{ color: '$light.textSecondary' }}>
+            <Text _light={{ color: '$light.textYellowPrimary' }}>
               {leftLabel || HeaderLeft}
             </Text>
           </View>

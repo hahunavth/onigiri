@@ -142,6 +142,22 @@ const historySlice = createSlice({
 
       // console.log('history/comic: No effect')
     },
+    removeReadComic: (state, action: PayloadAction<{ path: string }>) => {
+      const comicPath = action.payload.path
+      // const readComic = state.readComics.find(str => str === comicPath);
+      // ANCHOR: MODIFY STATE
+      const id = state.readComics.indexOf(comicPath)
+      if (id !== -1) {
+        const cpts = state.comics[comicPath]?.chapters
+        cpts?.forEach((cpt) => delete state.readCpt[cpt.path])
+        const subId = state.subscribeComics.indexOf(comicPath)
+        const downId = state.downloadComics.indexOf(comicPath)
+        state.readComics = state.readComics.filter((path) => path !== comicPath)
+        if (subId === -1 && downId === -1) {
+          delete state.comics[comicPath]
+        }
+      }
+    },
     /**
      * Save chapter history
      * @returns add readAt field
@@ -385,7 +401,5 @@ export const selectThisComicIsSubcribed = createSelector(
     (state: RootState) => state.history.subscribeComics,
     (state: any, myPath: string) => myPath
   ],
-  (subcribeComics, myPath) => subcribeComics.find(
-    (path) => path === myPath
-  )
+  (subcribeComics, myPath) => subcribeComics.find((path) => path === myPath)
 )

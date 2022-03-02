@@ -36,7 +36,6 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
   withTiming,
-  withDelay,
   Easing
 } from 'react-native-reanimated'
 import { NextLink } from '../NextLink'
@@ -90,11 +89,15 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
   const insets = useSafeAreaInsets()
   const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
   const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle('', 'Secondary')
+  const { boxStyle: bs3, textStyle: ts3 } = useColorModeStyle(
+    'Yellow',
+    'Secondary'
+  )
   const inputRef = React.useRef<any>()
   const { height, width } = useWindowDimensions()
   const offset = useSharedValue(0)
 
-  const leftStyle = useAnimatedStyle(() => {
+  const animatedStyles2 = useAnimatedStyle(() => {
     return {
       transform: [
         {
@@ -110,20 +113,23 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
     }
   })
 
-  const rightStyle = useAnimatedStyle(() => {
+  const animatedStyles3 = useAnimatedStyle(() => {
     return {
       transform: [
         {
-          translateX: withTiming(offset.value, {
-            duration: 500,
-            easing: Easing.out(Easing.exp)
-          })
+          translateX: withTiming(
+            offset.value
+            //   {
+            //   duration: 500,
+            //   easing: Easing.out(Easing.exp)
+            // }
+          )
         }
       ]
     }
   })
 
-  const btnStyle = useAnimatedStyle(() => {
+  const animatedStyles4 = useAnimatedStyle(() => {
     return {
       // opacity: withTiming(offset.value / 78 + 0.5, {
       //   duration: 500,
@@ -131,13 +137,10 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
       // }),
       transform: [
         {
-          translateX: withDelay(
-            100,
-            withTiming(-offset.value * 1.8, {
-              duration: 500,
-              easing: Easing.out(Easing.exp)
-            })
-          )
+          translateX: withTiming(-offset.value * 1.8, {
+            duration: 500,
+            easing: Easing.out(Easing.exp)
+          })
         },
         {
           translateY: 12
@@ -146,7 +149,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
     }
   })
 
-  const inputStyle = useAnimatedStyle(() => {
+  const animatedStyles5 = useAnimatedStyle(() => {
     return {
       // opacity: offset.value / 34
       opacity: withTiming(offset.value / 34, {
@@ -156,13 +159,13 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
       flex: 1,
       marginTop: 4
     }
-  }, [offset.value])
+  })
 
-  const viewStyle = useAnimatedStyle(() => {
+  const animatedStyles6 = useAnimatedStyle(() => {
     return {
       height: withTiming(offset.value * 10 + 40)
     }
-  }, [offset.value])
+  })
 
   /**
    * ANCHOR: Nested SafeAreaView sometime cause rerender -> lag
@@ -170,12 +173,12 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
   return (
     <SafeAreaView
       style={{
-        backgroundColor: bs2.backgroundColor
+        backgroundColor: bs3.backgroundColor
       }}
     >
       <Animated.View
         // backgroundColor={bs2.backgroundColor}
-        style={[viewStyle]}
+        style={[animatedStyles6]}
       >
         {/* Only 16 px */}
         <View maxH={16} pl={2} pr={2} mt={1} pb={1} justifyContent={'center'}>
@@ -197,7 +200,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
                   name="md-person-circle-outline"
                   size={28}
                   color={ts1.color}
-                  style={[rightStyle]}
+                  style={animatedStyles3}
                 />
               </TouchableOpacity>
             </View>
@@ -223,7 +226,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
                   name="notifications-outline"
                   size={28}
                   color={ts1.color}
-                  style={[leftStyle]}
+                  style={animatedStyles2}
                 />
               </TouchableNativeFeedback>
             </View>
@@ -236,7 +239,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
                 position: 'absolute',
                 right: -50
               },
-              btnStyle
+              animatedStyles4
             ]}
           >
             <AnimatedButton
@@ -281,11 +284,11 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
               // left: 0,
               // right: 0,
               // height: 0,
-              backgroundColor: 'white',
+              // backgroundColor: 'white',
               paddingTop: 4,
               paddingLeft: 12
             },
-            inputStyle
+            animatedStyles5
           ]}
         >
           <Text
@@ -404,7 +407,7 @@ const RefAnimatedInput = React.forwardRef((props: any, ref) => {
         //   <Icon
         //     ml="2"
         //     size="4"
-        //     color={bs2._text.color}
+        //     // color={bs2._text.color}
         //     // backgroundColor={'white'}
         //     as={<Ionicons name="ios-search" />}
         //   />

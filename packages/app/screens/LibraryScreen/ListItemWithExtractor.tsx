@@ -18,6 +18,7 @@ import { Box } from 'native-base'
 
 type Param = {
   onPress?: (comic: HistoryComicT) => any
+  onLongPress?: (comic: HistoryComicT) => any
   addonFieldName?: string
   addonFieldExtractor?: (comic: HistoryComicT) => string
 }
@@ -26,7 +27,7 @@ type Param = {
  * u can customize addonField
  */
 const ListWithExtractor = (param: Param) => {
-  const { addonFieldExtractor, addonFieldName, onPress } = param
+  const { addonFieldExtractor, addonFieldName, onPress, onLongPress } = param
   // Return render item function
   return (props: ListRenderItemInfo<resComicDetail_T>) => {
     // Return Function component
@@ -39,6 +40,7 @@ const ListWithExtractor = (param: Param) => {
     if (!item) return null
     return (
       <TouchableOpacity
+        onLongPress={() => onLongPress && onLongPress(item)}
         onPress={() =>
           onPress
             ? onPress(item)

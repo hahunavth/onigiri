@@ -11,12 +11,12 @@ import {
 import React from 'react'
 import { TouchableNativeFeedback } from 'react-native'
 import type { resComicItem_T } from '../../types'
-import {NextLink} from 'app/components/NextLink'
+import { NextLink } from 'app/components/NextLink'
 
 export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
   return (
     <NextLink
-      routeName={"comic-detail"}
+      routeName={props.loading ? 'comic-detail' : 'main'}
       params={{
         // item: props.item,
         id: 0,
@@ -26,7 +26,11 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
     >
       <VStack
         flexDirection={'column-reverse'}
-        bg={'$light.backgroundBluePrimary'}
+        bg={'$light.backgroundPrimary'}
+        _dark={{
+          bg: '$dark.backgroundPrimary',
+          borderColor: '$dark.textSecondary'
+        }}
         borderWidth={1}
         borderColor={'#c0d4f1'}
         w={125}
@@ -41,15 +45,18 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
               numberOfLines={2}
               textAlign="center"
               fontSize={12}
-              color={'$light.textBluePrimary'}
+              color={'$light.textPrimary'}
+              _dark={{
+                color: '$dark.textPrimary'
+              }}
             >
               {props.item?.name}
               {/* <Skeleton ></Skeleton> */}
             </Text>
           ) : (
             <>
-              <Skeleton.Text fontSize={12} mb={4} />
-              <Skeleton.Text fontSize={12} />
+              <Skeleton.Text fontSize={12} px={2} mb={0} lines={2} />
+              {/* <Skeleton.Text fontSize={12} /> */}
             </>
           )}
         </Center>

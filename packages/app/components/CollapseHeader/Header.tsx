@@ -13,7 +13,13 @@ import {
 import { LinearGradient } from 'expo-linear-gradient'
 import { AntDesign } from '@expo/vector-icons'
 import { SharedElement } from 'react-navigation-shared-element'
-import Animated, {useSharedValue, useDerivedValue, useAnimatedStyle, withTiming, withSpring} from 'react-native-reanimated'
+import Animated, {
+  useSharedValue,
+  useDerivedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSpring
+} from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import useInteraction from '../../hooks/useInteraction'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -37,13 +43,13 @@ type Props2 = Pick<ViewProps, 'style'> & {
   bio: string
 }
 
-const AnimatedImageBackground = Animated.createAnimatedComponent(ImageBackground)
+const AnimatedImageBackground =
+  Animated.createAnimatedComponent(ImageBackground)
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
 
-const {height} = Dimensions.get('screen')
+const { height } = Dimensions.get('screen')
 
 const Header: FC<Props2> = ({ style, name, photo, bio }) => {
-
   // const { height } = useWindowDimensions()
   // const { top } = useSafeAreaInsets()
   // REVIEW: Save Style
@@ -59,21 +65,17 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
   // })
 
   const opacityStyle1 = useAnimatedStyle(() => {
-    return (
-      {
-        opacity: withTiming(offset.value)
-      }
-    )
+    return {
+      opacity: withTiming(offset.value)
+    }
   })
   const opacityStyle2 = useAnimatedStyle(() => {
-    return (
-      {
-        opacity: withTiming(offset.value),
-        // width: withTiming(imageBackgroundHeight.value, {
-        //   duration: 500,
-        // })
-      }
-    )
+    return {
+      opacity: withTiming(offset.value)
+      // width: withTiming(imageBackgroundHeight.value, {
+      //   duration: 500,
+      // })
+    }
   })
 
   useInteraction({
@@ -101,21 +103,24 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
         colors={['#000000d8', '#00000042', '#77777747']}
         start={{ x: 0, y: 1.1 }}
         end={{ x: 0, y: 0 }}
-        style={[{
-          flex: 1,
-          // justifyContent: "flex-end",
-          // alignItems: "flex-start",
-          flexDirection: 'row',
-          // backgroundColor: "white",
-          alignItems: 'flex-end',
-          padding: 12
-        }, opacityStyle1]}
+        style={[
+          {
+            flex: 1,
+            // justifyContent: "flex-end",
+            // alignItems: "flex-start",
+            flexDirection: 'row',
+            // backgroundColor: "white",
+            alignItems: 'flex-end',
+            padding: 12
+          },
+          opacityStyle1
+        ]}
       >
         <View style={styles.textContainer}>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.bio}>{bio}</Text>
         </View>
-        <SharedElement id={`item.${photo}.photo`} >
+        <SharedElement id={`item.${photo}.photo`}>
           <Image
             source={photoSource}
             width={100}
@@ -163,11 +168,3 @@ const styles = StyleSheet.create({
 })
 
 export default memo(Header)
-
-// // FIXME: Fix type of sharedElement config
-// // @ts-ignore
-// Header.sharedElements = (navigation: any) => {
-//   // const item = navigation.getParam("ComicDetails");
-//   console.log(navigation.route.params);
-//   return [`${navigation.route.params.comic.posterUrl}`];
-// };

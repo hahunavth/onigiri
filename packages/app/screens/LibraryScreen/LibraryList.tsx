@@ -19,13 +19,15 @@ type Props = {
   addonFieldName?: string
   addonFieldExtractor?: (comic: HistoryComicT) => string
   onPress?: (comic: HistoryComicT) => any
+  onLongPress?: (comic: HistoryComicT) => any
 }
 
 const LibraryList = ({
   addonFieldExtractor,
   addonFieldName,
   data,
-  onPress
+  onPress,
+  onLongPress
 }: Props) => {
   // const styles = useStyleSheet(themedStyle);
 
@@ -33,7 +35,8 @@ const LibraryList = ({
     ListItemWithExtractor({
       addonFieldExtractor,
       addonFieldName,
-      onPress
+      onPress,
+      onLongPress
     }),
     [addonFieldExtractor, addonFieldName]
   )
