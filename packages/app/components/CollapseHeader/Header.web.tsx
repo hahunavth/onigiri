@@ -9,7 +9,7 @@ import {
   Platform
 } from 'react-native'
 import Image from 'next/image'
-import { View, Factory, Text } from 'native-base'
+import { View, Factory, Text, HStack, Button } from 'native-base'
 import { LinearGradient } from 'expo-linear-gradient'
 import { AntDesign } from '@expo/vector-icons'
 import { SharedElement } from 'react-navigation-shared-element'
@@ -174,19 +174,23 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
           zIndex: 10
         }}
       >
-        <View flexDirection={'row'} w={['full', '2/3']} mx={'auto'}>
+        <View flexDirection={['column', 'row']} w={['full', '2/3']} mx={'auto'}>
           <View style={styles.textContainer}>
             <Text fontSize={[20, 24, 28, 32]} style={styles.name}>
               {name}
             </Text>
-            <Text
+            <HStack space={4} mt={4}>
+              <Button colorScheme="success">Read from first</Button>
+              <Button colorScheme="success">Read from last</Button>
+            </HStack>
+            {/* <Text
               style={styles.bio}
               fontSize={[13, 14, 15, 17]}
               fontWeight={'bold'}
               fontFamily={'Quicksand'}
             >
               {bio}
-            </Text>
+            </Text> */}
           </View>
           <SharedElement id={`item.${photo}.photo`} style={{ zIndex: 1000 }}>
             <View

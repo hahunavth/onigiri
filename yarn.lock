@@ -2140,6 +2140,14 @@
   dependencies:
     framer-motion "^3.9.1"
 
+"@motify/interactions@^0.17.1":
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/@motify/interactions/-/interactions-0.17.1.tgz#87a16eb913957ef99ff4bffd232935ec3c886d3e"
+  integrity sha512-RrlFdotOJCnSnwPLFibJyr3GxxTPeRwFhyrXKWKfqVg54D0Ez8JRFCszb90gpnGBSKft1T8FCgMnem8GOHTDfw==
+  dependencies:
+    "@motify/components" "^0.17.1"
+    "@motify/core" "^0.17.1"
+
 "@napi-rs/triples@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@napi-rs/triples/-/triples-1.0.3.tgz#76d6d0c3f4d16013c61e45dfca5ff1e6c31ae53c"
@@ -4223,7 +4231,7 @@ babel-plugin-transform-remove-console@^6.9.4:
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.9.4.tgz#b980360c067384e24b357a588d807d3c83527780"
   integrity sha1-uYA2DAZzhOJLNXpYjYB9PINSd4A=
 
-babel-preset-expo@^8.4.1, babel-preset-expo@^8.5.1, babel-preset-expo@~8.5.1:
+babel-preset-expo@^8.4.1, babel-preset-expo@~8.5.1:
   version "8.5.1"
   resolved "https://registry.yarnpkg.com/babel-preset-expo/-/babel-preset-expo-8.5.1.tgz#aac627a6c85b3c0904a226596c6243fac9f19491"
   integrity sha512-qQVG6Twn7tymODw8cH+85QtzFqcD0ckLWgVLC8pzRkwLKP5lIs5gtiYdoUsvhvyWWesSFR9VlhN0HE2Nu7WCWQ==

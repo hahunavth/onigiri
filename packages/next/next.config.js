@@ -19,6 +19,7 @@ const withTM = require('next-transpile-modules')([
   'moti',
   '@motify/core',
   '@motify/components',
+  '@motify/interactions',
   'react-native-reanimated',
   'react-use'
 ])

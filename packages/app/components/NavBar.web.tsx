@@ -51,10 +51,12 @@ export const NavBar = (props: Props) => {
         flex={1}
         left={0}
         right={0}
+        borderBottomWidth={1}
+        borderBottomColor={'gray.300'}
         // @ts-ignore
         _web={NavBarContainerStyle}
       >
-        <BlurView intensity={90} tint="dark" style={BlurViewStyle}>
+        <BlurView intensity={90} tint="light" style={BlurViewStyle}>
           <Container
             flexDirection={'row'}
             justifyContent={''}

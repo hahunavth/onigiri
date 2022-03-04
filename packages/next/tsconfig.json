@@ -19,12 +19,11 @@
     "esModuleInterop": true,
     "module": "esnext",
     "isolatedModules": true,
-    // "incremental": true,
-    "strict": true,
-    "types": [
-      "node"
-    ],
-    "incremental": true
+    // "strict": true,
+    // "types": [
+    //   "node"
+    // ],
+    // "incremental": true
   },
   "include": [
     "next-env.d.ts",

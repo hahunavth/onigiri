@@ -4,21 +4,32 @@ import {
   Image,
   ImageBackground,
   ListRenderItemInfo,
-  StyleSheet
+  StyleSheet,
+  useWindowDimensions
 } from 'react-native'
-import { Text, View } from 'native-base'
+import { Text, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { NextLink } from 'app/components/NextLink'
-import {
-  HEIGHT,
-  ITEM_PADDING,
-  ITEM_WIDTH,
-  NUM_COLUMN,
-  height,
-  width
-} from './size'
+// import {
+//   HEIGHT,
+//   ITEM_PADDING,
+//   ITEM_WIDTH,
+//   NUM_COLUMN,
+//   height,
+//   width
+// } from './size'
 
 const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
+  const { width, height } = useWindowDimensions()
+
+  const NUM_COLUMN = Number.parseInt((width / 540).toFixed()) || 1
+  const ITEM_HEIGHT = height / 4
+  const ITEM_PADDING = 4
+
+  const ITEM_WIDTH = (width - (2 * NUM_COLUMN + 2) * ITEM_PADDING) / NUM_COLUMN
+
+  const HEIGHT = 1000
+
   return (
     <NextLink
       routeName="comic-detail"
@@ -90,7 +101,18 @@ const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
                 </Text>
               </View>
             </View>
-            <Image style={styles.image} source={{ uri: item.posterUrl }} />
+            <Image
+              style={{
+                height: HEIGHT / 4 - 4 * ITEM_PADDING,
+                width: ITEM_WIDTH / 3,
+                marginVertical: 2 * ITEM_PADDING,
+                marginRight: 4 * ITEM_PADDING,
+                borderRadius: 4,
+                borderWidth: 1,
+                borderColor: '#a58989'
+              }}
+              source={{ uri: item.posterUrl }}
+            />
           </View>
         </LinearGradient>
       </ImageBackground>
@@ -98,16 +120,16 @@ const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
   )
 })
 
-const styles = StyleSheet.create({
-  image: {
-    height: HEIGHT / 4 - 4 * ITEM_PADDING,
-    width: ITEM_WIDTH / 3,
-    marginVertical: 2 * ITEM_PADDING,
-    marginRight: 4 * ITEM_PADDING,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#a58989'
-  }
-})
+// const styles = StyleSheet.create({
+//   image: {
+//     height: HEIGHT / 4 - 4 * ITEM_PADDING,
+//     width: ITEM_WIDTH / 3,
+//     marginVertical: 2 * ITEM_PADDING,
+//     marginRight: 4 * ITEM_PADDING,
+//     borderRadius: 4,
+//     borderWidth: 1,
+//     borderColor: '#a58989'
+//   }
+// })
 
 export default Item

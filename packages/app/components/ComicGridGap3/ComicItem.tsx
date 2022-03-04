@@ -33,18 +33,18 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
         }}
         borderWidth={1}
         borderColor={'#c0d4f1'}
-        w={125}
-        height={208}
+        w={[125, 125, 150, 175, 220]}
+        height={[220, 208, 260, 320]}
         rounded="sm"
-        // ml={1}
-        // mr={1}
+        m={[1, 1, 2]}
       >
         <Center justifyContent={'center'} h={49}>
           {props.loading ? (
             <Text
               numberOfLines={2}
               textAlign="center"
-              fontSize={12}
+              fontSize={[12, 13, 13, 14, 16]}
+              fontWeight={'600'}
               color={'$light.textPrimary'}
               _dark={{
                 color: '$dark.textPrimary'
@@ -70,15 +70,24 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
             // }}
             alt="Alternate Text"
             // size="xl"
-            w={114}
-            h={152}
-            mt={1}
-            ml={1}
-            mr={1}
+            // w={114}
+            w={[125, 150, 150, 175, 220]}
+            height={[152, 180, 180, 210, 270]}
+            // h={152}
+            // mt={[1]}
+            // ml={1}
+            // mr={1}
             rounded={'sm'}
           />
         ) : (
-          <Skeleton w={114} h={152} mt={1} ml={1} mr={1} rounded={'sm'} />
+          <Skeleton
+            w={[125, 150, 150, 175, 220]}
+            height={[152, 180, 180, 210, 270]}
+            // mt={1}
+            // ml={1}
+            // mr={1}
+            rounded={'sm'}
+          />
         )}
       </VStack>
     </NextLink>

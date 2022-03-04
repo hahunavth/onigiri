@@ -25,9 +25,10 @@ import Animated, {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated'
-import DetailList, { RoundView } from 'app/components/CollapseHeader/DetailList'
-import ChapterList from 'app/components/CollapseHeader/ChapterList'
-import { ListHeader } from 'app/components/ListHeader'
+import DetailList from 'app/components/CollapseHeader/DetailList'
+import RoundView from 'app/components/CollapseHeader/RoundView'
+import ChapterList from 'app/components/CollapseHeader/ChapterList.web'
+import { ListHeader } from 'app/components/ListHeader/index'
 import { NavBar } from 'app/components/NavBar.web'
 import { LinearGradient as LG } from 'expo-linear-gradient'
 import { AntDesign } from '@expo/vector-icons'
@@ -59,114 +60,190 @@ function ComicDetail() {
           bio={`Rating ${data?.rate}`}
           photo={data?.posterUrl || ''}
         />
-      </View>
-      {/* Detail info */}
+        {/* Detail info */}
 
-      <Center>
-        <View>
-          <HStack>
-            <View w={'1/3'}>
-              <RoundView
-                style={{
-                  backgroundColor: '$light.backgroundPrimary'
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 18,
-                    // fontFamily: QFontFamily.Quicksand_700Bold,
-                    marginBottom: 8
-                  }}
-                >
-                  Genre
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap'
-                  }}
-                >
-                  {data?.kind?.map((kind) => (
-                    <Button
-                      key={kind}
-                      style={{ margin: 4 }}
-                      size={'xs'}
-                      variant={'subtle'}
-                      colorScheme={'danger'}
-                      onPress={
-                        () => {}
-                        // navigate('genres', {
-                        //   genresName: kind
-                        // })
-                      }
+        <Center>
+          <View w={['full', '5/6', '4/5', '4/5']}>
+            <HStack direction={['column', 'row']}>
+              <View w={['full', '2/5']}>
+                {/* Genres */}
+                <RoundView>
+                  {/* <Text
+                    fontSize={[18, 20]}
+                    fontWeight={'500'}
+                    style={{
+                      marginBottom: 4,
+                      fontFamily: 'Quicksand'
+                    }}
+                  >
+                    Genres
+                  </Text> */}
+                  <ListHeader name="Genres" color="Blue" />
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap'
+                    }}
+                  >
+                    {data?.kind?.map((kind) => (
+                      <Button
+                        _text={{
+                          fontFamily: 'Quicksand',
+                          fontSize: [13, 14, 15]
+                        }}
+                        key={kind}
+                        style={{ margin: 4 }}
+                        size={'xs'}
+                        p={1}
+                        variant={'subtle'}
+                        colorScheme={'danger'}
+                        onPress={
+                          () => {}
+                          // navigate('genres', {
+                          //   genresName: kind
+                          // })
+                        }
+                      >
+                        {kind}
+                      </Button>
+                    ))}
+                  </View>
+                </RoundView>
+
+                {/* Detail */}
+                <RoundView>
+                  <Text
+                    fontSize={[18, 20]}
+                    fontWeight={'500'}
+                    style={{
+                      marginBottom: 4,
+                      fontFamily: 'Quicksand'
+                    }}
+                  >
+                    Detail
+                  </Text>
+                  <Text
+                    style={{
+                      // color: '#ccc',
+                      fontFamily: 'Quicksand'
+                    }}
+                    fontSize={[14, 15, 16]}
+                    fontWeight={500}
+                  >
+                    {data?.detail}
+                  </Text>
+                </RoundView>
+
+                {/* Info */}
+                <RoundView>
+                  <Text
+                    fontSize={[18, 20]}
+                    fontWeight={'500'}
+                    style={{
+                      marginBottom: 4,
+                      fontFamily: 'Quicksand'
+                    }}
+                  >
+                    Complete info
+                  </Text>
+                  <View style={{ paddingLeft: 4 }}>
+                    <Text
+                      style={{
+                        color: '#ccc',
+                        fontFamily: 'Quicksand'
+                      }}
+                      fontSize={[13, 14, 15]}
+                      fontWeight={600}
                     >
-                      {kind}
-                    </Button>
-                  ))}
-                </View>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    // fontFamily: QFontFamily.Quicksand_700Bold,
-                    marginBottom: 8
-                  }}
-                >
-                  Complete info
-                </Text>
-                <View style={{ paddingLeft: 4 }}>
-                  <Text style={{ color: '#ccc', fontSize: 11 }}>Author:</Text>
+                      Author:
+                    </Text>
 
-                  <Text
-                    style={{
-                      fontSize: 14
-                      // fontFamily: QFontFamily.Quicksand_600SemiBold
-                    }}
-                  >
-                    {data?.author}
-                  </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontFamily: 'Quicksand',
+                        fontWeight: '500'
+                        // fontFamily: QFontFamily.Quicksand_600SemiBold
+                      }}
+                    >
+                      {data?.author}
+                    </Text>
 
-                  <Text style={{ color: '#ccc', fontSize: 11 }}>Status:</Text>
-                  <Text
-                    style={{
-                      fontSize: 14
-                      // fontFamily: QFontFamily.Quicksand_600SemiBold
-                    }}
-                  >
-                    {data?.status}
-                  </Text>
-                  <Text style={{ color: '#ccc', fontSize: 11 }}>Rating:</Text>
-                  <Text
-                    style={{
-                      fontSize: 14
-                      // fontFamily: QFontFamily.Quicksand_600SemiBold
-                    }}
-                  >
-                    {data?.rate}
-                  </Text>
-                  <Text style={{ color: '#ccc', fontSize: 11 }}>
-                    Followers:
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 14
-                      // fontFamily: QFontFamily.Quicksand_600SemiBold
-                    }}
-                  >
-                    {data?.info}
-                  </Text>
-                </View>
-              </RoundView>
-            </View>
+                    <Text
+                      style={{
+                        color: '#ccc',
+                        fontFamily: 'Quicksand'
+                      }}
+                      fontSize={[13, 14, 15]}
+                      fontWeight={600}
+                    >
+                      Status:
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontFamily: 'Quicksand',
+                        fontWeight: '500'
+                        // fontFamily: QFontFamily.Quicksand_600SemiBold
+                      }}
+                    >
+                      {data?.status}
+                    </Text>
+                    <Text
+                      style={{
+                        color: '#ccc',
+                        fontFamily: 'Quicksand'
+                      }}
+                      fontSize={[13, 14, 15]}
+                      fontWeight={600}
+                    >
+                      Rating:
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontFamily: 'Quicksand',
+                        fontWeight: '500'
+                        // fontFamily: QFontFamily.Quicksand_600SemiBold
+                      }}
+                    >
+                      {data?.rate}
+                    </Text>
+                    <Text
+                      style={{
+                        color: '#ccc',
+                        fontFamily: 'Quicksand'
+                      }}
+                      fontSize={[13, 14, 15]}
+                      fontWeight={600}
+                    >
+                      Followers:
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontFamily: 'Quicksand',
+                        fontWeight: '500'
+                        // fontFamily: QFontFamily.Quicksand_600SemiBold
+                      }}
+                    >
+                      {data?.info}
+                    </Text>
+                  </View>
+                </RoundView>
+              </View>
 
-            <ChapterList
+              {/* <ChapterList
               data={data?.chapters}
               initialNumToRender={8}
               maxToRenderPerBatch={10}
               windowSize={10}
-            />
-          </HStack>
-        </View>
-      </Center>
+            /> */}
+              <ChapterList comic={data} />
+            </HStack>
+          </View>
+        </Center>
+      </View>
     </>
   )
 
