@@ -95,7 +95,8 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-flipper": "^2.0.1",
     "redux-persist": "^6.0.0",
-    "reselect": "^4.1.5"
+    "reselect": "^4.1.5",
+    "eas-cli": "^0.47.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
@@ -108,7 +109,6 @@
     "@types/redux-persist": "^4.3.1",
     "@types/reselect": "^2.2.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
-    "eas-cli": "^0.47.0",
     "next-compose-plugins": "^2.2.1",
     "typescript": "^4.3.4"
   },

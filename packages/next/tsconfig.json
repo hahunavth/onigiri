@@ -15,15 +15,17 @@
     // "strict": false,
     "target": "esnext",
     "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
+    // "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "module": "esnext",
     "isolatedModules": true,
     // "strict": true,
-    // "types": [
-    //   "node"
-    // ],
-    // "incremental": true
+    "types": [
+      "node"
+    ],
+    "incremental": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "next-env.d.ts",
