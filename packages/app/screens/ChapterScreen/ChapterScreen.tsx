@@ -22,15 +22,15 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import useUpdateCurrentChapter from '../../hooks/useUpdateCurrentChapter'
 import useInteraction from '../../hooks/useInteraction'
 import ChapterViewListScreen from './ChapterViewListScreen'
-import ChapterScreenContext, { ChapterContext } from './ChapterScreenContext'
+import ChapterContextProvider, { ChapterContext } from './ChapterContext'
 import BottomSheet from '@gorhom/bottom-sheet'
 import { FontAwesome } from '@expo/vector-icons'
 
 export function ChapterScreen(props: ChapterScreenProps) {
   return (
-    <ChapterScreenContext>
+    <ChapterContextProvider>
       <ChapterScreenNode {...props} />
-    </ChapterScreenContext>
+    </ChapterContextProvider>
   )
 }
 

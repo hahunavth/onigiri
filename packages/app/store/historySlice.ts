@@ -7,7 +7,7 @@ import {
 } from 'app/types'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from './store'
-import { addMultipleImgs } from '../utils/imgManager'
+import { addMultipleImgs, deleteChapter } from '../utils/imgManager'
 import { createSelector } from 'reselect'
 
 // ANCHOR: TYPE DEFINITION
@@ -262,6 +262,29 @@ const historySlice = createSlice({
       }
     },
 
+    unSubscribeComic: (state, action: PayloadAction<string>) => {
+      const comicPath = action.payload
+
+      const resultPath = state.subscribeComics.find(
+        (path) => path === comicPath
+      )
+
+      if (resultPath) {
+        // Unsubscribe
+        state.subscribeComics = state.subscribeComics.filter(
+          (path) => path !== resultPath
+        )
+        // Delete if dont need
+        const readComicPath = state.readComics.find(
+          (path) => path === resultPath
+        )
+
+        if (!readComicPath && !state.comics[comicPath]?.downloadCount) {
+          delete state.comics[comicPath]
+        }
+      }
+    },
+
     /**
      * Save 1 downloaded chapter
      * Note: use pushComic before dispatch this reducer
@@ -326,6 +349,11 @@ const historySlice = createSlice({
         }
       }
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(downloadComicThunk.fulfilled, (state, action) => {
+      console.log(action.payload)
+    })
   }
 })
 
@@ -340,9 +368,11 @@ export const downloadComicThunk = createAsyncThunk(
   ) => {
     try {
       const state = getState()
+      // let isComicErr = false
+      let cptPathErrList: string[] = []
       dispatch(historyAction.pushComic(props.comic))
-
-      for (let path of props.chapterPaths) {
+      // Get chapter in loop
+      for await (let path of props.chapterPaths) {
         console.log(`https://hahunavth-express-api.herokuapp.com/api/v1${path}`)
 
         const { data } = await axios.get(
@@ -356,13 +386,24 @@ export const downloadComicThunk = createAsyncThunk(
             props.comic.path,
             result.data.path
           )
-          dispatch(
-            historyAction.pushDownloadChapter({
-              comic: props.comic,
-              chapter: result.data
+            .then(() => {
+              dispatch(
+                historyAction.pushDownloadChapter({
+                  comic: props.comic,
+                  chapter: result.data
+                })
+              )
             })
-          )
+            .catch((e) => {
+              cptPathErrList.push(result.data.path)
+              //  REMOVE CHAPTER IN MEMORY
+              deleteChapter(props.comic.path, result.data.path)
+            })
         }
+      }
+      return {
+        isCptErr: cptPathErrList.length === props.chapterPaths.length,
+        cptPathErrList
       }
     } catch (error) {
       console.log(error)

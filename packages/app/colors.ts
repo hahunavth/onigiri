@@ -1,5 +1,6 @@
 export const colors = {
   $light: {
+    backgroundWeb: '#eee',
     textPrimary: '#4a2702',
     textSecondary: '#865328',
     textInfo: '#d0763c',

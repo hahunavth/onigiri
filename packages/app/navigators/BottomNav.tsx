@@ -15,7 +15,7 @@ import {
   MainTestScreen
 } from 'app/screens'
 
-type BottomNavParamsList = {
+export type BottomNavParamsList = {
   'main/home': undefined
   'main/library': undefined
   'main/discover': undefined

@@ -54,3 +54,9 @@ export default function App() {
     </NavigationContainer>
   )
 }
+
+/**
+ * TODO:
+ *  expo-task-manager setup for ios
+ *
+ */

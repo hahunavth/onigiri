@@ -19,7 +19,7 @@ import Animated from 'react-native-reanimated'
 import { navigate } from 'app/navigators/index'
 import { useColorModeStyle } from '../../hooks/useColorModeStyle'
 import { resComicDetailChapterItem_T } from '../../types'
-import { ChapterContext } from './ChapterScreenContext'
+import { ChapterContext } from './ChapterContext'
 interface Props {
   style?: ViewStyle
   onCommentClick?: () => void

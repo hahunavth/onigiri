@@ -5,11 +5,11 @@ import {
   ImageBackground,
   ImageProps,
   StyleSheet,
-  Text,
-  View,
   ViewProps,
-  useWindowDimensions
+  useWindowDimensions,
+  Platform
 } from 'react-native'
+import { View, Factory, Text } from 'native-base'
 import { LinearGradient } from 'expo-linear-gradient'
 import { AntDesign } from '@expo/vector-icons'
 import { SharedElement } from 'react-navigation-shared-element'
@@ -42,10 +42,11 @@ type Props2 = Pick<ViewProps, 'style'> & {
   name: string
   bio: string
 }
-
+const FLG = Factory(LinearGradient)
 const AnimatedImageBackground =
   Animated.createAnimatedComponent(ImageBackground)
-const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
+// const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
+const AnimatedLinearGradient = Animated.createAnimatedComponent(FLG)
 
 const { height } = Dimensions.get('screen')
 
@@ -65,8 +66,26 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
   // })
 
   const opacityStyle1 = useAnimatedStyle(() => {
+    // // STUB: FIX: Type error, viewRef.current._component.setNativeProps is not a function in animated linear gradient
+    // if (Platform.OS === 'web') {
+    //   return {
+    //     flex: 1,
+    //     flexDirection: 'row',
+    //     alignItems: 'flex-end',
+    //     padding: 12,
+    //     opacity: 0.5
+    //   }
+    // }
+    // if(Platform.OS === 'android' || Platform.OS === 'ios')
     return {
-      opacity: withTiming(offset.value)
+      opacity: withTiming(offset.value),
+      flex: 1,
+      // justifyContent: "flex-end",
+      // alignItems: "flex-start",
+      flexDirection: 'row',
+      // backgroundColor: "white",
+      alignItems: 'flex-end',
+      padding: 12
     }
   })
   const opacityStyle2 = useAnimatedStyle(() => {
@@ -103,38 +122,27 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
         colors={['#000000d8', '#00000042', '#77777747']}
         start={{ x: 0, y: 1.1 }}
         end={{ x: 0, y: 0 }}
-        style={[
-          {
-            flex: 1,
-            // justifyContent: "flex-end",
-            // alignItems: "flex-start",
-            flexDirection: 'row',
-            // backgroundColor: "white",
-            alignItems: 'flex-end',
-            padding: 12
-          },
-          opacityStyle1
-        ]}
+        style={[opacityStyle1]}
       >
         <View style={styles.textContainer}>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.bio}>{bio}</Text>
         </View>
-        <SharedElement id={`item.${photo}.photo`}>
-          <Image
-            source={photoSource}
-            width={100}
-            height={100}
-            style={{
-              width: 130,
-              height: 180,
-              borderRadius: 10,
-              borderWidth: 3,
-              borderColor: '#333',
-              opacity: 1
-            }}
-          />
-        </SharedElement>
+        {/* <SharedElement id={`item.${photo}.photo`}> */}
+        <Image
+          source={photoSource}
+          width={100}
+          height={100}
+          style={{
+            width: 130,
+            height: 180,
+            borderRadius: 10,
+            borderWidth: 3,
+            borderColor: '#333',
+            opacity: 1
+          }}
+        />
+        {/* </SharedElement> */}
       </AnimatedLinearGradient>
     </View>
   )

@@ -1,15 +1,23 @@
-import { HistoryComicT, historySelector } from 'app/store/historySlice'
-import { useAppSelector } from 'app/store/hooks'
+import {
+  historyAction,
+  HistoryComicT,
+  historySelector
+} from 'app/store/historySlice'
+import { useAppDispatch, useAppSelector } from 'app/store/hooks'
 // import { Layout } from "@ui-kitten/components";
 import React from 'react'
 import { Text, Image } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { View } from 'native-base'
 import LibraryList from './LibraryList'
+import { LibraryContext } from './LibraryContext'
 interface Props {}
 
 export const SubscribeTab = (props: Props) => {
   const history = useAppSelector(historySelector)
+  const dispatch = useAppDispatch()
+  const { showModal } = React.useContext(LibraryContext)
+
   // console.log(history.comics);
   return (
     <View style={{ flex: 1 }}>
@@ -42,6 +50,12 @@ export const SubscribeTab = (props: Props) => {
             .map((path) => history.comics[path])
             .filter((a) => a) as HistoryComicT[]) || []
         }
+        onLongPress={(comic) => {
+          showModal &&
+            showModal(true, comic.path, () => (path) => {
+              dispatch(historyAction.unSubscribeComic(comic.path))
+            })
+        }}
       />
     </View>
   )

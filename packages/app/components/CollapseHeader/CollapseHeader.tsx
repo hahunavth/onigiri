@@ -150,7 +150,12 @@ export const CollapseHeader = (props: Props) => {
   // -> Fix shared animation transition
   const [predefinePosterImage, setPredefinePosterImage] = React.useState(0)
   React.useEffect(() => {
-    InteractionManager.runAfterInteractions(() => setPredefinePosterImage(1))
+    const interaction = InteractionManager.runAfterInteractions(() =>
+      setPredefinePosterImage(1)
+    )
+    return () => {
+      interaction.cancel()
+    }
   }, [])
   const newTranslateY = useDerivedValue(() => {
     return predefinePosterImage && translateY.value

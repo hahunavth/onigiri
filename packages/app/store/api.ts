@@ -28,6 +28,11 @@ export const comicApi = createApi({
         return `/hot?page=${page}`
       }
     }),
+    getTopWeekByPage: builder.query<ApiResponse_T<resComicItem_T[]>, string>({
+      query: (page) => {
+        return `/find?genres=&notgenres=&gender=-1&status=-1&minchapter=1&sort=12&page=${page}`
+      }
+    }),
     getHotByPage: builder.query<ApiResponse_T<resComicItem_T[]>, string>({
       query: (page) => {
         console.log('🚀🚀🚀 ~api.ts`', `/hot?page=${page}`)
@@ -87,6 +92,7 @@ export const comicApi = createApi({
 
 export const useApiRecently = comicApi.endpoints.getRecentlyByPage.useQuery
 export const useApiTopMonth = comicApi.endpoints.getTopMonthByPage.useQuery
+export const useApiTopWeek = comicApi.endpoints.getTopWeekByPage.useQuery
 
 export const useApiHot = comicApi.endpoints.getHotByPage.useQuery
 

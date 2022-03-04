@@ -21,7 +21,7 @@ import { ScaledImage } from '../../components/ScaledImage'
 import { AntDesign } from '@expo/vector-icons'
 import ChapterFooterBtn from '../../components/ChapterFooterBtn'
 import PinchWrapper from '../../components/PinchWrapper'
-import { ChapterContext } from './ChapterScreenContext'
+import { ChapterContext } from './ChapterContext'
 import { useAppSelector } from '../../store/hooks'
 import { homeSelector } from '../../store/homeSlice'
 

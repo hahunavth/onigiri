@@ -1402,6 +1402,11 @@
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.4.tgz#19bf0f5af19149111c40d98bb0cf82119f5d9eeb"
   integrity sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==
 
+"@expo-google-fonts/quicksand@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/quicksand/-/quicksand-0.2.2.tgz#44f9ebd4f6d256dd6413f95d4e2df6200016e57c"
+  integrity sha512-lK4KzY5dxKm+Vfvfcgiu41u7A39s7PJak0/bcmrCUTNUrz+ke80R3L98c6nbRCrSXD6ZOUmht12aJv2+zgglZg==
+
 "@expo/apple-utils@0.0.0-alpha.27":
   version "0.0.0-alpha.27"
   resolved "https://registry.yarnpkg.com/@expo/apple-utils/-/apple-utils-0.0.0-alpha.27.tgz#5b77cd4522d19fa75a7801071c49da04b9162cd7"
@@ -6508,6 +6513,16 @@ expo-structured-headers@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/expo-structured-headers/-/expo-structured-headers-2.0.0.tgz#a30a370ad9f7bb65a03d81cadc2a0c88e038349d"
   integrity sha512-pCMjCNpVX8rTD0gwfa29ShUY2++4yxCXodvMWwQonvDtunp2UC3PlvGo82oBBOqsV0yKPN2rMO43tOYSH6lW0Q==
+
+expo-task-manager@~10.0.3:
+  version "10.0.3"
+  resolved "https://registry.yarnpkg.com/expo-task-manager/-/expo-task-manager-10.0.3.tgz#06bd46f41841b2208794154994ca1639f069f7a9"
+  integrity sha512-KZT2bMsmOec+NR10OuAeVlw17BScz5nB4ah9T7FYdK/0pGUxs1M40Szi2GqMAsV0jit1/ZJMwNbneOUT6hyZ1A==
+  dependencies:
+    "@expo/config-plugins" "^4.0.2"
+    expo-modules-core "~0.4.4"
+    unimodules-app-loader "~3.0.0"
+    unimodules-task-manager-interface "7.0.3"
 
 expo-updates-interface@~0.4.0:
   version "0.4.0"
@@ -12887,7 +12902,12 @@ unicode-property-aliases-ecmascript@^1.0.4:
   resolved "https://registry.yarnpkg.com/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-1.1.0.tgz#dd57a99f6207bedff4628abefb94c50db941c8f4"
   integrity sha512-PqSoPh/pWetQ2phoj5RLiaqIk4kCNwoV3CI+LfGmWLKI3rE3kl1h59XpX2BjgDrmbxD9ARtQobPGU1SguCYuQg==
 
-unimodules-task-manager-interface@~7.0.3:
+unimodules-app-loader@~3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/unimodules-app-loader/-/unimodules-app-loader-3.0.1.tgz#bed09a10c98c0f769002365a5d9de7da9b41f9d6"
+  integrity sha512-iyE7Nx6XNgDjJQ92S3GiZhUiWYO2BrF2ETQq9yhpJ9FkE7yxlenNx+HE21yrSzGEkW48hqHfG1+2kk3hnNa9aQ==
+
+unimodules-task-manager-interface@7.0.3, unimodules-task-manager-interface@~7.0.3:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/unimodules-task-manager-interface/-/unimodules-task-manager-interface-7.0.3.tgz#4c65d5bb040947ae4f19fb00888b8e2cce3efbfe"
   integrity sha512-+dtanGOuFk63tMBKVZuQ3HHxFbhQnToOLgF7UeHKrJf00Nkwt14T9ID57AZMeukUEolvifjVhng97L87gTGq0g==

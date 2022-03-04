@@ -12,7 +12,9 @@ import {
   Text,
   HStack,
   Link,
-  Button
+  Button,
+  Switch,
+  View
 } from 'native-base'
 
 type Props = {}
@@ -23,7 +25,8 @@ export const NavBar = (props: Props) => {
       // FIXME: position relative not working
       style: {
         position: 'fixed',
-        top: 0
+        top: 0,
+        bg: '#0000005a'
       }
     }
   }, [])
@@ -32,7 +35,7 @@ export const NavBar = (props: Props) => {
     return {
       flex: 1,
       flexDirection: 'row',
-      backgroundColor: 'transparent'
+      backgroundColor: '#transparent'
     }
   }, [])
 
@@ -51,7 +54,7 @@ export const NavBar = (props: Props) => {
         // @ts-ignore
         _web={NavBarContainerStyle}
       >
-        <BlurView intensity={50} tint="default" style={BlurViewStyle}>
+        <BlurView intensity={40} tint="default" style={BlurViewStyle}>
           <Container
             flexDirection={'row'}
             justifyContent={''}
@@ -66,7 +69,12 @@ export const NavBar = (props: Props) => {
               direction="row"
             >
               <HStack alignItems={'center'}>
-                <Text color={'cyan.700'} fontSize={42}>
+                <Text
+                  color={'cyan.700'}
+                  fontSize={42}
+                  fontFamily={'Quicksand'}
+                  fontWeight={600}
+                >
                   Logo
                 </Text>
                 <HStack pl={10}>
@@ -111,14 +119,18 @@ export const NavBar = (props: Props) => {
                   </Link>
                 </HStack>
               </HStack>
-              <Button>fff</Button>
+              <HStack space={2}>
+                <Button>Login</Button>
+                <Switch my={'auto'} />
+              </HStack>
             </Flex>
           </Container>
         </BlurView>
       </Center>
+      {/* <View mb={63} w={'full'}></View> */}
       {/* after */}
       {/* <ThemedBox level={3} h={20}></ThemedBox> */}
-      <MotiView
+      {/* <MotiView
         from={{
           opacity: 0,
           scale: 0.5
@@ -133,7 +145,7 @@ export const NavBar = (props: Props) => {
           duration: 10000
         }}
         style={{ width: 19, height: 20, backgroundColor: 'red' }}
-      />
+      /> */}
     </>
   )
 }

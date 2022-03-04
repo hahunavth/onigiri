@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks'
 import { NextLink } from '../../components/NextLink'
 import LibraryList from './LibraryList'
 import { navigate } from '../../navigators'
+import { LibraryContext } from './LibraryContext'
 
 interface Props {}
 
@@ -13,6 +14,8 @@ export const DownloadTab = (props: Props) => {
   const dispatch = useAppDispatch()
   const { comics, downloadComics, downloadCpt } =
     useAppSelector(historySelector)
+
+  const { showModal } = React.useContext(LibraryContext)
 
   return (
     <View style={{ flex: 1 }}>
@@ -48,6 +51,12 @@ export const DownloadTab = (props: Props) => {
             path: comic.path || ''
           })
         }
+        onLongPress={(comic) => {
+          showModal &&
+            showModal(true, comic.path, () => (path) => {
+              console.log('test remove downloaded chapter ' + path)
+            })
+        }}
       />
     </View>
   )

@@ -111,6 +111,7 @@ export function SelectDownloadChapter(props: SelectDownloadChapterProps) {
   }, [isProcessing])
 
   React.useEffect(() => {
+    let isMounted = true
     if (isDownloading) {
       dispatch(
         downloadComicThunk({
@@ -118,11 +119,16 @@ export function SelectDownloadChapter(props: SelectDownloadChapterProps) {
           chapterPaths: selectChapterList
             .filter((item) => item.status === 't')
             .map((item) => item.path)
+            .filter((s) => s) as string[]
         })
       ).then(() => {
         // console.log('DONE'
-        setIsDownloading(false)
+        if (isMounted) setIsDownloading(false)
       })
+    }
+
+    return () => {
+      isMounted = false
     }
   }, [isDownloading])
 
@@ -147,7 +153,7 @@ export function SelectDownloadChapter(props: SelectDownloadChapterProps) {
         ></SelectableBadge>
       )
     },
-    [downloadComics[comic?.path], comics[comic?.path]?.downloadCount]
+    [downloadComics, comics[comic?.path]?.downloadCount]
   )
 
   return (

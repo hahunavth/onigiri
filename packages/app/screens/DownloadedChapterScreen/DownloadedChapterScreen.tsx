@@ -26,33 +26,19 @@ const chpaterPath =
 export const DownloadedChapterScreen = (props: Props) => {
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([])
 
-  const { data } = useApiComicDetail(
-    '/truyen-tranh/monster-ga-afureru-sekai-ni-natta-node-suki-ni-ikitai-to-omoimasu-25132'
-  )
-  const dispatch = useAppDispatch()
+  // const { data } = useApiComicDetail(
+  //   '/truyen-tranh/monster-ga-afureru-sekai-ni-natta-node-suki-ni-ikitai-to-omoimasu-25132'
+  // )
+  // const dispatch = useAppDispatch()
   const history = useAppSelector(historySelector)
-
-  React.useEffect(() => {
-    // console.log(data)
-    // if (data)
-    //   dispatch(
-    //     downloadComicThunk({
-    //       comic: data,
-    //       chapterPaths: [
-    //         '/truyen-tranh/monster-ga-afureru-sekai-ni-natta-node-suki-ni-ikitai-to-omoimasu/chap-2/503986'
-    //       ]
-    //     })
-    //   )
-    // deleteAllImgs()
-  }, [data])
 
   React.useEffect(() => {
     let isMounted = true
     ;(async () => {
       const fileUrls = await Promise.all(
-        history.downloadCpt[chpaterPath].images.map((url) => {
+        history?.downloadCpt[chpaterPath]?.images.map((url) => {
           return getSingleImg(url, comicPath, chpaterPath)
-        })
+        }) || []
       )
       // console.log(fileUrls)
       if (isMounted) setImgs(fileUrls.map((uri) => ({ uri: uri, h: 0 })))
@@ -129,12 +115,13 @@ const ComicImage = React.memo(function (
 
         if (isMounted) {
           // setSize({ width: screenWidth, height: imageHeight })
-          props.setImgs((arr) =>
-            arr.map((item, id) => {
-              if (id !== props.id) return item
-              return { ...item, h: imageHeight }
-            })
-          )
+          props.setImgs &&
+            props.setImgs((arr) =>
+              arr.map((item, id) => {
+                if (id !== props.id) return item
+                return { ...item, h: imageHeight }
+              })
+            )
         }
         // console.log(props.id)
       })

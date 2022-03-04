@@ -51,4 +51,4 @@ const LibraryList = ({
   )
 }
 
-export default LibraryList
+export default React.memo(LibraryList)

@@ -8,11 +8,10 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  View,
   ViewStyle,
   Text
 } from 'react-native'
-import { Button } from 'native-base'
+import { Button, View, Box } from 'native-base'
 import Animated, {
   Easing,
   // FadeInDown,
@@ -41,90 +40,93 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
     ({ item }) => (
       <Animated.View>
         {/* <FadeInView style={{ backgroundColor: "transparent" }}> */}
-        <CollapseRoundView detail={item?.detail}></CollapseRoundView>
-        <RoundView>
-          <Text
-            style={{
-              fontSize: 18,
-              // fontFamily: QFontFamily.Quicksand_700Bold,
-              marginBottom: 8
-            }}
-          >
-            Genre
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap'
-            }}
-          >
-            {item?.kind?.map((kind) => (
-              <Button
-                key={kind}
-                style={{ margin: 4 }}
-                size={'xs'}
-                variant={'subtle'}
-                colorScheme={'danger'}
-                onPress={() =>
-                  navigate('genres', {
-                    genresName: kind
-                  })
-                }
+        <Box mx={[0, 12, 24, 32]} my={[0, 2, 4, 5]}>
+          <CollapseRoundView detail={item?.detail}></CollapseRoundView>
+          <RoundView>
+            <Text
+              style={{
+                fontSize: 18,
+                // fontFamily: QFontFamily.Quicksand_700Bold,
+                marginBottom: 8
+              }}
+            >
+              Genre
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap'
+              }}
+            >
+              {item?.kind?.map((kind) => (
+                <Button
+                  key={kind}
+                  style={{ margin: 4 }}
+                  size={'xs'}
+                  variant={'subtle'}
+                  colorScheme={'danger'}
+                  onPress={() =>
+                    navigate('genres', {
+                      genresName: kind
+                    })
+                  }
+                >
+                  {kind}
+                </Button>
+              ))}
+            </View>
+            <Text
+              style={{
+                fontSize: 18,
+                // fontFamily: QFontFamily.Quicksand_700Bold,
+                marginBottom: 8
+              }}
+            >
+              Complete info
+            </Text>
+            <View style={{ paddingLeft: 4 }}>
+              <Text style={{ color: '#ccc', fontSize: 11 }}>Author:</Text>
+
+              <Text
+                style={{
+                  fontSize: 14
+                  // fontFamily: QFontFamily.Quicksand_600SemiBold
+                }}
               >
-                {kind}
-              </Button>
-            ))}
-          </View>
-          <Text
-            style={{
-              fontSize: 18,
-              // fontFamily: QFontFamily.Quicksand_700Bold,
-              marginBottom: 8
-            }}
-          >
-            Complete info
-          </Text>
-          <View style={{ paddingLeft: 4 }}>
-            <Text style={{ color: '#ccc', fontSize: 11 }}>Author:</Text>
+                {item?.author}
+              </Text>
 
-            <Text
-              style={{
-                fontSize: 14
-                // fontFamily: QFontFamily.Quicksand_600SemiBold
-              }}
-            >
-              {item?.author}
-            </Text>
+              <Text style={{ color: '#ccc', fontSize: 11 }}>Status:</Text>
+              <Text
+                style={{
+                  fontSize: 14
+                  // fontFamily: QFontFamily.Quicksand_600SemiBold
+                }}
+              >
+                {item?.status}
+              </Text>
+              <Text style={{ color: '#ccc', fontSize: 11 }}>Rating:</Text>
+              <Text
+                style={{
+                  fontSize: 14
+                  // fontFamily: QFontFamily.Quicksand_600SemiBold
+                }}
+              >
+                {item?.rate}
+              </Text>
+              <Text style={{ color: '#ccc', fontSize: 11 }}>Followers:</Text>
+              <Text
+                style={{
+                  fontSize: 14
+                  // fontFamily: QFontFamily.Quicksand_600SemiBold
+                }}
+              >
+                {item?.info}
+              </Text>
+            </View>
+          </RoundView>
+        </Box>
 
-            <Text style={{ color: '#ccc', fontSize: 11 }}>Status:</Text>
-            <Text
-              style={{
-                fontSize: 14
-                // fontFamily: QFontFamily.Quicksand_600SemiBold
-              }}
-            >
-              {item?.status}
-            </Text>
-            <Text style={{ color: '#ccc', fontSize: 11 }}>Rating:</Text>
-            <Text
-              style={{
-                fontSize: 14
-                // fontFamily: QFontFamily.Quicksand_600SemiBold
-              }}
-            >
-              {item?.rate}
-            </Text>
-            <Text style={{ color: '#ccc', fontSize: 11 }}>Followers:</Text>
-            <Text
-              style={{
-                fontSize: 14
-                // fontFamily: QFontFamily.Quicksand_600SemiBold
-              }}
-            >
-              {item?.info}
-            </Text>
-          </View>
-        </RoundView>
         {/* </FadeInView> */}
       </Animated.View>
     ),
@@ -154,10 +156,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
   })
 
   return (
-    <Animated.View
-      style={[{ flex: 1 }, offsetStyle]}
-      // level={'3'}
-    >
+    <Animated.View style={[{ flex: 1 }, offsetStyle]}>
       {loading ? null : (
         <AnimatedFlatList
           ref={ref}
@@ -183,7 +182,7 @@ export default memo(Details)
 /**
  * Helper component
  */
-const RoundView = ({
+export const RoundView = ({
   children,
   style
 }: {

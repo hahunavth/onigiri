@@ -1,7 +1,9 @@
 import * as FileSystem from 'expo-file-system'
 
-const imgDir = FileSystem.documentDirectory + 'downloads/'
-//
+// NOTE: Safe image in $HOME_DIR/download/$COMIC/$CHAPTER
+const imgDirWithSlash = FileSystem.documentDirectory + 'downloads/'
+
+// NOTE: Encode and decode dir name
 function encodeDirName(path: string) {
   return path
     .replace(/\//g, '%1%')
@@ -18,23 +20,22 @@ function decodeDirName(dirName: string) {
     .replace(/\%4\%/g, '=')
     .replace(/\%5\%/g, '?')
 }
-
 function getComicDir(comicPath: string) {
   const comicDirName = encodeDirName(comicPath)
-  return `${imgDir}${comicDirName}/`
+  return `${imgDirWithSlash}${comicDirName}/`
 }
 function getChapterDir(comicPath: string, chapterPath: string) {
   const comicDirName = encodeDirName(comicPath)
   const chapterDirName = encodeDirName(chapterPath)
 
-  return `${imgDir}${comicDirName}/${chapterDirName}/`
+  return `${imgDirWithSlash}${comicDirName}/${chapterDirName}/`
 }
 
 // const imgFileUri = (imgId: string) => imgDir + `gif_${imgId}_200.gif`
 function imgFileUri(str: string, comicPath: string, chapterPath: string) {
-  const chapterDir = getChapterDir(comicPath, chapterPath)
+  const chapterDirWithSlash = getChapterDir(comicPath, chapterPath)
   return (
-    chapterDir +
+    chapterDirWithSlash +
     str
       .replace('https://hahunavth-express-api.herokuapp.com/api/v1/cors/', '')
       .replace(/\//g, '%1%')
@@ -50,13 +51,13 @@ function imgFileUri(str: string, comicPath: string, chapterPath: string) {
 // see https://developers.giphy.com/docs/api/schema#image-object
 // const imgUrl = (imgId: string) => `${imgId}`
 function imgUrl(str: string, comicPath: string, chapterPath: string) {
-  const chapterDir = getChapterDir(comicPath, chapterPath)
+  const chapterDirWithSlash = getChapterDir(comicPath, chapterPath)
 
   return (
     'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' +
     // 'http' +
     str
-      .replace(chapterDir, '')
+      .replace(chapterDirWithSlash, '')
       .replace(/\%1\%/g, '/')
       .replace(/\%2\%/g, ':')
       .replace(/\%3\%/g, '.')
@@ -71,10 +72,12 @@ function imgUrl(str: string, comicPath: string, chapterPath: string) {
  * Checks if gif directory exists. If not, creates it
  */
 async function ensureDirExists() {
-  const dirInfo = await FileSystem.getInfoAsync(imgDir)
+  const dirInfo = await FileSystem.getInfoAsync(imgDirWithSlash)
   if (!dirInfo.exists) {
     console.log("Download directory doesn't exist, creating...")
-    await FileSystem.makeDirectoryAsync(imgDir, { intermediates: true })
+    await FileSystem.makeDirectoryAsync(imgDirWithSlash, {
+      intermediates: true
+    })
   }
 }
 async function ensureComicDirExists(comicPath: string) {
@@ -167,5 +170,23 @@ export async function getImgContentUri(
  */
 export async function deleteAllImgs() {
   console.log('Deleting all GIF files...')
-  await FileSystem.deleteAsync(imgDir)
+  await FileSystem.deleteAsync(imgDirWithSlash)
+}
+export async function deleteComic(path: string) {
+  try {
+    const comicDirName = getComicDir(path)
+    if (comicDirName) await FileSystem.deleteAsync(comicDirName)
+    console.log('delete comic')
+  } catch (error) {
+    console.log('Delete comic fail', error)
+  }
+}
+export async function deleteChapter(comicPath: string, chapterPath: string) {
+  try {
+    const chapterDirName = getChapterDir(comicPath, chapterPath)
+    if (chapterDirName) await FileSystem.deleteAsync(chapterDirName)
+    console.log('delete chapter')
+  } catch (error) {
+    console.log('Delete chapter fail', error)
+  }
 }

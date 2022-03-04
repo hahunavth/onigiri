@@ -24,6 +24,9 @@ import { colors } from 'app/colors'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { navigationRef } from 'app/navigators'
+import React, { useEffect, useState } from 'react'
+import * as Font from 'expo-font'
+import { Text } from 'react-native'
 
 // NOTE: CONFIG LG IN NEXT.JS
 const config = {
@@ -39,6 +42,11 @@ const theme = extendTheme({
   colors: colors,
   config: {
     initialColorMode: 'light'
+  },
+  fontConfig: {
+    heading: 'Quicksand',
+    body: 'Quicksand',
+    mono: 'Quicksand'
   },
   components: {
     Heading: {
@@ -81,17 +89,28 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }
 
+  // const [loaded, setLoaded] = useState(false)
+
+  // useEffect(() => {
+  //   ;(async () => {
+  //     try {
+  //       await Font.loadAsync({
+  //         // You can get this font on GitHub: https://shorturl.at/chEHS
+  //         Quicksand_regular: require('../../assets/Quicksand-Regular.ttf')
+  //       })
+  //     } catch ({ message }) {
+  //       // This will be called if something is broken
+  //       console.log(`Error loading font: ${message}`)
+  //     } finally {
+  //       setLoaded(true)
+  //     }
+  //   })()
+  // }, [])
+
+  // if (!loaded) return <Text>Loading fonts...</Text>
+
   return (
     <>
-      <Head>
-        <title>Example</title>
-        <meta key="title" name="title" content="Example" />
-        <link rel="shortcut icon" type="image/x-icon" href="/favicon.png" />
-        <meta
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-          name="viewport"
-        />
-      </Head>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <NativeBaseProvider

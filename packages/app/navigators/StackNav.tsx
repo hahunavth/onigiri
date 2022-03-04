@@ -3,6 +3,7 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps
 } from '@react-navigation/native-stack'
+import { NavigatorScreenParams, useNavigation } from '@react-navigation/native'
 
 import {
   NavigationHeader,
@@ -20,10 +21,11 @@ import {
   OfflineChapterScreen,
   OfflineComicScreen,
   GenresList,
-  Genres
+  Genres,
+  HomeSessionDetailListScreen
 } from 'app/screens'
 
-import BottomNav from './BottomNav'
+import BottomNav, { BottomNavParamsList } from './BottomNav'
 import type {
   resComicItem_T,
   resComicDetail_T,
@@ -47,7 +49,7 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
  * @param preloadItem: option in expo
  */
 export type StackNavParamsList = {
-  main: undefined
+  main: NavigatorScreenParams<BottomNavParamsList>
   'comic-detail': {
     path: string
     preloadItem?: Partial<resComicItem_T>
@@ -94,6 +96,9 @@ export type StackNavParamsList = {
   genres: {
     genresName: string
   }
+  'home-session-detail-list': {
+    type: 'recently' | 'hot' | 'week'
+  }
 }
 
 /**
@@ -134,6 +139,10 @@ export type FindByNameResultScreenProps = NativeStackScreenProps<
 export type GenresScreenProps = NativeStackScreenProps<
   StackNavParamsList,
   'genres'
+>
+export type HomeSessionDetailListScreenProps = NativeStackScreenProps<
+  StackNavParamsList,
+  'home-session-detail-list'
 >
 
 /**
@@ -247,6 +256,14 @@ export function StackNav() {
         component={Genres}
       ></Screen>
       <Screen name="genres-list" component={GenresList}></Screen>
+
+      <Screen
+        name="home-session-detail-list"
+        options={(props) => ({
+          title: props.route.params.type.toUpperCase()
+        })}
+        component={HomeSessionDetailListScreen}
+      ></Screen>
 
       <Screen
         name="login"

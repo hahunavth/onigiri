@@ -11,6 +11,9 @@ import { InteractionManager } from 'react-native'
 import { selectDownloadedChapters } from '../../store/historySlice'
 import { ListFooter } from '../../components/ComicListVertical/ListFooter'
 
+/**
+ * FIXME: INFINITY LIST UPDATE NEW PAGE SLOW
+ */
 export const FindResultScreen = (props: FindResultScreenProps) => {
   const { findOption, path } = props.route.params
 
