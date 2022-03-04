@@ -67,7 +67,9 @@ type CollapseTabProps = {
 
 const CollapseTab = (props: CollapseTabProps) => {
   const { renderTabBar, renderFriends, renderSuggestions } = props
-  console.log('object')
+
+  // console.log('object')
+
   const screenOptions = useMemo<MaterialTopTabNavigationOptions>(
     () => ({
       tabBarLabelStyle: {},
@@ -84,12 +86,24 @@ const CollapseTab = (props: CollapseTabProps) => {
         borderWidth: 5,
         borderRadius: 12,
         borderColor: 'transparent'
+
+        // web
+        // margin: 6,
+        // // marginHorizontal: 20,
+        // borderWidth: 0,
+        // height: 25
+        // 'box-sizing': 'border-box'
       },
       tabBarActiveTintColor: 'white',
       tabBarAllowFontScaling: false,
       tabBarInactiveTintColor: 'gray',
       tabBarPressColor: 'transparent',
       lazyPreloadDistance: 2
+      // web
+      // tabBarStyle: {
+      //   // maxWidth: 500,
+      //   paddingHorizontal: 'auto'
+      // }
     }),
     []
   )

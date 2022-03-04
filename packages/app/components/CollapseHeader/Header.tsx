@@ -45,8 +45,8 @@ type Props2 = Pick<ViewProps, 'style'> & {
 const FLG = Factory(LinearGradient)
 const AnimatedImageBackground =
   Animated.createAnimatedComponent(ImageBackground)
-// const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
-const AnimatedLinearGradient = Animated.createAnimatedComponent(FLG)
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
+// const AnimatedLinearGradient = Animated.createAnimatedComponent(FLG)
 
 const { height } = Dimensions.get('screen')
 
@@ -76,7 +76,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
     //     opacity: 0.5
     //   }
     // }
-    // if(Platform.OS === 'android' || Platform.OS === 'ios')
+
     return {
       opacity: withTiming(offset.value),
       flex: 1,

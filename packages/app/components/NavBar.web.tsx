@@ -47,14 +47,14 @@ export const NavBar = (props: Props) => {
         flexDirection={'row'}
         position={'absolute'}
         top={0}
-        zIndex={10}
+        zIndex={100000}
         flex={1}
         left={0}
         right={0}
         // @ts-ignore
         _web={NavBarContainerStyle}
       >
-        <BlurView intensity={40} tint="default" style={BlurViewStyle}>
+        <BlurView intensity={90} tint="dark" style={BlurViewStyle}>
           <Container
             flexDirection={'row'}
             justifyContent={''}
