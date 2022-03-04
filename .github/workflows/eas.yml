@@ -35,4 +35,4 @@ jobs:
           npm i
           fi
       - name: Build on EAS
-        run: cd ./packages/expo && STAGE=production npx eas-cli build --profile production --platform android  --non-interactive
+        run: cd ./packages/expo && STAGE=production npx eas-cli build --profile release --platform android  --non-interactive
