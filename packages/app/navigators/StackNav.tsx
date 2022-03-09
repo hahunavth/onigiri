@@ -42,6 +42,7 @@ import { MotiView } from 'moti'
 import { FindByNameResultScreen } from '../screens/FindByNameResultScreen'
 
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
+import { SharedNav, SharedNavParamList } from './SharedNav'
 
 /**
  * Using common params
@@ -50,6 +51,7 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
  */
 export type StackNavParamsList = {
   main: NavigatorScreenParams<BottomNavParamsList>
+  shared: NavigatorScreenParams<SharedNavParamList>
   'comic-detail': {
     path: string
     preloadItem?: Partial<resComicItem_T>
@@ -92,7 +94,7 @@ export type StackNavParamsList = {
     comicPath: string
     chapterPath: string
   }
-  'genres-list': undefined
+  'genres-comic-list': undefined
   genres: {
     genresName: string
   }
@@ -148,8 +150,7 @@ export type HomeSessionDetailListScreenProps = NativeStackScreenProps<
 /**
  * Export navigation
  */
-const { Navigator, Screen } =
-  createSharedElementStackNavigator<StackNavParamsList>()
+const { Navigator, Screen } = createNativeStackNavigator<StackNavParamsList>()
 
 export function StackNav() {
   const renderHeader = React.useCallback(
@@ -177,11 +178,13 @@ export function StackNav() {
       screenOptions={{
         // NOTE: Configure for native stack
         // header: NavigationHeader
-        // animation: 'slide_from_right'
+        animation: 'fade_from_bottom',
+        animationTypeForReplace: 'pop',
+        statusBarAnimation: 'slide',
         // NOTE: For shaered element stack
-        animationEnabled: true,
-        animationTypeForReplace: 'push',
-        gestureEnabled: false,
+        // animationEnabled: true,
+        // animationTypeForReplace: 'push',
+        // gestureEnabled: false,
         // transitionSpec: {}
         header: renderHeader,
         headerRight: renderRight
@@ -197,22 +200,20 @@ export function StackNav() {
       ></Screen>
 
       <Screen
+        name="shared"
+        component={SharedNav}
+        options={{
+          headerShown: false
+        }}
+      ></Screen>
+
+      <Screen
         name="comic-detail"
         options={{
           title: 'Comic Detail Screen',
           headerShown: false
         }}
         component={ComicDetailScreen}
-        // ANCHOR: SHARED ELEMENT CONFIG
-        sharedElements={(route, otherRoute, showing) => {
-          // Only transition when coming from a specific route
-          // console.log(route.name, otherRoute.name, showing)
-          if (otherRoute.name === 'find-result') {
-            const { preloadItem } = route.params
-            return [`item.${preloadItem?.posterUrl}.photo`]
-          }
-          // return [`${preloadItem?.posterUrl}`];
-        }}
       ></Screen>
 
       <Screen
@@ -255,7 +256,7 @@ export function StackNav() {
         })}
         component={Genres}
       ></Screen>
-      <Screen name="genres-list" component={GenresList}></Screen>
+      <Screen name="genres-comic-list" component={GenresList}></Screen>
 
       <Screen
         name="home-session-detail-list"

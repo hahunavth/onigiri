@@ -53,6 +53,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   // const {} = props.navigation.
   // ANCHOR: ANIMATION
   const offset = useSharedValue(0)
+
   const animatedStyles = useAnimatedStyle(() => {
     return {
       transform: [
@@ -156,6 +157,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     isFetching,
     callback: () => (splashOffset.value = 2)
   })
+
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null)
   // MEMO
@@ -196,6 +198,10 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   const expandSheet = React.useCallback(() => {
     bottomSheetRef.current?.snapToIndex(0)
   }, [])
+
+  useEffect(() => {
+    bottomSheetRef.current?.close()
+  }, [ctxId])
 
   return (
     <>

@@ -19,9 +19,12 @@ export function ComicListItem({ item }: Props) {
     <TouchableOpacity
       onPress={() =>
         item.path &&
-        navigate('comic-detail', { preloadItem: item, path: item.path })
+        navigate('shared', {
+          screen: 'shared/comic-detail',
+          params: { preloadItem: item, path: item.path }
+        })
       }
-      delayPressIn={100}
+      // delayPressIn={100}
     >
       <View
         style={styles.itemContainer}

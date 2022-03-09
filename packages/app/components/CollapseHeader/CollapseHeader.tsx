@@ -83,7 +83,7 @@ export const CollapseHeader = (props: Props) => {
   // )
 
   const prev = usePrevious(props)
-  console.log('CollapseHeader', props === prev)
+  // console.log('CollapseHeader', props === prev)
 
   // Get safe area
   const { top, bottom } = useSafeAreaInsets()
@@ -336,12 +336,14 @@ export const CollapseHeader = (props: Props) => {
     <View style={styles.wrapperContainer}>
       <View style={styles.container}>
         {/* Custom Header Icon */}
-        <CollapseTop
-          comic={props.comic}
-          headerDiff={headerDiff}
-          offline={props.offline}
-          translateY={translateY}
-        />
+        {loading || (
+          <CollapseTop
+            comic={props.comic}
+            headerDiff={headerDiff}
+            offline={props.offline}
+            translateY={translateY}
+          />
+        )}
         <Animated.View
           onLayout={handleHeaderLayout}
           style={headerContainerStyle}

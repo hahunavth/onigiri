@@ -30,7 +30,11 @@ const nextConfig = {
   distDir: 'build',
   images: {
     disableStaticImages: true,
-    domains: ['st.nettruyengo.com', 'example2.com']
+    domains: [
+      'st.nettruyengo.com',
+      'truyentemp.com',
+      'hahunavth-express-api.herokuapp.com'
+    ]
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Important: return the modified config

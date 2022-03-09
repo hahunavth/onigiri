@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
     height: ITEM_PADDING * 4
   },
   pagination: {
-    // borderRadius: 2,
     marginHorizontal: 2,
     width: 10,
     height: 10

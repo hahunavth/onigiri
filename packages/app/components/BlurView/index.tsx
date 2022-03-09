@@ -4,10 +4,12 @@
 import * as React from 'react'
 import { View } from 'react-native'
 
-type BlurProps = {
-  tint: BlurTint
-  intensity: number
-} & React.ComponentProps<typeof View> & { children?: React.ReactNode }
+import { BlurViewProps } from 'expo-blur'
+
+// type BlurProps = {
+//   tint: BlurTint
+//   intensity: number
+// } & React.ComponentProps<typeof View> & { children?: React.ReactNode }
 
 export type BlurTint = 'light' | 'dark' | 'default'
 
@@ -38,7 +40,7 @@ export function BlurView({
   intensity = 50,
   style,
   ...props
-}: BlurProps) {
+}: BlurViewProps) {
   // don't collide this style with other blurs
   // TODO: how should I set this?
   const id = React.useRef(`${Math.random()}`).current
@@ -58,20 +60,23 @@ export function BlurView({
 
 function getBlurStyle(
   id: string,
-  { intensity, tint }: Pick<BlurProps, 'intensity' | 'tint'>
+  { intensity, tint }: Pick<BlurViewProps, 'intensity' | 'tint'>
 ) {
+  const myIntensity = intensity || 0
+  const myTint = tint || 'default'
+
   // https://developer.mozilla.org/en-US/docs/Web/CSS/@supports
   const style = `[data-blur="${id}"] {
-  background-color: ${getBackgroundColor(intensity, tint)};
+  background-color: ${getBackgroundColor(myIntensity, myTint)};
 }
 @supports (backdrop-filter: blur(1px)) {
   [data-blur="${id}"] {
-    backdrop-filter: saturate(180%) blur(${intensity * 0.2}px);
+    backdrop-filter: saturate(180%) blur(${myIntensity * 0.2}px);
   }
 }
 @supports (-webkit-backdrop-filter: blur(1px)) {
   [data-blur="${id}"] {
-    -webkit-backdrop-filter: saturate(180%) blur(${intensity * 0.2}px);
+    -webkit-backdrop-filter: saturate(180%) blur(${myIntensity * 0.2}px);
   }
 }`
   return style

@@ -3,10 +3,12 @@ import { Center, Text, View } from 'native-base'
 import { FlatlistBanner } from 'app/components/Banner'
 import { NavBar } from 'app/components/NavBar.web'
 import { ComicGridGap3 } from 'app/components/ComicGridGap3/index'
-import { useApiHot } from 'app/store/api'
+import { useApiHot, useApiRecently, useApiTopWeek } from 'app/store/api'
 
 export default function Page() {
   const { data } = useApiHot('1')
+  const { data: data2 } = useApiTopWeek('1')
+  const { data: data3 } = useApiRecently('1')
 
   return (
     <View flex={1} bg={'warmGray.100'}>
@@ -30,7 +32,7 @@ export default function Page() {
         </View>
         <Center>
           <Center>
-            <ComicGridGap3 list={data?.data || []} />
+            <ComicGridGap3 list={data2?.data || []} />
           </Center>
         </Center>
         <View mt={4}>
@@ -38,7 +40,7 @@ export default function Page() {
         </View>
 
         <Center>
-          <ComicGridGap3 list={data?.data || []} />
+          <ComicGridGap3 list={data3?.data || []} />
         </Center>
       </View>
     </View>

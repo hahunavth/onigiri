@@ -6,6 +6,7 @@ import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
 // TODO: Use this instead
 import { Dropdown } from 'react-native-element-dropdown'
+import { Picker } from '@react-native-picker/picker'
 
 import {
   FOR_USER,
@@ -68,7 +69,6 @@ export const DiscoverScreen = (props: Props) => {
     }`
     // console.log(selectedForUser)
   }
-
   const getFindOption = (): FindOptionT => ({
     forUser: selectedForUser,
     genres: selectedGenres,
@@ -77,8 +77,17 @@ export const DiscoverScreen = (props: Props) => {
     status: selectedStatus
   })
 
+  // const [selectedLanguage, setSelectedLanguage] = React.useState()
+
   return (
     <View flex={1} p={2}>
+      {/* <Picker
+        selectedValue={selectedLanguage}
+        onValueChange={(itemValue, itemIndex) => setSelectedLanguage(itemValue)}
+      >
+        <Picker.Item label="Java" value="java" />
+        <Picker.Item label="JavaScript" value="js" />
+      </Picker> */}
       <SelectBoxMultiple
         label="Select genres"
         options={GENRES_LIST}
@@ -123,9 +132,13 @@ export const DiscoverScreen = (props: Props) => {
         mx={4}
         my={8}
         onPress={() =>
-          navigate('find-result', {
-            findOption: getFindOption(),
-            path: getFindPath()
+          navigate('shared', {
+            // path: 'shared/find-result',
+            params: {
+              findOption: getFindOption(),
+              path: getFindPath()
+            },
+            screen: 'shared/find-result'
           })
         }
       >

@@ -12,7 +12,7 @@ import {
   ViewStyle,
   InteractionManager
 } from 'react-native'
-import { Button, View, Text, Badge } from 'native-base'
+import { Button, View, Text, Badge, Factory, Box } from 'native-base'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 import Animated, {
   interpolate,
@@ -59,6 +59,7 @@ import ComicDetailBottomBar, { styles } from './ComicDetailBottomBar'
 import CollapseTab from './CollapseTab'
 
 const AnimatedAntDesign = Animated.createAnimatedComponent(AntDesign)
+const AnimatedAntDesign2 = Animated.createAnimatedComponent(AntDesign)
 const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons)
 
 type Props = {
@@ -103,16 +104,6 @@ const CollapseTop = (props: Props) => {
       )
     }
   })
-  const headerIconStyle3 = useAnimatedStyle(() => {
-    return {
-      marginTop: 4,
-      color: interpolateColor(
-        -translateY.value,
-        [0, headerDiff],
-        ['#fff', '#111']
-      )
-    }
-  }, [translateY.value])
 
   return (
     <SafeAreaView style={styles.headerIconContainer}>
@@ -126,21 +117,55 @@ const CollapseTop = (props: Props) => {
           </Badge>
         ) : (
           <TouchableOpacity onPress={handleDownloadClick}>
+            {/* <Animated.View style={headerIconStyle2}>
+              <Box _text={{ color: 'red' }}>
+                <Text> */}
             <AnimatedIonicons
               name="ios-download-outline"
               size={34}
-              color={bs1.backgroundColor}
+              // fontSize={34}
+              // color={bs1.backgroundColor}
               style={headerIconStyle2}
             />
+            {/* </Text>
+              </Box>
+            </Animated.View> */}
           </TouchableOpacity>
         )}
-        <AnimatedAntDesign
-          name="menuunfold"
-          size={30}
-          style={headerIconStyle3}
-        />
+        <Menuunfold headerDiff={headerDiff} translateY={translateY} />
       </View>
     </SafeAreaView>
+  )
+}
+
+/**
+ * Helper component
+ * NOTE: FIX multi useAnimatedStyle
+ */
+type IconAnimatedProps = {
+  translateY: Animated.SharedValue<number>
+  headerDiff: number
+}
+
+function Menuunfold(props: IconAnimatedProps) {
+  const { translateY, headerDiff } = props
+  const trans = useDerivedValue(() => {
+    return -translateY.value
+  })
+  const headerIconStyle3 = useAnimatedStyle(() => {
+    return {
+      marginTop: 4,
+      color: interpolateColor(trans.value, [0, headerDiff], ['#fff', '#111'])
+    }
+  }, [translateY.value])
+
+  return (
+    <AnimatedAntDesign2
+      name="menuunfold"
+      size={30}
+      style={headerIconStyle3}
+      // style={{ color: 'red' }}
+    />
   )
 }
 

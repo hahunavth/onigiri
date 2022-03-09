@@ -128,21 +128,21 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.bio}>{bio}</Text>
         </View>
-        {/* <SharedElement id={`item.${photo}.photo`}> */}
-        <Image
-          source={photoSource}
-          width={100}
-          height={100}
-          style={{
-            width: 130,
-            height: 180,
-            borderRadius: 10,
-            borderWidth: 3,
-            borderColor: '#333',
-            opacity: 1
-          }}
-        />
-        {/* </SharedElement> */}
+        <SharedElement id={`item.${photo}.photo`}>
+          <Image
+            source={photoSource}
+            width={100}
+            height={100}
+            style={{
+              width: 130,
+              height: 180,
+              borderRadius: 10,
+              borderWidth: 3,
+              borderColor: '#333',
+              opacity: 1
+            }}
+          />
+        </SharedElement>
       </AnimatedLinearGradient>
     </View>
   )

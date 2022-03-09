@@ -18,6 +18,9 @@
     "types": [
       "node"
     ],
+
+    // parcel
+    "experimentalDecorators": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "webpack.config.js"],
   "exclude": ["node_modules"],

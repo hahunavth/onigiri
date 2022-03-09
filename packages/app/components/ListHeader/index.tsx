@@ -1,9 +1,9 @@
 import { HStack, VStack, Text, View, Factory } from 'native-base'
-import { comicListProps } from './types'
 import { StyleSheet, TouchableNativeFeedback } from 'react-native'
 import { Entypo } from '@expo/vector-icons'
 
-// TODO: Use common SessionHeader
+import type { comicListProps } from './types'
+
 export const ListHeader = ({
   name,
   onPressMore,
@@ -14,6 +14,7 @@ export const ListHeader = ({
 
   return (
     <HStack
+      shadow={1}
       style={styles.headerContainer}
       _light={{ bg: `$light.background${color}Primary` }}
       _dark={{ bg: `$dark.backgroundPrimary` }}
@@ -36,36 +37,38 @@ export const ListHeader = ({
           {subtitle}
         </Text>
       </VStack>
-      <TouchableNativeFeedback
-        onPress={() => {
-          onPressMore && onPressMore()
-        }}
-        style={styles.btn}
-      >
-        <View flexDirection={`row`}>
-          <Text
-            style={styles.btnText}
-            _light={{ color: `$light.text${color}Secondary` }}
-            _dark={{ color: `$dark.text${color}Secondary` }}
-            fontWeight={`bold`}
-            fontSize={12}
-          >
-            Show more
-          </Text>
-          <NBEntypo
-            name="chevron-right"
-            size={10}
-            color="black"
-            textAlign={`center`}
-            w={6}
-            h={6}
-            _light={{ color: `$light.text${color}Secondary` }}
-            _dark={{ color: `$dark.text${color}Secondary` }}
-            style={styles.btnIcon}
-          />
-          {/* <Icon name="angle-right" style={styles.btnIcon} /> */}
-        </View>
-      </TouchableNativeFeedback>
+      {onPressMore && (
+        <TouchableNativeFeedback
+          onPress={() => {
+            onPressMore()
+          }}
+          style={styles.btn}
+        >
+          <View flexDirection={`row`}>
+            <Text
+              style={styles.btnText}
+              _light={{ color: `$light.text${color}Secondary` }}
+              _dark={{ color: `$dark.text${color}Secondary` }}
+              fontWeight={`bold`}
+              fontSize={12}
+            >
+              Show more
+            </Text>
+            <NBEntypo
+              name="chevron-right"
+              size={10}
+              color="black"
+              textAlign={`center`}
+              w={6}
+              h={6}
+              _light={{ color: `$light.text${color}Secondary` }}
+              _dark={{ color: `$dark.text${color}Secondary` }}
+              style={styles.btnIcon}
+            />
+            {/* <Icon name="angle-right" style={styles.btnIcon} /> */}
+          </View>
+        </TouchableNativeFeedback>
+      )}
     </HStack>
   )
 }
@@ -76,21 +79,15 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderRadius: 4,
     margin: 5
-    // flexDirection: 'row',
-    // alignItems: 'flex-end',
   },
   titleContainer: {
     marginLeft: 4
   },
   title: {
     fontSize: 16
-    // fontFamily: 'Quicksand_600SemiBold',
-    // color: ColorSchemeE['text-basic-color']
   },
   subTitle: {
     fontSize: 12
-    // fontFamily: QFontFamily.Quicksand_500Medium,
-    // color: ColorSchemeE['text-hint-color']
   },
   btn: {
     flexDirection: 'row',
@@ -98,9 +95,6 @@ const styles = StyleSheet.create({
     margin: 10
   },
   btnText: {
-    // fontSize: 10
-    // width: HeaderHeight, height: HeaderHeight,
-    // color: ColorSchemeE['text-hint-color']
     marginTop: 'auto',
     marginBottom: 'auto',
     marginLeft: 12,
@@ -113,6 +107,5 @@ const styles = StyleSheet.create({
     marginBottom: 'auto',
     marginRight: 4,
     opacity: 0.6
-    // color: ColorSchemeE['text-hint-color'],
   }
 })

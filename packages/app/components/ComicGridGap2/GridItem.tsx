@@ -12,11 +12,9 @@ import React from 'react'
 import { TouchableNativeFeedback } from 'react-native'
 import type { resComicItem_T } from '../../types'
 import { NextLink } from '../NextLink'
+import { GridItemProps } from './types'
 
-export const GridItem = (props: {
-  loading?: boolean
-  item?: resComicItem_T
-}) => {
+export const GridItem = (props: GridItemProps) => {
   return (
     <NextLink
       routeName={props.loading ? 'comic-detail' : 'main'}

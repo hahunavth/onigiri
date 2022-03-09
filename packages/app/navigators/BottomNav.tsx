@@ -43,7 +43,9 @@ export default function BottomNav() {
         header: BottomTabNavigationHeader,
         tabBarActiveTintColor: text,
         tabBarActiveBackgroundColor: background,
-        tabBarInactiveBackgroundColor: background
+        tabBarInactiveBackgroundColor: background,
+        tabBarHideOnKeyboard: true
+        // tabBarVisibilityAnimationConfig
       }}
       // detachInactiveScreens={false}
     >

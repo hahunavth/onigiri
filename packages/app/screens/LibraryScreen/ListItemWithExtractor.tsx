@@ -1,13 +1,11 @@
 import {
-  View,
-  Text,
-  FlatList,
   TouchableOpacity,
   Image,
   ImageStyle,
   StyleSheet,
   ListRenderItemInfo
 } from 'react-native'
+import { View, Text } from 'native-base'
 import React from 'react'
 import { HistoryComicT, historySelector } from 'app/store/historySlice'
 import { useAppSelector } from 'app/store/hooks'
@@ -62,22 +60,28 @@ const ListWithExtractor = (param: Param) => {
               >
                 {item.title}
               </Text>
-              <Text style={styles.detailText}>Author: {item.author}</Text>
-              <Text style={styles.detailText}>Status: {item.status}</Text>
+              <Text style={styles.detailText} numberOfLines={1}>
+                Author: {item.author}
+              </Text>
+              <Text style={styles.detailText} numberOfLines={1}>
+                Status: {item.status}
+              </Text>
             </Box>
 
             <View>
               {!!addonFieldExtractor && (
                 <View style={styles.bottomContainer}>
                   <Text style={styles.detailText}>{addonFieldName}</Text>
-                  <Text style={styles.bottomText}>
+                  <Text style={styles.bottomText} numberOfLines={1}>
                     {addonFieldExtractor(item)}
                   </Text>
                 </View>
               )}
               <View style={styles.bottomContainer}>
                 <Text style={styles.detailText}>Lasted chapter:</Text>
-                <Text style={styles.bottomText}>{item.chapters[0].name}</Text>
+                <Text style={styles.bottomText} numberOfLines={1}>
+                  {item.chapters[0].name}
+                </Text>
               </View>
             </View>
           </View>
@@ -110,7 +114,8 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   detailText: {
-    fontSize: 13
+    fontSize: 13,
+    paddingRight: 8
   },
   bottomContainer: {
     flexDirection: 'row',

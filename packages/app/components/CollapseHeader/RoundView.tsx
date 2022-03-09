@@ -26,14 +26,9 @@ import { LinearGradient } from 'expo-linear-gradient'
 import FadeInView from '../FadeInView'
 import useInteraction from '../../hooks/useInteraction'
 import { navigate } from '../../navigators'
+import { RoundViewProps } from './types'
 
-export const RoundView = ({
-  children,
-  style
-}: {
-  children?: React.ReactNode
-  style?: ViewStyle
-}) => {
+const RoundView = ({ children, style }: RoundViewProps) => {
   return (
     <View
       // level={'1'}
@@ -51,4 +46,5 @@ export const RoundView = ({
     </View>
   )
 }
+
 export default RoundView

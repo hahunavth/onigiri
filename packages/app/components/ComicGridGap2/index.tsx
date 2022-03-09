@@ -1,9 +1,12 @@
 import { Center, HStack } from 'native-base'
 import React from 'react'
 import { GridItem } from './GridItem'
-import { resComicItem_T } from '../../types'
 
-export const ComicGridGap2 = (props: { list: resComicItem_T[] }) => {
+import type { ComicGridGap2Props } from './types'
+
+export * from './types'
+
+export const ComicGridGap2 = (props: ComicGridGap2Props) => {
   const loading = props.list && props.list.length > 6
   return (
     <Center>

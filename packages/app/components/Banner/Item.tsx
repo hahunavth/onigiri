@@ -1,5 +1,4 @@
-import { resComicItem_T } from 'app/types/api'
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import {
   Image,
   ImageBackground,
@@ -9,14 +8,9 @@ import {
 import { Text, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { NextLink } from 'app/components/NextLink'
-import {
-  HEIGHT,
-  ITEM_PADDING,
-  ITEM_WIDTH,
-  NUM_COLUMN,
-  height,
-  width
-} from './size'
+import { HEIGHT, ITEM_PADDING, ITEM_WIDTH } from './size'
+
+import type { resComicItem_T } from 'app/types/api'
 
 const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
   return (
@@ -49,7 +43,7 @@ const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
         fadeDuration={500}
       >
         <LinearGradient
-          colors={['#0000009d', '#0000004c', '#ffffffb7']}
+          colors={['#0000009d', '#0000004c', '#ccccccb7']}
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 1 }}
           style={{

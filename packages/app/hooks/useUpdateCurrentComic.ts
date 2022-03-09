@@ -14,7 +14,9 @@ export default function useUpdateCurrentComic(comicDetail?: resComicDetail_T) {
   const { loading, setLoading, result } = useInteraction({
     dependencyList: [comicDetail],
     callback: () => {
-      comicDetail && dispatch(homeActions.setCurrentComic(comicDetail))
+      setImmediate(() => {
+        comicDetail && dispatch(homeActions.setCurrentComic(comicDetail))
+      })
     },
     cleanupCallback: () => dispatch(homeActions.removeCurrentComic())
   })

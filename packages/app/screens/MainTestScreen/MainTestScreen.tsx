@@ -26,7 +26,9 @@ export const MainTestScreen = (props: Props) => {
         onChangeText={(t) => setText(t)}
         placeholder="Text Input"
       />
-      <Button onPress={() => navigate('genres-list')}>Genres screen</Button>
+      <Button onPress={() => navigate('genres-comic-list')}>
+        Genres screen
+      </Button>
       <ZoomableImage />
     </View>
   )

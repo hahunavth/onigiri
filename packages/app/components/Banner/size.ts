@@ -3,9 +3,10 @@ import { Dimensions } from 'react-native'
 export const { width, height } = Dimensions.get('window')
 
 export const NUM_COLUMN = Number.parseInt((width / 540).toFixed()) || 1
+export const NUM_ITEM = 6
+
 export const ITEM_HEIGHT = height / 4
 export const ITEM_PADDING = 4
-
 export const ITEM_WIDTH =
   (width - (2 * NUM_COLUMN + 2) * ITEM_PADDING) / NUM_COLUMN
 

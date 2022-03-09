@@ -8,6 +8,7 @@ import { useApiHot, useApiTopMonth, useApiTopWeek } from '../../store/api'
 import { ComicGridGap2 } from '../../components/ComicGridGap2'
 import { ComicHorizontalList } from 'app/components/ComicHorizontalList'
 import { navigate } from '../../navigators'
+import Categories from '../../components/Categories'
 
 export const HomeScreen = () => {
   return (
@@ -19,13 +20,16 @@ export const HomeScreen = () => {
     >
       {/* <Text>HomeScreen</Text> */}
       <ListHeader
-        name="Recently"
-        subtitle="New comic release!"
+        name="New Release!"
+        subtitle="Read the lasted comic recommendations!"
         onPressMore={() => {
           navigate('home-session-detail-list', { type: 'recently' })
         }}
       />
       <FlatlistBanner />
+
+      <ListHeader name="Categories" subtitle="Find more here!" />
+      <Categories />
       <ListHeader
         name="Hot"
         subtitle="New comic release!"

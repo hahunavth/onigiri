@@ -28,7 +28,7 @@ import { homeSelector } from '../../store/homeSlice'
 type ChapterViewListScreenProps = {
   setImgs: React.Dispatch<React.SetStateAction<{ uri: string; h: number }[]>>
   imgs: { uri: string; h: number }[]
-  handleScroll: (e: any) => void
+  handleScroll?: (e: any) => void
   // Toggle BottomSheet
   onEndReach?: (e: any) => void
 }
@@ -36,6 +36,7 @@ const ChapterViewListScreen = React.forwardRef<
   FlatList,
   ChapterViewListScreenProps
 >((props, ref) => {
+  console.log(props.imgs)
   const { setImgs, handleScroll, imgs } = props
 
   const { ctxId, changeChapter } = React.useContext(ChapterContext)
@@ -43,6 +44,9 @@ const ChapterViewListScreen = React.forwardRef<
 
   const renderItem = React.useCallback(
     ({ item, index }: ListRenderItemInfo<{ uri: string; h: number }>) => {
+      console.log(
+        'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' + item.uri
+      )
       return (
         <ScaledImage
           source={{
@@ -74,6 +78,7 @@ const ChapterViewListScreen = React.forwardRef<
         // FIXME: SCROLL OVER FOOTER -> OPEN
         onEndReachedThreshold={1.1}
         onEndReached={(e) => props.onEndReach && props.onEndReach(e)}
+        nestedScrollEnabled
         ListFooterComponent={() => {
           return (
             <ScrollView my={24}>
@@ -87,6 +92,7 @@ const ChapterViewListScreen = React.forwardRef<
                   const length = currentComic?.chapters.length || -1
                   const list = currentComic?.chapters || []
                   const id = ctxId || -1
+                  console.log(length, id)
                   if (
                     id < length - 1 &&
                     id > 0 &&
@@ -107,12 +113,8 @@ const ChapterViewListScreen = React.forwardRef<
                   const length = currentComic?.chapters.length || -1
                   const list = currentComic?.chapters || []
                   const id = ctxId || -1
-                  if (
-                    id < length - 1 &&
-                    id > 0 &&
-                    list[id - 1] &&
-                    changeChapter
-                  ) {
+                  console.log(length, id)
+                  if (id < length && id >= 0 && list[id - 1] && changeChapter) {
                     changeChapter({
                       ctxId: id - 1,
                       ctxName: list[id - 1].name,

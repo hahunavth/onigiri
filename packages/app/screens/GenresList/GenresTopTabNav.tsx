@@ -13,31 +13,31 @@ const { Navigator, Screen } =
   createMaterialTopTabNavigator<GenresTopTabNavParamList>()
 
 type GenresTopTabNavParamList = {
-  'genres-list/action': ComicListByGenresProps
-  'genres-list/adventure': ComicListByGenresProps
-  'genres-list/chuyen-sinh': ComicListByGenresProps
-  'genres-list/drama': ComicListByGenresProps
-  'genres-list/ecchi': ComicListByGenresProps
-  'genres-list/gender-blender': ComicListByGenresProps
-  'genres-list/harem': ComicListByGenresProps
-  'genres-list/historocal': ComicListByGenresProps
-  'genres-list/josei': ComicListByGenresProps
-  'genres-list/manga': ComicListByGenresProps
-  'genres-list/manhwa': ComicListByGenresProps
-  'genres-list/mystery': ComicListByGenresProps
-  'genres-list/one-shot': ComicListByGenresProps
-  'genres-list/romance': ComicListByGenresProps
-  'genres-list/sci-fi': ComicListByGenresProps
-  'genres-list/shoujo': ComicListByGenresProps
-  'genres-list/slice-of-line': ComicListByGenresProps
-  'genres-list/sport': ComicListByGenresProps
-  'genres-list/webtoon': ComicListByGenresProps
-  'genres-list/xuyen-khong': ComicListByGenresProps
+  'genres-comic-list/action': ComicListByGenresProps
+  'genres-comic-list/adventure': ComicListByGenresProps
+  'genres-comic-list/chuyen-sinh': ComicListByGenresProps
+  'genres-comic-list/drama': ComicListByGenresProps
+  'genres-comic-list/ecchi': ComicListByGenresProps
+  'genres-comic-list/gender-blender': ComicListByGenresProps
+  'genres-comic-list/harem': ComicListByGenresProps
+  'genres-comic-list/historocal': ComicListByGenresProps
+  'genres-comic-list/josei': ComicListByGenresProps
+  'genres-comic-list/manga': ComicListByGenresProps
+  'genres-comic-list/manhwa': ComicListByGenresProps
+  'genres-comic-list/mystery': ComicListByGenresProps
+  'genres-comic-list/one-shot': ComicListByGenresProps
+  'genres-comic-list/romance': ComicListByGenresProps
+  'genres-comic-list/sci-fi': ComicListByGenresProps
+  'genres-comic-list/shoujo': ComicListByGenresProps
+  'genres-comic-list/slice-of-line': ComicListByGenresProps
+  'genres-comic-list/sport': ComicListByGenresProps
+  'genres-comic-list/webtoon': ComicListByGenresProps
+  'genres-comic-list/xuyen-khong': ComicListByGenresProps
 }
 
 export type GTTScreenProps = MaterialTopTabScreenProps<
   GenresTopTabNavParamList,
-  'genres-list/action'
+  'genres-comic-list/action'
 >
 
 type PropsListT = {
@@ -45,13 +45,13 @@ type PropsListT = {
 }
 
 const propsList: PropsListT = {
-  'genres-list/action': 1,
-  'genres-list/adventure': 3,
-  'genres-list/chuyen-sinh': 5,
-  'genres-list/drama': 11,
-  'genres-list/ecchi': 13,
-  'genres-list/gender-blender': 15,
-  'genres-list/harem': 16
+  'genres-comic-list/action': 1,
+  'genres-comic-list/adventure': 3,
+  'genres-comic-list/chuyen-sinh': 5,
+  'genres-comic-list/drama': 11,
+  'genres-comic-list/ecchi': 13,
+  'genres-comic-list/gender-blender': 15,
+  'genres-comic-list/harem': 16
 }
 
 type Props = {}
@@ -61,6 +61,11 @@ const GenresTopTabNav = (props: Props) => {
     <Navigator
       backBehavior="none"
       screenOptions={{
+        // tabBarContentContainerStyle: {
+        //   position: 'absolute',
+        //   bottom: 0
+        // },
+        //
         tabBarScrollEnabled: true,
         tabBarBounces: true,
         tabBarLabelStyle: {},

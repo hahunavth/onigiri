@@ -18,7 +18,8 @@ import Animated, {
   useDerivedValue,
   useAnimatedStyle,
   withTiming,
-  withSpring
+  withSpring,
+  withDelay
 } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import useInteraction from '../../hooks/useInteraction'
@@ -58,35 +59,51 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
   const containerStyle = useMemo(() => [styles.container, style], [])
 
   // REVIEW: Save Image source for next render
-  const photoSource = useMemo<ImageProps['source']>(() => ({ uri: photo }), [])
+  // const photoSource = useMemo<ImageProps['source']>(() => ({ uri: photo }), [])
   // const photoSource = { uri: photo };
   const offset = useSharedValue(0)
+  const transY = useDerivedValue(() => {
+    return -10 * offset.value + 10
+  })
   // const imageBackgroundHeight = useSharedValue(height)
   // const imageBackgroundHeight = useDerivedValue(() => {
   //   return offset.value * height
   // })
 
+  const opacityStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(offset.value, {})
+    }
+  })
+
   const opacityStyle2 = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(offset.value)
-      // width: withTiming(imageBackgroundHeight.value, {
-      //   duration: 500,
-      // })
+      opacity: withDelay(
+        100,
+        withTiming(offset.value, {
+          // duration: 500
+        })
+      )
     }
   })
 
-  useInteraction({
-    callback: () => {
-      // imageBackgroundHeight.value = 280
-      offset.value = 1
+  const transStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withDelay(200, withTiming(offset.value)),
+      transform: [{ translateY: withDelay(200, withTiming(transY.value)) }]
     }
   })
 
-  // React.useEffect(() => {
-  //     requestAnimationFrame(() => {
-  //       offset.value = 1
-  //     })
-  // })
+  const transStyle2 = useAnimatedStyle(() => {
+    return {
+      opacity: withDelay(300, withTiming(offset.value)),
+      transform: [{ translateY: withDelay(300, withTiming(transY.value)) }]
+    }
+  })
+
+  useEffect(() => {
+    offset.value = 0
+  })
 
   return (
     <View
@@ -122,29 +139,32 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
           // zIndex: -1
         }}
       ></View> */}
-      <MotiView
-        from={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        delay={200}
-        transition={{
-          type: 'timing',
-          duration: 350
-        }}
-        style={{
-          // @ts-ignore
-          backgroundImage: `url("${photo}")`,
-          'background-position': 'center',
-          'background-repeat': 'no-repeat',
-          'background-size': 'cover',
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          filter: 'blur(8px)'
-          // '-webkit-filter': 'blur(8px)'
-          // zIndex: -1
-        }}
+      <Animated.View
+        // from={{ opacity: 0 }}
+        // animate={{ opacity: 1 }}
+        // delay={200}
+        // transition={{
+        //   type: 'timing',
+        //   duration: 350
+        // }}
+        style={[
+          {
+            // @ts-ignore
+            backgroundImage: `url("${photo}")`,
+            'background-position': 'center',
+            'background-repeat': 'no-repeat',
+            'background-size': 'cover',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            filter: 'blur(8px)'
+            // '-webkit-filter': 'blur(8px)'
+            // zIndex: -1
+          },
+          opacityStyle2
+        ]}
       />
       {/* {photo ? (
         <ImageBackground
@@ -180,8 +200,12 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
               {name}
             </Text>
             <HStack space={4} mt={4}>
-              <Button colorScheme="success">Read from first</Button>
-              <Button colorScheme="success">Read from last</Button>
+              <Animated.View style={transStyle}>
+                <Button colorScheme="success">Read from first</Button>
+              </Animated.View>
+              <Animated.View style={transStyle2}>
+                <Button colorScheme="success">Read from last</Button>
+              </Animated.View>
             </HStack>
             {/* <Text
               style={styles.bio}
@@ -194,20 +218,28 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
           </View>
           <SharedElement id={`item.${photo}.photo`} style={{ zIndex: 1000 }}>
             <View
-              style={{
-                width: 180,
-                height: 240,
-                borderRadius: 10,
-                borderWidth: 2,
-                borderColor: '#33333376',
-                opacity: 1,
-                zIndex: 1000
-              }}
+              style={[
+                {
+                  width: 180,
+                  height: 240,
+                  borderRadius: 10,
+                  borderWidth: 2,
+                  borderColor: '#33333376',
+                  opacity: 1,
+                  zIndex: 1000
+                },
+                opacityStyle
+              ]}
               shadow={9}
             >
               {photo ? (
                 <Image
+                  onLoadingComplete={() => {
+                    console.log('end')
+                    offset.value = 1
+                  }}
                   // source={photoSource}
+
                   src={photo || ''}
                   width={240}
                   height={320}

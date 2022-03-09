@@ -8,6 +8,9 @@ module.exports = function (api) {
       // NOT WORK
       // ['transform-remove-console']
       // 'transform-remove-console'
+      // parcel
+      // '@parcel/babel-plugin-transform-runtime',
+      // '@babel/helper-environment-visitor'
     ]
   }
 }

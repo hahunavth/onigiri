@@ -53,7 +53,7 @@ export default {
     backgroundColor: '#FFFFFF'
   },
   assetBundlePatterns: ['**/*'],
-  orientation: 'portrait',
+  // orientation: 'portrait',
   updates: {
     fallbackToCacheTimeout: 0
   },

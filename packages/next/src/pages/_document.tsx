@@ -8,10 +8,10 @@ class Document extends NextDocument {
       <Html lang="en">
         <Head>
           {/* <title>Example</title> */}
-          <meta charSet="UTF-8" />
+          {/* <meta charSet="UTF-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <meta key="title" name="title" content="Example" />
-          <link rel="shortcut icon" type="image/x-icon" href="/favicon.png" />
+          <link rel="shortcut icon" type="image/x-icon" href="/favicon.png" /> */}
           {/* <link
           href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap"
           rel="stylesheet"

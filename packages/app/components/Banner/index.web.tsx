@@ -9,7 +9,7 @@ import { CustomPagination } from './CustomPagination'
 
 import { NextLink } from 'app/components/NextLink'
 import Item from './Item'
-import { ITEM_HEIGHT, ITEM_PADDING, ITEM_WIDTH } from './size'
+import { ITEM_HEIGHT, ITEM_PADDING, ITEM_WIDTH, NUM_ITEM } from './size'
 import { Box, Pressable, Skeleton } from 'native-base'
 
 import { MaterialIcons } from '@expo/vector-icons'
@@ -23,7 +23,7 @@ export const FlatlistBanner = () => {
 
   useEffect(() => {
     if (isSuccess)
-      setList((list) => data?.data.filter((item, id) => id < 6) || list)
+      setList((list) => data?.data.filter((item, id) => id < NUM_ITEM) || list)
   }, [isFetching])
 
   return (

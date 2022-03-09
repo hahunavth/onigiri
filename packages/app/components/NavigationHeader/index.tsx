@@ -15,6 +15,7 @@ import {
   Heading,
   HStack,
   Icon,
+  IInputProps,
   Input,
   Text,
   useColorModeValue,
@@ -29,20 +30,23 @@ import {
   TouchableNativeFeedback,
   TouchableOpacity,
   useWindowDimensions,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ToastAndroid
 } from 'react-native'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
   withTiming,
-  Easing
+  Easing,
+  withDelay
 } from 'react-native-reanimated'
 import { NextLink } from '../NextLink'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SelectableBadge } from '../SelectableBadge'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { recentAction, recentSelector } from '../../store/recentSlice'
+import usePrevious from 'react-use/esm/usePrevious'
 
 export function NavigationHeader(props: NativeStackHeaderProps) {
   const leftLabel = React.useMemo(() => {
@@ -83,6 +87,13 @@ const AnimatedButton = Animated.createAnimatedComponent(Button)
 export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
   props: NativeStackHeaderProps
 ) => {
+  /**
+   * NOTE: AVOID SEARCH BAR CHILD RERENDER WHEN NAVIGATION CLICK
+   */
+  return <SearchNavigationHeaderChild></SearchNavigationHeaderChild>
+}
+
+const SearchNavigationHeaderChild = React.memo(() => {
   const { findNames } = useAppSelector(recentSelector)
 
   // Animation
@@ -94,47 +105,17 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
     'Secondary'
   )
   const inputRef = React.useRef<any>()
-  const { height, width } = useWindowDimensions()
+  // const { height, width } = useWindowDimensions()
   const offset = useSharedValue(0)
 
-  const animatedStyles2 = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateX: withTiming(
-            -offset.value
-            //    {
-            //   duration: 500,
-            //   easing: Easing.out(Easing.exp)
-            // }
-          )
-        }
-      ]
-    }
-  })
-
-  const animatedStyles3 = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateX: withTiming(
-            offset.value
-            //   {
-            //   duration: 500,
-            //   easing: Easing.out(Easing.exp)
-            // }
-          )
-        }
-      ]
-    }
-  })
-
-  const animatedStyles4 = useAnimatedStyle(() => {
+  const cancelBtnAnimatedStyles = useAnimatedStyle(() => {
     return {
       // opacity: withTiming(offset.value / 78 + 0.5, {
       //   duration: 500,
       //   easing: Easing.out(Easing.exp)
       // }),
+      position: 'absolute',
+      right: -50,
       transform: [
         {
           translateX: withTiming(-offset.value * 1.8, {
@@ -149,7 +130,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
     }
   })
 
-  const animatedStyles5 = useAnimatedStyle(() => {
+  const floatingResultAnimatedStyles = useAnimatedStyle(() => {
     return {
       // opacity: offset.value / 34
       opacity: withTiming(offset.value / 34, {
@@ -157,15 +138,59 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
         easing: Easing.out(Easing.exp)
       }),
       flex: 1,
-      marginTop: 4
+      marginTop: 4,
+      paddingTop: 4,
+      paddingLeft: 12
     }
   })
 
-  const animatedStyles6 = useAnimatedStyle(() => {
+  const floatingOverlayeAnimatedStyle = useAnimatedStyle(() => {
     return {
-      height: withTiming(offset.value * 10 + 40)
+      position: 'absolute',
+      top: 0,
+      // height: withTiming(100 * (34 - offset.value)),
+      bottom: -1000,
+      left: 0,
+      right: 0,
+      backgroundColor: 'white',
+      opacity: withTiming(offset.value / 34, {
+        duration: 500,
+        easing: Easing.out(Easing.exp)
+      })
     }
   })
+
+  const explainHeightAnimatedStyles = useAnimatedStyle(() => {
+    return {
+      height: withDelay(100, withTiming(offset.value * 10 + 40))
+      // backgroundColor: 'white'
+    }
+  }, [])
+
+  const notificationIconAnimatedStyles = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateX: withSpring(-offset.value)
+        }
+      ]
+    }
+  })
+
+  const personIconAnimatedStyles = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateX: withSpring(offset.value)
+        }
+      ]
+    }
+  })
+
+  // ToastAndroid.show('render header', 100)
+
+  // const prev = usePrevious(personIconAnimatedStyles)
+  // console.log('renderrrr child', personIconAnimatedStyles === prev)
 
   /**
    * ANCHOR: Nested SafeAreaView sometime cause rerender -> lag
@@ -173,12 +198,13 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
   return (
     <SafeAreaView
       style={{
-        backgroundColor: bs3.backgroundColor
+        backgroundColor: bs3.backgroundColor,
+        zIndex: 10
       }}
     >
       <Animated.View
         // backgroundColor={bs2.backgroundColor}
-        style={[animatedStyles6]}
+        style={explainHeightAnimatedStyles}
       >
         {/* Only 16 px */}
         <View maxH={16} pl={2} pr={2} mt={1} pb={1} justifyContent={'center'}>
@@ -194,16 +220,22 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
             alignItems={'center'}
             mr={2}
           >
-            <View mt={6}>
+            <Animated.View
+              style={[
+                {
+                  marginTop: 24
+                },
+                personIconAnimatedStyles
+              ]}
+            >
               <TouchableOpacity>
                 <AnimatedIonIcons
                   name="md-person-circle-outline"
                   size={28}
                   color={ts1.color}
-                  style={animatedStyles3}
                 />
               </TouchableOpacity>
-            </View>
+            </Animated.View>
           </View>
 
           {/*  Left icon */}
@@ -220,28 +252,19 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
             pt={6}
             // mt={12}
           >
-            <View>
+            <Animated.View style={notificationIconAnimatedStyles}>
               <TouchableNativeFeedback>
                 <AnimatedIonIcons
                   name="notifications-outline"
                   size={28}
                   color={ts1.color}
-                  style={animatedStyles2}
                 />
               </TouchableNativeFeedback>
-            </View>
+            </Animated.View>
           </View>
 
           {/*  Cancel btn */}
-          <AnimatedBox
-            style={[
-              {
-                position: 'absolute',
-                right: -50
-              },
-              animatedStyles4
-            ]}
-          >
+          <AnimatedBox style={cancelBtnAnimatedStyles}>
             <AnimatedButton
               size={'md'}
               variant={'link'}
@@ -267,6 +290,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
           // ref={inputRef}
           ref={(input) => (inputRef ? (inputRef.current = input) : null)}
         />
+
         {/* Floating */}
         <Animated.View
           // position={'absolute'}
@@ -285,12 +309,12 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
               // right: 0,
               // height: 0,
               // backgroundColor: 'white',
-              paddingTop: 4,
-              paddingLeft: 12
             },
-            animatedStyles5
+            floatingResultAnimatedStyles
           ]}
         >
+          <Animated.View style={floatingOverlayeAnimatedStyle}></Animated.View>
+
           <Text
             fontSize={15}
             fontWeight={'bold'}
@@ -301,15 +325,6 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
             Find History:{' '}
           </Text>
           <HStack flex={1} flexWrap={'wrap'}>
-            {/* <Button
-              // zIndex={1}
-              onPressIn={() => {
-                navigate('test')
-                console.log('press navigate')
-              }}
-            >
-            Home
-          </Button> */}
             {findNames.slice(0, 10).map((v, id) => (
               <Button
                 key={id}
@@ -338,7 +353,7 @@ export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
       </Animated.View>
     </SafeAreaView>
   )
-}
+})
 
 /**
  * NOTE: TextInput in parent component will cause dismiss keyboard onChange
