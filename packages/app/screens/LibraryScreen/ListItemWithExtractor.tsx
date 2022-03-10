@@ -50,6 +50,7 @@ const ListWithExtractor = (param: Param) => {
             source={{ uri: item.posterUrl }}
             style={styles.poster as ImageStyle}
           />
+
           <View style={styles.infoContainer}>
             <Box _text={textStyle}>
               <Text

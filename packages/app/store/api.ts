@@ -1,3 +1,4 @@
+import { resCommentT } from './../types/api'
 import { FindOptionT, toIdListStr } from '../utils/findOption'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type {
@@ -86,6 +87,14 @@ export const comicApi = createApi({
         console.log('🚀🚀🚀 ~api.ts`', `${path}`)
         return `/find-by-name?name=${path}`
       }
+    }),
+    getComicComment: builder.query<ApiResponse_T<resCommentT[]>, string>({
+      query: (comicPath) => {
+        // NOTE: PATH WITHOUT /truyen-tranh
+        const comicSlug = comicPath.replace('/truyen-tranh', '')
+        console.log('🚀 ~ file: api.ts ~ ', `/comic-comment${comicSlug}`)
+        return `/comic-comment${comicSlug}`
+      }
     })
   })
 })
@@ -105,5 +114,7 @@ export const useApiFindComic = comicApi.endpoints.findComic.useQuery
 export const useApiFindComicByName = comicApi.endpoints.findComicByName.useQuery
 
 export const useApiFindByGenres = comicApi.endpoints.findByGenres.useQuery
+
+export const useApiComicComment = comicApi.endpoints.getComicComment.useQuery
 
 export const usePrefetch = comicApi.usePrefetch

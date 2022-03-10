@@ -1,13 +1,17 @@
-import { View, Text } from 'native-base'
+import { View, Text, SectionList, FlatList } from 'native-base'
 import { FindResultScreenProps } from '../../navigators/StackNav'
 import { API_URL, resComicItem_T } from '../../types'
 import axios from 'axios'
-import { useApiFindComic } from '../../store/api'
+import { useApiFindComic, usePrefetch } from '../../store/api'
 import { ComicListVertical } from '../../components/ComicListVertical/ComicListVertical'
 import { useColorModeStyle } from '../../hooks/useColorModeStyle'
 import { Loading } from '../../components/Loading'
 import React from 'react'
-import { InteractionManager } from 'react-native'
+import {
+  InteractionManager,
+  ListRenderItem,
+  SectionListRenderItemInfo
+} from 'react-native'
 import { selectDownloadedChapters } from '../../store/historySlice'
 import { ListFooter } from '../../components/ComicListVertical/ListFooter'
 
@@ -40,6 +44,9 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
     ...findOption,
     page: page
   })
+
+  const prefetchFindComic = usePrefetch('findComic', {})
+
   // Interaction
   const [loading, setLoading] = React.useState(true)
 
@@ -78,9 +85,16 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
   const onEndReach = React.useCallback(() => {
     console.log('reach', page, seed)
     if (page === seed) {
-      console.log('reach active', page, seed)
-      setPage(page + 1)
-      refetch()
+      setImmediate(() => {
+        console.log('reach active', page, seed)
+        setPage(page + 1)
+        refetch()
+        if (page <= max)
+          prefetchFindComic({
+            ...findOption,
+            page: page + 1
+          })
+      })
     }
   }, [setPage, seed, page])
 
@@ -93,9 +107,114 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
       ) : (
         <>
           <ComicListVertical list={list || []} onEndReach={onEndReach} />
-          <ListFooter page={seed} max={max} />
+          {/* <ListFooter page={seed} max={max} /> */}
         </>
       )}
     </View>
   )
 }
+
+/**
+ * Refactor
+ */
+
+// type SessionResultListProps = {
+//   sessList: {
+//     data: resComicItem_T[]
+//     page: number
+//     status: 'fulfilled' | 'pending' | 'reject'
+//   }[]
+// }
+
+// function SessionResultList({ sessList }: SessionResultListProps) {
+//   return (
+//     <FlatList
+//       data={sessList || []}
+//       renderItem={({ index, item, separators }) => {
+//         return item.data ? <ComicListVertical list={item.data} /> : <Loading />
+//       }}
+//       keyExtractor={(item, index) => index.toString()}
+//       // renderSectionHeader={() => null}
+//     />
+//   )
+// }
+
+// export const FindResultScreen = (props: FindResultScreenProps) => {
+//   const { findOption, path } = props.route.params
+
+//   const [page, setPage] = React.useState(1)
+//   const [seed, setSeed] = React.useState(0)
+//   const [max, setMax] = React.useState(1)
+//   const [list, setList] = React.useState<SessionResultListProps['sessList']>([])
+//   const [refreshing, setRefreshing] = React.useState(false)
+
+//   const { isSuccess, isLoading, data, requestId, refetch } = useApiFindComic({
+//     ...findOption,
+//     page: page
+//   })
+
+//   const prefetchFindComic = usePrefetch('findComic', {})
+
+//   // Interaction
+//   const [loading, setLoading] = React.useState(true)
+
+//   React.useEffect(() => {
+//     const interaction = InteractionManager.runAfterInteractions(() => {
+//       if (page <= max)
+//         prefetchFindComic({
+//           ...findOption,
+//           page: page + 1
+//         })
+//     })
+//     return () => {
+//       interaction.cancel()
+//     }
+//   })
+
+//   // Infinity list
+//   React.useEffect(() => {
+//     // console.log(Object.keys(data ||))
+//     setMax((max) =>
+//       typeof data?.pagination?.max === 'number' && data?.pagination?.max > 0
+//         ? data?.pagination?.max
+//         : max
+//     )
+//     if (
+//       isSuccess &&
+//       data?.data?.length &&
+//       page > seed &&
+//       data?.pagination?.page === page &&
+//       data?.pagination?.page <= max
+//     ) {
+//       // setList((list) => [...list, ...data.data])
+//       setList((list) => list.push({data: data.data, page: page, status: 'fulfilled'}))
+//       setSeed(page)
+
+//       console.log(page, seed)
+//     }
+//   }, [isSuccess, isLoading, data])
+
+//   const onEndReach = React.useCallback(() => {
+//     console.log('reach', page, seed)
+//     if (page === seed) {
+//       console.log('reach active', page, seed)
+//       setPage(page + 1)
+//       refetch()
+//     }
+//   }, [setPage, seed, page])
+
+//   console.log('out', page, seed, max)
+
+//   return (
+//     <View flex={1}>
+//       {isLoading || loading ? (
+//         <Loading text="Fetching" />
+//       ) : (
+//         <>
+//           <ComicListVertical list={list || []} onEndReach={onEndReach} />
+//           {/* <ListFooter page={seed} max={max} /> */}
+//         </>
+//       )}
+//     </View>
+//   )
+// }
