@@ -277,7 +277,7 @@ export const CollapseHeader = (props: Props) => {
 
   const collapsedOverlayAnimatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(
-      translateY.value,
+      newTranslateY.value,
       [-headerDiff, OVERLAY_VISIBILITY_OFFSET - headerDiff, 0],
       [Visibility.Visible, Visibility.Hidden, Visibility.Hidden]
     )
@@ -336,14 +336,14 @@ export const CollapseHeader = (props: Props) => {
     <View style={styles.wrapperContainer}>
       <View style={styles.container}>
         {/* Custom Header Icon */}
-        {loading || (
-          <CollapseTop
-            comic={props.comic}
-            headerDiff={headerDiff}
-            offline={props.offline}
-            translateY={translateY}
-          />
-        )}
+        {/* {loading || ( */}
+        <CollapseTop
+          comic={props.comic}
+          headerDiff={headerDiff}
+          offline={props.offline}
+          translateY={translateY}
+        />
+        {/* )} */}
         <Animated.View
           onLayout={handleHeaderLayout}
           style={headerContainerStyle}
@@ -356,14 +356,14 @@ export const CollapseHeader = (props: Props) => {
             photo={props.routeParam?.posterUrl || props.comic?.posterUrl || ''}
           />
         </Animated.View>
-        {loading ? null : (
-          <Animated.View style={collapsedOverlayStyle}>
-            <HeaderOverlay
-              name={props.comic?.title || ''}
-              numChapter={props.comic?.chapters?.length || 0}
-            />
-          </Animated.View>
-        )}
+        {/* {loading ? null : ( */}
+        <Animated.View style={collapsedOverlayStyle}>
+          <HeaderOverlay
+            name={props.comic?.title || ''}
+            numChapter={props.comic?.chapters?.length || 0}
+          />
+        </Animated.View>
+        {/* // )} */}
         {loading ? null : (
           <>
             <Animated.View style={opacityStyle2}>

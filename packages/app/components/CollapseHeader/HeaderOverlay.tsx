@@ -1,6 +1,7 @@
 import React, { FC, memo, useMemo } from 'react'
 import { StyleSheet, Text, View, ViewProps, Dimensions } from 'react-native'
 import { useColorModeStyle } from '../../hooks/useColorModeStyle'
+import useInteraction from '../../hooks/useInteraction'
 // import QuicksandText, { QFontFamily } from '../Common/QuicksandText'
 
 const { width } = Dimensions.get('window')
@@ -11,6 +12,9 @@ const HeaderOverlay: FC<Props> = ({ style, name, numChapter }) => {
   const containerStyle = useMemo(() => [styles.container, style], [style])
 
   const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
+
+  const { loading } = useInteraction()
+  if (loading) return null
   return (
     <View style={[containerStyle, bs1]}>
       <Text style={styles.title} numberOfLines={1}>

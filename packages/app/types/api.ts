@@ -2,10 +2,10 @@ export const API_URL = 'https://hahunavth-express-api.herokuapp.com/api/v1/'
 
 export type ApiResponse_T<T> = {
   data: T
-  success?: string
+  success?: string | boolean
   pagination?: {
     page: number
-    limit: number
+    limit?: number
     max: number
   }
 }
@@ -74,4 +74,51 @@ export type resChapterDetail_T = {
   images: string[]
   chapterList: any[]
   path: string
+}
+
+// NOTE: EXAMPLE
+// {
+//   "id": "jid-5950793",
+//   "username": "Người đàn ông tốt",
+//   "avatarUrl": "//s.nettruyenmoi.com/Data/SiteImages/anonymous.png",
+//   "abbr": "9/2/2019 9:40:50 AM",
+//   "datednf": "09:40 02/09/19",
+//   "chapterName": "Chapter 1",
+//   "content": "á đù truyện này có cậu Vàng à?",
+//   "reply": [
+//     {
+//       "id": "cmt-5950821",
+//       "username": "Mun",
+//       "abbr": "9/2/2019 9:44:26 AM",
+//       "datednf": "09:44 02/09/19",
+//       "content": ""
+//     },
+//     {
+//       "id": "cmt-5950832",
+//       "username": "Mun",
+//       "abbr": "9/2/2019 9:45:25 AM",
+//       "datednf": "09:45 02/09/19",
+//       "content": "Cậu Vàng đóng phim ko đủ tiền nên nhập truyện thêm lương =))))"
+//     }
+//   ]
+// }
+
+export type resCommentReplyT = {
+  id: string
+  username: string
+  avatarUrl: string
+  abbr: string
+  datednf: string
+  content: string
+}
+
+export type resCommentT = {
+  id: string
+  username: string
+  avatarUrl: string
+  abbr: string
+  datednf: string
+  chapterName?: string
+  content: string
+  reply: resCommentReplyT[]
 }

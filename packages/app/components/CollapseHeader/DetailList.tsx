@@ -28,6 +28,8 @@ import useInteraction from '../../hooks/useInteraction'
 import { navigate } from '../../navigators'
 import RoundView from './RoundView'
 import CollapseRoundView from './CollapseRoundView'
+import { useApiComicComment } from '../../store/api'
+import { Comment } from '../Comment'
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -36,6 +38,11 @@ export const AnimatedFlatList: typeof FlatList =
 type Props = Omit<FlatListProps<resComicDetail_T>, 'renderItem'>
 
 const Details = forwardRef<FlatList, Props>((props, ref) => {
+  const { data } = useApiComicComment(
+    props.data?.length ? props.data[0].path : ''
+  )
+
+  // console.log(data, props.data?.length && props.data[0]?.path)
   const keyExtractor = useCallback((_, index) => index.toString(), [])
 
   const renderItem = useCallback<ListRenderItem<resComicDetail_T>>(
@@ -130,9 +137,11 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
         </Box>
 
         {/* </FadeInView> */}
+
+        {data && <Comment data={data} />}
       </Animated.View>
     ),
-    []
+    [data]
   )
   const offset = useSharedValue(100)
   const offsetStyle = useAnimatedStyle(() => {

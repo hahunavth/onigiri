@@ -23,8 +23,10 @@ import useUpdateCurrentChapter from '../../hooks/useUpdateCurrentChapter'
 import useInteraction from '../../hooks/useInteraction'
 import ChapterViewListScreen from './ChapterViewListScreen'
 import ChapterContextProvider, { ChapterContext } from './ChapterContext'
-import BottomSheet from '@gorhom/bottom-sheet'
+import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import { FontAwesome } from '@expo/vector-icons'
+import { CommentBottomSheet, CommentLoader } from '../../components/Comment'
+import { homeSelector } from '../../store/homeSlice'
 
 export function ChapterScreen(props: ChapterScreenProps) {
   return (
@@ -40,6 +42,8 @@ const screenHeight = Dimensions.get('screen').height
 function ChapterScreenNode(props: ChapterScreenProps) {
   const { ctxId, ctxName, ctxPath, setCtxId, setCtxName, setCtxPath } =
     useContext(ChapterContext)
+
+  const comicPath = useAppSelector(homeSelector).currentComic?.path
 
   const { path, name, id, preloadItem } = props.route.params
   const flatListRef = React.useRef<FlatListT>(null)
@@ -184,17 +188,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     }
     oldOffset = currentOffset
   }, [])
-  // Bottom sheet
 
-  // variables
-  const snapPoints = React.useMemo(
-    () => [88, '50%', Dimensions.get('window').height],
-    []
-  )
-  // callbacks
-  const handleSheetChanges = React.useCallback((index: number) => {
-    // console.log('handleSheetChanges', index)
-  }, [])
   const expandSheet = React.useCallback(() => {
     bottomSheetRef.current?.snapToIndex(0)
   }, [])
@@ -229,40 +223,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
       <ChapterHeader style={headerAnimatedStyles} name={ctxName} />
       <ChapterBar style={animatedStyles} onCommentClick={expandSheet} />
       {loading ? null : (
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={-1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
-          // enablePanDownToClose={false}
-          enableContentPanningGesture
-          enableHandlePanningGesture
-          enableOverDrag
-          enablePanDownToClose
-        >
-          <View
-            style={{
-              flex: 1
-            }}
-          >
-            <HStack justifyContent={'space-between'} mx={4}>
-              <Text fontSize={18} fontWeight={'bold'}>
-                Comment
-              </Text>
-              <HStack lineHeight={18}>
-                <Text fontSize={18} mr={1}>
-                  12345
-                </Text>
-                <FontAwesome
-                  name="commenting-o"
-                  size={20}
-                  color="black"
-                  style={{ marginTop: 4 }}
-                />
-              </HStack>
-            </HStack>
-          </View>
-        </BottomSheet>
+        <CommentBottomSheet ref={bottomSheetRef} path={comicPath || ''} />
       )}
     </>
   )
@@ -273,5 +234,15 @@ const style = StyleSheet.create({
     fontSize: 24,
     color: 'black'
   },
-  container: { flex: 1 }
+  container: { flex: 1 },
+  textInput: {
+    alignSelf: 'stretch',
+    marginHorizontal: 12,
+    marginBottom: 12,
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: 'grey',
+    color: 'white',
+    textAlign: 'center'
+  }
 })

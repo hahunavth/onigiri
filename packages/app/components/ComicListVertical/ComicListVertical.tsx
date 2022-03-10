@@ -7,6 +7,7 @@ import { ListFooter } from './ListFooter'
 
 import type { resComicItem_T } from '../../types'
 import useInteraction from '../../hooks/useInteraction'
+import { navigate } from '../../navigators'
 
 type Props = {
   list: resComicItem_T[]
@@ -20,6 +21,7 @@ export const ComicListVertical = ({ list, onEndReach }: Props) => {
    *
    * TODO: Convert all flatlist to this.
    */
+  // console.log('re codev')
   const renderItem = React.useCallback(
     (props: ListRenderItemInfo<resComicItem_T>) => {
       // if (props.index === 1 || props.index === 5) return <Text>Sticky</Text>
@@ -30,7 +32,9 @@ export const ComicListVertical = ({ list, onEndReach }: Props) => {
 
   const keyExtractor = React.useCallback(
     // FIXME: Find why have same key
-    (item, index) => item.path + index.toString(),
+    // (item, index) => item.path + index.toString(),
+    (item, index) => index.toString(),
+
     []
   )
 
@@ -81,7 +85,12 @@ export const ComicListVertical = ({ list, onEndReach }: Props) => {
         // SOLUTION2: use Interaction manager
         // TODO: USE SOLUTION2
         initialNumToRender={30}
-        maxToRenderPerBatch={10}
+        maxToRenderPerBatch={5}
+        updateCellsBatchingPeriod={100}
+        // alwaysBounceHorizontal
+        removeClippedSubviews
+        // directionalLockEnabled
+        // disableVirtualization
 
         // removeClippedSubviews
         // FIXME: Sticky list too slow

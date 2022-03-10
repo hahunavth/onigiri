@@ -8,22 +8,31 @@ import { SharedElement } from 'react-navigation-shared-element'
 
 type Props = {
   item: resComicItem_T
+  // handlePress?: () => any
 }
 
-export function ComicListItem({ item }: Props) {
+export const ComicListItem = React.memo(function ComicListItem({
+  item
+}: // handlePress
+Props) {
   const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
   const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle('', 'Secondary')
+  // console.log('ri', item.name)
+  const handlePress = React.useCallback(
+    () =>
+      item.path &&
+      navigate('shared', {
+        screen: 'shared/comic-detail',
+        params: { preloadItem: item, path: item.path }
+      }),
+    [item, item.path]
+  )
 
   if (!item) return null
+
   return (
     <TouchableOpacity
-      onPress={() =>
-        item.path &&
-        navigate('shared', {
-          screen: 'shared/comic-detail',
-          params: { preloadItem: item, path: item.path }
-        })
-      }
+      onPress={handlePress}
       // delayPressIn={100}
     >
       <View
@@ -75,7 +84,7 @@ export function ComicListItem({ item }: Props) {
       </View>
     </TouchableOpacity>
   )
-}
+})
 
 const styles = StyleSheet.create({
   itemContainer: {
