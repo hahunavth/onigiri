@@ -122,3 +122,23 @@ export type resCommentT = {
   content: string
   reply: resCommentReplyT[]
 }
+
+// {
+//   path: '/truyen-tranh/saigo-ni-hitotsu-dake-onegaishite-mo-yoroshii-desu-ka-23510',
+//   posterUrl: 'https://st.nettruyenmoi.com/data/comics/214/saigo-ni-hitotsu-dake-onegaishite-mo-yor-8089.jpg',
+//   name: 'Saigo ni Hitotsu Dake Onegaishite mo Yoroshii Desu ka?',
+//   lastedChapter: 'Chapter 1',
+//   detail: 'May I Please Ask You Just One Last Thing? -',
+//   author: 'HOONOKI Sora - Nana Otori',
+//   kind: [ 'Comedy', 'Drama', 'Martial Arts', 'Romance' ]
+// }
+
+export type resComicSuggestSearchT = {
+  path: string
+  posterUrl: string
+  name: string
+  lastedChapter: string
+  detail: string
+  author: string
+  kind: string[]
+}

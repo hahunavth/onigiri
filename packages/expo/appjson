@@ -6,7 +6,7 @@
     "version": "1.0.0",
     "icon": "./src/assets/icon.png",
     "splash": {
-      "image": "./src/assets/logo.png",
+      "image": "./src/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/favicon.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.hahunavth.comicnet"
@@ -32,6 +32,5 @@
       "favicon": "./assets/favicon.png"
     },
     "jsEngine": "hermes"
-
   }
 }

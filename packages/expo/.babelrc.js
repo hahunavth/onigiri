@@ -11,6 +11,14 @@ module.exports = function (api) {
       // parcel
       // '@parcel/babel-plugin-transform-runtime',
       // '@babel/helper-environment-visitor'
-    ]
+    ],
+    env: {
+      production: {
+        plugins: ['transform-remove-console']
+      },
+      staging: {
+        plugins: ['transform-remove-console']
+      }
+    }
   }
 }

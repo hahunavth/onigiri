@@ -1,4 +1,5 @@
 import { createNavigationContainerRef } from '@react-navigation/native'
+
 import { StackNavParamsList } from './StackNav'
 
 export const navigationRef = createNavigationContainerRef<StackNavParamsList>()

@@ -4,9 +4,10 @@ import {
   useWindowDimensions,
   StyleSheet,
   ViewStyle,
-  InteractionManager
+  InteractionManager,
+  Alert
 } from 'react-native'
-import { Text, View } from 'native-base'
+import { Text, View, Menu } from 'native-base'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { useAppSelector } from 'app/store/hooks'
@@ -18,18 +19,19 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useColorModeStyle } from '../../hooks/useColorModeStyle'
 import { goBack, navigate } from '../../navigators'
+import { ChapterContext } from './ChapterContext'
 
 interface Props {
-  style?: ViewStyle,
+  style?: ViewStyle
   name?: string
 }
 
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView)
 
 const ChapterHeader = (props: Props) => {
-
   const { top } = useSafeAreaInsets()
   const { boxStyle, textStyle } = useColorModeStyle('', 'Secondary')
+  const { setViewStatus, viewStatus } = React.useContext(ChapterContext)
 
   const containerStyle = React.useMemo(() => {
     return [
@@ -51,49 +53,60 @@ const ChapterHeader = (props: Props) => {
     ]
   }, [props.style, top])
 
+  const onMenuPress = React.useCallback(() => {
+    Alert.alert('', '', [
+      {
+        text: 'vertical',
+        onPress: () => setViewStatus && setViewStatus('horizontal')
+      },
+      {
+        text: 'horizontal',
+        onPress: () => setViewStatus && setViewStatus('vertical')
+      }
+    ])
+  }, [])
 
   return (
     <>
-      <AnimatedSafeAreaView
-        style={containerStyle as ViewStyle}
-      >
+      <AnimatedSafeAreaView style={containerStyle as ViewStyle}>
         {/* Floading */}
         <SafeAreaView
-          style={[{
-            position: 'absolute', right: 4, top: 0,
-            bottom: 0, justifyContent: 'center',
-            alignItems: 'center'
-          }, textStyle]}
+          style={[
+            {
+              position: 'absolute',
+              right: 4,
+              top: 0,
+              bottom: 0,
+              justifyContent: 'center',
+              alignItems: 'center'
+            },
+            textStyle
+          ]}
         >
-          <TouchableOpacity
-
-          >
-            <AntDesign
-              name="menuunfold"
-              size={28}
-              color={textStyle.color}
-            />
+          <TouchableOpacity onPress={onMenuPress}>
+            <AntDesign name="menuunfold" size={28} color={textStyle.color} />
           </TouchableOpacity>
         </SafeAreaView>
 
         <SafeAreaView
-          style={[{
-            position: 'absolute', left: 4, top: 0,
-            bottom: 0, justifyContent: 'center',
-            alignItems: 'center'
-          }, textStyle]}
+          style={[
+            {
+              position: 'absolute',
+              left: 4,
+              top: 0,
+              bottom: 0,
+              justifyContent: 'center',
+              alignItems: 'center'
+            },
+            textStyle
+          ]}
         >
           <TouchableOpacity
             onPress={() => {
               goBack()
             }}
           >
-            <AntDesign
-              name="arrowleft"
-              size={34}
-              color={textStyle.color}
-
-            />
+            <AntDesign name="arrowleft" size={34} color={textStyle.color} />
           </TouchableOpacity>
         </SafeAreaView>
 

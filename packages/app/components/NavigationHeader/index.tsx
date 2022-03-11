@@ -31,7 +31,9 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   KeyboardAvoidingView,
-  ToastAndroid
+  ToastAndroid,
+  Keyboard,
+  TextInput
 } from 'react-native'
 import Animated, {
   useSharedValue,
@@ -144,7 +146,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
     }
   })
 
-  const floatingOverlayeAnimatedStyle = useAnimatedStyle(() => {
+  const floatingOverlayAnimatedStyle = useAnimatedStyle(() => {
     return {
       position: 'absolute',
       top: 0,
@@ -186,7 +188,6 @@ const SearchNavigationHeaderChild = React.memo(() => {
       ]
     }
   })
-
   // ToastAndroid.show('render header', 100)
 
   // const prev = usePrevious(personIconAnimatedStyles)
@@ -287,8 +288,8 @@ const SearchNavigationHeaderChild = React.memo(() => {
           bs1={bs1}
           offset={offset}
           // animatedStyle={animatedStyles}
-          // ref={inputRef}
-          ref={(input) => (inputRef ? (inputRef.current = input) : null)}
+          ref={inputRef}
+          // ref={(input) => (inputRef ? (inputRef.current = input) : null)}
         />
 
         {/* Floating */}
@@ -313,7 +314,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
             floatingResultAnimatedStyles
           ]}
         >
-          <Animated.View style={floatingOverlayeAnimatedStyle}></Animated.View>
+          <Animated.View style={floatingOverlayAnimatedStyle}></Animated.View>
 
           <Text
             fontSize={15}
@@ -341,6 +342,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
                     inputRef.current.setNativeProps({
                       text: v
                     })
+                    // inputRef.current.
                   }
                 }}
               >
@@ -357,14 +359,27 @@ const SearchNavigationHeaderChild = React.memo(() => {
 
 /**
  * NOTE: TextInput in parent component will cause dismiss keyboard onChange
+ * DONE: Dismiss keyboard will blur text input
+ * DONE: Using native event instead of text state
  * @description Separate it to this component
  * @summary Handle navigate here!
  */
-const RefAnimatedInput = React.forwardRef((props: any, ref) => {
+const RefAnimatedInput = React.forwardRef<TextInput, any>((props, ref) => {
   const dispatch = useAppDispatch()
 
-  const [text, setText] = React.useState('')
-  const handleChange = (text: string) => setText(text)
+  const inputRef = React.useRef<TextInput>()
+
+  React.useEffect(() => {
+    const _keyboardDidHide = () => inputRef?.current?.blur()
+    const emitter = Keyboard.addListener('keyboardDidHide', _keyboardDidHide)
+
+    return () => {
+      emitter.remove()
+    }
+  }, [])
+
+  // const [text, setText] = React.useState('')
+  // const handleChange = (text: string) => setText(text)
   // ref = text
   const { width } = useWindowDimensions()
   const animatedStyles = useAnimatedStyle(() => {
@@ -390,7 +405,11 @@ const RefAnimatedInput = React.forwardRef((props: any, ref) => {
   return (
     <>
       <AnimatedInput
-        ref={ref}
+        ref={(myref: TextInput) => {
+          // @ts-ignore
+          ref ? (ref.current = myref) : null
+          inputRef ? (inputRef.current = myref) : null
+        }}
         placeholder="Search"
         variant="outline"
         // mx={35}
@@ -406,27 +425,24 @@ const RefAnimatedInput = React.forwardRef((props: any, ref) => {
         style={animatedStyles}
         keyboardAppearance={'dark'}
         enablesReturnKeyAutomatically
-        value={text}
-        onChangeText={handleChange}
-        blurOnSubmit
+        // value={text}
+        // onChangeText={handleChange}
+        // onTextInput={() => console.log('first')}
+        // blurOnSubmit
         onSubmitEditing={(e) => {
-          if (text) {
-            navigate('find-by-name-result', { name: text })
-            dispatch(recentAction.pushFindName(text))
+          // console.log(e.nativeEvent.text)
+          if (e.nativeEvent.text) {
+            navigate('find-by-name-result', { name: e.nativeEvent.text })
+            dispatch(recentAction.pushFindName(e.nativeEvent.text))
           }
 
-          setText('')
-          // console.log(text)
+          inputRef.current?.setNativeProps({
+            text: ''
+          })
+
+          // setText('')
+          Keyboard.dismiss()
         }}
-        // InputLeftElement={
-        //   <Icon
-        //     ml="2"
-        //     size="4"
-        //     // color={bs2._text.color}
-        //     // backgroundColor={'white'}
-        //     as={<Ionicons name="ios-search" />}
-        //   />
-        // }
       />
     </>
   )

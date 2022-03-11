@@ -187,7 +187,9 @@ export function StackNav() {
         // gestureEnabled: false,
         // transitionSpec: {}
         header: renderHeader,
-        headerRight: renderRight
+        headerRight: renderRight,
+        headerShadowVisible: true,
+        headerLargeTitleShadowVisible: true
       }}
     >
       <Screen

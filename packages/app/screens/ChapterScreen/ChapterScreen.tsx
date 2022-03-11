@@ -21,12 +21,13 @@ import Animated, {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import useUpdateCurrentChapter from '../../hooks/useUpdateCurrentChapter'
 import useInteraction from '../../hooks/useInteraction'
-import ChapterViewListScreen from './ChapterViewListScreen'
+import ChapterViewVerticalList from './ChapterViewVerticalList'
 import ChapterContextProvider, { ChapterContext } from './ChapterContext'
 import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import { FontAwesome } from '@expo/vector-icons'
 import { CommentBottomSheet, CommentLoader } from '../../components/Comment'
 import { homeSelector } from '../../store/homeSlice'
+import { ChapterViewHorizontalList } from './ChapterViewHorizontalList'
 
 export function ChapterScreen(props: ChapterScreenProps) {
   return (
@@ -40,8 +41,15 @@ let oldOffset = 0
 const screenHeight = Dimensions.get('screen').height
 
 function ChapterScreenNode(props: ChapterScreenProps) {
-  const { ctxId, ctxName, ctxPath, setCtxId, setCtxName, setCtxPath } =
-    useContext(ChapterContext)
+  const {
+    ctxId,
+    ctxName,
+    ctxPath,
+    setCtxId,
+    setCtxName,
+    setCtxPath,
+    viewStatus
+  } = useContext(ChapterContext)
 
   const comicPath = useAppSelector(homeSelector).currentComic?.path
 
@@ -127,6 +135,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   // VAr
   const { data, isFetching } = useApiChapter(ctxPath || path)
   const chapterInfo = data?.data
+
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([])
 
   // UPDATE IMAGE LIST
@@ -189,6 +198,11 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     oldOffset = currentOffset
   }, [])
 
+  const toggleFloatingVisible = React.useCallback(() => {
+    if (offset.value > 0) offset.value = 0
+    else offset.value = 64
+  }, [offset])
+
   const expandSheet = React.useCallback(() => {
     bottomSheetRef.current?.snapToIndex(0)
   }, [])
@@ -196,6 +210,8 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   useEffect(() => {
     bottomSheetRef.current?.close()
   }, [ctxId])
+
+  // return <ComicViewHorizontaList />
 
   return (
     <>
@@ -206,16 +222,27 @@ function ChapterScreenNode(props: ChapterScreenProps) {
         </Animated.View>
 
         {/* ComicView */}
-        {loading ? null : (
+        {loading ? null : viewStatus === 'vertical' ? (
           <View style={style.container}>
-            <ChapterViewListScreen
+            <ChapterViewVerticalList
               ref={flatListRef as any}
               handleScroll={handleScroll}
               imgs={imgs}
+              imgList={chapterInfo?.chapterList || []}
               setImgs={setImgs}
               onEndReach={expandSheet}
             />
           </View>
+        ) : (
+          <ChapterViewHorizontalList
+            ref={flatListRef as any}
+            handleScroll={handleScroll}
+            imgs={imgs}
+            imgList={chapterInfo?.chapterList || []}
+            setImgs={setImgs}
+            onEndReach={expandSheet}
+            toggleFloatingVisible={toggleFloatingVisible}
+          />
         )}
       </SafeAreaView>
 

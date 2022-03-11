@@ -111,6 +111,7 @@ export function SharedNav() {
         //   )
         // },
         // detachPreviousScreen: false,
+
         presentation: 'modal',
         transitionSpec: {
           open: {

@@ -84,8 +84,9 @@ export const comicApi = createApi({
     }),
     findComicByName: builder.query<ApiResponse_T<resComicItem_T[]>, string>({
       query: (path) => {
-        console.log('🚀🚀🚀 ~api.ts`', `${path}`)
-        return `/find-by-name?name=${path}`
+        const name = path?.replace(/ /g, '%20')
+        console.log('🚀🚀🚀 ~api.ts`', `/find-by-name?name=${name}`)
+        return `/find-by-name?name=${name}`
       }
     }),
     getComicComment: builder.query<ApiResponse_T<resCommentT[]>, string>({

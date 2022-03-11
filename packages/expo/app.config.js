@@ -31,7 +31,7 @@ export default {
   version: '0.0.1',
   splash: {
     image: './assets/splash.png',
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     backgroundColor: '#000000'
   },
   ios: {
@@ -43,7 +43,7 @@ export default {
     package: config.scheme,
     versionCode: 1,
     adaptiveIcon: {
-      foregroundImage: './assets/adaptive-icon.png',
+      foregroundImage: './assets/icon.png',
       backgroundColor: config.backgroundColor
     },
     jsEngine: 'hermes'

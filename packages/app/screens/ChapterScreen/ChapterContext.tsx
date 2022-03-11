@@ -14,6 +14,10 @@ type ChapterContextT = {
   changeChapter?: (
     p: Pick<ChapterContextT, 'ctxId' | 'ctxName' | 'ctxPath'>
   ) => any
+  viewStatus?: 'vertical' | 'horizontal'
+  setViewStatus?: React.Dispatch<
+    React.SetStateAction<'vertical' | 'horizontal'>
+  >
 }
 
 export const ChapterContext = React.createContext<ChapterContextT>({})
@@ -21,6 +25,9 @@ export const ChapterContext = React.createContext<ChapterContextT>({})
 export default function ChapterContextProvider(
   props: ChapterScreenContextProps
 ) {
+  const [viewStatus, setViewStatus] = React.useState<'vertical' | 'horizontal'>(
+    'horizontal'
+  )
   const [ctxName, setCtxName] = React.useState('')
   const [ctxId, setCtxId] = React.useState(-1)
   const [ctxPath, setCtxPath] = React.useState('')
@@ -49,7 +56,9 @@ export default function ChapterContextProvider(
         setCtxId,
         ctxPath,
         setCtxPath,
-        changeChapter
+        changeChapter,
+        viewStatus,
+        setViewStatus
       }}
     >
       {props.children}

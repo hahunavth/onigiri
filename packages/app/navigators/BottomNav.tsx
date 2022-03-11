@@ -1,7 +1,9 @@
 import { useColorModeValue, useToken } from 'native-base'
+import { Easing } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import {} from 'react'
 // NOTE: IMPORT COMPONENT
 import {
   BottomTabNavigationHeader,
@@ -44,7 +46,19 @@ export default function BottomNav() {
         tabBarActiveTintColor: text,
         tabBarActiveBackgroundColor: background,
         tabBarInactiveBackgroundColor: background,
-        tabBarHideOnKeyboard: true
+        tabBarHideOnKeyboard: true,
+        tabBarVisibilityAnimationConfig: {
+          show: {
+            animation: 'timing',
+            config: { duration: 700, easing: Easing.out(Easing.exp) }
+          }
+          // hide: {
+          //   animation: 'timing';
+          //   config: {
+
+          //   }
+          // }
+        }
         // tabBarVisibilityAnimationConfig
       }}
       // detachInactiveScreens={false}
