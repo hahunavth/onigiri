@@ -22,7 +22,8 @@ import {
   OfflineComicScreen,
   GenresList,
   Genres,
-  HomeSessionDetailListScreen
+  HomeSessionDetailListScreen,
+  GenresBadgeListScreen
 } from 'app/screens'
 
 import BottomNav, { BottomNavParamsList } from './BottomNav'
@@ -98,6 +99,7 @@ export type StackNavParamsList = {
   genres: {
     genresName: string
   }
+  'genres.badge-list': undefined
   'home-session-detail-list': {
     type: 'recently' | 'hot' | 'week'
   }
@@ -150,7 +152,8 @@ export type HomeSessionDetailListScreenProps = NativeStackScreenProps<
 /**
  * Export navigation
  */
-const { Navigator, Screen } = createNativeStackNavigator<StackNavParamsList>()
+const { Navigator, Screen } =
+  createSharedElementStackNavigator<StackNavParamsList>()
 
 export function StackNav() {
   const renderHeader = React.useCallback(
@@ -258,6 +261,14 @@ export function StackNav() {
         })}
         component={Genres}
       ></Screen>
+      <Screen
+        name="genres.badge-list"
+        // options={(props) => ({
+        //   title: `Genres: ${props.route.params.genresName}`
+        // })}
+        component={GenresBadgeListScreen}
+      ></Screen>
+
       <Screen name="genres-comic-list" component={GenresList}></Screen>
 
       <Screen

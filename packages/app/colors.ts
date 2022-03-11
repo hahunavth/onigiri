@@ -16,7 +16,7 @@ export const colors = {
     textYellowPrimary: '#5d4713',
     textYellowSecondary: '#a58625',
     backgroundYellowPrimary: '#fdf6be',
-    backgroundYellowSecondary: '#f5e27b',
+    backgroundYellowSecondary: '#F5F2BA',
     // borderYellow: '#c5b',
     //
     textBluePrimary: '#212a48',

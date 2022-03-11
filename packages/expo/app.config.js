@@ -67,6 +67,11 @@ export default {
   // },
   extra: {
     STAGE: process.env.STAGE
-  }
+  },
   // plugins: ['sentry-expo']
+  // NOTE: RN WEB
+  packagerOpts: {
+    sourceExts: ['js', 'json', 'ts', 'tsx', 'jsx', 'vue'],
+    config: 'metro.config.js'
+  }
 }

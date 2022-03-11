@@ -7,7 +7,7 @@ module.exports = async function (env, argv) {
     {
       ...env,
       babel: {
-        dangerouslyAddModulePathsToTranspile: ['native-base']
+        // dangerouslyAddModulePathsToTranspile: ['native-base']
       }
     },
     argv
@@ -43,3 +43,20 @@ module.exports = async function (env, argv) {
   // Finally return the new config for the CLI to use.
   return config
 }
+
+// const createExpoWebpackConfigAsync = require('@expo/webpack-config')
+// const path = require('path')
+
+// module.exports = async function (env, argv) {
+//   const config = await createExpoWebpackConfigAsync(env, argv)
+//   config.module.rules.forEach((r) => {
+//     if (r.oneOf) {
+//       r.oneOf.forEach((o) => {
+//         if (o.use && o.use.loader && o.use.loader.includes('babel-loader')) {
+//           o.include = [path.resolve('.')]
+//         }
+//       })
+//     }
+//   })
+//   return config
+// }

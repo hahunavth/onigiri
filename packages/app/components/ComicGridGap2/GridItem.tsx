@@ -65,7 +65,7 @@ export const GridItem = (props: GridItemProps) => {
             // size="xl"
             w={180}
             h={152}
-            mt={1}
+            mt={2}
             ml={1}
             mr={1}
             rounded={'sm'}
@@ -73,6 +73,20 @@ export const GridItem = (props: GridItemProps) => {
         ) : (
           <Skeleton w={180} h={152} mt={1} ml={1} mr={1} rounded={'sm'} />
         )}
+        <Box
+          position={'absolute'}
+          top={2}
+          right={2}
+          bg={'$light.backgroundSecondary'}
+          px={2}
+          pt={0}
+          pb={0.2}
+          rounded={'full'}
+        >
+          <Text fontSize={11} fontWeight={600} color={'$light.textSecondary'}>
+            {props.item?.views}
+          </Text>
+        </Box>
       </VStack>
     </NextLink>
   )

@@ -33,7 +33,8 @@ const nextConfig = {
     domains: [
       'st.nettruyengo.com',
       'truyentemp.com',
-      'hahunavth-express-api.herokuapp.com'
+      'hahunavth-express-api.herokuapp.com',
+      'st.nettruyenmoi.com'
     ]
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {

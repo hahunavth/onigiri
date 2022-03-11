@@ -5,7 +5,7 @@ import {
   ListRenderItemInfo,
   StyleSheet
 } from 'react-native'
-import { Text, View } from 'react-native'
+import { Text, View } from 'native-base'
 import { LinearGradient } from 'expo-linear-gradient'
 import { NextLink } from 'app/components/NextLink'
 import { HEIGHT, ITEM_PADDING, ITEM_WIDTH } from './size'
@@ -70,15 +70,26 @@ const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
                   color: 'white',
                   fontSize: 15
                 }}
+                fontFamily={'mono'}
+                fontWeight={600}
                 numberOfLines={2}
               >
                 {item?.name}
               </Text>
               <View style={{ marginBottom: 4 * ITEM_PADDING }}>
-                <Text style={{ color: 'white' }}>
+                <Text
+                  style={{ color: 'white' }}
+                  fontFamily={'mono'}
+                  fontWeight={500}
+                >
                   {item?.lastedChapters && item?.lastedChapters[0].chapterName}
                 </Text>
-                <Text style={{ color: 'white' }}>
+                <Text
+                  style={{ color: '#ddc' }}
+                  fontSize={13}
+                  fontFamily={'mono'}
+                  fontWeight={500}
+                >
                   {item?.lastedChapters &&
                     item?.lastedChapters[0].updatedDistance}
                 </Text>

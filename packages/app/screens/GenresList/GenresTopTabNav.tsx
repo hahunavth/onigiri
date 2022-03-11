@@ -50,7 +50,7 @@ const propsList: PropsListT = {
   'genres-comic-list/chuyen-sinh': 5,
   'genres-comic-list/drama': 11,
   'genres-comic-list/ecchi': 13,
-  'genres-comic-list/gender-blender': 15,
+  // 'genres-comic-list/gender-blender': 15,
   'genres-comic-list/harem': 16
 }
 

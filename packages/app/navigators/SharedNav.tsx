@@ -162,6 +162,7 @@ export function SharedNav() {
           }
           // return [`${preloadItem?.posterUrl}`];
         }}
+        initialParams={{ path: '/truyen-tranh/dai-vuong-tha-mang-26499' }}
       ></Screen>
       <Screen
         name="shared/find-result"

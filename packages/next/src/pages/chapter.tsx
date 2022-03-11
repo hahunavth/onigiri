@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useApiComicDetail, useApiChapter } from 'app/store/api'
-import ChapterViewListScreen from 'app/screens/ChapterScreen/ChapterViewListScreen'
+import ChapterViewVerticalList from 'app/screens/ChapterScreen/ChapterViewVerticalList'
 import useInteraction from 'app/hooks/useInteraction'
 
 type Props = {}
@@ -58,7 +58,7 @@ const chapter = (props: Props) => {
       {/* ComicView */}
       {isSuccess2 ? (
         <View style={{ flex: 1 }}>
-          <ChapterViewListScreen
+          <ChapterViewVerticalList
             // ref={flatListRef as any}
             // handleScroll={handleScroll}
             imgs={imgs || []}

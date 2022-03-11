@@ -72,8 +72,8 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
             // size="xl"
             // w={114}
             w={[125, 150, 150, 175, 220]}
-            height={[152, 180, 180, 210, 270]}
-            // h={152}
+            height={[168, 180, 180, 210, 270]}
+            // h={168}
             // mt={[1]}
             // ml={1}
             // mr={1}
@@ -82,7 +82,7 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
         ) : (
           <Skeleton
             w={[125, 150, 150, 175, 220]}
-            height={[152, 180, 180, 210, 270]}
+            height={[168, 180, 180, 210, 270]}
             // mt={1}
             // ml={1}
             // mr={1}

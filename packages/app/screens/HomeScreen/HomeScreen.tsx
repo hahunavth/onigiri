@@ -13,9 +13,9 @@ import Categories from '../../components/Categories'
 export const HomeScreen = () => {
   return (
     <ScrollView
-      bg={'$light.backgroundSecondary'}
+      bg={'warmGray.100'}
       _dark={{
-        bg: '$dark.backgroundSecondary'
+        bg: '$dark.backgroundPrimary'
       }}
     >
       {/* <Text>HomeScreen</Text> */}
@@ -54,7 +54,9 @@ export const HomeScreen = () => {
         color=""
         onPressMore={() => {
           // FIXME: Lint here
-          navigate('main/library')
+          navigate('main', {
+            screen: 'main/library'
+          })
         }}
       />
       <ComicHorizontalList />

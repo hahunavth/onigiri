@@ -5,7 +5,8 @@ import {
   StyleSheet,
   ViewStyle,
   InteractionManager,
-  Alert
+  Alert,
+  Platform
 } from 'react-native'
 import { Text, View, Menu } from 'native-base'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -26,7 +27,13 @@ interface Props {
   name?: string
 }
 
-const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView)
+// NOTE: CHANGESS
+const AnimatedSafeAreaView = Animated.createAnimatedComponent(
+  Platform.select({
+    web: require('native-base').View,
+    native: require('react-native-safe-area-context').SafeAreaView
+  })
+)
 
 const ChapterHeader = (props: Props) => {
   const { top } = useSafeAreaInsets()

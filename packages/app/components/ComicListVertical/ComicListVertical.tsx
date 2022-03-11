@@ -100,6 +100,7 @@ export const ComicListVertical = ({ list, onEndReach }: Props) => {
         // contentContainerStyle={{ flexGrow: 1 }}
         // ListFooterComponentStyle={{ flex: 1, justifyContent: 'flex-end' }}
         // ListFooterComponent={<ListFooter />}
+        alwaysBounceHorizontal={true}
       />
     </View>
   )

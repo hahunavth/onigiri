@@ -16,21 +16,36 @@ const Categories = () => {
 
   return (
     <HStack justifyContent={'center'} space={2}>
-      <IconWithTitle title="Top comic">
+      <IconWithTitle
+        title="Top comic"
+        onPress={() => {
+          navigate('genres-comic-list')
+        }}
+      >
         <MaterialIcons
           name="align-vertical-top"
           size={24}
           color={textStyle.color}
         />
       </IconWithTitle>
-      <IconWithTitle title="Genres">
+      <IconWithTitle
+        title="Genres"
+        onPress={() => navigate('genres.badge-list')}
+      >
         <MaterialIcons
           name="align-vertical-top"
           size={24}
           color={textStyle.color}
         />
       </IconWithTitle>
-      <IconWithTitle title="Find comic">
+      <IconWithTitle
+        title="Find comic"
+        onPress={() =>
+          navigate('main', {
+            screen: 'main/discover'
+          })
+        }
+      >
         <MaterialIcons name="more-horiz" size={24} color={textStyle.color} />
       </IconWithTitle>
       <IconWithTitle
