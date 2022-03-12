@@ -19,8 +19,8 @@ export type resComicItem_T = {
   author?: string
   anotherName?: string
   status?: string
-  views?: string
-  follows?: string
+  views?: number
+  follows?: number
   updatedAt?: string
   updatedDistance?: string
   posterUrl?: string
@@ -44,10 +44,10 @@ export type resComicDetail_T = {
   status: string
   author: string
   kind: string[]
-  info: string
-  rate: string
-  views: string
-  follows: string
+  info: number
+  rate: number
+  views: number
+  follows: number
   detail: string
   id?: string
   chapters: resComicDetailChapterItem_T[]
@@ -60,7 +60,7 @@ export type resComicDetailChapterItem_T = {
   url: string
   path: string
   updatedDistance: string
-  updatedVew: string // NOTE: api forgot name
+  updatedVew: number
 }
 
 // "https://hahunavth-express-api.herokuapp.com/api/v1/" + path.path

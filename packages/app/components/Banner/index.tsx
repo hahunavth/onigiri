@@ -20,7 +20,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { isNullOrUndefined } from 'util'
 import { NextLink } from 'app/components/NextLink'
 import Item from './Item'
-import { ITEM_HEIGHT, ITEM_PADDING, ITEM_WIDTH, NUM_ITEM } from './size'
+import { HEIGHT, ITEM_HEIGHT, ITEM_PADDING, ITEM_WIDTH, NUM_ITEM } from './size'
 import { Box, Pressable, Skeleton } from 'native-base'
 
 export const FlatlistBanner = () => {
@@ -36,7 +36,15 @@ export const FlatlistBanner = () => {
   }, [isFetching])
 
   return (
-    <View style={{ maxWidth: 500, marginHorizontal: ITEM_PADDING }}>
+    <View
+      style={{
+        maxWidth: 500,
+        marginHorizontal: ITEM_PADDING,
+        width: ITEM_WIDTH,
+        height: HEIGHT / 4,
+        margin: ITEM_PADDING
+      }}
+    >
       {isSuccess ? (
         <View>
           <SwiperFlatList

@@ -152,8 +152,7 @@ export type HomeSessionDetailListScreenProps = NativeStackScreenProps<
 /**
  * Export navigation
  */
-const { Navigator, Screen } =
-  createSharedElementStackNavigator<StackNavParamsList>()
+const { Navigator, Screen } = createNativeStackNavigator<StackNavParamsList>()
 
 export function StackNav() {
   const renderHeader = React.useCallback(

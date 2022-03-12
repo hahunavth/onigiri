@@ -30,6 +30,7 @@ import RoundView from './RoundView'
 import CollapseRoundView from './CollapseRoundView'
 import { useApiComicComment } from '../../store/api'
 import { Comment } from '../Comment'
+import { num2FormatString } from '../../utils/stringFormat'
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -130,7 +131,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
                   // fontFamily: QFontFamily.Quicksand_600SemiBold
                 }}
               >
-                {item?.info}
+                {num2FormatString(item?.info)}
               </Text>
             </View>
           </RoundView>

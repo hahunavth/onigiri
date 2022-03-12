@@ -1,4 +1,5 @@
 import React from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 type ChapterScreenContextProps = {
   children: React.ReactNode
@@ -15,9 +16,10 @@ type ChapterContextT = {
     p: Pick<ChapterContextT, 'ctxId' | 'ctxName' | 'ctxPath'>
   ) => any
   viewStatus?: 'vertical' | 'horizontal'
-  setViewStatus?: React.Dispatch<
-    React.SetStateAction<'vertical' | 'horizontal'>
-  >
+  setViewStatus?: (param: 'vertical' | 'horizontal') => void
+  // React.Dispatch<
+  //   React.SetStateAction<'vertical' | 'horizontal'>
+  // >
 }
 
 export const ChapterContext = React.createContext<ChapterContextT>({})
@@ -28,6 +30,23 @@ export default function ChapterContextProvider(
   const [viewStatus, setViewStatus] = React.useState<'vertical' | 'horizontal'>(
     'horizontal'
   )
+
+  const setViewStatusAndAsyncStorage = React.useCallback(
+    (param: 'vertical' | 'horizontal') => {
+      setViewStatus(param)
+      AsyncStorage.setItem('chapterViewStatus', param)
+    },
+    []
+  )
+
+  React.useEffect(() => {
+    ;(async () => {
+      const vs = await AsyncStorage.getItem('chapterViewStatus')
+      // console.log('vs' + vs)
+      setViewStatus((vs as 'vertical' | 'horizontal') || 'horizontal')
+    })()
+  }, [])
+
   const [ctxName, setCtxName] = React.useState('')
   const [ctxId, setCtxId] = React.useState(-1)
   const [ctxPath, setCtxPath] = React.useState('')
@@ -58,7 +77,7 @@ export default function ChapterContextProvider(
         setCtxPath,
         changeChapter,
         viewStatus,
-        setViewStatus
+        setViewStatus: setViewStatusAndAsyncStorage
       }}
     >
       {props.children}

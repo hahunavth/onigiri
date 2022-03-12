@@ -1,4 +1,5 @@
-import { View, Text, ScrollView } from 'native-base'
+import { View, Text, ScrollView, FlatList } from 'native-base'
+import { VirtualizedList, ListRenderItemInfo } from 'react-native'
 import React from 'react'
 import { NextLink } from 'app/components/NextLink'
 import { ListHeader } from 'app/components/ListHeader'
@@ -11,56 +12,83 @@ import { navigate } from '../../navigators'
 import Categories from '../../components/Categories'
 
 export const HomeScreen = () => {
-  return (
-    <ScrollView
-      bg={'warmGray.100'}
-      _dark={{
-        bg: '$dark.backgroundPrimary'
-      }}
-    >
-      {/* <Text>HomeScreen</Text> */}
-      <ListHeader
-        name="New Release!"
-        subtitle="Read the lasted comic recommendations!"
-        onPressMore={() => {
-          navigate('home-session-detail-list', { type: 'recently' })
-        }}
-      />
-      <FlatlistBanner />
+  const data = React.useMemo(() => {
+    return [
+      () => (
+        <ListHeader
+          name="New Release!"
+          subtitle="Read the lasted comic recommendations!"
+          onPressMore={() => {
+            navigate('home-session-detail-list', { type: 'recently' })
+          }}
+        />
+      ),
+      () => <FlatlistBanner />,
+      () => <ListHeader name="Categories" subtitle="Find more here!" />,
+      () => <Categories />,
+      () => (
+        <ListHeader
+          name="Hot"
+          subtitle="New comic release!"
+          color=""
+          onPressMore={() => {
+            navigate('home-session-detail-list', { type: 'hot' })
+          }}
+        />
+      ),
+      () => <ComicList1 />,
+      () => (
+        <ListHeader
+          name="Top week"
+          subtitle="New comic release!"
+          color=""
+          onPressMore={() =>
+            navigate('home-session-detail-list', { type: 'week' })
+          }
+        />
+      ),
+      () => <ComicList2 />,
+      () => (
+        <ListHeader
+          name="History"
+          subtitle="New comic release!"
+          color=""
+          onPressMore={() => {
+            navigate('main', {
+              screen: 'main/library'
+            })
+          }}
+        />
+      ),
+      () => <ComicHorizontalList />
+    ]
+  }, [])
 
-      <ListHeader name="Categories" subtitle="Find more here!" />
-      <Categories />
-      <ListHeader
-        name="Hot"
-        subtitle="New comic release!"
-        color=""
-        onPressMore={() => {
-          navigate('home-session-detail-list', { type: 'hot' })
+  const renderItem = React.useCallback(
+    ({ item }: ListRenderItemInfo<() => React.ReactElement>) => {
+      const Element = item
+      return <Element />
+    },
+    []
+  )
+
+  const keyExtractor = React.useCallback((item, id) => {
+    return id.toString()
+  }, [])
+
+  return (
+    <>
+      <FlatList
+        bg={'warmGray.100'}
+        // @ts-ignore
+        _dark={{
+          backgroundColor: '$dark.backgroundPrimary'
         }}
-      />
-      <ComicList1 />
-      <ListHeader
-        name="Top week"
-        subtitle="New comic release!"
-        color=""
-        onPressMore={() =>
-          navigate('home-session-detail-list', { type: 'week' })
-        }
-      />
-      <ComicList2 />
-      <ListHeader
-        name="History"
-        subtitle="New comic release!"
-        color=""
-        onPressMore={() => {
-          // FIXME: Lint here
-          navigate('main', {
-            screen: 'main/library'
-          })
-        }}
-      />
-      <ComicHorizontalList />
-    </ScrollView>
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+      ></FlatList>
+    </>
   )
 }
 

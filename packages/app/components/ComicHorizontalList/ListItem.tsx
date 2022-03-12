@@ -80,38 +80,54 @@ export function ListItem({ item }: Props) {
               intensity={100}
               tint={colorMode === 'dark' ? 'dark' : 'light'}
               // style={{ margin: 1, borderRadius: 2 }}
+              style={{ flex: 1 }}
             >
-              <VStack>
+              <VStack justifyContent={'center'} alignItems={'center'} flex={1}>
                 <Text
                   color={'$light.textPrimary'}
                   _dark={{ color: '$dark.textPrimary' }}
-                  fontWeight="bold"
+                  fontWeight="600"
                   numberOfLines={1}
                   fontSize={15}
                 >
                   {item.title}
                 </Text>
-                <HStack justifyContent="space-between">
-                  <Text
+                {/* <HStack justifyContent="space-between"> */}
+                {/* <Text
                     fontWeight={500}
                     fontSize={12}
                     color={'$light.textSecondary'}
                     _dark={{ color: '$dark.textSecondary' }}
                   >
                     {item.lastedReadChapter}
-                  </Text>
-                  <Text
+                  </Text> */}
+                {/* <Text
                     fontWeight={500}
                     fontSize={12}
                     color={'$light.textSecondary'}
                     _dark={{ color: '$dark.textSecondary' }}
                   >
                     {item.createdAt}
-                  </Text>
-                </HStack>
+                  </Text> */}
+                {/* </HStack> */}
               </VStack>
             </BlurView>
             {/* </LinearGradient> */}
+          </Box>
+
+          <Box
+            position={'absolute'}
+            top={1}
+            right={1}
+            bg={'$light.backgroundPrimary'}
+            px={2}
+            rounded={'full'}
+            shadow={1}
+            opacity={0.85}
+          >
+            <Text fontSize={12} fontWeight={600} color={'$light.textPrimary'}>
+              {item.lastedReadChapter}
+            </Text>
           </Box>
         </ZStack>
       </Box>

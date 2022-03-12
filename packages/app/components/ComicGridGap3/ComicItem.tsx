@@ -33,7 +33,7 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
         }}
         borderWidth={1}
         borderColor={'#c0d4f1'}
-        w={[125, 125, 150, 175, 220]}
+        w={[120, 120, 150, 175, 220]}
         height={[220, 208, 260, 320]}
         rounded="sm"
         m={[1, 1, 2]}
@@ -71,7 +71,7 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
             alt="Alternate Text"
             // size="xl"
             // w={114}
-            w={[125, 150, 150, 175, 220]}
+            w={[120, 150, 150, 175, 220]}
             height={[168, 180, 180, 210, 270]}
             // h={168}
             // mt={[1]}
@@ -81,7 +81,7 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
           />
         ) : (
           <Skeleton
-            w={[125, 150, 150, 175, 220]}
+            w={[120, 150, 150, 175, 220]}
             height={[168, 180, 180, 210, 270]}
             // mt={1}
             // ml={1}

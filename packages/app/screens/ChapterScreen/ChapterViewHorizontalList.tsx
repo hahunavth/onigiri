@@ -50,6 +50,7 @@ export const ChapterViewHorizontalList = React.forwardRef<
       // onIndexChange={(newIndex) => {
       //   console.log(newIndex)
       // }}
+      disableVerticalSwipe={false}
       style={{ backgroundColor: '#eee' }}
       onTap={toggleFloatingVisible}
       renderItem={({ item, index, setImageDimensions }) => {

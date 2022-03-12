@@ -1,6 +1,7 @@
 import { HStack, VStack, Text, View, Factory } from 'native-base'
 import { StyleSheet, TouchableNativeFeedback } from 'react-native'
 import { Entypo } from '@expo/vector-icons'
+import React from 'react'
 
 import type { comicListProps } from './types'
 

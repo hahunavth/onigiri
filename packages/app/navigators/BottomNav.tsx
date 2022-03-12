@@ -16,6 +16,7 @@ import {
   SettingScreen,
   MainTestScreen
 } from 'app/screens'
+import React from 'react'
 
 export type BottomNavParamsList = {
   'main/home': undefined

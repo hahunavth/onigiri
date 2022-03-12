@@ -17,6 +17,9 @@ import {
   Text,
   VStack
 } from 'native-base'
+// @ts-ignore
+import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView'
+
 import { ScaledImage } from '../../components/ScaledImage'
 import { AntDesign } from '@expo/vector-icons'
 import ChapterFooterBtn from '../../components/ChapterFooterBtn'
@@ -67,78 +70,93 @@ const ChapterViewVerticalList = React.forwardRef<
 
   return (
     // <PinchWrapper>
-    <FlatList
-      ref={(fref) => {
-        if (fref) {
-          flatlistRef && (flatlistRef.current = fref)
-          // @ts-ignore
-          ref && (ref.current = fref)
-        }
-      }}
-      data={imgs || []}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      onScroll={handleScroll}
-      initialNumToRender={4}
-      maxToRenderPerBatch={5}
-      removeClippedSubviews={true}
-      // FIXME: SCROLL OVER FOOTER -> OPEN
-      onEndReachedThreshold={1.1}
-      onEndReached={(e) => props.onEndReach && props.onEndReach(e)}
-      nestedScrollEnabled
-      ListFooterComponent={() => {
-        return (
-          <ScrollView my={24}>
-            <Center>
-              <Text fontSize={24}>END</Text>
-              <Text>Chapter 0</Text>
-            </Center>
-            <Divider my={12} />
-            <ChapterFooterBtn
-              onPress={() => {
-                const length = currentComic?.chapters.length || -1
-                const list = currentComic?.chapters || []
-                const id = ctxId || -1
-                console.log(length, id)
-                if (
-                  id < length - 1 &&
-                  id > 0 &&
-                  list[id + 1] &&
-                  changeChapter
-                ) {
-                  changeChapter({
-                    ctxId: id + 1,
-                    ctxName: list[id + 1].name,
-                    ctxPath: list[id + 1].path
-                  })
-                }
-              }}
-            />
-            <ChapterFooterBtn
-              type="next"
-              onPress={() => {
-                const length = currentComic?.chapters.length || -1
-                const list = currentComic?.chapters || []
-                const id = ctxId || -1
-                console.log(length, id)
-                if (id < length && id >= 0 && list[id - 1] && changeChapter) {
-                  changeChapter({
-                    ctxId: id - 1,
-                    ctxName: list[id - 1].name,
-                    ctxPath: list[id - 1].path
-                  })
-                }
-              }}
-            />
-            <Divider my={12} />
-            <Center>
-              <Text fontSize={24}>COMMENT</Text>
-              <Text>Open comment BottomSheet</Text>
-            </Center>
-          </ScrollView>
-        )
-      }}
-    />
+    <ReactNativeZoomableView
+      maxZoom={1.4}
+      minZoom={1}
+      zoomStep={0.5}
+      initialZoom={1}
+      doubleTapDelay={200}
+      // bindToBorders={true}
+      // pinchToZoomInSensitivity={3}
+      // onZoomAfter={this.logOutZoomState}
+      // style={{
+      // padding: 10,
+      // backgroundColor: 'red'
+      // }}
+    >
+      <FlatList
+        ref={(fref) => {
+          if (fref) {
+            flatlistRef && (flatlistRef.current = fref)
+            // @ts-ignore
+            ref && (ref.current = fref)
+          }
+        }}
+        data={imgs || []}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        onScroll={handleScroll}
+        initialNumToRender={4}
+        maxToRenderPerBatch={5}
+        removeClippedSubviews={true}
+        // FIXME: SCROLL OVER FOOTER -> OPEN
+        onEndReachedThreshold={1.1}
+        onEndReached={(e) => props.onEndReach && props.onEndReach(e)}
+        nestedScrollEnabled
+        ListFooterComponent={() => {
+          return (
+            <ScrollView my={24}>
+              <Center>
+                <Text fontSize={24}>END</Text>
+                <Text>Chapter 0</Text>
+              </Center>
+              <Divider my={12} />
+              <ChapterFooterBtn
+                onPress={() => {
+                  const length = currentComic?.chapters.length || -1
+                  const list = currentComic?.chapters || []
+                  const id = ctxId || -1
+                  console.log(length, id)
+                  if (
+                    id < length - 1 &&
+                    id > 0 &&
+                    list[id + 1] &&
+                    changeChapter
+                  ) {
+                    changeChapter({
+                      ctxId: id + 1,
+                      ctxName: list[id + 1].name,
+                      ctxPath: list[id + 1].path
+                    })
+                  }
+                }}
+              />
+              <ChapterFooterBtn
+                type="next"
+                onPress={() => {
+                  const length = currentComic?.chapters.length || -1
+                  const list = currentComic?.chapters || []
+                  const id = ctxId || -1
+                  console.log(length, id)
+                  if (id < length && id >= 0 && list[id - 1] && changeChapter) {
+                    changeChapter({
+                      ctxId: id - 1,
+                      ctxName: list[id - 1].name,
+                      ctxPath: list[id - 1].path
+                    })
+                  }
+                }}
+              />
+              <Divider my={12} />
+              <Center>
+                <Text fontSize={24}>COMMENT</Text>
+                <Text>Open comment BottomSheet</Text>
+              </Center>
+            </ScrollView>
+          )
+        }}
+      />
+    </ReactNativeZoomableView>
     // </PinchWrapper>
   )
 })

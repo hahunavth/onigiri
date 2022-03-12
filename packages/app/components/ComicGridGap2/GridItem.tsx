@@ -11,6 +11,7 @@ import {
 import React from 'react'
 import { TouchableNativeFeedback } from 'react-native'
 import type { resComicItem_T } from '../../types'
+import { num2FormatString } from '../../utils/stringFormat'
 import { NextLink } from '../NextLink'
 import { GridItemProps } from './types'
 
@@ -84,7 +85,7 @@ export const GridItem = (props: GridItemProps) => {
           rounded={'full'}
         >
           <Text fontSize={11} fontWeight={600} color={'$light.textSecondary'}>
-            {props.item?.views}
+            {num2FormatString(props.item?.views)}
           </Text>
         </Box>
       </VStack>

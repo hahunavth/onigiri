@@ -6,5 +6,5 @@ export type ChapterViewListProps = {
   onEndReach?: (e: any) => void
 
   toggleFloatingVisible?: () => any
-  imgList: string[]
+  imgList?: string[]
 }

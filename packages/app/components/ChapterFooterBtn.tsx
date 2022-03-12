@@ -18,6 +18,9 @@ import {
   VStack
 } from 'native-base'
 import { AntDesign } from '@expo/vector-icons'
+import { ChapterContext } from '../screens/ChapterScreen/ChapterContext'
+import { useAppSelector } from '../store/hooks'
+import { homeSelector } from '../store/homeSlice'
 
 type ChapterFooterBtnProps = {
   type?: 'next' | 'prev'
@@ -26,8 +29,27 @@ type ChapterFooterBtnProps = {
 }
 
 export default function ChapterFooterBtn(props: ChapterFooterBtnProps) {
+  const {
+    changeChapter,
+    ctxId,
+    ctxName,
+    ctxPath,
+    setCtxId,
+    setCtxName,
+    setCtxPath,
+    setViewStatus,
+    viewStatus
+  } = React.useContext(ChapterContext)
+  const { currentComic } = useAppSelector(homeSelector)
+
+  const toCpt = React.useMemo(() => {
+    if (props.type === 'next')
+      return ctxId ? currentComic?.chapters[ctxId - 1]?.name : null
+    return ctxId ? currentComic?.chapters[ctxId + 1]?.name : null
+  }, [props.type])
+
   return (
-    <Pressable onPress={props.onPress}>
+    <Pressable onPress={props.onPress} disabled={true}>
       {({ isHovered, isFocused, isPressed }) => {
         return (
           <Box
@@ -37,12 +59,17 @@ export default function ChapterFooterBtn(props: ChapterFooterBtnProps) {
             borderColor="coolGray.300"
             shadow="3"
             bg={
-              isPressed
+              !toCpt
+                ? 'gray.200'
+                : isPressed
                 ? 'coolGray.200'
                 : isHovered
                 ? 'coolGray.200'
                 : 'coolGray.100'
             }
+            _text={{
+              color: !toCpt ? 'gray.400' : 'gray.700'
+            }}
             ml={props.type === 'next' ? 'auto' : undefined}
             p="5"
             rounded="8"
@@ -68,7 +95,7 @@ export default function ChapterFooterBtn(props: ChapterFooterBtnProps) {
                       NEXT CHAPTER
                     </Text>
                     <Text mt="2" fontSize="sm" color="coolGray.700">
-                      Chap 1
+                      {toCpt}
                     </Text>
                   </VStack>
                   <AntDesign
@@ -96,7 +123,7 @@ export default function ChapterFooterBtn(props: ChapterFooterBtnProps) {
                       PREV CHAPTER
                     </Text>
                     <Text mt="2" fontSize="sm" color="coolGray.700">
-                      Chap 1
+                      {toCpt}
                     </Text>
                   </VStack>
                   <AntDesign
