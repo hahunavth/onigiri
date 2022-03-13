@@ -75,7 +75,7 @@
     "flipper-plugin-performance": "^2.0.0",
     "isomorphic-fetch": "^3.0.0",
     "main": "index.js",
-    "moti": "^0.17.1",
+    "moti": "^0.16.1",
     "native-base": "^3.3.5",
     "numeral": "^2.0.6",
     "react": "17.0.2",
