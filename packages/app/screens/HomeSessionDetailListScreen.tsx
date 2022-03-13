@@ -1,4 +1,5 @@
 import HomeSessionDetailList from '../components/HomeSessionDetailList'
+import React from 'react'
 import { HomeSessionDetailListScreenProps } from '../navigators/StackNav'
 
 export const HomeSessionDetailListScreen = (

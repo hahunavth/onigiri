@@ -21,7 +21,8 @@ const withTM = require('next-transpile-modules')([
   '@motify/components',
   '@motify/interactions',
   'react-native-reanimated',
-  'react-use'
+  'react-use',
+  '@dudigital/react-native-zoomable-view'
   // FIXME: ERROR WHEN RUN BUILD BY THIS LIB
   // 'react-native-element-dropdown'
 ])
