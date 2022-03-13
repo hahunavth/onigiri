@@ -28,6 +28,8 @@ import React, { useEffect, useState } from 'react'
 import * as Font from 'expo-font'
 import { Text } from 'react-native'
 
+import '../components/Carousel/style.css'
+
 // NOTE: CONFIG LG IN NEXT.JS
 const config = {
   dependencies: {
