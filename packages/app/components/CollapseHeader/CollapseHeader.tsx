@@ -223,6 +223,7 @@ export const CollapseHeader = (props: Props) => {
         maxToRenderPerBatch={5} // Reduce number in each render batch
         updateCellsBatchingPeriod={100} // Increase time between renders
         windowSize={10} // Reduce the window size
+        showsVerticalScrollIndicator={false}
         {...sharedProps}
       />
     ),

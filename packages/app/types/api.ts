@@ -25,6 +25,7 @@ export type resComicItem_T = {
   updatedDistance?: string
   posterUrl?: string
   id?: string
+  description: string
   lastedChapters?: [
     {
       chapterName: string

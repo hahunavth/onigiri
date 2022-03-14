@@ -19,6 +19,7 @@ import {
   ViewProps
 } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { dateString2Distance } from '../../utils/dateFormat'
 // import QuicksandText, { QFontFamily } from "../Common/QuicksandText";
 
 export const PHOTO_SIZE = 40
@@ -44,7 +45,7 @@ const ConnectionItem: FC<Props> = ({
   offline,
   comicPath
 }) => {
-  const { path, updatedDistance, name } = connection
+  const { path, updatedDistance, name, updatedAt } = connection
   // const visited = !!useAppSelector(historySelector).readCpt[path]
   // @ts-ignore
   const visited = !!useAppSelector(selectReadChapters)[path]
@@ -76,7 +77,10 @@ const ConnectionItem: FC<Props> = ({
       <View style={mergedStyle}>
         {/* <Image style={styles.image} source={{ uri: photo }} /> */}
         <Text style={chapterTextStyle}>{name}</Text>
-        <Text style={{ color: '#ccc' }}>{updatedDistance}</Text>
+        <Text style={{ color: '#ccc' }}>
+          {/* FIXME: REJECT PROMISE */}
+          {dateString2Distance(updatedAt) || updatedDistance}
+        </Text>
       </View>
     </TouchableNativeFeedback>
   )

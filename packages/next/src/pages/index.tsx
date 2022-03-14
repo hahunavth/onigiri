@@ -4,6 +4,7 @@ import { FlatlistBanner } from 'app/components/Banner'
 import { NavBar } from 'app/components/NavBar.web'
 import { ComicGridGap3 } from 'app/components/ComicGridGap3/index'
 import { useApiHot, useApiRecently, useApiTopWeek } from 'app/store/api'
+import { Carousel } from '../components/Carousel'
 
 export default function Page() {
   const { data } = useApiHot('1')
@@ -19,8 +20,13 @@ export default function Page() {
         alignSelf={'center'}
         flexDirection={'column'}
         bg={'warmGray.50'}
+        mt={800}
       >
-        <FlatlistBanner />
+        {/* <FlatlistBanner /> */}
+        <View mt={4}>
+          <ListHeader name={"What's New"} color="Blue" />
+        </View>
+        <Carousel list={data?.data || []} />
         <View mt={4}>
           <ListHeader name={"What's New"} color="Blue" />
         </View>

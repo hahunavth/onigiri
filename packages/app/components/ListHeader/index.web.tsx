@@ -17,6 +17,9 @@ export const ListHeader = ({
       style={[styles.headerContainer, containerStyle]}
       _light={{ bg: `$light.background${color}Primary` }}
       _dark={{ bg: `$dark.backgroundPrimary` }}
+      shadow={1}
+      mb={1}
+      rounded={1}
     >
       <VStack style={styles.titleContainer}>
         <Text

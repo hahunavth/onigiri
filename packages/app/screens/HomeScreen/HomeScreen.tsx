@@ -10,6 +10,7 @@ import { ComicGridGap2 } from '../../components/ComicGridGap2'
 import { ComicHorizontalList } from 'app/components/ComicHorizontalList'
 import { navigate } from '../../navigators'
 import Categories from '../../components/Categories'
+import { Carousel } from '../../../next/src/components/Carousel'
 
 export const HomeScreen = () => {
   const data = React.useMemo(() => {
@@ -48,6 +49,7 @@ export const HomeScreen = () => {
         />
       ),
       () => <ComicList2 />,
+
       () => (
         <ListHeader
           name="History"
@@ -99,5 +101,10 @@ function ComicList1() {
 
 function ComicList2() {
   const list = useApiTopWeek('1')
-  return <ComicGridGap2 list={list.data?.data || []} />
+  return (
+    <>
+      <ComicGridGap2 list={list.data?.data || []} />
+      <Carousel list={list.data?.data || []} />
+    </>
+  )
 }

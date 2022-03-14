@@ -85,6 +85,7 @@ export default function BottomNav() {
         name="main/discover"
         component={DiscoverScreen}
         options={{
+          title: 'Discover',
           tabBarIcon: DiscoverIcon
         }}
       ></Screen>
@@ -93,19 +94,20 @@ export default function BottomNav() {
         name="main/setting"
         component={SettingScreen}
         options={{
+          title: 'Library',
           tabBarIcon: SettingIcon
         }}
       ></Screen>
 
-      <Screen
-        name="main/test"
-        component={MainTestScreen}
-        options={{
-          tabBarIcon: TestIcon
-          // header: (props) => <SearchNavigationHeader {...props} />
-          // headerStyle: { backgroundColor: 'red', zIndex: 1000000 }
-        }}
-      ></Screen>
+      {__DEV__ && (
+        <Screen
+          name="main/test"
+          component={MainTestScreen}
+          options={{
+            tabBarIcon: TestIcon
+          }}
+        ></Screen>
+      )}
     </Navigator>
   )
 }

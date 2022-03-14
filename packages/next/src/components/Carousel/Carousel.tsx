@@ -9,15 +9,21 @@ import {
   Image,
   VStack,
   Heading,
-  Text
+  Text,
+  Skeleton,
+  Button
 } from 'native-base'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import Animated from 'react-native-reanimated'
 import { MotiView } from 'moti'
 import { AnimatePresence } from 'framer-motion'
+import { resComicItem_T } from 'app/types'
+import { NextLink } from 'app/components/NextLink'
 
-type Props = {}
+type Props = {
+  list: resComicItem_T[]
+}
 
 const images = [
   'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
@@ -27,40 +33,43 @@ const images = [
 export const Carousel = (props: Props) => {
   const [imageId, setImageId] = React.useState(0)
 
-  return (
-    <HStack w={['full']} h={320} bg={'blueGray.50'}>
-      {/* Icon */}
-      {/* <div className="carousel__nav">
-        <span id="moveLeft" className="carousel__arrow">
-          <svg
-            className="carousel__icon"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path>
-          </svg>
-        </span>
-        <span id="moveRight" className="carousel__arrow">
-          <svg
-            className="carousel__icon"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path>
-          </svg>
-        </span>
-      </div> */}
-      {/* Icon */}
+  const goPrev = React.useCallback(
+    () => setImageId((id) => (id > 0 ? id - 1 : props.list.length - 1)),
+    []
+  )
 
+  const goNext = React.useCallback(
+    () => setImageId((id) => (id < props.list?.length - 1 ? id + 1 : 0)),
+    []
+  )
+
+  React.useEffect(() => {
+    const emmit = setInterval(goNext, 10000)
+    return () => clearInterval(emmit)
+  }, [imageId])
+
+  return (
+    <HStack
+      w={['full']}
+      h={[200, 320]}
+      bg={'white'}
+      rounded={1}
+      overflow={'hidden'}
+    >
       {/* Icon */}
       <HStack
+        _android={{ position: 'absolute', left: 0, zIndex: 2, bottom: 0 }}
+        // position={'absolute'}
+        // left={0}
+        // bottom={0}
+        // zIndex={2}
         _web={{ position: 'absolute', right: 0, zIndex: 2, bottom: 0 }}
         bg={'white'}
       >
         <Pressable
-          cursor={'pointer'}
+          _web={{
+            cursor: 'pointer'
+          }}
           _hover={{
             bg: 'blue.50'
           }}
@@ -68,8 +77,9 @@ export const Carousel = (props: Props) => {
             bg: 'white',
             opacity: 0.6
           }}
-          px={11}
-          py={15}
+          px={[3, 4, 11]}
+          py={[3, 4, 15]}
+          onPress={goPrev}
         >
           {({ isFocused, isHovered, isPressed }) => (
             <AntDesign
@@ -81,7 +91,9 @@ export const Carousel = (props: Props) => {
         </Pressable>
 
         <Pressable
-          cursor={'pointer'}
+          _web={{
+            cursor: 'pointer'
+          }}
           _hover={{
             bg: 'blue.50'
           }}
@@ -89,8 +101,9 @@ export const Carousel = (props: Props) => {
             bg: 'white',
             opacity: 0.6
           }}
-          px={11}
-          py={15}
+          px={[3, 4, 11]}
+          py={[3, 4, 15]}
+          onPress={goNext}
         >
           {({ isFocused, isHovered, isPressed }) => (
             <AntDesign
@@ -104,61 +117,355 @@ export const Carousel = (props: Props) => {
       {/* Icon */}
 
       {/* Content */}
-      <VStack flex={2} p={12} justifyContent={'space-between'}>
-        <VStack space={4}>
-          <Heading>Lorem ipsum dolor sit</Heading>
-          <Text numberOfLines={5} color={'gray.600'} fontSize={16}>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt,
-            eligendi quos sit odio alias quas illum itaque consequuntur veniam
-            non facere quia? Velit, quam rerum natus doloribus accusantium
-            molestias sequi? eligendi quos sit odio alias quas illum itaque
-            consequuntur veniam non facere quia? Velit, quam rerum natus
-            doloribus accusantium molestias sequi?
-          </Text>
-        </VStack>
-        <Pressable onPress={() => setImageId((id) => (id ? 0 : 1))}>
-          {({ isHovered, isPressed, isFocused }) => (
-            <Text
-              fontSize={18}
-              selectable={false}
-              color={
-                isPressed
-                  ? 'blue.300'
-                  : isHovered
-                  ? 'blueGray.600'
-                  : 'coolGray.800'
-              }
-            >
-              Read now!
-            </Text>
-          )}
-        </Pressable>
-      </VStack>
-      <Flex flex={1}>
-        <MotiView
-          style={{ flex: 1 }}
-          from={{
-            translateX: -100
-          }}
-          animate={{
-            translateY: 0
-          }}
-          transition={{
-            // loop: true,
-            type: 'timing',
-            duration: 1500,
-            delay: 100
-          }}
-        >
-          <Image
-            source={{
-              uri: images[imageId]
-            }}
-            flex={1}
-          />
-        </MotiView>
-      </Flex>
+      <VStack
+        flex={3}
+        px={[4, 12]}
+        pt={[4, 12]}
+        justifyContent={'space-between'}
+      >
+        <VStack space={[2, 4]}>
+          <AnimatePresence exitBeforeEnter>
+            {props.list?.length && imageId % 2 === 0 ? (
+              <MotiView
+                // style={{ flex: 1 }}
+                key="0"
+                exit={{
+                  opacity: 0.1,
+                  translateY: 24
+                }}
+                from={{
+                  opacity: 0.1,
+                  translateY: 24
+                }}
+                animate={{
+                  opacity: 1,
+                  translateY: 0
+                }}
+                transition={{
+                  // loop: true,
+                  type: 'timing',
+                  duration: 250
+                }}
+              >
+                {/* <Heading mb={-2}>{props.list[imageId]?.name}</Heading> */}
+                <Text
+                  mb={-2}
+                  fontSize={[15, 18, 24]}
+                  fontWeight={600}
+                  numberOfLines={2}
+                >
+                  {props.list[imageId]?.name}
+                </Text>
+              </MotiView>
+            ) : (
+              <MotiView
+                // style={{ flex: 1 }}
+                key="1"
+                exit={{
+                  opacity: 0.1,
+                  translateY: 24
+                }}
+                from={{
+                  opacity: 0.1,
+                  translateY: 24
+                }}
+                animate={{
+                  opacity: 1,
+                  translateY: 0
+                }}
+                transition={{
+                  // loop: true,
+                  type: 'timing',
+                  duration: 250
+                }}
+              >
+                {/* <Heading mb={-2}>{props.list[imageId]?.name}</Heading> */}
+                <Text
+                  mb={-2}
+                  fontSize={[15, 18, 24]}
+                  fontWeight={600}
+                  numberOfLines={2}
+                >
+                  {props.list[imageId]?.name}
+                </Text>
+              </MotiView>
+            )}
+          </AnimatePresence>
 
+          {/* Kind */}
+          <View>
+            <AnimatePresence exitBeforeEnter>
+              {props.list?.length && imageId % 2 === 0 ? (
+                <MotiView
+                  // style={{ flex: 1 }}
+                  key="0"
+                  exit={{
+                    opacity: 0.1,
+                    translateY: 24
+                  }}
+                  from={{
+                    opacity: 0.1,
+                    translateY: 24
+                  }}
+                  animate={{
+                    opacity: 1,
+                    translateY: 0
+                  }}
+                  transition={{
+                    // loop: true,
+                    type: 'timing',
+                    duration: 250,
+                    delay: 50
+                  }}
+                >
+                  <HStack display={['none', 'flex']} space={4} mb={2}>
+                    {props.list[imageId]?.kind.map((str) => {
+                      return (
+                        <Button variant={'subtle'} size={['xs', 'sm']}>
+                          {str}
+                        </Button>
+                      )
+                    })}
+                  </HStack>
+                  <Text
+                    numberOfLines={4}
+                    color={'gray.600'}
+                    // numOfLines={3}
+
+                    fontSize={[12, 16]}
+                  >
+                    {props.list[imageId]?.description}
+                  </Text>
+                </MotiView>
+              ) : (
+                <MotiView
+                  // style={{ flex: 1 }}
+                  key="1"
+                  exit={{
+                    opacity: 0.1,
+                    translateY: 24
+                  }}
+                  from={{
+                    opacity: 0.1,
+                    translateY: 24
+                  }}
+                  animate={{
+                    opacity: 1,
+                    translateY: 0
+                  }}
+                  transition={{
+                    // loop: true,
+                    type: 'timing',
+                    duration: 250,
+                    delay: 50
+                  }}
+                >
+                  <HStack space={4} mb={2} display={['none', 'flex']}>
+                    {props.list[imageId]?.kind.map((str) => {
+                      return (
+                        <Button variant={'subtle'} size={'sm'}>
+                          {str}
+                        </Button>
+                      )
+                    })}
+                  </HStack>
+                  <Text
+                    numberOfLines={4}
+                    color={'gray.600'}
+                    // numOfLines={3}
+
+                    fontSize={[12, 16]}
+                  >
+                    {props.list[imageId]?.description}
+                  </Text>
+                </MotiView>
+              )}
+            </AnimatePresence>
+          </View>
+          {/* Kind */}
+        </VStack>
+
+        {/* Link */}
+        <VStack
+          alignItems={['flex-end', 'flex-start']}
+          justifyContent={'center'}
+          h={12}
+        >
+          <AnimatePresence exitBeforeEnter>
+            {props.list?.length && imageId % 2 === 0 ? (
+              <MotiView
+                // style={{ flex: 1 }}
+                key="0"
+                exit={{
+                  opacity: 0.1,
+                  translateY: 24
+                }}
+                from={{
+                  opacity: 0.1,
+                  translateY: 24
+                }}
+                animate={{
+                  opacity: 1,
+                  translateY: 0
+                }}
+                transition={{
+                  // loop: true,
+                  type: 'timing',
+                  duration: 200,
+                  delay: 100
+                }}
+              >
+                <Pressable>
+                  {({ isHovered, isPressed, isFocused }) => (
+                    <NextLink
+                      routeName="comic-detail"
+                      params={{
+                        path: props.list[imageId]?.path
+                      }}
+                    >
+                      <Text
+                        fontSize={[14, 18]}
+                        fontWeight={'500'}
+                        selectable={false}
+                        color={
+                          isPressed
+                            ? 'blue.300'
+                            : isHovered
+                            ? 'blueGray.600'
+                            : 'coolGray.800'
+                        }
+                      >
+                        Read now!
+                      </Text>
+                    </NextLink>
+                  )}
+                </Pressable>
+              </MotiView>
+            ) : (
+              <MotiView
+                // style={{ flex: 1 }}
+                key="1"
+                exit={{
+                  opacity: 0.1,
+                  translateY: 24
+                }}
+                from={{
+                  opacity: 0.1,
+                  translateY: 24
+                }}
+                animate={{
+                  opacity: 1,
+                  translateY: 0
+                }}
+                transition={{
+                  // loop: true,
+                  type: 'timing',
+                  duration: 200,
+                  delay: 100
+                }}
+              >
+                <Pressable>
+                  {({ isHovered, isPressed, isFocused }) => (
+                    <NextLink
+                      routeName="comic-detail"
+                      params={{
+                        path: props.list[imageId]?.path
+                      }}
+                    >
+                      <Text
+                        fontSize={[14, 18]}
+                        fontWeight={'500'}
+                        selectable={false}
+                        color={
+                          isPressed
+                            ? 'blue.300'
+                            : isHovered
+                            ? 'blueGray.600'
+                            : 'coolGray.800'
+                        }
+                      >
+                        Read now!
+                      </Text>
+                    </NextLink>
+                  )}
+                </Pressable>
+              </MotiView>
+            )}
+          </AnimatePresence>
+        </VStack>
+        {/* Link */}
+      </VStack>
+
+      {/* Img */}
+      {props.list?.length ? (
+        <Flex flex={[2, 1]}>
+          <AnimatePresence exitBeforeEnter>
+            {imageId % 2 === 0 ? (
+              <MotiView
+                style={{ flex: 1 }}
+                key="0"
+                exit={{
+                  opacity: 0,
+                  translateX: 100
+                }}
+                from={{
+                  opacity: 0,
+                  translateX: 100
+                }}
+                animate={{
+                  opacity: 1,
+                  translateX: 0
+                }}
+                transition={{
+                  // loop: true,
+                  type: 'timing',
+                  duration: 300
+                }}
+              >
+                <Image
+                  source={{
+                    uri: props.list[imageId]?.posterUrl || ''
+                  }}
+                  flex={1}
+                  alt={props.list[imageId]?.posterUrl || 'a'}
+                />
+              </MotiView>
+            ) : (
+              <MotiView
+                style={{ flex: 1 }}
+                key="1"
+                exit={{
+                  opacity: 0,
+                  translateX: 100
+                }}
+                from={{
+                  opacity: 0,
+                  translateX: 100
+                }}
+                animate={{
+                  opacity: 1,
+                  translateX: 0
+                }}
+                transition={{
+                  // loop: true,
+                  type: 'timing',
+                  duration: 300
+                }}
+              >
+                <Image
+                  source={{
+                    uri: props.list[imageId]?.posterUrl || ''
+                  }}
+                  alt={props.list[imageId]?.posterUrl || ''}
+                  flex={1}
+                />
+              </MotiView>
+            )}
+          </AnimatePresence>
+        </Flex>
+      ) : (
+        <Skeleton flex={1} />
+      )}
       {/* Content */}
     </HStack>
   )
