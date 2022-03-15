@@ -20,6 +20,7 @@ import {
 } from '../../utils/findOption'
 import { navigate } from '../../navigators'
 import { SelectOne } from '../../components/DropdownSelect'
+import { AntDesign } from '@expo/vector-icons'
 
 type Props = {}
 
@@ -158,18 +159,66 @@ function SelectBoxMultiple(props: any) {
       // selectedValues={selectedTeams}
       // onMultiSelect={onMultiChange()}
       // onTapClose={onMultiChange()}
-
+      selectIcon={
+        <AntDesign
+          name="down"
+          size={24}
+          color="black"
+          style={{ padding: 1, marginRight: -8 }}
+        />
+      }
       isMulti
       containerStyle={{
         // backgroundColor: 'white',
-        paddingRight: 4,
-        paddingLeft: 4,
-        borderRadius: 4,
-        borderWidth: 1,
-        borderColor: '#ddd'
+        // paddingRight: 4,
+        // paddingLeft: 4,
+        // borderRadius: 4,
+        // borderWidth: 1,
+        // borderColor: '#ddd'
+
+        height: 40,
+        backgroundColor: 'white',
+        borderRadius: 12,
+        padding: 12,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 1
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+
+        elevation: 2
       }}
       labelStyle={{
         marginTop: 10
+      }}
+      inputFilterStyle={{
+        paddingLeft: 10,
+        fontSize: 14,
+        fontWeight: 'bold',
+        // color: '#555',
+        opacity: 0.5
+      }}
+      inputFilterContainerStyle={{
+        backgroundColor: '#eee',
+        borderWidth: 1,
+        borderColor: '#ddd'
+        // padding: 0
+        // margin: 0
+        // display: 'hidden'
+      }}
+      optionContainerStyle={{
+        // backgroundColor: 'red',
+        flex: 1,
+        // marginHorizontal: 8,
+        marginVertical: 0,
+        padding: 0
+      }}
+      optionsLabelStyle={{
+        flex: 1,
+        width: 300,
+        paddingLeft: 8
       }}
       {...props}
     />
@@ -184,6 +233,14 @@ function SelectBoxSingle(props: any) {
       // value={selectedForUser}
       // onChange={onForUserChange()}
       hideInputFilter={false}
+      selectIcon={
+        <AntDesign
+          name="down"
+          size={24}
+          color="black"
+          style={{ padding: 1, marginRight: -8 }}
+        />
+      }
       containerStyle={{
         // NOTE: PREV STYLE
         // paddingRight: 12,

@@ -12,16 +12,21 @@ import { navigate } from '../../navigators'
 type Props = {
   list: resComicItem_T[]
   onEndReach?: () => any
+  listFooterComponent?: React.ReactElement
 }
 
-export const ComicListVertical = ({ list, onEndReach }: Props) => {
+export const ComicListVertical = ({
+  list,
+  onEndReach,
+  listFooterComponent
+}: Props) => {
   /**
    * STUB: Wrap item component of flatlist inside function
    * So item component be able to call hook
    *
    * TODO: Convert all flatlist to this.
    */
-  // console.log('re codev')
+  console.log('re codev')
   const renderItem = React.useCallback(
     (props: ListRenderItemInfo<resComicItem_T>) => {
       // if (props.index === 1 || props.index === 5) return <Text>Sticky</Text>
@@ -85,7 +90,7 @@ export const ComicListVertical = ({ list, onEndReach }: Props) => {
         // SOLUTION2: use Interaction manager
         // TODO: USE SOLUTION2
         initialNumToRender={30}
-        maxToRenderPerBatch={5}
+        maxToRenderPerBatch={10}
         updateCellsBatchingPeriod={100}
         // alwaysBounceHorizontal
         removeClippedSubviews
@@ -101,6 +106,7 @@ export const ComicListVertical = ({ list, onEndReach }: Props) => {
         // ListFooterComponentStyle={{ flex: 1, justifyContent: 'flex-end' }}
         // ListFooterComponent={<ListFooter />}
         alwaysBounceHorizontal={true}
+        ListFooterComponent={listFooterComponent}
       />
     </View>
   )

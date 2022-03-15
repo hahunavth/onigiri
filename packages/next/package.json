@@ -1,5 +1,5 @@
 {
-  "name": "@expo-next-monorepo-example/next",
+  "name": "@hahunavth-packages/next",
   "scripts": {
     "dev": "next",
     "build": "next build",

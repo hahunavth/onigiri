@@ -1,36 +1,39 @@
 const STAGE = process.env.STAGE
-const SCHEME = process.env.SCHEME ?? 'com.example'
+const SCHEME = process.env.SCHEME ?? 'com.hahunavth'
 
 const envConfig = {
   development: {
     scheme: `${SCHEME}.development`,
-    icon: './assets/icon.development.png',
-    backgroundColor: '#FF0000'
+    icon: './assets/icon.dark.png',
+    image: './assets/splash.dark.png'
+    // backgroundColor: '#FF0000'
   },
   staging: {
     scheme: `${SCHEME}.staging`,
-    icon: './assets/icon.staging.png',
-    backgroundColor: '#8000FF'
+    icon: './assets/icon.yellow.png',
+    image: './assets/splash.yellow.png'
+    // backgroundColor: '#8000FF'
   },
   production: {
     scheme: SCHEME,
     icon: './assets/icon.png',
-    backgroundColor: '#1610FF'
+    image: './assets/splash.png'
+    // backgroundColor: '#1610FF'
   }
 }
 
 const config = envConfig[STAGE ?? 'development']
 
 export default {
-  name: 'Example',
-  description: 'Expo + Next.js Monorepo Example',
-  slug: 'example',
-  scheme: 'example',
+  name: 'Onigiri',
+  description: 'Onigiri- Comic reader',
+  slug: 'onigiri',
+  scheme: 'onigiri',
   owner: 'hahunavth',
   icon: config.icon,
   version: '0.0.1',
   splash: {
-    image: './assets/splash.png',
+    image: config.image,
     resizeMode: 'cover',
     backgroundColor: '#000000'
   },
@@ -42,10 +45,10 @@ export default {
   android: {
     package: config.scheme,
     versionCode: 1,
-    adaptiveIcon: {
-      foregroundImage: './assets/icon.png',
-      backgroundColor: config.backgroundColor
-    },
+    // adaptiveIcon: {
+    //   foregroundImage: './assets/adaptive-icon.png',
+    //   // backgroundColor: config.backgroundColor
+    // },
     jsEngine: 'hermes'
   },
   androidNavigationBar: {

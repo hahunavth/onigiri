@@ -58,16 +58,17 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
     return () => {
       interaction.cancel()
     }
-  })
+  }, [])
 
   // Infinity list
   React.useEffect(() => {
     // console.log(Object.keys(data ||))
-    setMax((max) =>
-      typeof data?.pagination?.max === 'number' && data?.pagination?.max > 0
-        ? data?.pagination?.max
-        : max
-    )
+    if (max === 1)
+      setMax((max) =>
+        typeof data?.pagination?.max === 'number' && data?.pagination?.max > 0
+          ? data?.pagination?.max
+          : max
+      )
     if (
       isSuccess &&
       data?.data?.length &&
@@ -77,7 +78,7 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
     ) {
       setList((list) => [...list, ...data.data])
       setSeed(page)
-
+      setRefreshing(false)
       console.log(page, seed)
     }
   }, [isSuccess, isLoading, data])
@@ -85,18 +86,31 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
   const onEndReach = React.useCallback(() => {
     console.log('reach', page, seed)
     if (page === seed) {
-      setImmediate(() => {
-        console.log('reach active', page, seed)
-        setPage(page + 1)
-        refetch()
-        if (page <= max)
-          prefetchFindComic({
-            ...findOption,
-            page: page + 1
-          })
-      })
+      // setImmediate(() => {
+      console.log('reach active', page, seed)
+      setRefreshing(true)
+      setPage(page + 1)
+      refetch()
+      if (page <= max)
+        prefetchFindComic({
+          ...findOption,
+          page: page + 2
+        })
+      // })
     }
   }, [setPage, seed, page])
+
+  const ListFooterComponent = React.useMemo(() => {
+    return (
+      <>
+        {refreshing ? (
+          <View h={10}>
+            <Loading />
+          </View>
+        ) : undefined}
+      </>
+    )
+  }, [refreshing])
 
   console.log('out', page, seed, max)
 
@@ -106,13 +120,20 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
         <Loading text="Fetching" />
       ) : (
         <>
-          <ComicListVertical list={list || []} onEndReach={onEndReach} />
+          <MemoComicListVertical
+            list={list || []}
+            onEndReach={onEndReach}
+            // listFooterComponent={listFooterComponent}
+          />
           {/* <ListFooter page={seed} max={max} /> */}
+          {ListFooterComponent}
         </>
       )}
     </View>
   )
 }
+
+const MemoComicListVertical = React.memo(ComicListVertical)
 
 /**
  * Refactor

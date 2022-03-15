@@ -1,6 +1,6 @@
 {
   "main": "index.js",
-  "name": "@expo-next-monorepo-example/expo",
+  "name": "@hahunavth-packages/expo",
   "scripts": {
     "dev": "yarn start:dev-client",
     "start": "expo start --dev-client",
