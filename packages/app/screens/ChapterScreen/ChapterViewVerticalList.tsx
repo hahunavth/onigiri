@@ -73,9 +73,9 @@ const ChapterViewVerticalList = React.forwardRef<
     <ReactNativeZoomableView
       maxZoom={1.4}
       minZoom={1}
-      zoomStep={0.5}
+      // zoomStep={0.5}
       initialZoom={1}
-      doubleTapDelay={200}
+      doubleTapDelay={190}
       // bindToBorders={true}
       // pinchToZoomInSensitivity={3}
       // onZoomAfter={this.logOutZoomState}

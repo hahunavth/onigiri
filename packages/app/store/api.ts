@@ -100,22 +100,35 @@ export const comicApi = createApi({
   })
 })
 
+// resComicItem_T
 export const useApiRecently = comicApi.endpoints.getRecentlyByPage.useQuery
-export const useApiTopMonth = comicApi.endpoints.getTopMonthByPage.useQuery
 export const useApiTopWeek = comicApi.endpoints.getTopWeekByPage.useQuery
-
 export const useApiHot = comicApi.endpoints.getHotByPage.useQuery
+export const useApiFindComic = comicApi.endpoints.findComic.useQuery
+export const useApiFindComicByName = comicApi.endpoints.findComicByName.useQuery
+export const useApiFindByGenres = comicApi.endpoints.findByGenres.useQuery
+//
+export const useApiLazyRecently =
+  comicApi.endpoints.getRecentlyByPage.useLazyQuery
+export const useApiLazyHot = comicApi.endpoints.getHotByPage.useLazyQuery
+export const useApiLazyTopWeek =
+  comicApi.endpoints.getTopWeekByPage.useLazyQuery
+export const useApiLazyFindComic = comicApi.endpoints.findComic.useLazyQuery
+export const useApiLazyFindComicByName =
+  comicApi.endpoints.findComicByName.useLazyQuery
+export const useApiLazyFindByGenres =
+  comicApi.endpoints.findByGenres.useLazyQuery
 
+//
+export const useApiTopMonth = comicApi.endpoints.getTopMonthByPage.useQuery
+
+//
 export const useApiComicDetail =
   comicApi.endpoints.getComicDetailByPath.useQuery
 
+//
 export const useApiChapter = comicApi.endpoints.getChapterByPath.useQuery
 
-export const useApiFindComic = comicApi.endpoints.findComic.useQuery
-export const useApiFindComicByName = comicApi.endpoints.findComicByName.useQuery
-
-export const useApiFindByGenres = comicApi.endpoints.findByGenres.useQuery
-
 export const useApiComicComment = comicApi.endpoints.getComicComment.useQuery
-
+//
 export const usePrefetch = comicApi.usePrefetch

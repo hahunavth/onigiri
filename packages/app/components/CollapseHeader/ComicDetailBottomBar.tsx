@@ -35,6 +35,7 @@ import { goBack, navigate } from 'app/navigators'
 import {
   historySelector,
   selectDownloadedChapters,
+  selectLastedReadChapterPath,
   selectThisComicIsSubcribed,
   toggleSubscribeComicThunk
 } from 'app/store/historySlice'
@@ -58,17 +59,19 @@ import usePrevious from 'react-use/esm/usePrevious'
 import useRaf from 'react-use/esm/useRaf'
 
 type ComicDetailBottomBarProps = {
+  comic?: resComicDetail_T
   path: string
-  handleReadNowClick: () => any
-  handleSubscribeClick: () => any
+  // handleReadNowClick: () => any
+  // handleSubscribeClick: () => any
 }
 
 const ComicDetailBottomBar = React.memo(
   ({
     path,
-    handleReadNowClick,
-    handleSubscribeClick
-  }: ComicDetailBottomBarProps) => {
+    comic
+  }: // handleReadNowClick,
+  // handleSubscribeClick
+  ComicDetailBottomBarProps) => {
     const { boxStyle: bs1 } = useColorModeStyle('Blue', 'Secondary')
     const subscribed = !!useAppSelector((state) =>
       selectThisComicIsSubcribed(state, path || ('' as any))
@@ -91,6 +94,41 @@ const ComicDetailBottomBar = React.memo(
         offset.value = withTiming(1)
       }
     })
+
+    const dispatch = useAppDispatch()
+
+    const lastedReadCptName = useAppSelector((state) =>
+      selectLastedReadChapterPath(state, comic?.path || '')
+    )
+    // NOTE: Handle function
+    const handleSubscribeClick = useCallback(() => {
+      if (comic) dispatch(toggleSubscribeComicThunk(comic))
+    }, [comic])
+
+    const chapter1 = React.useMemo(() => {
+      return comic?.chapters[comic?.chapters.length - 1]
+    }, [comic])
+
+    const currCptId = React.useMemo(() => {
+      return comic?.chapters.findIndex((cpt) => cpt.name === lastedReadCptName)
+    }, [comic, lastedReadCptName])
+
+    const handleReadNowClick = useCallback(() => {
+      if (typeof currCptId === 'number' || currCptId === -1) {
+        navigate('chapter', {
+          id: currCptId,
+          path: comic?.chapters[currCptId].path || '',
+          name: comic?.chapters[currCptId].name
+        })
+      } else
+        chapter1?.path &&
+          comic?.chapters.length &&
+          navigate('chapter', {
+            id: comic?.chapters.length - 1,
+            name: chapter1.name,
+            path: chapter1.path
+          })
+    }, [comic])
 
     // TODO: FIX ANY STYLE
     return (
@@ -131,7 +169,13 @@ const ComicDetailBottomBar = React.memo(
           </Text>
         </TouchableOpacity>
         <Button style={styles.readNowBtn} onPress={handleReadNowClick}>
-          Read now!
+          {lastedReadCptName ? (
+            <Text numberOfLines={1} color={'white'}>
+              Read {lastedReadCptName}
+            </Text>
+          ) : (
+            'Read now!'
+          )}
         </Button>
       </Animated.View>
     )
@@ -212,4 +256,5 @@ export const styles = StyleSheet.create({
     marginRight: 12
   }
 })
+
 export default ComicDetailBottomBar

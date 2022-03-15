@@ -52,7 +52,6 @@
     "app": "*",
     "axios": "^0.25.0",
     "dripsy": "^3.0.0",
-    "eas-cli": "^0.47.0",
     "expo": "^43.0.0",
     "expo-app-loading": "~1.2.1",
     "expo-application": "~4.0.0",
@@ -111,6 +110,7 @@
     "date-fns": "^2.28.0"
   },
   "devDependencies": {
+    "eas-cli": "^0.47.0",
     "@babel/core": "^7.14.8",
     "@expo/next-adapter": "^3.1.0",
     "@expo/webpack-config": "^0.16.19",

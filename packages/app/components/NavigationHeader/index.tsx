@@ -33,7 +33,8 @@ import {
   KeyboardAvoidingView,
   ToastAndroid,
   Keyboard,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native'
 import Animated, {
   useSharedValue,
@@ -47,7 +48,10 @@ import { NextLink } from '../NextLink'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SelectableBadge } from '../SelectableBadge'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { recentAction, recentSelector } from '../../store/recentSlice'
+import recentSlice, {
+  recentAction,
+  recentSelector
+} from '../../store/recentSlice'
 import usePrevious from 'react-use/esm/usePrevious'
 
 export function NavigationHeader(props: NativeStackHeaderProps) {
@@ -192,6 +196,8 @@ const SearchNavigationHeaderChild = React.memo(() => {
 
   // const prev = usePrevious(personIconAnimatedStyles)
   // console.log('renderrrr child', personIconAnimatedStyles === prev)
+
+  const dispatch = useAppDispatch()
 
   /**
    * ANCHOR: Nested SafeAreaView sometime cause rerender -> lag
@@ -344,6 +350,21 @@ const SearchNavigationHeaderChild = React.memo(() => {
                     })
                     // inputRef.current.
                   }
+                }}
+                onLongPress={() => {
+                  Alert.alert(
+                    'Remove history',
+                    'Do you want remove history?',
+                    [
+                      { text: 'cancel', style: 'cancel' },
+                      {
+                        text: 'OK',
+                        style: 'default',
+                        onPress: () => dispatch(recentAction.removeFindName(v))
+                      }
+                    ],
+                    {}
+                  )
                 }}
               >
                 {v}

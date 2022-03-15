@@ -77,6 +77,7 @@ export default function BottomNav() {
         name="main/library"
         component={LibraryScreen}
         options={{
+          title: 'Library',
           tabBarIcon: LibraryIcon
         }}
       ></Screen>
@@ -94,7 +95,7 @@ export default function BottomNav() {
         name="main/setting"
         component={SettingScreen}
         options={{
-          title: 'Library',
+          title: 'Setting',
           tabBarIcon: SettingIcon
         }}
       ></Screen>
@@ -104,6 +105,7 @@ export default function BottomNav() {
           name="main/test"
           component={MainTestScreen}
           options={{
+            title: 'Test',
             tabBarIcon: TestIcon
           }}
         ></Screen>

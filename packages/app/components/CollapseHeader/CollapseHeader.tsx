@@ -35,6 +35,8 @@ import { goBack, navigate } from 'app/navigators'
 import {
   historySelector,
   selectDownloadedChapters,
+  selectLastedReadChapterPath,
+  selectReadChapters,
   selectThisComicIsSubcribed,
   toggleSubscribeComicThunk
 } from 'app/store/historySlice'
@@ -76,8 +78,8 @@ const OVERLAY_VISIBILITY_OFFSET = 32
 
 export const CollapseHeader = (props: Props) => {
   // STORE
-  const dispatch = useAppDispatch()
   const downloadCpt = useAppSelector(selectDownloadedChapters)
+
   // const subscribed = !!useAppSelector(historySelector).subscribeComics.find(
   //   (path) => path === props.comic?.path
   // )
@@ -293,22 +295,6 @@ export const CollapseHeader = (props: Props) => {
     [collapsedOverlayAnimatedStyle, heightCollapsed, top]
   )
 
-  // NOTE: Handle function
-  const handleSubscribeClick = useCallback(() => {
-    if (props.comic) dispatch(toggleSubscribeComicThunk(props.comic))
-  }, [props.comic])
-
-  const handleReadNowClick = useCallback(() => {
-    const chapter1 = props.comic?.chapters[props.comic?.chapters.length - 1]
-    chapter1?.path &&
-      props.comic?.chapters.length &&
-      navigate('chapter', {
-        id: props.comic?.chapters.length - 1,
-        name: chapter1.name,
-        path: chapter1.path
-      })
-  }, [props.comic])
-
   const offset = useSharedValue(0)
 
   const opacityStyle2 = useAnimatedStyle(() => {
@@ -376,9 +362,10 @@ export const CollapseHeader = (props: Props) => {
             </Animated.View>
 
             <ComicDetailBottomBar
+              comic={props.comic}
               path={props.comic?.path || ''}
-              handleReadNowClick={handleReadNowClick}
-              handleSubscribeClick={handleSubscribeClick}
+              // handleReadNowClick={handleReadNowClick}
+              // handleSubscribeClick={handleSubscribeClick}
             />
           </>
         )}

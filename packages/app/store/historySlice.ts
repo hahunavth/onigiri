@@ -135,7 +135,12 @@ const historySlice = createSlice({
           )
         }
         // Add if not exists
-        if (state.readComics.indexOf(action.payload.path) === -1) {
+        const comicIdInArr = state.readComics.indexOf(action.payload.path)
+        if (comicIdInArr === -1) {
+          state.readComics.unshift(action.payload.path)
+        } else {
+          // else remove and unshift to first
+          state.readComics.splice(comicIdInArr, 1)
           state.readComics.unshift(action.payload.path)
         }
       }
@@ -443,4 +448,12 @@ export const selectThisComicIsSubcribed = createSelector(
     (state: any, myPath: string) => myPath
   ],
   (subcribeComics, myPath) => subcribeComics.find((path) => path === myPath)
+)
+
+export const selectLastedReadChapterPath = createSelector(
+  [
+    (state: RootState) => state.history.comics,
+    (state: any, myPath: string) => myPath
+  ],
+  (comics, myPath) => comics[myPath]?.lastedReadChapter
 )
