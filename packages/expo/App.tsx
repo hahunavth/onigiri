@@ -38,6 +38,9 @@ import {
   Ionicons
 } from '@expo/vector-icons'
 import { AlertDialog } from 'native-base'
+import * as BackgroundFetch from 'expo-background-fetch'
+import { registerTaskAsync } from 'expo-background-fetch'
+import * as TaskManager from 'expo-task-manager'
 
 // import * as Sentry from 'sentry-expo'
 
@@ -47,12 +50,49 @@ import { AlertDialog } from 'native-base'
 //   debug: true // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
 // })
 
+import {
+  // useBackgroundPushNotificationInfo,
+  // registerBackgroundFetchAsync,
+  // unregisterBackgroundFetchAsync,
+  BACKGROUND_FETCH_TASK
+} from 'app/utils/backgroundNotificationServices'
 import * as Sentry from '@sentry/react-native'
+
+// 1. Define the task by providing a name and the function that should be executed
+// Note: This needs to be called in the global scope (e.g outside of your React components)
+TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
+  const now = Date.now()
+
+  console.log(
+    `Got background fetch call at date: ${new Date(now).toISOString()}`
+  )
+
+  // Be sure to return the successful result type!
+  return BackgroundFetch.BackgroundFetchResult.NewData
+})
+
+// 2. Register the task at some point in your app by providing the same name, and some configuration options for how the background fetch should behave
+// Note: This does NOT need to be in the global scope and CAN be used in your React components!
+export async function registerBackgroundFetchAsync() {
+  return registerTaskAsync(BACKGROUND_FETCH_TASK, {
+    minimumInterval: 60 * 15, // 15 minutes
+    stopOnTerminate: false, // android only,
+    startOnBoot: true // android only
+  })
+}
+
+// 3. (Optional) Unregister tasks by specifying the task name
+// This will cancel any future background fetch calls that match the given name
+// Note: This does NOT need to be in the global scope and CAN be used in your React components!
+export async function unregisterBackgroundFetchAsync() {
+  return BackgroundFetch.unregisterTaskAsync(BACKGROUND_FETCH_TASK)
+}
+
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
 
 Sentry.init({
-  dsn: 'https://b317d8e257dc46158832ef2b7567670d@o1168335.ingest.sentry.io/6260193',
+  dsn: process.env.SENTRY_DSN,
   enableNative: false,
   integrations: [
     new Sentry.ReactNativeTracing({
@@ -163,6 +203,46 @@ function App() {
     return () =>
       BackHandler.removeEventListener('hardwareBackPress', backAction)
   }, [])
+
+  const [isRegistered, setIsRegistered] = React.useState(false)
+  const [status, setStatus] =
+    React.useState<BackgroundFetch.BackgroundFetchStatus | null>(null)
+
+  React.useEffect(() => {
+    checkStatusAsync()
+  }, [])
+
+  const checkStatusAsync = async () => {
+    const status = await BackgroundFetch.getStatusAsync()
+    const isRegistered = await TaskManager.isTaskRegisteredAsync(
+      BACKGROUND_FETCH_TASK
+    )
+    setStatus(status)
+    setIsRegistered(isRegistered)
+  }
+
+  const toggleFetchTask = async () => {
+    if (isRegistered) {
+      await unregisterBackgroundFetchAsync()
+    } else {
+      await registerBackgroundFetchAsync()
+    }
+
+    checkStatusAsync()
+  }
+  useEffect(() => {
+    ;(async () => {
+      if (!isRegistered && status === 3) {
+        registerBackgroundFetchAsync && registerBackgroundFetchAsync()
+      }
+    })()
+  }, [isRegistered, status])
+
+  console.log(
+    isRegistered,
+    status
+    // status && BackgroundFetch.BackgroundFetchStatus[status]
+  )
 
   let [fontsLoaded] = useFonts({
     Quicksand_300Light,

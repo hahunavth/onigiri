@@ -14,6 +14,7 @@ import {
 } from 'react-native'
 import { selectDownloadedChapters } from '../../store/historySlice'
 import { ListFooter } from '../../components/ComicListVertical/ListFooter'
+import { NotFound } from '../../components/EmptyPage/NotFound'
 
 /**
  * FIXME: INFINITY LIST UPDATE NEW PAGE SLOW
@@ -118,7 +119,7 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
     <View flex={1}>
       {isLoading || loading ? (
         <Loading text="Fetching" />
-      ) : (
+      ) : list?.length ? (
         <>
           <MemoComicListVertical
             list={list || []}
@@ -128,6 +129,8 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
           {/* <ListFooter page={seed} max={max} /> */}
           {ListFooterComponent}
         </>
+      ) : (
+        <NotFound />
       )}
     </View>
   )

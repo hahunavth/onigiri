@@ -104,7 +104,7 @@ function ComicList2() {
   return (
     <>
       <ComicGridGap2 list={list.data?.data || []} />
-      <Carousel list={list.data?.data || []} />
+      {/* <Carousel list={list.data?.data || []} /> */}
     </>
   )
 }

@@ -6,6 +6,7 @@ import { useApiFindComic, useApiFindComicByName } from '../../store/api'
 import { ComicListVertical } from '../../components/ComicListVertical/ComicListVertical'
 import { Loading } from '../../components/Loading'
 import useInteraction from '../../hooks/useInteraction'
+import { NotFound } from '../../components/EmptyPage'
 
 export const FindByNameResultScreen = (props: FindByNameResultScreenProps) => {
   const { name } = props.route.params
@@ -17,13 +18,14 @@ export const FindByNameResultScreen = (props: FindByNameResultScreenProps) => {
   const { loading } = useInteraction({})
 
   return (
-    <View flex={1}
-       >
+    <View flex={1}>
       {/* <Text>{name}</Text> */}
       {isLoading || loading ? (
         <Loading text="Fetching" />
+      ) : data?.data?.length ? (
+        <ComicListVertical list={data?.data || []} />
       ) : (
-        <ComicListVertical list={(data?.data) || []} />
+        <NotFound />
       )}
     </View>
   )
