@@ -49,14 +49,17 @@
     "@react-navigation/native-stack": "^6.4.0",
     "@react-navigation/stack": "^6.1.1",
     "@reduxjs/toolkit": "^1.7.1",
+    "@sentry/react-native": "^3.3.2",
     "app": "*",
     "axios": "^0.25.0",
+    "date-fns": "^2.28.0",
     "dripsy": "^3.0.0",
     "expo": "^43.0.0",
     "expo-app-loading": "~1.2.1",
     "expo-application": "~4.0.0",
     "expo-blur": "^11.0.0",
-    "expo-constants": "^12.1.3",
+    "expo-community-flipper": "^44.0.1",
+    "expo-constants": "~12.1.3",
     "expo-dev-client": "~0.8.4",
     "expo-device": "~4.0.3",
     "expo-font": "~10.0.3",
@@ -107,10 +110,9 @@
     "redux-flipper": "^2.0.1",
     "redux-persist": "^6.0.0",
     "reselect": "^4.1.5",
-    "date-fns": "^2.28.0"
+    "sentry-expo": "^4.0.0"
   },
   "devDependencies": {
-    "eas-cli": "^0.47.0",
     "@babel/core": "^7.14.8",
     "@expo/next-adapter": "^3.1.0",
     "@expo/webpack-config": "^0.16.19",
@@ -128,6 +130,7 @@
     "@types/redux-persist": "^4.3.1",
     "@types/reselect": "^2.2.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
+    "eas-cli": "^0.47.0",
     "next-compose-plugins": "^2.2.1",
     "parcel": "^2.3.2",
     "typescript": "^4.3.4"

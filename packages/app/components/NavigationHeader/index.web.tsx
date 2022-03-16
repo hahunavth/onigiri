@@ -20,6 +20,7 @@ type Props = {
   headerLeft?: (props: any) => React.ReactNode
 }
 
+const FSafeAreaView = Factory(SafeAreaView)
 export const NavigationHeader = React.memo(function ({
   leftLabel,
   onLeftPress,
@@ -29,8 +30,7 @@ export const NavigationHeader = React.memo(function ({
   headerLeft,
   headerRight
 }: Props) {
-  const FSafeAreaView = Factory(SafeAreaView)
-  const HeaderRight = React.useMemo(() => headerRight && headerRight(null), [])
+  const HeaderRight = headerRight && headerRight(null)
   const HeaderLeft = React.useMemo(() => headerLeft && headerLeft(null), [])
 
   return (
@@ -60,18 +60,18 @@ export const NavigationHeader = React.memo(function ({
         {/* Left */}
 
         {/* Right */}
-        <TouchableNativeFeedback onPress={onRightPress}>
-          <View
-            // style={[styles.Right, styles.buttonContainer]}
-            style={{ position: 'absolute', right: 0 }}
-            padding={1}
-            top={-6}
-          >
-            <Text _light={{ color: '$light.textSecondary' }}>
-              {rightLabel || HeaderRight}
-            </Text>
-          </View>
-        </TouchableNativeFeedback>
+        {/* <TouchableNativeFeedback onPress={onRightPress}> */}
+        <View
+          // style={[styles.Right, styles.buttonContainer]}
+          style={{ position: 'absolute', right: 0 }}
+          padding={1}
+          top={-6}
+        >
+          <Text _light={{ color: '$light.textSecondary' }}>
+            {rightLabel || HeaderRight}
+          </Text>
+        </View>
+        {/* </TouchableNativeFeedback> */}
         {/* Right */}
 
         <Center>

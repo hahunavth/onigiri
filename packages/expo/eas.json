@@ -1,6 +1,6 @@
 {
   "build": {
-    "release": {
+    "production": {
       "releaseChannel": "production",
       "env": {
         "STAGE": "production"

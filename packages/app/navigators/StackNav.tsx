@@ -37,6 +37,7 @@ import { HistoryComicT } from '../store/historySlice'
 import { FindOptionT } from '../utils/findOption'
 import Header from '../components/CollapseHeader/Header'
 import { Icon, Text, View } from 'native-base'
+import { TouchableOpacity } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 import { MotiView } from 'moti'
@@ -44,6 +45,8 @@ import { FindByNameResultScreen } from '../screens/FindByNameResultScreen'
 
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
 import { SharedNav, SharedNavParamList } from './SharedNav'
+import NotificationScreen from '../screens/NotificationScreen/NotificationScreen'
+import { NotificationHeaderRefreshBtn } from '../screens/NotificationScreen/NotificationHeaderRefreshBtn'
 
 /**
  * Using common params
@@ -103,6 +106,7 @@ export type StackNavParamsList = {
   'home-session-detail-list': {
     type: 'recently' | 'hot' | 'week'
   }
+  notification: undefined
 }
 
 /**
@@ -284,6 +288,16 @@ export function StackNav() {
           title: 'Login Screen'
         }}
         component={LoginScreen}
+      ></Screen>
+
+      <Screen
+        name="notification"
+        options={{
+          gestureEnabled: true,
+          title: 'Notification',
+          headerRight: NotificationHeaderRefreshBtn
+        }}
+        component={NotificationScreen}
       ></Screen>
 
       <Screen

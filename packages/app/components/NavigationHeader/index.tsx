@@ -260,13 +260,13 @@ const SearchNavigationHeaderChild = React.memo(() => {
             // mt={12}
           >
             <Animated.View style={notificationIconAnimatedStyles}>
-              <TouchableNativeFeedback>
+              <TouchableOpacity onPress={() => navigate('notification')}>
                 <AnimatedIonIcons
                   name="notifications-outline"
                   size={28}
                   color={ts1.color}
                 />
-              </TouchableNativeFeedback>
+              </TouchableOpacity>
             </Animated.View>
           </View>
 

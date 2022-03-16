@@ -49,10 +49,10 @@ export default {
   android: {
     package: config.scheme,
     versionCode: 1,
-    adaptiveIcon: {
-      foregroundImage: './assets/adaptive-icon.png'
-      //   // backgroundColor: config.backgroundColor
-    },
+    // adaptiveIcon: {
+    // foregroundImage: './assets/adaptive-icon.png'
+    //   // backgroundColor: config.backgroundColor
+    // },
     jsEngine: 'hermes'
   },
   androidNavigationBar: {
@@ -72,10 +72,27 @@ export default {
   //     }
   //   ]
   // },
+  hooks: {
+    postPublish: [
+      {
+        file: 'sentry-expo/upload-sourcemaps',
+        config: {
+          organization: 'aseryo',
+          project: 'com.hahunavth.onigiri',
+          authToken:
+            '5a61ecb37707446193e7a36cdb735bef8a36776c0fac48d990b1c0c55bca311a'
+        }
+      }
+    ]
+  },
   extra: {
     STAGE: process.env.STAGE
   },
-  // plugins: ['sentry-expo']
+  // NOTE: MANAGED WORKFLOW
+  plugins: [
+    // 'sentry-expo',
+    'expo-community-flipper'
+  ],
   // NOTE: RN WEB
   packagerOpts: {
     sourceExts: ['js', 'json', 'ts', 'tsx', 'jsx', 'vue'],

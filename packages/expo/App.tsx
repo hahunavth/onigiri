@@ -15,7 +15,7 @@ import UI from 'app/ExpoUI'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 // @ts-ignore
 import { connectToDevTools } from 'react-devtools-core'
-import { Platform, BackHandler, Alert } from 'react-native'
+import { Platform, BackHandler, Alert, LogBox } from 'react-native'
 import { useEffect } from 'react'
 
 import { triggerNotifications } from 'app/utils/notification'
@@ -39,6 +39,49 @@ import {
 } from '@expo/vector-icons'
 import { AlertDialog } from 'native-base'
 
+// import * as Sentry from 'sentry-expo'
+
+// Sentry.init({
+//   dsn: 'https://b317d8e257dc46158832ef2b7567670d@o1168335.ingest.sentry.io/6260193',
+//   enableInExpoDevelopment: true,
+//   debug: true // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+// })
+
+import * as Sentry from '@sentry/react-native'
+// Construct a new instrumentation instance. This is needed to communicate between the integration and React
+const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
+
+Sentry.init({
+  dsn: 'https://b317d8e257dc46158832ef2b7567670d@o1168335.ingest.sentry.io/6260193',
+  enableNative: false,
+  integrations: [
+    new Sentry.ReactNativeTracing({
+      // routingInstrumentation,
+      tracingOrigins: ['localhost', 'my-site-url.com', /^\//]
+    })
+  ],
+  // debug: true,
+  // To set a uniform sample rate
+  tracesSampleRate: 0.2,
+  //
+  enableAutoSessionTracking: true,
+  // Sessions close after app is 10 seconds in the background.
+  sessionTrackingIntervalMillis: 10000,
+  beforeSend(event) {
+    // exclude all events that have no stack trace
+    if (event.stacktrace?.frames?.length) {
+      return event
+    } else {
+      return null
+    }
+  }
+})
+
+LogBox.ignoreLogs([
+  'Sentry Logger [Warn]: Note: Native Sentry SDK is disabled.',
+  `Picker has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-picker/picker' instead of 'react-native'. See https://github.com/react-native-picker/react-native-picker`
+])
+
 // FLIPPER CONNECT
 if (__DEV__ && Platform.OS !== 'web') {
   connectToDevTools({
@@ -50,10 +93,9 @@ if (__DEV__ && Platform.OS !== 'web') {
 if (__DEV__ && Platform.OS !== 'web') {
   require('react-native-performance-flipper-reporter').setupDefaultFlipperReporter()
 }
-
 enableScreens(true)
 
-export default function App() {
+function App() {
   // Hooks from this package only work during development and are disabled in production.
   // You don't need to do anything special to remove them from the production build.
   useFlipper(navigationRef)
@@ -151,7 +193,12 @@ export default function App() {
   return (
     <NavigationContainer
       ref={navigationRef}
-      onReady={() => setIsNavReady(true)}
+      onReady={() => {
+        // Splash
+        setIsNavReady(true)
+        // Sentry
+        routingInstrumentation.registerNavigationContainer(navigationRef)
+      }}
     >
       <Provider store={store}>
         <PersistGate persistor={persistor}>
@@ -163,6 +210,9 @@ export default function App() {
     </NavigationContainer>
   )
 }
+
+// Sentry
+export default Sentry.wrap(App)
 
 /**
  * TODO:

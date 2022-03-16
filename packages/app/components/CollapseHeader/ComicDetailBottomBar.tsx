@@ -105,22 +105,22 @@ const ComicDetailBottomBar = React.memo(
       if (comic) dispatch(toggleSubscribeComicThunk(comic))
     }, [comic])
 
-    const chapter1 = React.useMemo(() => {
-      return comic?.chapters[comic?.chapters.length - 1]
-    }, [comic])
+    // const chapter1 = React.useMemo(() => {
+    // }, [comic])
 
     const currCptId = React.useMemo(() => {
       return comic?.chapters.findIndex((cpt) => cpt.name === lastedReadCptName)
     }, [comic, lastedReadCptName])
 
     const handleReadNowClick = useCallback(() => {
-      if (typeof currCptId === 'number' || currCptId === -1) {
+      if (typeof currCptId === 'number' && currCptId !== -1) {
         navigate('chapter', {
           id: currCptId,
           path: comic?.chapters[currCptId].path || '',
           name: comic?.chapters[currCptId].name
         })
-      } else
+      } else {
+        const chapter1 = comic?.chapters[comic?.chapters.length - 1]
         chapter1?.path &&
           comic?.chapters.length &&
           navigate('chapter', {
@@ -128,6 +128,7 @@ const ComicDetailBottomBar = React.memo(
             name: chapter1.name,
             path: chapter1.path
           })
+      }
     }, [comic])
 
     // TODO: FIX ANY STYLE

@@ -16,6 +16,7 @@ import homeSlice from './homeSlice'
 import settingReducer from './settingSlice'
 import historyReducer from './historySlice'
 import recentReducer from './recentSlice'
+import notificationReducer from './notificationSlice'
 
 // STUB: FLIPPER REDUX
 // NEED REBUILD EAS
@@ -36,6 +37,7 @@ const reducer = combineReducers({
   setting: settingReducer,
   history: historyReducer,
   recent: recentReducer,
+  notification: notificationReducer,
   [comicApi.reducerPath]: comicApi.reducer
 })
 

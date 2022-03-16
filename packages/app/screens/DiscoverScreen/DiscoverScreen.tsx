@@ -81,14 +81,7 @@ export const DiscoverScreen = (props: Props) => {
   // const [selectedLanguage, setSelectedLanguage] = React.useState()
 
   return (
-    <View flex={1} p={2}>
-      {/* <Picker
-        selectedValue={selectedLanguage}
-        onValueChange={(itemValue, itemIndex) => setSelectedLanguage(itemValue)}
-      >
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
-      </Picker> */}
+    <View flex={1} p={2} bg={'gray.50'} _dark={{ bg: 'gray.900' }}>
       <SelectBoxMultiple
         label="Select genres"
         options={GENRES_LIST}
@@ -162,23 +155,16 @@ function SelectBoxMultiple(props: any) {
       selectIcon={
         <AntDesign
           name="down"
-          size={24}
+          size={18}
           color="black"
-          style={{ padding: 1, marginRight: -8 }}
+          style={{ padding: 4, marginRight: -8 }}
         />
       }
       isMulti
       containerStyle={{
-        // backgroundColor: 'white',
-        // paddingRight: 4,
-        // paddingLeft: 4,
-        // borderRadius: 4,
-        // borderWidth: 1,
-        // borderColor: '#ddd'
-
         height: 40,
         backgroundColor: 'white',
-        borderRadius: 12,
+        borderRadius: 4,
         padding: 12,
         shadowColor: '#000',
         shadowOffset: {
@@ -186,7 +172,7 @@ function SelectBoxMultiple(props: any) {
           height: 1
         },
         shadowOpacity: 0.2,
-        shadowRadius: 1.41,
+        shadowRadius: 1,
 
         elevation: 2
       }}
@@ -236,9 +222,9 @@ function SelectBoxSingle(props: any) {
       selectIcon={
         <AntDesign
           name="down"
-          size={24}
+          size={18}
           color="black"
-          style={{ padding: 1, marginRight: -8 }}
+          style={{ padding: 4, marginRight: -8 }}
         />
       }
       containerStyle={{
@@ -251,7 +237,7 @@ function SelectBoxSingle(props: any) {
 
         height: 40,
         backgroundColor: 'white',
-        borderRadius: 12,
+        borderRadius: 4,
         padding: 12,
         shadowColor: '#000',
         shadowOffset: {
@@ -259,7 +245,7 @@ function SelectBoxSingle(props: any) {
           height: 1
         },
         shadowOpacity: 0.2,
-        shadowRadius: 1.41,
+        shadowRadius: 1,
 
         elevation: 2
       }}
