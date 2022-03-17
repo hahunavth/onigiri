@@ -1,6 +1,11 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { fetchNewChapterNotificationAsync } from '../store/notificationSlice'
 import * as BackgroundFetch from 'expo-background-fetch'
 import * as TaskManager from 'expo-task-manager'
 import React from 'react'
+import store from 'app/store/store'
+import { triggerBackgroundFetchNotification } from './notification'
+
 export const BACKGROUND_FETCH_TASK = 'background-fetch'
 
 // 1. Define the task by providing a name and the function that should be executed
@@ -11,7 +16,13 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
   console.log(
     `Got background fetch call at date: ${new Date(now).toISOString()}`
   )
+  const str = await AsyncStorage.getItem('background-fetch-last-number')
+  const num = Number.parseInt(str || '0') || 0
+  AsyncStorage.setItem('background-fetch-last-number', (num + 1).toString())
+  await triggerBackgroundFetchNotification()
+  await store.dispatch(fetchNewChapterNotificationAsync())
 
+  console.log('background fetch done!')
   // Be sure to return the successful result type!
   return BackgroundFetch.BackgroundFetchResult.NewData
 })
@@ -20,7 +31,8 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
 // Note: This does NOT need to be in the global scope and CAN be used in your React components!
 export async function registerBackgroundFetchAsync() {
   return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-    minimumInterval: 60 * 15, // 15 minutes
+    // minimumInterval: 60, // 15 minutes
+    minimumInterval: 60,
     stopOnTerminate: false, // android only,
     startOnBoot: true // android only
   })

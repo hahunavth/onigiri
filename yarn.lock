@@ -3673,6 +3673,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/hooks/-/hooks-2.6.0.tgz#dd5f19601eb3684c6bcdd3df3d0c04cf44c24cff"
   integrity sha512-emBGKvhJ0h++lLJQ5ejsj+od9G67nEaihjvfSx7/JWvNrQGAhP9U0OZqgb9dkKzor9Ufaj9SGt8RNY97cGzttw==
 
+"@react-native-community/netinfo@6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-6.0.2.tgz#3b61757c46d0f387815d42b651bbee1eb998a385"
+  integrity sha512-HbVIv6p+VAzSqALkfKKNbtSy0TneL7EILIqxiOjt/5weVdTuZ88NRyPNQAZBh6W8QYirXJo3f00ryMk9iLs7gQ==
+
 "@react-native-picker/picker@2.3.1":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.3.1.tgz#e77e14c351605afdf4bd5fe93fa1fe381cc6ad27"
@@ -12931,10 +12936,10 @@ react-native-element-dropdown@^1.7.1:
   resolved "https://registry.yarnpkg.com/react-native-element-dropdown/-/react-native-element-dropdown-1.7.1.tgz#06a2aaeb5bf3d35e154db258c738871d36179bd1"
   integrity sha512-uYc1FK1TEhNaxwFNinHlRBAopWeMNtRdETPHxg7tzzf/dQI0+/Io8IyTM3gBinQxM1/UzZm8/sXdIxaIBgZOMA==
 
-react-native-flipper@^0.131.1:
-  version "0.131.1"
-  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.131.1.tgz#b1a43e40a442187fa78c5ed6d478471ff4a2686c"
-  integrity sha512-X65VbZgwVRVYAc3OBdHi0h8dJR/Mgxdg8WoQLGgaYyhHcaqsF06GjOzBJLwNjN3TK5Gih228IFqLqI9Rwl2dEA==
+react-native-flipper@^0.138.0:
+  version "0.138.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.138.0.tgz#7b795d66b6134e2d802a5e0355dbd9e5ed1fd5b6"
+  integrity sha512-8NNsuAyk/gZGZnmzx2VMNTnXW5WTlV3TQ1IIwHxNpz17tWg4wKttNWv1gk2ZArLwdHnntAqjtOoVq8NR8HFaNA==
 
 react-native-gesture-handler@~1.10.2:
   version "1.10.3"
@@ -13432,6 +13437,13 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+
+reselect-debugger-flipper@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/reselect-debugger-flipper/-/reselect-debugger-flipper-1.1.2.tgz#c1809df8e09a364f5e14b37d01c667cc9b38c68e"
+  integrity sha512-gFfUBHf2PQjZUQ+bNr5ZrUTVXdpA1fic/lJ+Qt15KS7r4xYtu/CpaS9odz6Rw8x/ik1ATg/4w3hP3cpvSeRJ3A==
+  dependencies:
+    lodash.isempty "^4.4.0"
 
 reselect@*, reselect@^4.1.5:
   version "4.1.5"

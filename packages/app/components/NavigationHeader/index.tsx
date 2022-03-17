@@ -205,7 +205,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: bs3.backgroundColor,
+        backgroundColor: bs2.backgroundColor,
         zIndex: 10
       }}
     >
@@ -320,7 +320,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
             floatingResultAnimatedStyles
           ]}
         >
-          <Animated.View style={floatingOverlayAnimatedStyle}></Animated.View>
+          {/* <Animated.View style={floatingOverlayAnimatedStyle}></Animated.View> */}
 
           <Text
             fontSize={15}

@@ -15,6 +15,20 @@ export const triggerNotifications = async () => {
   })
 }
 
+export const triggerBackgroundFetchNotification = async () => {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: '📬📬📬📬📬 - BackgroundFetch',
+      body: 'Task is runing',
+      data: { data: 'goes here' },
+      vibrate: [1, 0, 10],
+      // sticky: true
+      autoDismiss: true
+    },
+    trigger: { seconds: 2 }
+  })
+}
+
 // Notifications.setNotificationChannelAsync('default', {
 //   name: 'default',
 //   importance: Notifications.AndroidImportance.MAX,

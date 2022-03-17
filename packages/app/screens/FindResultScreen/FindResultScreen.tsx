@@ -124,10 +124,10 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
           <MemoComicListVertical
             list={list || []}
             onEndReach={onEndReach}
-            // listFooterComponent={listFooterComponent}
+            listFooterComponent={ListFooterComponent}
           />
           {/* <ListFooter page={seed} max={max} /> */}
-          {ListFooterComponent}
+          {/* {ListFooterComponent} */}
         </>
       ) : (
         <NotFound />

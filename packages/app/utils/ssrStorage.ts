@@ -19,6 +19,7 @@ const createNoopStorage = () => {
 }
 
 const storage =
+  // @ts-ignore
   typeof window !== 'undefined'
     ? createWebStorage('local')
     : createNoopStorage()

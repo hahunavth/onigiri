@@ -83,7 +83,8 @@ export const ComicListVertical = ({
         data={list}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        onEndReachedThreshold={0.5}
+        // NOTE: THIS IS NUM PIXEL FROM END, NOT %HEIGHT
+        onEndReachedThreshold={500}
         onEndReached={onEndReach}
         // NOTE: FLATLIST CAUSE SLOW NAVIGATION
         // SOLUTION1: decrease initialNumToRender

@@ -32,13 +32,16 @@ export type NotificationStoreT = {
   replyComment: []
   //
   lastRefresh: string
+  // debug: count num of fetch async thunk run
+  count: number
 }
 
 const initialState: NotificationStoreT = {
   newChapter: {},
   newChapterList: [],
   replyComment: [],
-  lastRefresh: ''
+  lastRefresh: '',
+  count: 0
 }
 
 const notificationSlice = createSlice({
@@ -105,7 +108,7 @@ export const fetchNewChapterNotificationAsync = createAsyncThunk(
     try {
       // @ts-ignore
       const state: RootState = getState()
-
+      state.notification.count += 1
       state.notification.lastRefresh = Date.now().toString()
 
       const notifications: NotificationStoreT['newChapter'] = {}

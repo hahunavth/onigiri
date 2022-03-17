@@ -14,15 +14,37 @@ import {
 import { comicApi } from './api'
 import homeSlice from './homeSlice'
 import settingReducer from './settingSlice'
-import historyReducer from './historySlice'
+import historyReducer, {
+  selectDownloadedChapters,
+  selectLastedReadChapterPath,
+  selectReadChapters,
+  selectThisComicIsSubcribed
+} from './historySlice'
 import recentReducer from './recentSlice'
-import notificationReducer from './notificationSlice'
+import notificationReducer, {
+  selectAlleNewChapterNotification,
+  selectOneNewChapterNotification
+} from './notificationSlice'
 
 // STUB: FLIPPER REDUX
 // NEED REBUILD EAS
 let createFlipperDebugger: any = null
 if (__DEV__ && Platform.OS !== 'web') {
   createFlipperDebugger = require('redux-flipper').default
+}
+if (__DEV__ && Platform.OS !== 'web') {
+  const selectors = [
+    selectAlleNewChapterNotification,
+    selectOneNewChapterNotification,
+    selectDownloadedChapters,
+    selectLastedReadChapterPath,
+    selectReadChapters,
+    selectThisComicIsSubcribed
+  ]
+  const reselectDebugger = require('reselect-debugger-flipper')
+  reselectDebugger.configure({
+    selectors
+  })
 }
 
 // STUB: DYNAMIC IMPORT REDUX PERSIST STORAGE

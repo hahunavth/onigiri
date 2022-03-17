@@ -38,9 +38,8 @@ import {
   Ionicons
 } from '@expo/vector-icons'
 import { AlertDialog } from 'native-base'
-import * as BackgroundFetch from 'expo-background-fetch'
-import { registerTaskAsync } from 'expo-background-fetch'
-import * as TaskManager from 'expo-task-manager'
+
+import NetInfo from '@react-native-community/netinfo'
 
 // import * as Sentry from 'sentry-expo'
 
@@ -50,44 +49,8 @@ import * as TaskManager from 'expo-task-manager'
 //   debug: true // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
 // })
 
-import {
-  // useBackgroundPushNotificationInfo,
-  // registerBackgroundFetchAsync,
-  // unregisterBackgroundFetchAsync,
-  BACKGROUND_FETCH_TASK
-} from 'app/utils/backgroundNotificationServices'
+import { useBackgroundPushNotificationInfo } from 'app/utils/backgroundFetchServices'
 import * as Sentry from '@sentry/react-native'
-
-// 1. Define the task by providing a name and the function that should be executed
-// Note: This needs to be called in the global scope (e.g outside of your React components)
-TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
-  const now = Date.now()
-
-  console.log(
-    `Got background fetch call at date: ${new Date(now).toISOString()}`
-  )
-
-  // Be sure to return the successful result type!
-  return BackgroundFetch.BackgroundFetchResult.NewData
-})
-
-// 2. Register the task at some point in your app by providing the same name, and some configuration options for how the background fetch should behave
-// Note: This does NOT need to be in the global scope and CAN be used in your React components!
-export async function registerBackgroundFetchAsync() {
-  return registerTaskAsync(BACKGROUND_FETCH_TASK, {
-    minimumInterval: 60 * 15, // 15 minutes
-    stopOnTerminate: false, // android only,
-    startOnBoot: true // android only
-  })
-}
-
-// 3. (Optional) Unregister tasks by specifying the task name
-// This will cancel any future background fetch calls that match the given name
-// Note: This does NOT need to be in the global scope and CAN be used in your React components!
-export async function unregisterBackgroundFetchAsync() {
-  return BackgroundFetch.unregisterTaskAsync(BACKGROUND_FETCH_TASK)
-}
-
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
 
@@ -204,45 +167,30 @@ function App() {
       BackHandler.removeEventListener('hardwareBackPress', backAction)
   }, [])
 
-  const [isRegistered, setIsRegistered] = React.useState(false)
-  const [status, setStatus] =
-    React.useState<BackgroundFetch.BackgroundFetchStatus | null>(null)
+  const { checkStatusAsync, isRegistered, status, toggleFetchTask } =
+    useBackgroundPushNotificationInfo()
 
-  React.useEffect(() => {
-    checkStatusAsync()
-  }, [])
-
-  const checkStatusAsync = async () => {
-    const status = await BackgroundFetch.getStatusAsync()
-    const isRegistered = await TaskManager.isTaskRegisteredAsync(
-      BACKGROUND_FETCH_TASK
-    )
-    setStatus(status)
-    setIsRegistered(isRegistered)
-  }
-
-  const toggleFetchTask = async () => {
-    if (isRegistered) {
-      await unregisterBackgroundFetchAsync()
-    } else {
-      await registerBackgroundFetchAsync()
-    }
-
-    checkStatusAsync()
-  }
   useEffect(() => {
     ;(async () => {
       if (!isRegistered && status === 3) {
-        registerBackgroundFetchAsync && registerBackgroundFetchAsync()
+        toggleFetchTask && toggleFetchTask()
       }
     })()
-  }, [isRegistered, status])
+  }, [isRegistered, status, toggleFetchTask])
 
   console.log(
     isRegistered,
     status
     // status && BackgroundFetch.BackgroundFetchStatus[status]
   )
+
+  React.useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      console.log('Connection type', state.type)
+      console.log('Is connected?', state.isConnected)
+    })
+    return () => unsubscribe()
+  })
 
   let [fontsLoaded] = useFonts({
     Quicksand_300Light,
