@@ -1,3 +1,12 @@
+// the dotenv/config will read your .env file
+// and merge it with process.env data
+// This is just for the builds that happen outside of eas
+import 'dotenv/config'
+
+// the secrets created with eas secret:create will
+// be merged with process.env during eas builds
+const SENTRY_DSN = process.env.SENTRY_DSN
+
 const STAGE = process.env.STAGE
 const SCHEME = process.env.SCHEME ?? 'com.hahunavth'
 
@@ -86,7 +95,8 @@ export default {
     ]
   },
   extra: {
-    STAGE: process.env.STAGE
+    STAGE: process.env.STAGE,
+    SENTRY_DSN: SENTRY_DSN
   },
   // NOTE: MANAGED WORKFLOW
   plugins: [

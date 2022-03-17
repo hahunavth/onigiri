@@ -24,6 +24,8 @@ import {
 } from 'native-base'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { colors } from 'app/colors'
+import { useAppDispatch } from './store/hooks'
+import { mergeNewChapterNotificationThunk } from './store/notificationSlice'
 
 // REVIEW: CUSTOM APP
 
@@ -87,6 +89,12 @@ declare module 'native-base' {
 }
 
 export default function UI() {
+  // STUB: background-fetch
+  const dispatch = useAppDispatch()
+  React.useEffect(() => {
+    dispatch(mergeNewChapterNotificationThunk())
+  }, [])
+
   const colorModeManager: StorageManager = {
     get: async () => {
       try {
