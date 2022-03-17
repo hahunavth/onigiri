@@ -36,9 +36,6 @@ export const fetchBackgroundTask = async () => {
     (s) => (s ? JSON.parse(s) : undefined)
   )
   if (state) {
-    // console.log('kakakkaakakkkkkkkkkkkk')
-    // console.log(Object.keys(state?.history?.comics))
-    // console.log(typeof state?.history)
     const notifications: NotificationStoreT['newChapter'] = {}
     const comicPushList: resComicDetail_T[] = []
     await fetchBackgroundInfo(state, notifications, comicPushList)

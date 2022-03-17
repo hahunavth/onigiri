@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import ConfirmModal from '../../components/ConfirmModal'
 import useInteraction from '../../hooks/useInteraction'
@@ -28,7 +27,6 @@ const LibraryContextProvider = (props: Props) => {
    */
   const [modalVisible, setModalVisible] = React.useState(false)
   const [pressedComicPath, setPressedComicPath] = React.useState('')
-  // TODO: IGNORE WARNING
   // USE () => FN to ignore lazy initial
   const [onSubmit, setOnSubmit] = React.useState<
     () => ((path: string) => any) | undefined

@@ -105,9 +105,6 @@ const ComicDetailBottomBar = React.memo(
       if (comic) dispatch(toggleSubscribeComicThunk(comic))
     }, [comic])
 
-    // const chapter1 = React.useMemo(() => {
-    // }, [comic])
-
     const currCptId = React.useMemo(() => {
       return comic?.chapters.findIndex((cpt) => cpt.name === lastedReadCptName)
     }, [comic, lastedReadCptName])

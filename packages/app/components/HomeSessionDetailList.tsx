@@ -10,9 +10,7 @@ import { useApiHot, useApiRecently, useApiTopWeek } from '../store/api'
 import { ComicListVertical } from './ComicListVertical'
 
 type Props = {}
-// TODO: Infinity scroll
 export const HomeSessionDetailListRecently = (props: Props) => {
-  // const { data, isLoading } = useApiRecently('1')
   const { fetchNextPage, results } = useApiInfinityRecently()
 
   const { loading } = useInteraction()
@@ -26,7 +24,8 @@ export const HomeSessionDetailListRecently = (props: Props) => {
 }
 
 export const HomeSessionDetailListHot = (props: Props) => {
-  const { fetchNextPage, results } = useApiInfinityHot()
+  const { fetchNextPage, results, maxPage } = useApiInfinityHot()
+
   const { loading } = useInteraction()
   return (
     <>
@@ -57,4 +56,5 @@ const HomeSessionDetailList = ({ type }: HomeSessionDetailList) => {
   if (type === 'hot') return <HomeSessionDetailListHot />
   return <HomeSessionDetailListWeek />
 }
+
 export default HomeSessionDetailList

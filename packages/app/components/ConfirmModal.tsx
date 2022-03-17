@@ -1,21 +1,5 @@
-import { historyAction, historySelector } from 'app/store/historySlice'
-import { useAppDispatch, useAppSelector } from 'app/store/hooks'
-// import QuicksandText, { QFontFamily } from "app/components/Common/QuicksandText";
-// import { navigate } from "app/navigators";
-import { RecentTabProps } from 'app/navigators/LibraryTopNavigator'
-// import { ColorSchemeE } from "app/styles/colorScheme";
-import { resComicDetail_T } from 'app/types'
-// import { Layout, StyleService, useStyleSheet } from "appui-kitten/components";
 import React from 'react'
-import {
-  View,
-  Text,
-  Modal,
-  ScrollView,
-  Button,
-  Center,
-  VStack
-} from 'native-base'
+import { Text, Modal, ScrollView, Button } from 'native-base'
 
 type ConfirmModalProps = {
   modalVisible: boolean

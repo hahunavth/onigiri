@@ -1,6 +1,6 @@
 import { View, Text } from 'native-base'
 import React from 'react'
-import { useApiFindByGenres, useApiFindComic } from '../../store/api'
+import { useApiFindByGenres } from '../../store/api'
 import useInteraction from '../../hooks/useInteraction'
 import { Loading } from '../../components/Loading'
 import { ComicListVertical } from '../../components/ComicListVertical'

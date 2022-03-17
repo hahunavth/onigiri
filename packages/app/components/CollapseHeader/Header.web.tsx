@@ -256,8 +256,6 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
 const styles = StyleSheet.create({
   textContainer: { marginLeft: 8, justifyContent: 'flex-end', flex: 1 },
   name: {
-    // TODO: ENABLE FOR RN
-    // fontSize: 20,
     fontFamily: 'Quicksand',
     fontWeight: 'bold',
     color: 'white'
