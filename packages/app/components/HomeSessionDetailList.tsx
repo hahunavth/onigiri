@@ -48,7 +48,11 @@ export const HomeSessionDetailListWeek = (props: Props) => {
     </>
   )
 }
-type HomeSessionDetailList = {
+
+/**
+ *
+ */
+export type HomeSessionDetailList = {
   type: 'recently' | 'hot' | 'week'
 }
 const HomeSessionDetailList = ({ type }: HomeSessionDetailList) => {

@@ -107,6 +107,7 @@ export type StackNavParamsList = {
     type: 'recently' | 'hot' | 'week'
   }
   notification: undefined
+  'top-comic-screen': undefined
 }
 
 /**

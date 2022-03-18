@@ -18,15 +18,6 @@ type LibraryTopNavigatorParamList = {
   downloads: undefined
 }
 
-const styles = StyleSheet.create({
-  tabBar: {
-    // backgroundColor: ColorSchemeE["background-basic-color-1"],
-  },
-  iconColor: {
-    // backgroundColor: ColorSchemeE["text-basic-color"],
-  }
-})
-
 export const LibraryTopNavigator = () => {
   // const styles = useStyleSheet(themedStyles);
 

@@ -11,6 +11,15 @@ import { ComicHorizontalList } from 'app/components/ComicHorizontalList'
 import { navigate } from '../../navigators'
 import Categories from '../../components/Categories'
 import { Carousel } from '../../../next/src/components/Carousel'
+import FadeInView, { FadeInWrapper } from '../../components/FadeInView'
+
+// export const HomeScreen = () => {
+//   return (
+//     <FadeInView>
+//       <HomeScreenContent />
+//     </FadeInView>
+//   )
+// }
 
 export const HomeScreen = () => {
   const data = React.useMemo(() => {

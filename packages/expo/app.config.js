@@ -107,5 +107,7 @@ export default {
   packagerOpts: {
     sourceExts: ['js', 'json', 'ts', 'tsx', 'jsx', 'vue'],
     config: 'metro.config.js'
-  }
+  },
+  // NOTE: ASSETS CATCHING
+  assetBundlePatterns: ['../app/assets']
 }

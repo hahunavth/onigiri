@@ -19,7 +19,7 @@ const Categories = () => {
       <IconWithTitle
         title="Top comic"
         onPress={() => {
-          navigate('genres-comic-list')
+          navigate('top-comic')
         }}
       >
         <MaterialIcons

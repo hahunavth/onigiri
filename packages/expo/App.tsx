@@ -38,7 +38,7 @@ import {
   Ionicons
 } from '@expo/vector-icons'
 import { AlertDialog } from 'native-base'
-
+import { Asset } from 'expo-asset'
 import NetInfo from '@react-native-community/netinfo'
 
 // import * as Sentry from 'sentry-expo'
