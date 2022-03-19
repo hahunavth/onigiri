@@ -50,6 +50,9 @@ import NetInfo from '@react-native-community/netinfo'
 
 import 'app/i18n/index'
 
+import * as Localization from 'expo-localization'
+import i18n from 'i18n-js'
+
 import { useBackgroundPushNotificationInfo } from 'app/utils/backgroundFetchServices'
 import * as Sentry from '@sentry/react-native'
 
@@ -168,6 +171,8 @@ function App() {
   }
 
   useEffect(() => {
+    i18n.locale = store.getState().setting.language
+
     BackHandler.addEventListener('hardwareBackPress', backAction)
 
     return () =>

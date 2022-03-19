@@ -8,6 +8,7 @@ import { ListFooter } from './ListFooter'
 import type { resComicItem_T } from '../../types'
 import useInteraction from '../../hooks/useInteraction'
 import { navigate } from '../../navigators'
+import { TNFlatlist } from '../Typo'
 
 type Props = {
   list: resComicItem_T[]
@@ -78,7 +79,7 @@ export const ComicListVertical = ({
         getItem={(data) => data}
         // invertStickyHeaders
       /> */}
-      <FlatList
+      <TNFlatlist
         style={{ flex: 1 }}
         data={list}
         renderItem={renderItem}
@@ -102,10 +103,6 @@ export const ComicListVertical = ({
         // FIXME: Sticky list too slow
         // stickyHeaderIndices={[1, 5]}
         // invertStickyHeaders
-        // NOTE: Deprecated
-        // contentContainerStyle={{ flexGrow: 1 }}
-        // ListFooterComponentStyle={{ flex: 1, justifyContent: 'flex-end' }}
-        // ListFooterComponent={<ListFooter />}
         alwaysBounceHorizontal={true}
         ListFooterComponent={listFooterComponent}
       />

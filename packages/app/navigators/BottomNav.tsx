@@ -17,6 +17,7 @@ import {
   MainTestScreen
 } from 'app/screens'
 import React from 'react'
+import i18n from 'i18n-js'
 
 export type BottomNavParamsList = {
   'main/home': undefined
@@ -41,6 +42,7 @@ export default function BottomNav() {
 
   return (
     <Navigator
+      initialRouteName={__DEV__ ? 'main/test' : 'main/home'}
       screenOptions={{
         headerShown: false,
         header: BottomTabNavigationHeader,
@@ -68,7 +70,7 @@ export default function BottomNav() {
         name="main/home"
         component={HomeScreen}
         options={{
-          title: 'Home',
+          title: i18n.t('home.name'),
           tabBarIcon: HomeIcon
         }}
       ></Screen>
@@ -77,7 +79,7 @@ export default function BottomNav() {
         name="main/library"
         component={LibraryScreen}
         options={{
-          title: 'Library',
+          title: i18n.t('library.name'),
           tabBarIcon: LibraryIcon
         }}
       ></Screen>
@@ -86,7 +88,8 @@ export default function BottomNav() {
         name="main/discover"
         component={DiscoverScreen}
         options={{
-          title: 'Discover',
+          title: i18n.t('discover.name'),
+
           tabBarIcon: DiscoverIcon
         }}
       ></Screen>
@@ -95,7 +98,8 @@ export default function BottomNav() {
         name="main/setting"
         component={SettingScreen}
         options={{
-          title: 'Setting',
+          title: i18n.t('setting.name'),
+
           tabBarIcon: SettingIcon
         }}
       ></Screen>

@@ -8,6 +8,7 @@ import { RecentTab } from 'app/screens/LibraryScreen/RecentTab'
 import { SubscribeTab } from 'app/screens/LibraryScreen/SubscribeTab'
 import { StyleSheet } from 'react-native'
 import { useColorModeStyle } from '../hooks/useColorModeStyle'
+import i18n from 'i18n-js'
 
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<LibraryTopNavigatorParamList>()
@@ -55,9 +56,21 @@ export const LibraryTopNavigator = () => {
       }}
       showPageIndicator
     >
-      <Screen name="recent" component={RecentTab}></Screen>
-      <Screen name="subscribes" component={SubscribeTab}></Screen>
-      <Screen name="downloads" component={DownloadTab}></Screen>
+      <Screen
+        name="recent"
+        options={{ title: i18n.t('library.recent.name') }}
+        component={RecentTab}
+      ></Screen>
+      <Screen
+        name="subscribes"
+        options={{ title: i18n.t('library.subscribes.name') }}
+        component={SubscribeTab}
+      ></Screen>
+      <Screen
+        name="downloads"
+        options={{ title: i18n.t('library.downloads.name') }}
+        component={DownloadTab}
+      ></Screen>
     </Navigator>
   )
 }

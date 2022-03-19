@@ -10,6 +10,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons'
 import { navigate } from '../navigators'
 import { useColorModeStyle } from '../hooks/useColorModeStyle'
+import i18n from 'i18n-js'
 
 const Categories = () => {
   const { boxStyle, textStyle } = useColorModeStyle('', 'Primary')
@@ -17,7 +18,7 @@ const Categories = () => {
   return (
     <HStack justifyContent={'center'} space={2}>
       <IconWithTitle
-        title="Top comic"
+        title={i18n.t('home.categories.items.0')}
         onPress={() => {
           navigate('top-comic')
         }}
@@ -29,7 +30,7 @@ const Categories = () => {
         />
       </IconWithTitle>
       <IconWithTitle
-        title="Genres"
+        title={i18n.t('home.categories.items.1')}
         onPress={() => navigate('genres.badge-list')}
       >
         <MaterialIcons
@@ -39,7 +40,7 @@ const Categories = () => {
         />
       </IconWithTitle>
       <IconWithTitle
-        title="Find comic"
+        title={i18n.t('home.categories.items.2')}
         onPress={() =>
           navigate('main', {
             screen: 'main/discover'
@@ -49,7 +50,7 @@ const Categories = () => {
         <MaterialIcons name="more-horiz" size={24} color={textStyle.color} />
       </IconWithTitle>
       <IconWithTitle
-        title="More"
+        title={i18n.t('home.categories.items.3')}
         onPress={() => {
           navigate('genres-comic-list')
         }}

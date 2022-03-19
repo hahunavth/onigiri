@@ -13,6 +13,8 @@ import { navigate } from 'app/navigators'
 import { resComicDetail_T } from 'app/types'
 import { useColorModeStyle } from '../../hooks/useColorModeStyle'
 import { Box } from 'native-base'
+import { colors } from '../../colors'
+import { TextSmS, TextXsS } from '../../components/Typo'
 
 type Param = {
   onPress?: (comic: HistoryComicT) => any
@@ -45,7 +47,11 @@ const ListWithExtractor = (param: Param) => {
             : navigate('comic-detail', { preloadItem: item, path: item.path })
         }
       >
-        <View style={styles.itemContainer}>
+        <View
+          style={styles.itemContainer}
+          borderColor={colors.$light.textButton}
+          _dark={{ borderColor: colors.$dark.textDisable }}
+        >
           <Image
             source={{ uri: item.posterUrl }}
             style={styles.poster as ImageStyle}
@@ -61,28 +67,31 @@ const ListWithExtractor = (param: Param) => {
               >
                 {item.title}
               </Text>
-              <Text style={styles.detailText} numberOfLines={1}>
+              <TextSmS
+                // style={styles.detailText}
+                numberOfLines={1}
+              >
                 Author: {item.author}
-              </Text>
-              <Text style={styles.detailText} numberOfLines={1}>
+              </TextSmS>
+              <TextSmS style={styles.detailText} numberOfLines={1}>
                 Status: {item.status}
-              </Text>
+              </TextSmS>
             </Box>
 
             <View>
               {!!addonFieldExtractor && (
                 <View style={styles.bottomContainer}>
-                  <Text style={styles.detailText}>{addonFieldName}</Text>
-                  <Text style={styles.bottomText} numberOfLines={1}>
+                  <TextSmS style={styles.detailText}>{addonFieldName}</TextSmS>
+                  <TextSmS style={styles.bottomText} numberOfLines={1}>
                     {addonFieldExtractor(item)}
-                  </Text>
+                  </TextSmS>
                 </View>
               )}
               <View style={styles.bottomContainer}>
-                <Text style={styles.detailText}>Lasted chapter:</Text>
-                <Text style={styles.bottomText} numberOfLines={1}>
+                <TextSmS style={styles.detailText}>Lasted chapter:</TextSmS>
+                <TextSmS style={styles.bottomText} numberOfLines={1}>
                   {item.chapters[0].name}
-                </Text>
+                </TextSmS>
               </View>
             </View>
           </View>
@@ -98,6 +107,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 6,
     borderBottomWidth: 1
+    // color: colors.$light.textInfo
   },
   poster: {
     width: 100,

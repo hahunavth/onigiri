@@ -24,8 +24,9 @@ import {
 } from 'native-base'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { colors } from 'app/colors'
-import { useAppDispatch } from './store/hooks'
+import { useAppDispatch, useAppSelector } from './store/hooks'
 import { mergeNewChapterNotificationThunk } from './store/notificationSlice'
+import { settingSelector } from './store/settingSlice'
 
 // REVIEW: CUSTOM APP
 
@@ -63,7 +64,7 @@ const theme = extendTheme({
       }
     }
   },
-  fonts: { mono: 'Quicksand' },
+  fonts: { mono: 'Quicksand', Quicksand: 'Quicksand' },
   shadows: {},
   components: {
     Heading: {
@@ -91,6 +92,10 @@ declare module 'native-base' {
 export default function UI() {
   // STUB: background-fetch
   const dispatch = useAppDispatch()
+  const { language } = useAppSelector(settingSelector)
+
+  // React.useEffect(() => {}, [language])
+
   React.useEffect(() => {
     dispatch(mergeNewChapterNotificationThunk())
   }, [])

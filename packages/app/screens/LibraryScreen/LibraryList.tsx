@@ -13,6 +13,7 @@ import { useAppSelector } from 'app/store/hooks'
 import { navigate } from 'app/navigators'
 import { resComicDetail_T } from 'app/types'
 import ListItemWithExtractor from './ListItemWithExtractor'
+import { Empty } from '../../components/EmptyPage'
 
 type Props = {
   data: HistoryComicT[]
@@ -42,12 +43,18 @@ const LibraryList = ({
   )
 
   return (
-    <FlatList
-      style={{ flex: 1 }}
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item, index) => index.toString()}
-    />
+    <>
+      {data.length ? (
+        <FlatList
+          style={{ flex: 1 }}
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      ) : (
+        <Empty />
+      )}
+    </>
   )
 }
 

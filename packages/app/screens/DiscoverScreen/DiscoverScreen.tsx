@@ -21,6 +21,7 @@ import {
 import { navigate } from '../../navigators'
 import { SelectOne } from '../../components/DropdownSelect'
 import { AntDesign } from '@expo/vector-icons'
+import i18n from 'i18n-js'
 
 type Props = {}
 
@@ -83,7 +84,7 @@ export const DiscoverScreen = (props: Props) => {
   return (
     <View flex={1} p={2} bg={'gray.50'} _dark={{ bg: 'gray.900' }}>
       <SelectBoxMultiple
-        label="Select genres"
+        label={i18n.t('discover.genres.title')}
         options={GENRES_LIST}
         selectedValues={selectedGenres}
         onMultiSelect={onMultiChange()}
@@ -94,28 +95,28 @@ export const DiscoverScreen = (props: Props) => {
         }}
       />
       <SelectBoxSingle
-        label="For user"
+        label={i18n.t('discover.user.title')}
         options={FOR_USER}
         value={selectedForUser}
         onChange={onForUserChange()}
         hideInputFilter={true}
       />
       <SelectBoxSingle
-        label="Max num chapter"
+        label={i18n.t('discover.maxCpts.title')}
         options={NUM_CHAPTER}
         value={selectedNumChapter}
         onChange={onNumChapterChange()}
         hideInputFilter={true}
       />
       <SelectBoxSingle
-        label="Status"
+        label={i18n.t('discover.status.title')}
         options={STATUS}
         value={selectedStatus}
         onChange={onStatusChange()}
         hideInputFilter={true}
       />
       <SelectBoxSingle
-        label="Sort by"
+        label={i18n.t('discover.sortBy.title')}
         options={SORT_BY}
         value={selectedSortBy}
         onChange={onSortByChange()}
@@ -125,6 +126,9 @@ export const DiscoverScreen = (props: Props) => {
       <Button
         mx={4}
         my={8}
+        colorScheme={'orange'}
+        bg={'$light.backgroundButton'}
+        _text={{ color: '$light.textButton' }}
         onPress={() =>
           navigate('shared', {
             // path: 'shared/find-result',

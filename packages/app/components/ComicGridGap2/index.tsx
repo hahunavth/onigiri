@@ -7,12 +7,12 @@ import { GridItem } from './GridItem'
 
 import type { ComicGridGap2Props } from './types'
 import { resComicItem_T } from '../../types'
-
+import { useBreakpointValue } from 'native-base'
 export * from './types'
 
 export const ComicGridGap2 = (props: ComicGridGap2Props) => {
   // const loading = props.list && props.list.length > 6
-
+  const numItem = useBreakpointValue({ base: 6, md: 8 })
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<resComicItem_T>) => {
       return <GridItem item={item} loading={!!item} />
@@ -22,8 +22,9 @@ export const ComicGridGap2 = (props: ComicGridGap2Props) => {
 
   return (
     <FlatGrid
-      itemDimension={130}
-      data={props.list.slice(0, 6) || new Array(6).fill(false)}
+      style={{ flex: 1 }}
+      itemDimension={180}
+      data={props.list.slice(0, numItem) || new Array(numItem).fill(false)}
       renderItem={renderItem}
       scrollEnabled={false}
       keyExtractor={(item, id) => item?.path || id.toString()}

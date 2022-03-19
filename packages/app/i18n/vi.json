@@ -1,0 +1,72 @@
+{
+  "welcome": "Xin chào",
+  "name": "Charlie",
+  "home": {
+    "name": "Trang chủ",
+    "recently": {
+      "title": "Bản phát hành mới!",
+      "subtitle": "Đọc đề xuất truyện tranh cuối cùng!"
+    },
+    "categories": {
+      "title": "Thể loại",
+      "subtitle": "Tìm thêm ở đây!",
+      "items": [
+        "Truyện tranh hàng đầu",
+        "Thể loại",
+        "Tìm truyện tranh",
+        "Charlie0"
+      ]
+    },
+    "hot": {
+      "title": "Charlie1",
+      "subtitle": ""
+    },
+    "topWeek": {
+      "title": "Charlie2",
+      "subtitle": ""
+    },
+    "history": {
+      "title": "Charlie3",
+      "subtitle": ""
+    },
+    "button": "Charlie4"
+  },
+  "library": {
+    "name": "Charlie5",
+    "recent": {
+      "name": "Charlie6"
+    },
+    "subscribes": {
+      "name": "Charlie7"
+    },
+    "downloads": {
+      "name": "Charlie8"
+    }
+  },
+  "discover": {
+    "name": "Charlie9",
+    "genres": {
+      "title": "Trang chủ0"
+    },
+    "user": {
+      "title": "Trang chủ1"
+    },
+    "maxCpts": {
+      "title": "Trang chủ2"
+    },
+    "status": {
+      "title": "Trang chủ3"
+    },
+    "sortBy": {
+      "title": "Trang chủ4"
+    }
+  },
+  "setting": {
+    "name": "Trang chủ5",
+    "account": {
+      "name": "Trang chủ6",
+      "title": "Trang chủ7",
+      "subtitle": "Trang chủ8"
+    }
+  }
+}

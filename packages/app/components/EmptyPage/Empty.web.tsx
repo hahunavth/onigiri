@@ -3,10 +3,10 @@ import React from 'react'
 
 type Props = {}
 
-export const NotFound = (props: Props) => {
+export const Empty = (props: Props) => {
   return (
     <View>
-      <Text>NotFound.web</Text>
+      <Text>Empty</Text>
     </View>
   )
 }

@@ -26,6 +26,9 @@ import {
 } from 'react-native'
 // import { Picker } from '@react-native-picker/picker'
 import { AntDesign } from '@expo/vector-icons'
+import { TextMdP, TextSmI, TextSmP, TextSmS } from '../../components/Typo'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { settingAction, settingSelector } from '../../store/settingSlice'
 
 /**
  * Specifics child
@@ -180,15 +183,15 @@ export const SettingScreen = (props: Props) => {
   const renderSectionHeader = React.useCallback(
     ({ section: { title } }) => (
       <Box>
-        <Text
+        <TextSmS
           ml={2}
           fontSize={14}
           mt={1}
-          fontWeight={400}
+          fontWeight={500}
           textTransform={'uppercase'}
         >
           {title}
-        </Text>
+        </TextSmS>
       </Box>
     ),
     []
@@ -213,7 +216,9 @@ export const SettingScreen = (props: Props) => {
  * Child components primitive
  */
 const SelectOption = ({ data }: { data: DataT }) => {
-  let [service, setService] = React.useState('')
+  // let [service, setService] = React.useState('')
+  const dispatch = useAppDispatch()
+  const { language, theme } = useAppSelector(settingSelector)
   return (
     <HStack
       h={44}
@@ -226,25 +231,23 @@ const SelectOption = ({ data }: { data: DataT }) => {
       alignItems={'center'}
       justifyContent={'space-between'}
     >
-      <Text
-        fontWeight="400"
-        fontSize={16}
-        _light={{
-          color: 'coolGray.600'
-        }}
-      >
+      <TextSmI fontWeight="400" fontSize={16}>
         {data.name}
-      </Text>
+      </TextSmI>
       <Box w="1/2" maxW="200" pb={1} mt={0} mr={-4}>
         {/* // FIXME: SELECT REQUIRE KEY */}
         <Picker
           style={{ flex: 1, minWidth: 100 }}
-          selectedValue={service}
-          onValueChange={(itemValue, itemIndex) => setService(itemValue)}
+          selectedValue={language}
+          onValueChange={(itemValue, itemIndex) => {
+            // setService(itemValue)
+            dispatch(settingAction.changeLanguage(itemValue))
+            console.log(language)
+          }}
         >
-          <Picker.Item label="English" value="en" />
-          <Picker.Item label="Vietnamese" value="vn" />
-          <Picker.Item label="Japanese" value="jp" />
+          <Picker.Item label="English" value="en-US" />
+          <Picker.Item label="Vietnamese" value="vi-VN" />
+          <Picker.Item label="Japanese" value="jp-JP" />
         </Picker>
       </Box>
     </HStack>
@@ -269,15 +272,9 @@ const NavigateOption = ({ data }: { data: DataT }) => {
         alignItems={'center'}
         justifyContent={'space-between'}
       >
-        <Text
-          fontWeight="400"
-          fontSize={16}
-          _light={{
-            color: 'coolGray.600'
-          }}
-        >
+        <TextSmI fontWeight="400" fontSize={16}>
           {data.name}
-        </Text>
+        </TextSmI>
         <AntDesign name="right" size={24} color="black" alignSelf="flex-end" />
       </HStack>
     </TouchableNativeFeedback>
@@ -314,15 +311,9 @@ const ToggleOption = ({
       alignItems={'center'}
       justifyContent={'space-between'}
     >
-      <Text
-        fontWeight="400"
-        fontSize={16}
-        _light={{
-          color: 'coolGray.600'
-        }}
-      >
+      <TextSmI fontWeight="400" fontSize={16}>
         {data.name}
-      </Text>
+      </TextSmI>
       <Switch
         defaultIsChecked
         colorScheme="emerald"
@@ -364,25 +355,10 @@ const UserLogin = () => {
           </Avatar>
           {/* <Spacer /> */}
           <VStack mt={3}>
-            <Text
-              color="coolGray.800"
-              _dark={{
-                color: 'warmGray.100'
-              }}
-              fontSize={'lg'}
-              fontWeight="600"
-            >
+            <TextSmP fontSize={'lg'} fontWeight="600">
               Login
-            </Text>
-            <Text
-              color="coolGray.500"
-              _dark={{
-                color: 'warmGray.400'
-              }}
-              fontWeight="400"
-            >
-              Login to use more feature
-            </Text>
+            </TextSmP>
+            <TextSmI fontWeight="400">Login to use more feature</TextSmI>
             <Text></Text>
           </VStack>
         </HStack>

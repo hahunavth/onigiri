@@ -2,6 +2,7 @@ import { View, Text, Box, Center, HStack, VStack, Image } from 'native-base'
 import { ListRenderItemInfo } from 'react-native'
 import React from 'react'
 import { FlatGrid } from 'react-native-super-grid'
+import { useBreakpointValue } from 'native-base'
 
 import { TouchableNativeFeedback } from 'react-native'
 import type { resComicItem_T } from '../../types'
@@ -9,6 +10,8 @@ import { ListHeader } from '../ListHeader'
 import { ComicItem } from './ComicItem'
 
 export function ComicGridGap3(props: { list: resComicItem_T[] }) {
+  const numItem = useBreakpointValue({ base: 6, md: 12 })
+
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<resComicItem_T>) => {
       return <ComicItem item={item} loading={!!item} />
@@ -18,12 +21,13 @@ export function ComicGridGap3(props: { list: resComicItem_T[] }) {
 
   return (
     <FlatGrid
+      style={{ flex: 1 }}
       itemDimension={108}
       // numColumns={3}
       data={
         props.list?.length > 0
-          ? props.list.slice(0, 6)
-          : new Array(6).fill(false)
+          ? props.list.slice(0, numItem)
+          : new Array(numItem).fill(false)
       }
       renderItem={renderItem}
       scrollEnabled={false}

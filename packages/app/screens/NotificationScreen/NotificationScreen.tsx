@@ -72,9 +72,7 @@ const NotificationScreen = () => {
               </TouchableOpacity>
             )
           }}
-          keyExtractor={(item, id) =>
-            item.comicDetail?.id?.toString() || id.toString()
-          }
+          keyExtractor={(item, id) => item.notification.chapterPath}
         />
       ) : (
         <NoNotification />

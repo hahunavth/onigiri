@@ -16,7 +16,6 @@ export const BACKGROUND_FETCH_TASK = 'background-fetch'
 
 export const fetchBackgroundTask = async () => {
   const now = Date.now()
-
   console.log(
     `Got background fetch call at date: ${new Date(now).toISOString()}`
   )
@@ -26,9 +25,9 @@ export const fetchBackgroundTask = async () => {
     'background-fetch-last-number',
     (num + 1).toString()
   )
-  await triggerBackgroundFetchNotification()
-  // await store.dispatch(fetchNewChapterNotificationAsync())
 
+  // await triggerBackgroundFetchNotification()
+  await store.dispatch(fetchNewChapterNotificationThunk())
   // store.dispatch(fetchNewChapterNotificationThunk()).then(() => {})
 
   // instead of notificationSlice/fetchNewChapterNotificationAsync
@@ -38,7 +37,7 @@ export const fetchBackgroundTask = async () => {
   if (state) {
     const notifications: NotificationStoreT['newChapter'] = {}
     const comicPushList: resComicDetail_T[] = []
-    await fetchBackgroundInfo(state, notifications, comicPushList)
+    await fetchBackgroundInfo(state, notifications, comicPushList, true)
     await AsyncStorage.setItem(
       'notifications-template',
       JSON.stringify(notifications)

@@ -32,9 +32,9 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
           borderColor: '$dark.textSecondary'
         }}
         borderWidth={1}
-        borderColor={'#c0d4f1'}
-        w={[120, 120, 150, 175, 220]}
-        height={[220, 208, 260, 320]}
+        borderColor={'$light.textButton'}
+        w={[120]}
+        height={[220]}
         rounded="sm"
         m={[1, 1, 2]}
       >
@@ -43,7 +43,7 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
             <Text
               numberOfLines={2}
               textAlign="center"
-              fontSize={[12, 13, 13, 14, 16]}
+              fontSize={[12]}
               fontWeight={'600'}
               color={'$light.textPrimary'}
               _dark={{
@@ -71,8 +71,8 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
             alt="Alternate Text"
             // size="xl"
             // w={114}
-            w={[120, 150, 150, 175, 220]}
-            height={[168, 180, 180, 210, 270]}
+            w={[120]}
+            height={[168]}
             // h={168}
             // mt={[1]}
             // ml={1}
@@ -81,8 +81,8 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
           />
         ) : (
           <Skeleton
-            w={[120, 150, 150, 175, 220]}
-            height={[168, 180, 180, 210, 270]}
+            w={[120]}
+            height={[168]}
             // mt={1}
             // ml={1}
             // mr={1}

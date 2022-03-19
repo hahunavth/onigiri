@@ -100,24 +100,26 @@ const notificationSlice = createSlice({
             )
             state.newChapterList.unshift(k)
           })
+        console.log('oatload', action.payload)
       }
     )
     builder.addCase(
       mergeNewChapterNotificationThunk.fulfilled,
 
       (state, action) => {
-        if (action.payload)
+        if (action.payload) {
           state.mergeCount =
             typeof state.mergeCount === 'number' ? state.mergeCount + 1 : 0
-        state.newChapter = { ...state.newChapter, ...action.payload }
-        action.payload &&
-          Object.keys(action.payload).forEach((k) => {
-            // const path = action.payload ? action.payload[k]?.chapterPath : null
-            state.newChapterList = state.newChapterList.filter(
-              (cPath) => cPath !== k
-            )
-            state.newChapterList.unshift(k)
-          })
+          state.newChapter = { ...state.newChapter, ...action.payload }
+          action.payload &&
+            Object.keys(action.payload).forEach((k) => {
+              // const path = action.payload ? action.payload[k]?.chapterPath : null
+              state.newChapterList = state.newChapterList.filter(
+                (cPath) => cPath !== k
+              )
+              state.newChapterList.unshift(k)
+            })
+        }
       }
     )
   }
@@ -136,12 +138,13 @@ const genFetchNotificationDataFN =
 
     notification: NotificationStoreT,
     notifications: NotificationStoreT['newChapter'],
-    comicPushList: resComicDetail_T[]
+    comicPushList: resComicDetail_T[],
+    isBackground: boolean
   ) =>
   async (cPath: string) => {
-    const lastedCptPath = comics[cPath]?.chapters[0].path
-    // state.notification.newChapter = {}
-    // state.notification.newChapterList = []
+    const lastedCptPath = isBackground
+      ? notification.newChapter[cPath].chapterPath
+      : comics[cPath]?.chapters[0].path
     await axios
       .get(`https://hahunavth-express-api.herokuapp.com/api/v1${cPath}`)
       .then(({ data }) => {
@@ -151,11 +154,13 @@ const genFetchNotificationDataFN =
           (cpt) => cpt.path === lastedCptPath || ''
         )
         const oldNoti = notification.newChapter[cPath]
+
         if (
-          id > 0 &&
+          // TODO: id > 0, >=0 -> test
+          id >= 0 &&
           result?.chapters[id] &&
           lastedCptPath &&
-          !(oldNoti?.chapterName === result?.chapters[id].name)
+          !(oldNoti?.chapterName === result?.chapters[0].name)
         ) {
           console.log(id)
           notifications[cPath] = {
@@ -174,7 +179,7 @@ const genFetchNotificationDataFN =
 
             Notifications.scheduleNotificationAsync({
               content: {
-                title: `${result?.title}`,
+                title: `@@@/${result?.title}`,
                 body: `${result?.chapters[0]}`,
                 data: { data: 'ABCD' },
                 autoDismiss: true
@@ -195,29 +200,33 @@ const mapSeries = async (iterable: any[], action: (a: any) => Promise<any>) => {
 export const fetchBackgroundInfo = async (
   state: Readonly<RootState>,
   notifications: NotificationStoreT['newChapter'],
-  comicPushList: resComicDetail_T[]
+  comicPushList: resComicDetail_T[],
+  isBackground: boolean = false
 ) => {
-  if (typeof state.history === 'object') {
-    mapSeries(
+  // TODO: USE isBackground in if
+  if (typeof state.history !== 'string') {
+    await mapSeries(
       Object.keys(state.history.comics),
       genFetchNotificationDataFN(
         state.history.comics,
         state.notification,
         notifications,
-        comicPushList
+        comicPushList,
+        isBackground
       )
     )
   } else {
     const comics = JSON.parse(state.history).comics
     // @ts-ignore
     const notification = JSON.parse(state.notification)
-    mapSeries(
+    await mapSeries(
       Object.keys(comics),
       genFetchNotificationDataFN(
         comics,
         notification,
         notifications,
-        comicPushList
+        comicPushList,
+        isBackground
       )
     )
   }

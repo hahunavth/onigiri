@@ -26,10 +26,11 @@ import { historySelector } from 'app/store/historySlice'
 import { homeSelector } from '../../store/homeSlice'
 import useInteraction from '../../hooks/useInteraction'
 import usePrevious from 'react-use/esm/usePrevious'
+import { ANFlatlist } from '../Typo'
 
 // @ts-ignore
-export const AnimatedFlatList: typeof FlatList =
-  Animated.createAnimatedComponent(FlatList)
+// export const AnimatedFlatList: typeof FlatList =
+//   Animated.createAnimatedComponent(FlatList)
 
 type Props = Omit<
   FlatListProps<
@@ -124,7 +125,8 @@ const ConnectionList = forwardRef<
   return (
     <View style={styles.container}>
       {loading ? null : (
-        <AnimatedFlatList
+        <ANFlatlist
+          // @ts-ignore
           ref={ref}
           style={styles.container}
           renderItem={renderItem}

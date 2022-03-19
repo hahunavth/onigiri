@@ -20,10 +20,11 @@ import Animated, {
   useAnimatedScrollHandler,
   withTiming
 } from 'react-native-reanimated'
+import { ANFlatlist } from './Typo'
 
 type Props = {}
 
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
+// const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
 const { width, height } = Dimensions.get('window')
 
@@ -166,7 +167,7 @@ const ZoomableImage = (props: Props) => {
         // transform: [{ scale: scale }]
         // }}
       >
-        <AnimatedFlatList
+        <ANFlatlist
           data={new Array(50).fill(1)}
           renderItem={renderItem}
           // scrollEnabled={false}
@@ -177,7 +178,7 @@ const ZoomableImage = (props: Props) => {
           minimumZoomScale={1}
           maximumZoomScale={5}
           // onScroll
-        ></AnimatedFlatList>
+        />
       </Animated.View>
     </PinchGestureHandler>
     // </FlingGestureHandler>

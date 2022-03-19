@@ -12,34 +12,40 @@ import { navigate } from '../../navigators'
 import Categories from '../../components/Categories'
 import { Carousel } from '../../../next/src/components/Carousel'
 import FadeInView, { FadeInWrapper } from '../../components/FadeInView'
-
-// export const HomeScreen = () => {
-//   return (
-//     <FadeInView>
-//       <HomeScreenContent />
-//     </FadeInView>
-//   )
-// }
+import useInteraction from '../../hooks/useInteraction'
+import I18n from 'i18n-js'
 
 export const HomeScreen = () => {
+  const { loading } = useInteraction()
+  console.log('rerender')
+  return <>{!loading && <HomeScreenContent />}</>
+  return <FadeInView>{!loading && <HomeScreenContent />}</FadeInView>
+}
+
+const HomeScreenContent = () => {
   const data = React.useMemo(() => {
     return [
       () => (
         <ListHeader
-          name="New Release!"
-          subtitle="Read the lasted comic recommendations!"
+          name={I18n.t('home.recently.title')}
+          subtitle={I18n.t('home.recently.subtitle')}
           onPressMore={() => {
             navigate('home-session-detail-list', { type: 'recently' })
           }}
         />
       ),
       () => <FlatlistBanner />,
-      () => <ListHeader name="Categories" subtitle="Find more here!" />,
+      () => (
+        <ListHeader
+          name={I18n.t('home.categories.title')}
+          subtitle={I18n.t('home.categories.subtitle')}
+        />
+      ),
       () => <Categories />,
       () => (
         <ListHeader
-          name="Hot"
-          subtitle="New comic release!"
+          name={I18n.t('home.hot.title')}
+          subtitle={I18n.t('home.hot.subtitle')}
           color=""
           onPressMore={() => {
             navigate('home-session-detail-list', { type: 'hot' })
@@ -49,8 +55,8 @@ export const HomeScreen = () => {
       () => <ComicList1 />,
       () => (
         <ListHeader
-          name="Top week"
-          subtitle="New comic release!"
+          name={I18n.t('home.topWeek.title')}
+          subtitle={I18n.t('home.topWeek.subtitle')}
           color=""
           onPressMore={() =>
             navigate('home-session-detail-list', { type: 'week' })
@@ -61,8 +67,8 @@ export const HomeScreen = () => {
 
       () => (
         <ListHeader
-          name="History"
-          subtitle="New comic release!"
+          name={I18n.t('home.history.title')}
+          subtitle={I18n.t('home.history.subtitle')}
           color=""
           onPressMore={() => {
             navigate('main', {

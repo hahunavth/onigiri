@@ -33,8 +33,8 @@ export const GridItem = (props: GridItemProps) => {
         }}
         borderWidth={1}
         borderColor={'#c0d4f1'}
-        w={[190, 280, 320]}
-        height={[208, 400, 600]}
+        w={[190]}
+        height={[208]}
         rounded="sm"
       >
         <Center justifyContent={'center'} h={49}>
