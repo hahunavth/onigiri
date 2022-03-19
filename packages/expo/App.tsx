@@ -37,7 +37,6 @@ import {
   MaterialCommunityIcons,
   Ionicons
 } from '@expo/vector-icons'
-import { AlertDialog } from 'native-base'
 import { Asset } from 'expo-asset'
 import NetInfo from '@react-native-community/netinfo'
 
@@ -49,8 +48,11 @@ import NetInfo from '@react-native-community/netinfo'
 //   debug: true // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
 // })
 
+import 'app/i18n/index'
+
 import { useBackgroundPushNotificationInfo } from 'app/utils/backgroundFetchServices'
 import * as Sentry from '@sentry/react-native'
+
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
 
@@ -82,7 +84,8 @@ Sentry.init({
 
 LogBox.ignoreLogs([
   'Sentry Logger [Warn]: Note: Native Sentry SDK is disabled.',
-  `Picker has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-picker/picker' instead of 'react-native'. See https://github.com/react-native-picker/react-native-picker`
+  `Picker has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-picker/picker' instead of 'react-native'. See https://github.com/react-native-picker/react-native-picker`,
+  'Bridge was already shutdown.'
 ])
 
 // FLIPPER CONNECT
@@ -98,6 +101,10 @@ if (__DEV__ && Platform.OS !== 'web') {
 }
 enableScreens(true)
 
+/**
+ *
+ * App
+ */
 function App() {
   // Hooks from this package only work during development and are disabled in production.
   // You don't need to do anything special to remove them from the production build.
