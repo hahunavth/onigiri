@@ -6,7 +6,7 @@ import axios from 'axios'
 import { resComicDetail_T } from '../types'
 import { RootState } from './store'
 import * as Notifications from 'expo-notifications'
-
+import { Platform } from 'react-native'
 /**
  * WORK:
  *  1. compare with comic in historySlice
@@ -157,7 +157,7 @@ const genFetchNotificationDataFN =
 
         if (
           // TODO: id > 0, >=0 -> test
-          id >= 0 &&
+          id > 0 &&
           result?.chapters[id] &&
           lastedCptPath &&
           !(oldNoti?.chapterName === result?.chapters[0].name)
@@ -176,16 +176,16 @@ const genFetchNotificationDataFN =
           // if (result) dispatch(historyAction.pushComic(result))
           if (result) {
             comicPushList.unshift(result)
-
-            Notifications.scheduleNotificationAsync({
-              content: {
-                title: `@@@/${result?.title}`,
-                body: `${result?.chapters[0]}`,
-                data: { data: 'ABCD' },
-                autoDismiss: true
-              },
-              trigger: { seconds: 2 }
-            })
+            if (Platform.OS !== 'web')
+              Notifications.scheduleNotificationAsync({
+                content: {
+                  title: `@@@/${result?.title}`,
+                  body: `${result?.chapters[0]}`,
+                  data: { data: 'ABCD' },
+                  autoDismiss: true
+                },
+                trigger: { seconds: 2 }
+              })
           }
         }
       })

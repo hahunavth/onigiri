@@ -29,6 +29,7 @@ import { AntDesign } from '@expo/vector-icons'
 import { TextMdP, TextSmI, TextSmP, TextSmS } from '../../components/Typo'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { settingAction, settingSelector } from '../../store/settingSlice'
+import i18n from 'i18n-js'
 
 /**
  * Specifics child
@@ -79,7 +80,7 @@ type SectionT = {
 
 const sections: SectionT[] = [
   {
-    title: 'Account',
+    title: i18n.t('setting.account.name'),
     sectionType: 'user-info',
     data: [
       {
@@ -89,56 +90,60 @@ const sections: SectionT[] = [
     ]
   },
   {
-    title: 'Setting',
+    title: i18n.t('setting.setting.name'),
     sectionType: 'form',
     data: [
       {
-        name: 'Dark theme',
+        name: i18n.t('setting.setting.items.0'),
         type: 'component',
         default: false,
         component: ToggleThemeOption
       },
       {
-        name: 'Language',
+        name: i18n.t('setting.setting.items.1'),
         type: 'select'
       }
     ]
   },
   {
-    title: 'Push notification',
+    title: i18n.t('setting.pushNotification.name'),
     sectionType: 'form',
     data: [
       {
-        name: 'Subscribed comic have new chapter',
+        name: i18n.t('setting.pushNotification.items.0'),
         type: 'boolean'
       }
     ]
   },
   {
-    title: 'About',
-    sectionType: 'form',
-    data: [
-      { name: 'Website', type: 'link', data: 'https://hahunavth.xyz' },
-      { name: 'Term', type: 'navigate' },
-      { name: 'About us', type: 'navigate' },
-      { name: 'Privacy', type: 'navigate' },
-      { name: 'Contact', type: 'navigate' }
-    ]
-  },
-  {
-    title: 'Dangerous',
+    title: i18n.t('setting.about.name'),
     sectionType: 'form',
     data: [
       {
-        name: 'logout',
-        type: 'button'
+        name: i18n.t('setting.about.items.0'),
+        type: 'link',
+        data: 'https://hahunavth.xyz'
       },
-      {
-        name: 'Remove data',
-        type: 'button'
-      }
+      { name: i18n.t('setting.about.items.1'), type: 'navigate' },
+      { name: i18n.t('setting.about.items.2'), type: 'navigate' },
+      { name: i18n.t('setting.about.items.3'), type: 'navigate' },
+      { name: i18n.t('setting.about.items.4'), type: 'navigate' }
     ]
   }
+  // {
+  //   title: 'Dangerous',
+  //   sectionType: 'form',
+  //   data: [
+  //     {
+  //       name: 'logout',
+  //       type: 'button'
+  //     },
+  //     {
+  //       name: 'Remove data',
+  //       type: 'button'
+  //     }
+  //   ]
+  // }
 ]
 
 /**
@@ -247,7 +252,7 @@ const SelectOption = ({ data }: { data: DataT }) => {
         >
           <Picker.Item label="English" value="en-US" />
           <Picker.Item label="Vietnamese" value="vi-VN" />
-          <Picker.Item label="Japanese" value="jp-JP" />
+          <Picker.Item label="Japanese" value="ja-JP" />
         </Picker>
       </Box>
     </HStack>

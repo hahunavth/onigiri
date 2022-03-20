@@ -30,6 +30,8 @@ import { Text } from 'react-native'
 
 import '../components/Carousel/style.css'
 
+import 'app/i18n'
+
 // NOTE: CONFIG LG IN NEXT.JS
 const config = {
   dependencies: {

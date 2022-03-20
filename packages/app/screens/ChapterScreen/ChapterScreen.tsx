@@ -4,7 +4,8 @@ import {
   Dimensions,
   InteractionManager,
   StyleSheet,
-  FlatList as FlatListT
+  FlatList as FlatListT,
+  Platform
 } from 'react-native'
 import { View, Text, FlatList, HStack } from 'native-base'
 import { ChapterScreenProps } from 'app/navigators/StackNav'
@@ -249,7 +250,8 @@ function ChapterScreenNode(props: ChapterScreenProps) {
       {/* Floading */}
       <ChapterHeader style={headerAnimatedStyles} name={ctxName} />
       <ChapterBar style={animatedStyles} onCommentClick={expandSheet} />
-      {loading ? null : (
+      {/* FIXME: NOT SUPPORT FOR WEB */}
+      {Platform.OS !== 'web' && loading ? null : (
         <CommentBottomSheet ref={bottomSheetRef} path={comicPath || ''} />
       )}
     </>

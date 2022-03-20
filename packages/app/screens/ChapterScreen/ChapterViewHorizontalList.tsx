@@ -42,9 +42,9 @@ export const ChapterViewHorizontalList = React.forwardRef<
     toggleFloatingVisible
   } = props
   console.log('object')
-  console.log(imgs.length)
+  console.log(imgs?.length)
 
-  return imgs.length > 0 ? (
+  return imgs?.length > 0 ? (
     <Gallery
       data={imgs.map((img) => img.uri)}
       // onIndexChange={(newIndex) => {

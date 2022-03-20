@@ -2,7 +2,8 @@ import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 
 /**
  * Using local storage for ssr backend
- * Instead of localStorage
+ * Instead of localStorage or AsyncStorage
+ * TODO: change in notification slice and fetch background fn
  */
 const createNoopStorage = () => {
   return {

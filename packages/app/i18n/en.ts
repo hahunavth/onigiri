@@ -64,6 +64,18 @@ const en = {
       name: 'account',
       title: 'Login',
       subtitle: 'Login to use more feature'
+    },
+    setting: {
+      name: 'setting',
+      items: ['DarkTheme', 'Language']
+    },
+    pushNotification: {
+      name: 'Push Notification',
+      items: ['New chapter']
+    },
+    about: {
+      name: 'about',
+      items: ['Website', 'Term', 'About us', 'Privacy', 'Contact']
     }
   }
 }

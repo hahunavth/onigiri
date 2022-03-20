@@ -9,3 +9,4 @@ packages/expo/ios
 packages/expo/android
 packages/next/node_modules
 packages/next/.next
+packages/next/build

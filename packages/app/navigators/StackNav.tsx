@@ -37,7 +37,7 @@ import { HistoryComicT } from '../store/historySlice'
 import { FindOptionT } from '../utils/findOption'
 import Header from '../components/CollapseHeader/Header'
 import { Icon, Text, View } from 'native-base'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, Platform } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 import { MotiView } from 'moti'
@@ -157,7 +157,14 @@ export type HomeSessionDetailListScreenProps = NativeStackScreenProps<
 /**
  * Export navigation
  */
-const { Navigator, Screen } = createNativeStackNavigator<StackNavParamsList>()
+// FIXME: NOT SUPPORT FOR WEB
+const createNavigator: typeof createNativeStackNavigator = Platform.select({
+  native: require('@react-navigation/native-stack').createNativeStackNavigator,
+  web: require('react-navigation-shared-element')
+    .createSharedElementStackNavigator
+})
+
+const { Navigator, Screen } = createNavigator<StackNavParamsList>()
 
 export function StackNav() {
   const renderHeader = React.useCallback(
@@ -193,8 +200,9 @@ export function StackNav() {
         // animationTypeForReplace: 'push',
         // gestureEnabled: false,
         // transitionSpec: {}
-        header: renderHeader,
-        headerRight: renderRight,
+        // FIXME: NOT SUPPORTED FOR WEB
+        header: Platform.OS === 'web' ? undefined : renderHeader,
+        headerRight: Platform.OS === 'web' ? undefined : renderRight,
         headerShadowVisible: true,
         headerLargeTitleShadowVisible: true
       }}
@@ -203,7 +211,11 @@ export function StackNav() {
         name="main"
         options={{
           headerShown: true,
-          header: (props) => <SearchNavigationHeader {...(props as any)} />
+          // FIXME: NOT SUPPORTED FOR WEB
+          header:
+            Platform.OS === 'web'
+              ? undefined
+              : (props) => <SearchNavigationHeader {...(props as any)} />
         }}
         component={BottomNav}
       ></Screen>

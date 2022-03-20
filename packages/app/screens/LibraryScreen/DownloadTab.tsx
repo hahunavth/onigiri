@@ -37,7 +37,7 @@ export const DownloadTab = (props: Props) => {
 
       <LibraryList
         data={
-          (downloadComics.map((str) => comics[str]) as HistoryComicT[]) || []
+          (downloadComics?.map((str) => comics[str]) as HistoryComicT[]) || []
         }
         addonFieldName={'Downloaded:'}
         addonFieldExtractor={(comic) =>

@@ -4,7 +4,7 @@ import i18n from 'i18n-js'
 import * as Localization from 'expo-localization'
 
 type themeT = 'dark' | 'light'
-type languageT = 'en-EN' | 'jp-JP' | 'vi-VN'
+type languageT = 'en-EN' | 'ja-JP' | 'vi-VN'
 
 type settingType = {
   theme: themeT
