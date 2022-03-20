@@ -75,7 +75,8 @@ import {
   ScrollView,
   Dimensions,
   Animated,
-  PanResponder
+  PanResponder,
+  Platform
 } from 'react-native'
 import { TextTest, TextXsS } from '../../components/Typo'
 import i18n from 'i18n-js'
@@ -99,15 +100,16 @@ export function MainTestScreen() {
   // console.log(i18n.currentLocale())
 
   React.useEffect(() => {
-    ;(async () => {
-      await setTestDeviceIDAsync('EMULATOR')
+    Platform.OS !== 'web' &&
+      (async () => {
+        await setTestDeviceIDAsync('EMULATOR')
 
-      await AdMobInterstitial.setAdUnitID(
-        'ca-app-pub-1646154512233519/3404814383'
-      )
-      await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true })
-      await AdMobInterstitial.showAdAsync()
-    })()
+        await AdMobInterstitial.setAdUnitID(
+          'ca-app-pub-1646154512233519/3404814383'
+        )
+        await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true })
+        await AdMobInterstitial.showAdAsync()
+      })()
   })
 
   const scrollViewRef = React.useRef<ScrollView>()
@@ -152,18 +154,20 @@ export function MainTestScreen() {
 
   return (
     <View flex={1}>
-      <AdMobBanner
-        // style={{ height: 100, backgroundColor: 'gray' }}
-        bannerSize="smartBannerLandscape"
-        adUnitID="ca-app-pub-1646154512233519/7994811999" // Test ID, Replace with your-admob-unit-id
-        servePersonalizedAds // true or false
-        // onDidFailToReceiveAdWithError={(e) =>
-        //   __DEV__ &&
-        //   Alert.alert('ca-app-pub-1646154512233519/3404814383', e, [
-        //     { text: 'OK', onPress: (e) => console.log(e) }
-        //   ])
-        // }
-      />
+      {Platform.OS !== 'web' && (
+        <AdMobBanner
+          // style={{ height: 100, backgroundColor: 'gray' }}
+          bannerSize="smartBannerLandscape"
+          adUnitID="ca-app-pub-1646154512233519/7994811999" // Test ID, Replace with your-admob-unit-id
+          servePersonalizedAds // true or false
+          // onDidFailToReceiveAdWithError={(e) =>
+          //   __DEV__ &&
+          //   Alert.alert('ca-app-pub-1646154512233519/3404814383', e, [
+          //     { text: 'OK', onPress: (e) => console.log(e) }
+          //   ])
+          // }
+        />
+      )}
 
       <Animated.ScrollView
         style={{ flex: 1, transform: [{ scale: animatedZoom.current }] }}

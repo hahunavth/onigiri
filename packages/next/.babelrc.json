@@ -1,7 +1,7 @@
 {
   "presets": [
     "next/babel",
-    ["babel-preset-expo", { "jsxRuntime": "automatic" }, "next-transpile-modules"]
+    ["babel-preset-expo", { "jsxRuntime": "automatic" }]
   ],
   "plugins": [
     ["@babel/plugin-proposal-class-properties", { "loose": true }],

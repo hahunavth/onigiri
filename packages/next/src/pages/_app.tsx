@@ -27,6 +27,7 @@ import { navigationRef } from 'app/navigators'
 import React, { useEffect, useState } from 'react'
 import * as Font from 'expo-font'
 import { Text } from 'react-native'
+import * as Linking from 'expo-linking'
 
 import '../components/Carousel/style.css'
 
@@ -124,7 +125,24 @@ export default function App({ Component, pageProps }: AppProps) {
           >
             {/* NOTE: USE TOP TAB NAVIGATOR  IN COMIC DETAIL SCREEN */}
             {/* WORKING */}
-            <NavigationContainer ref={navigationRef}>
+            <NavigationContainer
+              ref={navigationRef}
+              linking={React.useMemo(
+                () => ({
+                  prefixes: [Linking.createURL('/native')],
+                  config: {
+                    initialRouteName: 'home',
+                    screens: {
+                      home: 'main',
+                      'comic-detail': 'detail'
+
+                      // 'user-detail': 'user/:id',
+                    }
+                  }
+                }),
+                []
+              )}
+            >
               <SafeAreaProvider>
                 {/* <DripsyProvider theme={theme}> */}
                 <Component {...pageProps} />

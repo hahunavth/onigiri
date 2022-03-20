@@ -22,7 +22,8 @@ const withTM = require('next-transpile-modules')([
   '@motify/interactions',
   'react-native-reanimated',
   'react-use',
-  '@dudigital/react-native-zoomable-view'
+  '@dudigital/react-native-zoomable-view',
+  'app'
   // FIXME: ERROR WHEN RUN BUILD BY THIS LIB
   // 'react-native-element-dropdown'
 ])
@@ -48,7 +49,9 @@ const nextConfig = {
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true
-  }
+  },
+  reactStrictMode: true,
+  webpack5: true
 }
 
 module.exports = withPlugins(

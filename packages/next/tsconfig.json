@@ -1,39 +1,61 @@
+// {
+//   "compilerOptions": {
+//     "allowSyntheticDefaultImports": true,
+//     "jsx": "preserve",
+//     // "lib": ["dom", "esnext"],
+//     "lib": [
+//       "es6",
+//       "ES5",
+//       "ES7"
+//     ],
+//     "moduleResolution": "node",
+//     "noEmit": true,
+//     // "skipLibCheck": true,
+//     // "resolveJsonModule": true,
+//     // "strict": false,
+//     "target": "esnext",
+//     "allowJs": true,
+//     // "forceConsistentCasingInFileNames": true,
+//     "esModuleInterop": true,
+//     "module": "esnext",
+//     "isolatedModules": true,
+//     // "strict": true,
+//     "types": [
+//       "node"
+//     ],
+//     "incremental": true,
+//     "strict": false,
+//     "forceConsistentCasingInFileNames": true
+//   },
+//   "include": [
+//     "next-env.d.ts",
+//     "**/*.ts",
+//     "**/*.tsx"
+//   ],
+//   "exclude": [
+//     "node_modules"
+//   ],
+//   "extends": "expo/tsconfig.base"
+// }
+
+
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "jsx": "preserve",
-    // "lib": ["dom", "esnext"],
-    "lib": [
-      "es6",
-      "ES5",
-      "ES7"
-    ],
-    "moduleResolution": "node",
-    "noEmit": true,
-    // "skipLibCheck": true,
-    // "resolveJsonModule": true,
-    // "strict": false,
-    "target": "esnext",
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    // "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
     "isolatedModules": true,
-    // "strict": true,
-    "types": [
-      "node"
-    ],
-    "incremental": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true
+    "jsx": "preserve",
+    "incremental": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "extends": "expo/tsconfig.base"
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
