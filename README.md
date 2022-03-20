@@ -1,5 +1,7 @@
 # Comic net native
 
+![example workflow](https://github.com/hahunavth/comic-net-native/actions/workflows/eas.yml/badge.svg)
+
 ## Check list
 - [x] EAS Build
 - [x] Setup CI 
