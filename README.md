@@ -1,6 +1,14 @@
-# Comic net native
+# Onigiri
+A React Native / Expo app for cross-platform manga reading
 
-![example workflow](https://github.com/hahunavth/comic-net-native/actions/workflows/eas.yml/badge.svg)
+![eas workflow](https://github.com/hahunavth/comic-net-native/actions/workflows/eas.yml/badge.svg)
+
+[View the Expo app](https://expo.dev/@hahunavth/onigiri?release-channel=production)
+
+[Web demo (incomplete)](https://hahunavth-comic.vercel.app/native)
+
+## Questions?
+Feel free to create new issue: https://github.com/hahunavth/comic-net-native/issues
 
 ## Check list
 - [x] EAS Build
@@ -15,7 +23,11 @@
 - [x] Setting screen
 - [ ] Login
 - [x] Subscribe comic
-- [ ] Comment
+- [ ] Comment (1/2)
 - [x] Leech and save on db
 - [ ] Add Sentry
-
+- [x] Background fetch notification
+- [ ] Rotate responsive
+- [x] I18n
+- [ ] Dark theme
+- [ ] nextjs
