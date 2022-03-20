@@ -131,20 +131,22 @@ const notificationSlice = createSlice({
 
 const genFetchNotificationDataFN =
   (
-    // state: Readonly<RootState>,
+    // state.history.comics
     comics: {
       [key: string]: HistoryComicT | undefined
     },
-
+    // state.notification
     notification: NotificationStoreT,
+    // new result
     notifications: NotificationStoreT['newChapter'],
     comicPushList: resComicDetail_T[],
     isBackground: boolean
   ) =>
   async (cPath: string) => {
-    const lastedCptPath = isBackground
-      ? notification.newChapter[cPath].chapterPath
-      : comics[cPath]?.chapters[0].path
+    const lastedCptPath =
+      notification.newChapter[cPath].chapterPath ||
+      comics[cPath]?.chapters[0].path
+
     await axios
       .get(`https://hahunavth-express-api.herokuapp.com/api/v1${cPath}`)
       .then(({ data }) => {
@@ -153,16 +155,17 @@ const genFetchNotificationDataFN =
         const id = result?.chapters?.findIndex(
           (cpt) => cpt.path === lastedCptPath || ''
         )
-        const oldNoti = notification.newChapter[cPath]
+        // const oldNoti = notification.newChapter[cPath]
 
         if (
           // TODO: id > 0, >=0 -> test
           id > 0 &&
           result?.chapters[id] &&
           lastedCptPath &&
-          !(oldNoti?.chapterName === result?.chapters[0].name)
+          lastedCptPath !== result?.chapters[0].path
         ) {
           console.log(id)
+
           notifications[cPath] = {
             chapterName: result?.chapters[0].name,
             updatedAt: result?.chapters[0].updatedAt,
@@ -179,11 +182,20 @@ const genFetchNotificationDataFN =
             if (Platform.OS !== 'web')
               Notifications.scheduleNotificationAsync({
                 content: {
-                  title: `@@@/${result?.title}`,
+                  title: `${result?.title}`,
                   body: `${result?.chapters[0]}`,
                   data: { data: 'ABCD' },
-                  autoDismiss: true
+                  autoDismiss: true,
+                  attachments: [
+                    {
+                      url: result.posterUrl
+                    }
+                  ],
+                  subtitle: 'subtitle',
+                  badge: 2,
+                  launchImageName: result.posterUrl
                 },
+                //
                 trigger: { seconds: 2 }
               })
           }
@@ -212,7 +224,7 @@ export const fetchBackgroundInfo = async (
         state.notification,
         notifications,
         comicPushList,
-        isBackground
+        false
       )
     )
   } else {
@@ -226,7 +238,7 @@ export const fetchBackgroundInfo = async (
         notification,
         notifications,
         comicPushList,
-        isBackground
+        true
       )
     )
   }

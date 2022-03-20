@@ -62,7 +62,10 @@ export default {
     // foregroundImage: './assets/adaptive-icon.png'
     //   // backgroundColor: config.backgroundColor
     // },
-    jsEngine: 'hermes'
+    jsEngine: 'hermes',
+    config: {
+      googleMobileAdsAppId: 'ca-app-pub-1646154512233519~1161794425' // sample id, replace with your own
+    }
   },
   androidNavigationBar: {
     barStyle: 'dark-content',
@@ -101,7 +104,8 @@ export default {
   // NOTE: MANAGED WORKFLOW
   plugins: [
     // 'sentry-expo',
-    'expo-community-flipper'
+    'expo-community-flipper',
+    'expo-ads-admob'
   ],
   // NOTE: RN WEB
   packagerOpts: {

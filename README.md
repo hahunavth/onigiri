@@ -50,3 +50,4 @@ Feel free to create new issue: https://github.com/hahunavth/comic-net-native/iss
 - [x] I18n
 - [ ] Dark theme
 - [ ] nextjs
+- [ ] Admob (Need ios config)

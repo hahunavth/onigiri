@@ -40,6 +40,17 @@ import {
 import { Asset } from 'expo-asset'
 import NetInfo from '@react-native-community/netinfo'
 
+// NOTE: ADS
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync
+} from 'expo-ads-admob'
+// Android banner: ca-app-pub-1646154512233519/3404814383
+// Android in: ca-app-pub-1646154512233519/7994811999
+
 // import * as Sentry from 'sentry-expo'
 
 // Sentry.init({
@@ -218,7 +229,8 @@ function App() {
     await Font.loadAsync(AntDesign.font)
     await Font.loadAsync(MaterialCommunityIcons.font)
     await Font.loadAsync(Ionicons.font)
-    await triggerNotifications()
+    // await triggerNotifications()
+    // NOTE: ADS
   }, [isReady])
 
   if (!isReady && !fontsLoaded && !isNavReady)
