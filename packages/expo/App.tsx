@@ -66,6 +66,7 @@ import i18n from 'i18n-js'
 
 import { useBackgroundPushNotificationInfo } from 'app/utils/backgroundFetchServices'
 import * as Sentry from '@sentry/react-native'
+import { StatusBar } from 'expo-status-bar'
 
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
@@ -235,11 +236,15 @@ function App() {
 
   if (!isReady && !fontsLoaded && !isNavReady)
     return (
-      <AppLoading
-        startAsync={Preload}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />
+      <>
+        <StatusBar animated={true} translucent={true} style={'auto'} />
+
+        <AppLoading
+          startAsync={Preload}
+          onFinish={() => setIsReady(true)}
+          onError={console.warn}
+        />
+      </>
     )
 
   return (
