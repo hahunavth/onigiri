@@ -18,7 +18,7 @@ import historyReducer, {
   selectDownloadedChapters,
   selectLastedReadChapterPath,
   selectReadChapters,
-  selectThisComicIsSubcribed
+  selectThisComicIsSubscribed
 } from './historySlice'
 import recentReducer from './recentSlice'
 import notificationReducer, {
@@ -39,7 +39,7 @@ if (__DEV__ && Platform.OS !== 'web') {
     selectDownloadedChapters,
     selectLastedReadChapterPath,
     selectReadChapters,
-    selectThisComicIsSubcribed
+    selectThisComicIsSubscribed
   ]
   const reselectDebugger = require('reselect-debugger-flipper')
   reselectDebugger.configure({

@@ -219,7 +219,7 @@ export const Carousel = (props: Props) => {
                   }}
                 >
                   <HStack display={['none', 'flex']} space={4} mb={2}>
-                    {props?.list[imageId]?.kind.map((str) => {
+                    {props?.list[imageId]?.kind?.map((str) => {
                       return (
                         <Button variant={'subtle'} size={['xs', 'sm']}>
                           {str}
@@ -261,7 +261,7 @@ export const Carousel = (props: Props) => {
                   }}
                 >
                   <HStack space={4} mb={2} display={['none', 'flex']}>
-                    {props.list[imageId]?.kind.map((str) => {
+                    {props.list[imageId]?.kind?.map((str) => {
                       return (
                         <Button variant={'subtle'} size={'sm'}>
                           {str}

@@ -442,12 +442,12 @@ export const selectReadChapters = createSelector(
   (state: RootState) => state.history.readCpt,
   (state) => state
 )
-export const selectThisComicIsSubcribed = createSelector(
+export const selectThisComicIsSubscribed = createSelector(
   [
     (state: RootState) => state.history.subscribeComics,
     (state: any, myPath: string) => myPath
   ],
-  (subcribeComics, myPath) => subcribeComics.find((path) => path === myPath)
+  (subscribeComics, myPath) => subscribeComics.find((path) => path === myPath)
 )
 
 export const selectLastedReadChapterPath = createSelector(

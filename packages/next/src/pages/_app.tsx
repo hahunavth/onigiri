@@ -30,7 +30,7 @@ import { Text } from 'react-native'
 import * as Linking from 'expo-linking'
 
 import '../components/Carousel/style.css'
-
+import i18n from 'i18n-js'
 import 'app/i18n'
 
 // NOTE: CONFIG LG IN NEXT.JS
@@ -94,6 +94,10 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }
 
+  React.useEffect(() => {
+    i18n.locale = store.getState().setting.language
+  }, [])
+
   // const [loaded, setLoaded] = useState(false)
 
   // useEffect(() => {
@@ -114,6 +118,22 @@ export default function App({ Component, pageProps }: AppProps) {
 
   // if (!loaded) return <Text>Loading fonts...</Text>
 
+  const linking = React.useMemo(
+    () => ({
+      prefixes: [Linking.createURL('/native/')],
+      config: {
+        initialRouteName: 'home',
+        screens: {
+          home: 'main',
+          'comic-detail': 'detail'
+
+          // 'user-detail': 'user/:id',
+        }
+      }
+    }),
+    []
+  )
+
   return (
     <>
       <Provider store={store}>
@@ -127,21 +147,18 @@ export default function App({ Component, pageProps }: AppProps) {
             {/* WORKING */}
             <NavigationContainer
               ref={navigationRef}
-              linking={React.useMemo(
-                () => ({
-                  prefixes: [Linking.createURL('/native')],
-                  config: {
-                    initialRouteName: 'home',
-                    screens: {
-                      home: 'main',
-                      'comic-detail': 'detail'
-
-                      // 'user-detail': 'user/:id',
-                    }
+              linking={{
+                prefixes: [Linking.createURL('/native/')],
+                config: {
+                  initialRouteName: 'main',
+                  screens: {
+                    'comic-detail': 'comic-detail',
+                    'comic-list': 'comic-list',
+                    'downloaded-chapter': 'downloaded-chapter',
+                    'find-by-name-result': 'find-by-name-result'
                   }
-                }),
-                []
-              )}
+                }
+              }}
             >
               <SafeAreaAppProvider>
                 {/* <DripsyProvider theme={theme}> */}

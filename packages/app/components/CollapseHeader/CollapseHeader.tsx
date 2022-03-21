@@ -40,7 +40,7 @@ import {
   selectDownloadedChapters,
   selectLastedReadChapterPath,
   selectReadChapters,
-  selectThisComicIsSubcribed,
+  selectThisComicIsSubscribed,
   toggleSubscribeComicThunk
 } from 'app/store/historySlice'
 import { useColorModeStyle } from 'app/hooks/useColorModeStyle'

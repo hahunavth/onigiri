@@ -101,6 +101,9 @@ const HomeScreenContent = () => {
         _dark={{
           backgroundColor: '$dark.backgroundPrimary'
         }}
+        // TODO: WEB SPECIFIC STYLE
+        // @ts-ignore
+        _web={{ marginLeft: 200 }}
         data={data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}

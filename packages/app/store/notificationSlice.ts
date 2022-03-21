@@ -108,7 +108,7 @@ const notificationSlice = createSlice({
               state.newChapterList.unshift(k)
             })
         }
-        console.log('oatload', action.payload)
+        console.log('payload', action.payload)
       }
     )
     builder.addCase(

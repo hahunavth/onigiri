@@ -1,5 +1,5 @@
-import { useColorModeValue, useToken } from 'native-base'
-import { Easing } from 'react-native'
+import { Text, useColorModeValue, useToken, View } from 'native-base'
+import { Easing, Platform } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -18,6 +18,9 @@ import {
 } from 'app/screens'
 import React from 'react'
 import i18n from 'i18n-js'
+import { NextLink } from '../components/NextLink'
+import { navigate } from '.'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export type BottomNavParamsList = {
   'main/home': undefined
@@ -43,7 +46,48 @@ export default function BottomNav() {
   return (
     <Navigator
       // initialRouteName={__DEV__ ? 'main/test' : 'main/home'}
+      tabBar={
+        Platform.OS === 'web'
+          ? ({ descriptors, insets, navigation, state }) => {
+              console.log(descriptors)
+
+              const selectedIndex = state.index
+              // @ts-ignore
+              const onSelect = (id: number) => navigate(state.routeNames[id])
+
+              return (
+                <View
+                  _web={{
+                    position: 'absolute',
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    width: 200,
+                    bg: '$light.backgroundSecondary'
+                  }}
+                >
+                  {state.routes.map(({ name, path }, id) => (
+                    <TouchableOpacity onPress={() => onSelect(id)}>
+                      <Text
+                        fontSize={20}
+                        color={
+                          id === selectedIndex
+                            ? '$light.textPrimary'
+                            : '$light.textDisable'
+                        }
+                      >
+                        {name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )
+            }
+          : undefined
+      }
       screenOptions={{
+        // TODO: WEB SPECIFIC STYLE
+        // TODO: WEB SPECIFIC STYLE
         headerShown: false,
         header: BottomTabNavigationHeader,
         tabBarActiveTintColor: text,
@@ -63,7 +107,28 @@ export default function BottomNav() {
           // }
         }
         // tabBarVisibilityAnimationConfig
+        //  TODO: WEB, SPECIFIC
+        // tabBarItemStyle: {
+        //   flex: undefined,
+        //   height: 100,
+        //   flexDirection: 'column',
+        //   width: 200
+        // },
+        // // tabbarSty
+        // tabBarStyle:
+        //   Platform.OS === 'web'
+        //     ? {
+        //         position: 'absolute',
+        //         top: 0,
+        //         left: 0,
+        //         width: 500,
+        //         flexDirection: 'column',
+        //         flex: 1,
+        //         height: '100vh'
+        //       }
+        //     : null
       }}
+
       // detachInactiveScreens={false}
     >
       <Screen

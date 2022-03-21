@@ -2,26 +2,26 @@
 
 // export { default } from 'app/navigators/BottomNav'
 
-// export { StackNav as default } from 'app/navigators/StackNav'
+export { StackNav as default } from 'app/navigators/StackNav'
 
 // export { default } from 'app/ExpoUI'
 
-import { StackNav } from 'app/navigators/StackNav'
-import { View, Container, Center } from 'native-base'
-import {} from 'react-native'
+// import { StackNav } from 'app/navigators/StackNav'
+// import { View, Container, Center } from 'native-base'
+// import {} from 'react-native'
 
-export default function native() {
-  return (
-    <Center>
-      <View
-        w={['full', '5/6']}
-        style={{
-          maxWidth: 1000,
-          height: '100vh'
-        }}
-      >
-        <StackNav />
-      </View>
-    </Center>
-  )
-}
+// export default function native() {
+//   return (
+//     // <View>
+//     // {/* <View
+//     //   w={['full', '5/6']}
+//     //   style={{
+//     //     maxWidth: 1000,
+//     //     height: '100vh'
+//     //   }}
+//     // > */}
+//     <StackNav />
+//     // {/* </View> */}
+//     // </View>
+//   )
+// }

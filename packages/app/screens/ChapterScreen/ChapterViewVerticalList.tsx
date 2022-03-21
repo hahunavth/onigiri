@@ -91,16 +91,16 @@ const ChapterViewVerticalList = React.forwardRef<
       // padding: 10,
       // backgroundColor: 'red'
       // }}
-      onStartShouldSetPanResponder={(e, s, z, b) => {
-        // console.log('pan should set', z)
-        return false
-      }}
-      onMoveShouldSetPanResponder={(e, s, z, b) => {
-        // console.log('pan should set', z)
-        flatlistRef.current?.scrollToOffset(-z?.lastY || undefined)
-        return true
-      }}
-      onPanResponderGrant={(e, s, z) => console.log(z)}
+      // onStartShouldSetPanResponder={(e, s, z, b) => {
+      //   // console.log('pan should set', z)
+      //   return false
+      // }}
+      // onMoveShouldSetPanResponder={(e, s, z, b) => {
+      //   // console.log('pan should set', z)
+      //   flatlistRef.current?.scrollToOffset(-z?.lastY || undefined)
+      //   return true
+      // }}
+      // onPanResponderGrant={(e, s, z) => console.log(z)}
     >
       <View
         // horizontal={true}
@@ -108,7 +108,7 @@ const ChapterViewVerticalList = React.forwardRef<
         // scrollEnabled={false}
       >
         <FlatList
-          scrollEnabled={false}
+          // scrollEnabled={false}
           ref={(fref) => {
             if (fref) {
               flatlistRef && (flatlistRef.current = fref)

@@ -37,7 +37,7 @@ import {
   historySelector,
   selectDownloadedChapters,
   selectLastedReadChapterPath,
-  selectThisComicIsSubcribed,
+  selectThisComicIsSubscribed,
   toggleSubscribeComicThunk
 } from 'app/store/historySlice'
 import { useColorModeStyle } from 'app/hooks/useColorModeStyle'
@@ -76,7 +76,7 @@ const ComicDetailBottomBar = React.memo(
   ComicDetailBottomBarProps) => {
     const { boxStyle: bs1 } = useColorModeStyle('Blue', 'Secondary')
     const subscribed = !!useAppSelector((state) =>
-      selectThisComicIsSubcribed(state, path || ('' as any))
+      selectThisComicIsSubscribed(state, path || ('' as any))
     )
 
     // ANIMATED

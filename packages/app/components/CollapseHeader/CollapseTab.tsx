@@ -35,7 +35,7 @@ import { goBack, navigate } from 'app/navigators'
 import {
   historySelector,
   selectDownloadedChapters,
-  selectThisComicIsSubcribed,
+  selectThisComicIsSubscribed,
   toggleSubscribeComicThunk
 } from 'app/store/historySlice'
 import { useColorModeStyle } from 'app/hooks/useColorModeStyle'
