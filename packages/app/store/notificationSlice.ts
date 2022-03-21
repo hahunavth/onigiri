@@ -144,8 +144,8 @@ const genFetchNotificationDataFN =
   ) =>
   async (cPath: string) => {
     const lastedCptPath =
-      notification.newChapter[cPath].chapterPath ||
-      comics[cPath]?.chapters[0].path
+      notification?.newChapter[cPath]?.chapterPath ||
+      comics[cPath]?.chapters[0]?.path
 
     await axios
       .get(`https://hahunavth-express-api.herokuapp.com/api/v1${cPath}`)
@@ -170,7 +170,7 @@ const genFetchNotificationDataFN =
             chapterName: result?.chapters[0].name,
             updatedAt: result?.chapters[0].updatedAt,
             count: id,
-            chapterPath: lastedCptPath,
+            chapterPath: result?.chapters[0].path,
             createdAt: Date.now().toString(),
             editedAt: Date.now().toString()
           }
@@ -283,6 +283,8 @@ export const mergeNewChapterNotificationThunk = createAsyncThunk(
     undefined,
     { getState, dispatch, fulfillWithValue, rejectWithValue }
   ) => {
+    const state = getState()
+
     const notifications: NotificationStoreT['newChapter'] =
       await AsyncStorage.getItem('notifications-template').then((s) =>
         s ? JSON.parse(s) : undefined
@@ -297,7 +299,14 @@ export const mergeNewChapterNotificationThunk = createAsyncThunk(
     }
     await AsyncStorage.removeItem('notifications-template')
     await AsyncStorage.removeItem('comicPushList-template')
-    console.log('merge done with ', comicPushList.length, 'item')
+    console.log(
+      'merge done with ',
+      comicPushList.length,
+      'item',
+      // comicPushList,
+      state?.history?.comics[comicPushList[0].path]?.chapters[0],
+      notifications
+    )
     return notifications
   }
 )

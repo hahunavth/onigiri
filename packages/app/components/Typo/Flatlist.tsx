@@ -26,7 +26,9 @@ const TNFlatlist: typeof FlatList = React.memo(
 )
 
 // @ts-ignore
-const ANFlatlist: typeof FlatList = Animated.createAnimatedComponent(TNFlatlist)
+const ANFlatlist: // | typeof FlatList
+React.FunctionComponent<Animated.AnimateProps<IFlatListProps<unknown>>> =
+  Animated.createAnimatedComponent(TNFlatlist)
 
 class RNFlatlist<T> extends PureComponent<FlatListProps<T>, any> {
   render() {

@@ -27,26 +27,28 @@ export const fetchBackgroundTask = async () => {
   )
 
   // await triggerBackgroundFetchNotification()
-  await store.dispatch(fetchNewChapterNotificationThunk()).catch(async (e) => {
-    // instead of notificationSlice/fetchNewChapterNotificationAsync
-    const state: RootState = await AsyncStorage.getItem('persist:root').then(
-      (s) => (s ? JSON.parse(s) : undefined)
-    )
-    if (state) {
-      const notifications: NotificationStoreT['newChapter'] = {}
-      const comicPushList: resComicDetail_T[] = []
-      await fetchBackgroundInfo(state, notifications, comicPushList, true)
-      await AsyncStorage.setItem(
-        'notifications-template',
-        JSON.stringify(notifications)
+  await store
+    .dispatch(fetchNewChapterNotificationThunk())
+    .catch(async function bg(e) {
+      // instead of notificationSlice/fetchNewChapterNotificationAsync
+      const state: RootState = await AsyncStorage.getItem('persist:root').then(
+        (s) => (s ? JSON.parse(s) : undefined)
       )
-      await AsyncStorage.setItem(
-        'comicPushList-template',
-        JSON.stringify(comicPushList)
-      )
-    }
-  })
-
+      if (state) {
+        const notifications: NotificationStoreT['newChapter'] = {}
+        const comicPushList: resComicDetail_T[] = []
+        await fetchBackgroundInfo(state, notifications, comicPushList, true)
+        await AsyncStorage.setItem(
+          'notifications-template',
+          JSON.stringify(notifications)
+        )
+        await AsyncStorage.setItem(
+          'comicPushList-template',
+          JSON.stringify(comicPushList)
+        )
+      }
+    })
+  // await bg('')
   //
   console.log('background fetch done!')
   // Be sure to return the successful result type!

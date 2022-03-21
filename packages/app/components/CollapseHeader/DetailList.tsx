@@ -19,7 +19,9 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withSpring
+  withSpring,
+  ZoomInDown,
+  FadeInDown
 } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
 
@@ -31,6 +33,7 @@ import CollapseRoundView from './CollapseRoundView'
 import { useApiComicComment } from '../../store/api'
 import { Comment } from '../Comment'
 import { num2FormatString } from '../../utils/stringFormat'
+import { Layout, LightSpeedInLeft } from 'react-native-reanimated'
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -47,101 +50,121 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
   const keyExtractor = useCallback((_, index) => index.toString(), [])
 
   const renderItem = useCallback<ListRenderItem<resComicDetail_T>>(
-    ({ item }) => (
-      <Animated.View>
-        {/* <FadeInView style={{ backgroundColor: "transparent" }}> */}
-        <Box mx={[0, 12, 24, 32]} my={[0, 2, 4, 5]}>
-          <CollapseRoundView detail={item?.detail}></CollapseRoundView>
-          <RoundView>
-            <Text
-              style={{
-                fontSize: 18,
-                // fontFamily: QFontFamily.Quicksand_700Bold,
-                marginBottom: 8
-              }}
-            >
-              Genre
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap'
-              }}
-            >
-              {item?.kind?.map((kind) => (
-                <Button
-                  key={kind}
-                  style={{ margin: 4 }}
-                  size={'xs'}
-                  variant={'subtle'}
-                  colorScheme={'danger'}
-                  onPress={() =>
-                    navigate('genres', {
-                      genresName: kind
-                    })
-                  }
+    ({ item, index }) => {
+      if (index === 0) {
+        return (
+          <Animated.View
+            entering={FadeInDown.delay(300 * index + 50)}
+            layout={Layout.springify()}
+          >
+            <CollapseRoundView detail={item?.detail}></CollapseRoundView>
+          </Animated.View>
+        )
+      }
+      if (index === 1)
+        return (
+          <Animated.View
+            entering={FadeInDown.delay(300 * index + 50)}
+            layout={Layout.springify()}
+          >
+            {/* <FadeInView style={{ backgroundColor: "transparent" }}> */}
+            <RoundView>
+              <Text
+                style={{
+                  fontSize: 18,
+                  // fontFamily: QFontFamily.Quicksand_700Bold,
+                  marginBottom: 8
+                }}
+              >
+                Genre
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap'
+                }}
+              >
+                {item?.kind?.map((kind) => (
+                  <Button
+                    key={kind}
+                    style={{ margin: 4 }}
+                    size={'xs'}
+                    variant={'subtle'}
+                    colorScheme={'danger'}
+                    onPress={() =>
+                      navigate('genres', {
+                        genresName: kind
+                      })
+                    }
+                  >
+                    {kind}
+                  </Button>
+                ))}
+              </View>
+              <Text
+                style={{
+                  fontSize: 18,
+                  // fontFamily: QFontFamily.Quicksand_700Bold,
+                  marginBottom: 8
+                }}
+              >
+                Complete info
+              </Text>
+              <View style={{ paddingLeft: 4 }}>
+                <Text style={{ color: '#ccc', fontSize: 11 }}>Author:</Text>
+
+                <Text
+                  style={{
+                    fontSize: 14
+                    // fontFamily: QFontFamily.Quicksand_600SemiBold
+                  }}
                 >
-                  {kind}
-                </Button>
-              ))}
-            </View>
-            <Text
-              style={{
-                fontSize: 18,
-                // fontFamily: QFontFamily.Quicksand_700Bold,
-                marginBottom: 8
-              }}
-            >
-              Complete info
-            </Text>
-            <View style={{ paddingLeft: 4 }}>
-              <Text style={{ color: '#ccc', fontSize: 11 }}>Author:</Text>
+                  {item?.author}
+                </Text>
 
-              <Text
-                style={{
-                  fontSize: 14
-                  // fontFamily: QFontFamily.Quicksand_600SemiBold
-                }}
-              >
-                {item?.author}
-              </Text>
+                <Text style={{ color: '#ccc', fontSize: 11 }}>Status:</Text>
+                <Text
+                  style={{
+                    fontSize: 14
+                    // fontFamily: QFontFamily.Quicksand_600SemiBold
+                  }}
+                >
+                  {item?.status}
+                </Text>
+                <Text style={{ color: '#ccc', fontSize: 11 }}>Rating:</Text>
+                <Text
+                  style={{
+                    fontSize: 14
+                    // fontFamily: QFontFamily.Quicksand_600SemiBold
+                  }}
+                >
+                  {item?.rate}
+                </Text>
+                <Text style={{ color: '#ccc', fontSize: 11 }}>Followers:</Text>
+                <Text
+                  style={{
+                    fontSize: 14
+                    // fontFamily: QFontFamily.Quicksand_600SemiBold
+                  }}
+                >
+                  {num2FormatString(item?.info)}
+                </Text>
+              </View>
+            </RoundView>
 
-              <Text style={{ color: '#ccc', fontSize: 11 }}>Status:</Text>
-              <Text
-                style={{
-                  fontSize: 14
-                  // fontFamily: QFontFamily.Quicksand_600SemiBold
-                }}
-              >
-                {item?.status}
-              </Text>
-              <Text style={{ color: '#ccc', fontSize: 11 }}>Rating:</Text>
-              <Text
-                style={{
-                  fontSize: 14
-                  // fontFamily: QFontFamily.Quicksand_600SemiBold
-                }}
-              >
-                {item?.rate}
-              </Text>
-              <Text style={{ color: '#ccc', fontSize: 11 }}>Followers:</Text>
-              <Text
-                style={{
-                  fontSize: 14
-                  // fontFamily: QFontFamily.Quicksand_600SemiBold
-                }}
-              >
-                {num2FormatString(item?.info)}
-              </Text>
-            </View>
-          </RoundView>
-        </Box>
+            {/* </FadeInView> */}
+          </Animated.View>
+        )
 
-        {/* </FadeInView> */}
-
-        {data && <Comment data={data} />}
-      </Animated.View>
-    ),
+      return (
+        <Animated.View
+          entering={FadeInDown.delay(300 * index + 50)}
+          layout={Layout.springify()}
+        >
+          {data && <Comment data={data} />}
+        </Animated.View>
+      )
+    },
     [data]
   )
   const offset = useSharedValue(100)
@@ -152,7 +175,6 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
     }
   })
 
-  const [loading, setLoading] = React.useState(true)
   // React.useEffect(() => {
   //   setTimeout(() => {
   //     setLoading(false)
@@ -160,9 +182,8 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
   //   }, 1000)
   // }, [])
 
-  useInteraction({
+  const { loading } = useInteraction({
     callback: () => {
-      setLoading(false)
       offset.value = 0
     }
   })
@@ -176,6 +197,9 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           {...props}
+          // For layout animation
+          // @ts-ignore
+          data={props.data?.length ? new Array(3).fill(props.data[0]) : []}
         />
       )}
     </Animated.View>

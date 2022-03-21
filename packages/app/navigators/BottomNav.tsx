@@ -70,8 +70,8 @@ export default function BottomNav() {
         name="main/home"
         component={HomeScreen}
         options={{
-          title: i18n.t('home.name')
-          // tabBarIcon: HomeIcon
+          title: i18n.t('home.name'),
+          tabBarIcon: HomeIcon
         }}
       ></Screen>
 
@@ -79,8 +79,8 @@ export default function BottomNav() {
         name="main/library"
         component={LibraryScreen}
         options={{
-          title: i18n.t('library.name')
-          // tabBarIcon: LibraryIcon
+          title: i18n.t('library.name'),
+          tabBarIcon: LibraryIcon
         }}
       ></Screen>
 
@@ -88,9 +88,9 @@ export default function BottomNav() {
         name="main/discover"
         component={DiscoverScreen}
         options={{
-          title: i18n.t('discover.name')
+          title: i18n.t('discover.name'),
 
-          // tabBarIcon: DiscoverIcon
+          tabBarIcon: DiscoverIcon
         }}
       ></Screen>
 
@@ -98,9 +98,9 @@ export default function BottomNav() {
         name="main/setting"
         component={SettingScreen}
         options={{
-          title: i18n.t('setting.name')
+          title: i18n.t('setting.name'),
 
-          // tabBarIcon: SettingIcon
+          tabBarIcon: SettingIcon
         }}
       ></Screen>
 
@@ -109,8 +109,8 @@ export default function BottomNav() {
         name="main/test"
         component={MainTestScreen}
         options={{
-          title: 'Test'
-          // tabBarIcon: TestIcon
+          title: 'Test',
+          tabBarIcon: TestIcon
         }}
       ></Screen>
       {/* )} */}

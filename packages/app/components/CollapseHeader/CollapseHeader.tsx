@@ -21,7 +21,9 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
   interpolateColor,
-  withTiming
+  withTiming,
+  withDecay,
+  withDelay
 } from 'react-native-reanimated'
 import {
   createMaterialTopTabNavigator,
@@ -300,9 +302,12 @@ export const CollapseHeader = (props: Props) => {
   const opacityStyle2 = useAnimatedStyle(() => {
     return {
       flex: 1,
-      opacity: withTiming(offset.value, {
-        duration: 1000
-      })
+      opacity: withDelay(
+        200,
+        withTiming(offset.value, {
+          duration: 1000
+        })
+      )
       // transform: [
       //   {
       //     translateY: withTiming((1 - offset.value) * 100, {

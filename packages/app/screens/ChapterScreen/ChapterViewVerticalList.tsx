@@ -16,6 +16,7 @@ import {
   ScrollView,
   Spacer,
   Text,
+  View,
   VStack
 } from 'native-base'
 // @ts-ignore
@@ -44,9 +45,9 @@ const ChapterViewVerticalList = React.forwardRef<
 
   const renderItem = React.useCallback(
     ({ item, index }: ListRenderItemInfo<{ uri: string; h: number }>) => {
-      console.log(
-        'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' + item.uri
-      )
+      // console.log(
+      //   'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' + item.uri
+      // )
       return (
         <ScaledImage
           source={{
@@ -65,11 +66,11 @@ const ChapterViewVerticalList = React.forwardRef<
   const keyExtractor = React.useCallback((item, id) => item.uri, [])
 
   const flatlistRef = React.useRef<FlatList>()
-  console.log(
-    // Object.keys(
-    flatlistRef.current?.getScrollResponder()?.type || {}
-    // )
-  )
+  // console.log(
+  //   // Object.keys(
+  //   flatlistRef.current?.getScrollResponder()?.type || {}
+  //   // )
+  // )
 
   return (
     // <PinchWrapper>
@@ -83,85 +84,108 @@ const ChapterViewVerticalList = React.forwardRef<
       // bindToBorders={true}
       pinchToZoomInSensitivity={2}
       doubleTapZoomToCenter={false}
+      zoomCenteringLevelDistance={1}
+      movementSensibility={1}
       // onZoomAfter={this.logOutZoomState}
       // style={{
       // padding: 10,
       // backgroundColor: 'red'
       // }}
+      onStartShouldSetPanResponder={(e, s, z, b) => {
+        // console.log('pan should set', z)
+        return false
+      }}
+      onMoveShouldSetPanResponder={(e, s, z, b) => {
+        // console.log('pan should set', z)
+        flatlistRef.current?.scrollToOffset(-z?.lastY || undefined)
+        return true
+      }}
+      onPanResponderGrant={(e, s, z) => console.log(z)}
     >
-      <FlatList
+      <View
+        // horizontal={true}
         style={{ width, height }}
-        ref={(fref) => {
-          if (fref) {
-            flatlistRef && (flatlistRef.current = fref)
-            // @ts-ignore
-            ref && (ref.current = fref)
-          }
-        }}
-        data={imgs || []}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        onScroll={handleScroll}
-        initialNumToRender={4}
-        maxToRenderPerBatch={5}
-        removeClippedSubviews={true}
-        // FIXME: SCROLL OVER FOOTER -> OPEN
-        onEndReachedThreshold={1.1}
-        onEndReached={(e) => props.onEndReach && props.onEndReach(e)}
-        nestedScrollEnabled
-        ListFooterComponent={() => {
-          return (
-            <ScrollView my={24}>
-              <Center>
-                <Text fontSize={24}>END</Text>
-                <Text>Chapter 0</Text>
-              </Center>
-              <Divider my={12} />
-              <ChapterFooterBtn
-                onPress={() => {
-                  const length = currentComic?.chapters.length || -1
-                  const list = currentComic?.chapters || []
-                  const id = ctxId || -1
-                  console.log(length, id)
-                  if (
-                    id < length - 1 &&
-                    id > 0 &&
-                    list[id + 1] &&
-                    changeChapter
-                  ) {
-                    changeChapter({
-                      ctxId: id + 1,
-                      ctxName: list[id + 1].name,
-                      ctxPath: list[id + 1].path
-                    })
-                  }
-                }}
-              />
-              <ChapterFooterBtn
-                type="next"
-                onPress={() => {
-                  const length = currentComic?.chapters.length || -1
-                  const list = currentComic?.chapters || []
-                  const id = ctxId || -1
-                  console.log(length, id)
-                  if (id < length && id >= 0 && list[id - 1] && changeChapter) {
-                    changeChapter({
-                      ctxId: id - 1,
-                      ctxName: list[id - 1].name,
-                      ctxPath: list[id - 1].path
-                    })
-                  }
-                }}
-              />
-              <Divider my={12} />
-              <Center>
-                <Text fontSize={24}>COMMENT</Text>
-                <Text>Open comment BottomSheet</Text>
-              </Center>
-            </ScrollView>
-          )
-        }}
-      />
+        // scrollEnabled={false}
+      >
+        <FlatList
+          scrollEnabled={false}
+          ref={(fref) => {
+            if (fref) {
+              flatlistRef && (flatlistRef.current = fref)
+              // @ts-ignore
+              ref && (ref.current = fref)
+            }
+          }}
+          data={imgs || []}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          onScroll={handleScroll}
+          initialNumToRender={4}
+          maxToRenderPerBatch={5}
+          removeClippedSubviews={true}
+          // FIXME: SCROLL OVER FOOTER -> OPEN
+          onEndReachedThreshold={1.1}
+          onEndReached={(e) => props.onEndReach && props.onEndReach(e)}
+          nestedScrollEnabled
+          ListFooterComponent={() => {
+            return (
+              <ScrollView my={24}>
+                <Center>
+                  <Text fontSize={24}>END</Text>
+                  <Text>Chapter 0</Text>
+                </Center>
+                <Divider my={12} />
+                <ChapterFooterBtn
+                  onPress={() => {
+                    const length = currentComic?.chapters.length || -1
+                    const list = currentComic?.chapters || []
+                    const id = ctxId || -1
+                    console.log(length, id)
+                    if (
+                      id < length - 1 &&
+                      id > 0 &&
+                      list[id + 1] &&
+                      changeChapter
+                    ) {
+                      changeChapter({
+                        ctxId: id + 1,
+                        ctxName: list[id + 1].name,
+                        ctxPath: list[id + 1].path
+                      })
+                    }
+                  }}
+                />
+                <ChapterFooterBtn
+                  type="next"
+                  onPress={() => {
+                    const length = currentComic?.chapters.length || -1
+                    const list = currentComic?.chapters || []
+                    const id = ctxId || -1
+                    console.log(length, id)
+                    if (
+                      id < length &&
+                      id >= 0 &&
+                      list[id - 1] &&
+                      changeChapter
+                    ) {
+                      changeChapter({
+                        ctxId: id - 1,
+                        ctxName: list[id - 1].name,
+                        ctxPath: list[id - 1].path
+                      })
+                    }
+                  }}
+                />
+                <Divider my={12} />
+                <Center>
+                  <Text fontSize={24}>COMMENT</Text>
+                  <Text>Open comment BottomSheet</Text>
+                </Center>
+              </ScrollView>
+            )
+          }}
+        />
+      </View>
     </ReactNativeZoomableView>
     // </PinchWrapper>
   )

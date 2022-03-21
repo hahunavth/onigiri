@@ -78,7 +78,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
     // }
 
     return {
-      opacity: withTiming(offset.value),
+      // opacity: withTiming(offset.value),
       flex: 1,
       // justifyContent: "flex-end",
       // alignItems: "flex-start",

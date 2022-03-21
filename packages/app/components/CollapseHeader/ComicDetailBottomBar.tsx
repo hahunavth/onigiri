@@ -21,7 +21,8 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
   interpolateColor,
-  withTiming
+  withTiming,
+  SlideInDown
 } from 'react-native-reanimated'
 import {
   createMaterialTopTabNavigator,
@@ -57,6 +58,7 @@ import type {
 import useInteraction from '../../hooks/useInteraction'
 import usePrevious from 'react-use/esm/usePrevious'
 import useRaf from 'react-use/esm/useRaf'
+import { ANbView } from '../Typo/View'
 
 type ComicDetailBottomBarProps = {
   comic?: resComicDetail_T
@@ -78,10 +80,10 @@ const ComicDetailBottomBar = React.memo(
     )
 
     // ANIMATED
-    const offset = useSharedValue(0)
+    // const offset = useSharedValue(0)
     const animatedStyle = useAnimatedStyle(() => {
       return {
-        opacity: offset.value,
+        //  opacity: offset.value,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -89,11 +91,11 @@ const ComicDetailBottomBar = React.memo(
       }
     })
 
-    useInteraction({
-      callback: () => {
-        offset.value = withTiming(1)
-      }
-    })
+    // useInteraction({
+    //   callback: () => {
+    //     offset.value = withTiming(1)
+    //   }
+    // })
 
     const dispatch = useAppDispatch()
 
@@ -130,7 +132,11 @@ const ComicDetailBottomBar = React.memo(
 
     // TODO: FIX ANY STYLE
     return (
-      <Animated.View style={animatedStyle}>
+      <ANbView
+        shadow={'3'}
+        entering={SlideInDown.duration(500)}
+        style={animatedStyle}
+      >
         <TouchableOpacity
           style={styles.shareIconTouchOpacity}
           onPress={ToastComingSoon}
@@ -175,7 +181,7 @@ const ComicDetailBottomBar = React.memo(
             'Read now!'
           )}
         </Button>
-      </Animated.View>
+      </ANbView>
     )
   }
 )
