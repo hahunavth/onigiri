@@ -17,7 +17,8 @@ import { useNavigation } from '@react-navigation/native'
 import { ComicDetailScreenProps } from 'app/navigators/StackNav'
 import { usePrefetch } from 'app/store/api'
 import Animated from 'react-native-reanimated'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useAppSafeAreaInsets } from 'app/provider/safe-area/use-safe-area'
 import { useColorModeStyle } from '../../hooks/useColorModeStyle'
 import { goBack, navigate } from '../../navigators'
 import { ChapterContext } from './ChapterContext'
@@ -36,7 +37,7 @@ const AnimatedSafeAreaView = Animated.createAnimatedComponent(
 )
 
 const ChapterHeader = (props: Props) => {
-  const { top } = useSafeAreaInsets()
+  const { top } = useAppSafeAreaInsets()
   const { boxStyle, textStyle } = useColorModeStyle('', 'Secondary')
   const { setViewStatus, viewStatus } = React.useContext(ChapterContext)
 
@@ -75,7 +76,7 @@ const ChapterHeader = (props: Props) => {
 
   return (
     <>
-      <AnimatedSafeAreaView style={containerStyle as ViewStyle}>
+      <AnimatedSafeAreaView style={containerStyle}>
         {/* Floading */}
         <SafeAreaView
           style={[

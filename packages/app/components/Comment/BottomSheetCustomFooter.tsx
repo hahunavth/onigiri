@@ -6,7 +6,7 @@ import {
   useBottomSheet
 } from '@gorhom/bottom-sheet'
 import { RectButton } from 'react-native-gesture-handler'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useAppSafeAreaInsets } from 'app/provider/safe-area/use-safe-area'
 import Animated, {
   Extrapolate,
   interpolate,
@@ -27,7 +27,7 @@ export const BottomSheetCustomFooter = ({
 }: CustomFooterProps) => {
   //#region hooks
   // we need the bottom safe insets to avoid bottom notches.
-  const { bottom: bottomSafeArea } = useSafeAreaInsets()
+  const { bottom: bottomSafeArea } = useAppSafeAreaInsets()
   // extract animated index and other functionalities
   const { expand, collapse, animatedIndex } = useBottomSheet()
   //#endregion

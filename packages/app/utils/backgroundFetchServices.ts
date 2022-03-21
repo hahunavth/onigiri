@@ -1,3 +1,9 @@
+/**
+ *
+ * NOTE: SPECIFIC EXPO
+ *
+ */
+
 import { resComicDetail_T } from 'app/types'
 import {
   fetchBackgroundInfo,

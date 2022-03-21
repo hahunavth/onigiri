@@ -105,7 +105,7 @@ export function MainTestScreen() {
         await setTestDeviceIDAsync('EMULATOR')
 
         await AdMobInterstitial.setAdUnitID(
-          'ca-app-pub-1646154512233519/3404814383'
+          'ca-app-pub-3940256099942544/1033173712'
         )
         await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true })
         await AdMobInterstitial.showAdAsync()
@@ -158,7 +158,7 @@ export function MainTestScreen() {
         <AdMobBanner
           // style={{ height: 100, backgroundColor: 'gray' }}
           bannerSize="smartBannerLandscape"
-          adUnitID="ca-app-pub-1646154512233519/7994811999" // Test ID, Replace with your-admob-unit-id
+          adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
           servePersonalizedAds // true or false
           // onDidFailToReceiveAdWithError={(e) =>
           //   __DEV__ &&

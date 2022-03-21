@@ -28,7 +28,7 @@ import {
   MaterialTopTabBarProps,
   MaterialTopTabNavigationOptions
 } from '@react-navigation/material-top-tabs'
-import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context'
 // App
 import { useAppDispatch, useAppSelector } from 'app/store/hooks'
 import { goBack, navigate } from 'app/navigators'

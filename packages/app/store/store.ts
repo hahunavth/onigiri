@@ -48,11 +48,11 @@ if (__DEV__ && Platform.OS !== 'web') {
 }
 
 // STUB: DYNAMIC IMPORT REDUX PERSIST STORAGE
-const SELECT_STORAGE = Platform.select({
+const _getStorage = Platform.select({
   native: () => require('@react-native-async-storage/async-storage').default,
   web: () => require('app/utils/ssrStorage').default
 })
-const storage = SELECT_STORAGE ? SELECT_STORAGE() : null
+const storage = _getStorage ? _getStorage() : null
 
 const reducer = combineReducers({
   home: homeSlice,

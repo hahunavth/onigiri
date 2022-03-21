@@ -31,6 +31,7 @@ import {
   MaterialTopTabNavigationOptions
 } from '@react-navigation/material-top-tabs'
 import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context'
+import { useAppSafeAreaInsets } from 'app/provider/safe-area/use-safe-area'
 // App
 import { useAppDispatch, useAppSelector } from 'app/store/hooks'
 import { goBack, navigate } from 'app/navigators'
@@ -90,7 +91,7 @@ export const CollapseHeader = (props: Props) => {
   // console.log('CollapseHeader', props === prev)
 
   // Get safe area
-  const { top, bottom } = useSafeAreaInsets()
+  const { top, bottom } = useAppSafeAreaInsets()
   const { height: screenHeight } = useWindowDimensions()
 
   const friendsRef = useRef<FlatList>(null)

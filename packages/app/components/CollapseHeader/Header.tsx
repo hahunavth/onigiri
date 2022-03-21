@@ -22,7 +22,6 @@ import Animated, {
 } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import useInteraction from '../../hooks/useInteraction'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export const PHOTO_SIZE = 120
 
@@ -51,8 +50,6 @@ const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
 const { height } = Dimensions.get('screen')
 
 const Header: FC<Props2> = ({ style, name, photo, bio }) => {
-  // const { height } = useWindowDimensions()
-  // const { top } = useSafeAreaInsets()
   // REVIEW: Save Style
   const containerStyle = useMemo(() => [styles.container, style], [])
 
@@ -131,6 +128,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
         <SharedElement id={`item.${photo}.photo`}>
           <Image
             source={photoSource}
+            // @ts-ignore
             width={100}
             height={100}
             style={{

@@ -5,8 +5,15 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { resComicDetail_T } from '../types'
 import { RootState } from './store'
-import * as Notifications from 'expo-notifications'
+// import * as Notifications from 'expo-notifications'
 import { Platform } from 'react-native'
+
+const _getNotifications = Platform.select({
+  native: () => require('expo-notifications')
+})
+
+const Notifications = _getNotifications ? _getNotifications() : null
+
 /**
  * WORK:
  *  1. compare with comic in historySlice
@@ -90,16 +97,17 @@ const notificationSlice = createSlice({
       (state, action) => {
         // console.log('full', action.payload)
         state.count += 1
-
-        state.newChapter = { ...state.newChapter, ...action.payload }
-        action.payload &&
-          Object.keys(action.payload).forEach((k) => {
-            // const path = action.payload ? action.payload[k]?.chapterPath : null
-            state.newChapterList = state.newChapterList.filter(
-              (cPath) => cPath !== k
-            )
-            state.newChapterList.unshift(k)
-          })
+        if (action.payload) {
+          state.newChapter = { ...state.newChapter, ...action.payload }
+          action.payload &&
+            Object.keys(action.payload).forEach((k) => {
+              // const path = action.payload ? action.payload[k]?.chapterPath : null
+              state.newChapterList = state.newChapterList.filter(
+                (cPath) => cPath !== k
+              )
+              state.newChapterList.unshift(k)
+            })
+        }
         console.log('oatload', action.payload)
       }
     )
@@ -156,10 +164,9 @@ const genFetchNotificationDataFN =
           (cpt) => cpt.path === lastedCptPath || ''
         )
         // const oldNoti = notification.newChapter[cPath]
-
         if (
           // TODO: id > 0, >=0 -> test
-          id > 0 &&
+          id >= 0 &&
           result?.chapters[id] &&
           lastedCptPath &&
           lastedCptPath !== result?.chapters[0].path
@@ -179,7 +186,7 @@ const genFetchNotificationDataFN =
           // if (result) dispatch(historyAction.pushComic(result))
           if (result) {
             comicPushList.unshift(result)
-            if (Platform.OS !== 'web')
+            if (Platform.OS !== 'web' && Notifications) {
               Notifications.scheduleNotificationAsync({
                 content: {
                   title: `${result?.title}`,
@@ -198,6 +205,7 @@ const genFetchNotificationDataFN =
                 //
                 trigger: { seconds: 2 }
               })
+            }
           }
         }
       })
@@ -304,6 +312,7 @@ export const mergeNewChapterNotificationThunk = createAsyncThunk(
       comicPushList.length,
       'item',
       // comicPushList,
+      // @ts-ignore
       state?.history?.comics[comicPushList[0].path]?.chapters[0],
       notifications
     )

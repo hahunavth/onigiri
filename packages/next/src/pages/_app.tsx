@@ -5,7 +5,7 @@ import 'raf/polyfill'
 global.setImmediate = requestAnimationFrame
 import 'setimmediate'
 
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { SafeAreaAppProvider } from 'app/provider/safe-area'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
 
@@ -143,11 +143,11 @@ export default function App({ Component, pageProps }: AppProps) {
                 []
               )}
             >
-              <SafeAreaProvider>
+              <SafeAreaAppProvider>
                 {/* <DripsyProvider theme={theme}> */}
                 <Component {...pageProps} />
                 {/* </DripsyProvider> */}
-              </SafeAreaProvider>
+              </SafeAreaAppProvider>
             </NavigationContainer>
           </NativeBaseProvider>
         </PersistGate>

@@ -42,7 +42,7 @@ export default function BottomNav() {
 
   return (
     <Navigator
-      initialRouteName={__DEV__ ? 'main/test' : 'main/home'}
+      // initialRouteName={__DEV__ ? 'main/test' : 'main/home'}
       screenOptions={{
         headerShown: false,
         header: BottomTabNavigationHeader,

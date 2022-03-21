@@ -45,7 +45,7 @@ import Animated, {
   withDelay
 } from 'react-native-reanimated'
 import { NextLink } from '../NextLink'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useAppSafeAreaInsets } from 'app/provider/safe-area/use-safe-area'
 import { SelectableBadge } from '../SelectableBadge'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import recentSlice, {
@@ -103,7 +103,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
   const { findNames } = useAppSelector(recentSelector)
 
   // Animation
-  const insets = useSafeAreaInsets()
+  const insets = useAppSafeAreaInsets()
   const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
   const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle('', 'Secondary')
   const { boxStyle: bs3, textStyle: ts3 } = useColorModeStyle(
@@ -426,6 +426,7 @@ const RefAnimatedInput = React.forwardRef<TextInput, any>((props, ref) => {
   return (
     <>
       <AnimatedInput
+        // @ts-ignore
         ref={(myref: TextInput) => {
           // @ts-ignore
           ref ? (ref.current = myref) : null

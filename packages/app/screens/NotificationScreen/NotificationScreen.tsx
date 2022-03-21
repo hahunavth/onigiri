@@ -101,15 +101,17 @@ const NotificationScreen = () => {
       ) : (
         <NoNotification />
       )}
-      <Button
-        onPress={() =>
-          fetchBackgroundTask().then(() => {
-            dispatch(mergeNewChapterNotificationThunk())
-          })
-        }
-      >
-        Test
-      </Button>
+      {__DEV__ && (
+        <Button
+          onPress={() =>
+            fetchBackgroundTask().then(() => {
+              dispatch(mergeNewChapterNotificationThunk())
+            })
+          }
+        >
+          Test
+        </Button>
+      )}
     </View>
   )
 }

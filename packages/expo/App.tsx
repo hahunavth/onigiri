@@ -67,6 +67,16 @@ import i18n from 'i18n-js'
 import { useBackgroundPushNotificationInfo } from 'app/utils/backgroundFetchServices'
 import * as Sentry from '@sentry/react-native'
 import { StatusBar } from 'expo-status-bar'
+import {
+  comicApi,
+  useApiHot,
+  useApiLazyHot,
+  useApiLazyRecently,
+  useApiLazyTopWeek,
+  useApiRecently,
+  useApiTopMonth,
+  useApiTopWeek
+} from 'app/store/api'
 
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
 const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
@@ -223,6 +233,12 @@ function App() {
     Quicksand_600SemiBold,
     Quicksand_700Bold
   })
+  const [a, b, c] = useApiLazyRecently()
+  const [e, f, g] = useApiLazyHot()
+  const [h, i, k] = useApiLazyTopWeek()
+  const { refetch } =
+    comicApi.endpoints.getRecentlyByPage.useQuerySubscription('1')
+  // useApiTopMonth('1')
 
   const Preload = React.useCallback(async () => {
     await SplashScreen.preventAutoHideAsync()
@@ -230,46 +246,71 @@ function App() {
     await Font.loadAsync(AntDesign.font)
     await Font.loadAsync(MaterialCommunityIcons.font)
     await Font.loadAsync(Ionicons.font)
+    console.log('prefetch---------------')
+    a('1')
+    e('1')
+    h('1')
+    await new Promise((resolve) => setTimeout(resolve, 10000))
     // await triggerNotifications()
     // NOTE: ADS
-  }, [isReady])
+  }, [])
 
-  if (!isReady && !fontsLoaded && !isNavReady)
-    return (
-      <>
-        <StatusBar animated={true} translucent={true} style={'auto'} />
+  // if (!isReady && !fontsLoaded && !isNavReady)
+  //   return (
+  //     <>
+  //       <StatusBar animated={true} translucent={true} style={'auto'} />
 
-        <AppLoading
-          startAsync={Preload}
-          onFinish={() => setIsReady(true)}
-          onError={console.warn}
-        />
-      </>
-    )
+  //       <AppLoading
+  //         startAsync={Preload}
+  //         onFinish={() => setIsReady(true)}
+  //         onError={console.warn}
+  //       />
+  //     </>
+  //   )
 
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      onReady={() => {
-        // Splash
-        setIsNavReady(true)
-        // Sentry
-        routingInstrumentation.registerNavigationContainer(navigationRef)
-      }}
-    >
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <SafeAreaProvider>
-            <UI />
-          </SafeAreaProvider>
-        </PersistGate>
-      </Provider>
-    </NavigationContainer>
+    <>
+      {!isReady && !fontsLoaded && !isNavReady ? (
+        <>
+          <StatusBar animated={true} translucent={true} style={'auto'} />
+
+          <AppLoading
+            startAsync={Preload}
+            onFinish={() => setIsReady(true)}
+            onError={console.warn}
+          />
+        </>
+      ) : (
+        <NavigationContainer
+          ref={navigationRef}
+          onReady={() => {
+            // Splash
+            setIsNavReady(true)
+            // Sentry
+            routingInstrumentation.registerNavigationContainer(navigationRef)
+          }}
+        >
+          <PersistGate persistor={persistor}>
+            <SafeAreaProvider>
+              <UI />
+            </SafeAreaProvider>
+          </PersistGate>
+        </NavigationContainer>
+      )}
+    </>
+  )
+}
+
+function ReduxWrappedApp() {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
   )
 }
 
 // Sentry
-export default Sentry.wrap(App)
+export default Sentry.wrap(ReduxWrappedApp)
 
 /**
  * TODO:
