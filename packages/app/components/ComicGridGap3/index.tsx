@@ -11,7 +11,13 @@ import { ComicItem } from './ComicItem'
 
 export function ComicGridGap3(props: { list: resComicItem_T[] }) {
   const numItem = useBreakpointValue({ base: 6, md: 12, lg: 18, xl: 24 })
-  const itemDim = useBreakpointValue({ base: 108, md: 120 })
+  const itemDim = useBreakpointValue({
+    sm: 108,
+    base: 112,
+    md: 160,
+    lg: 180,
+    xl: 200
+  })
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<resComicItem_T>) => {
@@ -24,6 +30,11 @@ export function ComicGridGap3(props: { list: resComicItem_T[] }) {
     <FlatGrid
       style={{ flex: 1 }}
       itemDimension={itemDim}
+      itemContainerStyle={{
+        flex: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}
       // numColumns={3}
       data={
         props.list?.length > 0

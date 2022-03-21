@@ -19,6 +19,14 @@ export const ComicGridGap2 = (props: ComicGridGap2Props) => {
     xl: 16,
     '2xl': 18
   })
+  const itemWidth = useBreakpointValue({
+    sm: 180,
+    // base: 180,
+    md: 200,
+    lg: 220,
+    xl: 240,
+    '2xl': 320
+  })
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<resComicItem_T>) => {
       return <GridItem item={item} loading={!!item} />
@@ -28,8 +36,26 @@ export const ComicGridGap2 = (props: ComicGridGap2Props) => {
 
   return (
     <FlatGrid
-      style={{ flex: 1 }}
-      itemDimension={180}
+      style={
+        {
+          // flex: 1,
+          // alignContent: 'flex-end'
+          // margin: 40
+        }
+      }
+      indicatorStyle={'black'}
+      // additionalRowStyle={{
+      //   backgroundColor: 'red',
+      //   marginLeft: 10,
+      //   justifyContent: 'center',
+      //   alignItems: 'center'
+      // }}
+      itemContainerStyle={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+      itemDimension={itemWidth}
       data={props.list.slice(0, numItem) || new Array(numItem).fill(false)}
       renderItem={renderItem}
       scrollEnabled={false}

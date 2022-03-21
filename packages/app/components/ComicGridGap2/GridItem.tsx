@@ -13,6 +13,7 @@ import { TouchableNativeFeedback } from 'react-native'
 import type { resComicItem_T } from '../../types'
 import { num2FormatString } from '../../utils/stringFormat'
 import { NextLink } from '../NextLink'
+import { TextXsP } from '../Typo'
 import { GridItemProps } from './types'
 
 export const GridItem = (props: GridItemProps) => {
@@ -33,13 +34,13 @@ export const GridItem = (props: GridItemProps) => {
         }}
         borderWidth={1}
         borderColor={'#c0d4f1'}
-        w={[190]}
-        height={[208]}
+        w={190}
+        height={208}
         rounded="sm"
       >
         <Center justifyContent={'center'} h={49}>
           {props.loading ? (
-            <Text
+            <TextXsP
               numberOfLines={2}
               textAlign="center"
               fontSize={12}
@@ -49,31 +50,32 @@ export const GridItem = (props: GridItemProps) => {
               }}
             >
               {props.item?.name}
-            </Text>
+            </TextXsP>
           ) : (
             <Skeleton.Text lines={1} fontSize={12} px={4} />
           )}
         </Center>
-        {props.loading ? (
-          <Image
-            source={{
-              uri: props.item?.posterUrl
-            }}
-            // source={{
-            //   uri: 'https://wallpaperaccess.com/full/317501.jpg'
-            // }}
-            alt="Alternate Text"
-            // size="xl"
-            w={180}
-            h={152}
-            mt={2}
-            ml={1}
-            mr={1}
-            rounded={'sm'}
-          />
-        ) : (
-          <Skeleton w={180} h={152} mt={1} ml={1} mr={1} rounded={'sm'} />
-        )}
+        {/* NOTE: RESPONSIVE IMAGE CONTAINER */}
+        <View flex={1} p={1}>
+          {/* NOTE: RESPONSIVE IMAGE CONTAINER */}
+          {props.loading ? (
+            <Image
+              source={{
+                uri: props.item?.posterUrl
+              }}
+              // source={{
+              //   uri: 'https://wallpaperaccess.com/full/317501.jpg'
+              // }}
+              alt="Alternate Text"
+              resizeMode="cover"
+              w={'full'}
+              h={'full'}
+              rounded={'sm'}
+            />
+          ) : (
+            <Skeleton w={'full'} h={'full'} rounded={'sm'} />
+          )}
+        </View>
         <Box
           position={'absolute'}
           top={2}

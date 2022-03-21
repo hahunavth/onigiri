@@ -6,15 +6,15 @@ import { View } from 'native-base'
 
 export const NextLink = (props: LinkProps) => {
   return (
-    <TouchableNativeFeedback>
-      <View style={props.style}>
+    <View style={props.style}>
+      <TouchableNativeFeedback {...props.touchableNativeFeedbackProps}>
         <Link
           {...props}
           touchableOpacityProps={{ activeOpacity: 1 }}
           style={props.linkStyle}
         />
-      </View>
-    </TouchableNativeFeedback>
+      </TouchableNativeFeedback>
+    </View>
   )
 }
 

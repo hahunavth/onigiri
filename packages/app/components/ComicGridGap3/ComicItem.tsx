@@ -6,7 +6,8 @@ import {
   HStack,
   VStack,
   Image,
-  Skeleton
+  Skeleton,
+  useBreakpointValue
 } from 'native-base'
 import React from 'react'
 import { TouchableNativeFeedback } from 'react-native'
@@ -14,6 +15,14 @@ import type { resComicItem_T } from '../../types'
 import { NextLink } from 'app/components/NextLink'
 
 export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
+  const itemDim = useBreakpointValue({
+    sm: 108,
+    base: 112,
+    md: 160,
+    lg: 180,
+    xl: 200
+  })
+
   return (
     <NextLink
       routeName={props.loading ? 'comic-detail' : 'main'}
@@ -33,17 +42,17 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
         }}
         borderWidth={1}
         borderColor={'$light.textButton'}
-        w={[120]}
-        height={[220]}
+        w={itemDim}
+        height={itemDim * 1.6}
         rounded="sm"
         m={[1, 1, 2]}
       >
-        <Center justifyContent={'center'} h={49}>
+        <Center justifyContent={'center'} h={[43, 43, 57]}>
           {props.loading ? (
             <Text
               numberOfLines={2}
               textAlign="center"
-              fontSize={[12]}
+              fontSize={[12, 12, 14, 16]}
               fontWeight={'600'}
               color={'$light.textPrimary'}
               _dark={{
@@ -61,24 +70,26 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
           )}
         </Center>
         {props.loading ? (
-          <Image
-            source={{
-              uri: props.item?.posterUrl
-            }}
-            // source={{
-            //   uri: 'https://wallpaperaccess.com/full/317501.jpg'
-            // }}
-            alt="Alternate Text"
-            // size="xl"
-            // w={114}
-            w={[120]}
-            height={[168]}
-            // h={168}
-            // mt={[1]}
-            // ml={1}
-            // mr={1}
-            rounded={'sm'}
-          />
+          <View flex={1} px={1} pt={1}>
+            <Image
+              source={{
+                uri: props.item?.posterUrl
+              }}
+              // source={{
+              //   uri: 'https://wallpaperaccess.com/full/317501.jpg'
+              // }}
+              alt="Alternate Text"
+              // size="xl"
+              // w={114}
+              w={'full'}
+              h={'full'}
+              // h={168}
+              // mt={[1]}
+              // ml={1}
+              // mr={1}
+              rounded={'sm'}
+            />
+          </View>
         ) : (
           <Skeleton
             w={[120]}
