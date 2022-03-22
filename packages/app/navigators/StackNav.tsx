@@ -47,6 +47,7 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
 import { SharedNav, SharedNavParamList } from './SharedNav'
 import NotificationScreen from '../screens/NotificationScreen/NotificationScreen'
 import { NotificationHeaderRefreshBtn } from '../screens/NotificationScreen/NotificationHeaderRefreshBtn'
+import i18n from 'i18n-js'
 
 /**
  * Using common params
@@ -231,7 +232,7 @@ export function StackNav() {
       <Screen
         name="comic-detail"
         options={{
-          title: 'Comic Detail Screen',
+          title: i18n.t('stackNavScreens.comic-detail'),
           headerShown: false
         }}
         component={ComicDetailScreen}
@@ -240,7 +241,7 @@ export function StackNav() {
       <Screen
         name="chapter"
         options={{
-          title: 'Chapter Screen',
+          title: i18n.t('stackNavScreens.chapter'),
           headerShown: false
         }}
         component={ChapterScreen}
@@ -249,7 +250,7 @@ export function StackNav() {
       <Screen
         name="comic-list"
         options={{
-          title: 'Comic List Screen'
+          title: i18n.t('stackNavScreens.comic-list')
         }}
         component={ComicListScreen}
       ></Screen>
@@ -257,7 +258,7 @@ export function StackNav() {
       <Screen
         name="find-result"
         options={{
-          title: 'Find Result Screen',
+          title: i18n.t('stackNavScreens.find-result'),
           header: renderHeader,
           headerRight: renderRight
         }}
@@ -266,26 +267,39 @@ export function StackNav() {
 
       <Screen
         name="find-by-name-result"
-        options={{}}
+        options={{
+          title: i18n.t('stackNavScreens.find-by-name-result')
+        }}
         component={FindByNameResultScreen}
       ></Screen>
 
       <Screen
         name="genres"
         options={(props) => ({
-          title: `Genres: ${props.route.params.genresName}`
+          title:
+            i18n.t('stackNavScreens.genres') +
+            `${props.route.params.genresName}`
         })}
         component={Genres}
       ></Screen>
       <Screen
         name="genres.badge-list"
         // options={(props) => ({
-        //   title: `Genres: ${props.route.params.genresName}`
+        //   title:  `${props.route.params.genresName}`
         // })}
+        options={{
+          title: i18n.t('stackNavScreens.genres-badge-list')
+        }}
         component={GenresBadgeListScreen}
       ></Screen>
 
-      <Screen name="genres-comic-list" component={GenresList}></Screen>
+      <Screen
+        name="genres-comic-list"
+        options={{
+          title: i18n.t('stackNavScreens.genres-comic-list')
+        }}
+        component={GenresList}
+      ></Screen>
 
       <Screen
         name="home-session-detail-list"
@@ -298,7 +312,7 @@ export function StackNav() {
       <Screen
         name="login"
         options={{
-          title: 'Login Screen'
+          title: i18n.t('stackNavScreens.login')
         }}
         component={LoginScreen}
       ></Screen>
@@ -307,7 +321,7 @@ export function StackNav() {
         name="notification"
         options={{
           gestureEnabled: true,
-          title: 'Notification',
+          title: i18n.t('stackNavScreens.notification'),
           headerRight: NotificationHeaderRefreshBtn
         }}
         component={NotificationScreen}
@@ -316,7 +330,7 @@ export function StackNav() {
       <Screen
         name="sign-up"
         options={{
-          title: 'Sign Up Screen'
+          title: i18n.t('stackNavScreens.sign-up')
         }}
         component={SignupScreen}
       ></Screen>
@@ -332,7 +346,7 @@ export function StackNav() {
       <Screen
         name="top-comic"
         options={{
-          title: 'Top Comic Screen'
+          title: i18n.t('stackNavScreens.top-comic')
         }}
         component={TopComicScreen}
       ></Screen>
@@ -340,18 +354,28 @@ export function StackNav() {
       <Screen
         name="select-download-chapter"
         options={{
-          title: 'Select chapters'
+          title: i18n.t('stackNavScreens.select-download-chapter')
         }}
         component={SelectDownloadChapter}
       ></Screen>
 
       <Screen
         name="offline-comic-screen"
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          title: i18n.t('stackNavScreen.offline-comic-screen')
+        }}
         component={OfflineComicScreen}
       />
 
-      <Screen name="offline-chapter-screen" component={OfflineChapterScreen} />
+      <Screen
+        name="offline-chapter-screen"
+        options={{
+          headerShown: false,
+          title: i18n.t('stackNavScreen.offline-chapter-screen')
+        }}
+        component={OfflineChapterScreen}
+      />
     </Navigator>
   )
 }

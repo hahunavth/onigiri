@@ -77,6 +77,30 @@ const en = {
       name: 'about',
       items: ['Website', 'Term', 'About us', 'Privacy', 'Contact']
     }
+  },
+  stackNavScreens: {
+    'comic-detail': 'Comic Detail Screen',
+    chapter: 'ChapterScreen',
+    'comic-list': 'Comic List Screen',
+    'find-result': 'Find Result Screen',
+    'find-by-name-result': 'Find by name result',
+    genres: 'Genres: ',
+    'genres-badge-list': 'Genres badge',
+    'genres-comic-list': 'Genres comic list',
+    // "home-session-detail-list": 'Home Session Detail List'
+    login: 'Login screen',
+    notification: 'Notifications',
+    'sign-up': 'Sign Up Screen',
+    'top-comic': 'Top Comic Screen',
+    'select-download-chapter': 'Select chapters',
+    'offline-comic-screen': 'Offline Comic Screen',
+    'offline-chapter-screen': 'Offline Comic Screen'
+  },
+  button: {
+    cancel: 'Cancel',
+    search: 'Search',
+    refresh: 'Refresh',
+    'find-history': 'Find history'
   }
 }
 

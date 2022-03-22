@@ -1,5 +1,6 @@
 import React from 'react'
 import { Text, Modal, ScrollView, Button } from 'native-base'
+import i18n from 'i18n-js'
 
 type ConfirmModalProps = {
   modalVisible: boolean
@@ -34,7 +35,7 @@ const ConfirmModal = ({
                   setModalVisible(false)
                 }}
               >
-                Cancel
+                {i18n.t('button.cancel')}
               </Button>
               <Button
                 onPress={() => {

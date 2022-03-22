@@ -26,6 +26,8 @@ import { LinearGradient } from 'expo-linear-gradient'
 import FadeInView from '../FadeInView'
 import useInteraction from '../../hooks/useInteraction'
 import { navigate } from '../../navigators'
+import { useThemedColor } from '../Typo'
+import Icon from 'native-base/src/theme/components/icon'
 
 const CollapseRoundView = ({
   children,
@@ -34,6 +36,9 @@ const CollapseRoundView = ({
   children?: React.ReactNode
   detail?: string
 }) => {
+  const { backgroundPrimary, backgroundSecondary, textPrimary, textSecondary } =
+    useThemedColor()
+
   const [collapse, setCollapse] = useState(true)
 
   const offset = useSharedValue(100)
@@ -62,7 +67,7 @@ const CollapseRoundView = ({
       ]}
     >
       <LinearGradient
-        colors={['transparent', collapse ? '#b93f5e60' : 'transparent']}
+        colors={['transparent', collapse ? textSecondary : 'transparent']}
         start={{ x: 0, y: 0.85 }}
         style={{
           padding: 12,
@@ -99,7 +104,7 @@ const CollapseRoundView = ({
           position: 'absolute',
           bottom: -16,
           // right: 0,
-          backgroundColor: '#dd7cad5c',
+          backgroundColor: '#5f37227e',
           borderRadius: 100,
           alignSelf: 'center',
           width: 36,
@@ -107,7 +112,7 @@ const CollapseRoundView = ({
           justifyContent: 'center',
           alignItems: 'center',
           borderWidth: 1,
-          borderColor: '#a03d4e'
+          borderColor: '#5f3722'
 
           // shadowColor: "#000000",
           // shadowOffset: {

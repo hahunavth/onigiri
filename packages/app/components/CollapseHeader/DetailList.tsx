@@ -9,7 +9,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ViewStyle,
-  Text
+  Text,
+  LayoutAnimation
 } from 'react-native'
 import { Button, View, Box } from 'native-base'
 import Animated, {
@@ -51,6 +52,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
 
   const renderItem = useCallback<ListRenderItem<resComicDetail_T>>(
     ({ item, index }) => {
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       if (index === 0) {
         return (
           <Animated.View

@@ -58,6 +58,7 @@ import type {
 import useInteraction from '../../hooks/useInteraction'
 import usePrevious from 'react-use/esm/usePrevious'
 import useRaf from 'react-use/esm/useRaf'
+import { useThemedColor } from '../Typo'
 // import { ANbView } from '../Typo/View'
 
 type ComicDetailBottomBarProps = {
@@ -130,6 +131,13 @@ const ComicDetailBottomBar = React.memo(
       }
     }, [comic])
 
+    const {
+      backgroundPrimary,
+      backgroundSecondary,
+      textPrimary,
+      textSecondary
+    } = useThemedColor()
+
     // TODO: FIX ANY STYLE
     return (
       <Animated.View
@@ -141,14 +149,8 @@ const ComicDetailBottomBar = React.memo(
           style={styles.shareIconTouchOpacity}
           onPress={ToastComingSoon}
         >
-          <AntDesign
-            name="sharealt"
-            size={24}
-            style={{ color: bs1._text.color } as any}
-          />
-          <Text
-            style={[styles.shareIconText, { color: bs1._text.color } as any]}
-          >
+          <AntDesign name="sharealt" size={24} style={{ color: textPrimary }} />
+          <Text style={[styles.shareIconText, { color: textPrimary }]}>
             Share
           </Text>
         </TouchableOpacity>
@@ -159,20 +161,30 @@ const ComicDetailBottomBar = React.memo(
           <AntDesign
             name="adduser"
             size={24}
-            style={{ color: subscribed ? 'red' : bs1._text.color } as any}
+            style={{ color: subscribed ? 'red' : textPrimary }}
           />
           <Text
             style={
               {
                 fontSize: 11,
-                color: subscribed ? 'red' : bs1._text.color
+                color: subscribed ? 'red' : textPrimary
               } as any
             }
           >
             Subscribe
           </Text>
         </TouchableOpacity>
-        <Button style={styles.readNowBtn} onPress={handleReadNowClick}>
+        <Button
+          _pressed={{ bg: 'warning.900' }}
+          bg={'$light.backgroundButton'}
+          _text={{ color: '$light.textButton' }}
+          _dark={{
+            bg: '$dark.backgroundButton',
+            _text: { color: '$dark.textButton' }
+          }}
+          style={styles.readNowBtn}
+          onPress={handleReadNowClick}
+        >
           {lastedReadCptName ? (
             <Text numberOfLines={1} color={'white'}>
               Read {lastedReadCptName}
