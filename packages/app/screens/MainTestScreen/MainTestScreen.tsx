@@ -88,6 +88,18 @@ import {
   AdMobRewarded,
   setTestDeviceIDAsync
 } from 'expo-ads-admob'
+import { useApiOriginRecently } from '../../store/apiOrigin'
+import { useAppSelector } from '../../store/hooks'
+import {
+  notificationSelector,
+  selectAlleNewChapterNotification
+} from '../../store/notificationSlice'
+import { useWindowDimensions } from 'react-native'
+import RenderHtml from 'react-native-render-html'
+import { fetchBackgroundTask } from '../../utils/backgroundFetchServices'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+// @ts-ignore
+import HTMLParser from 'fast-html-parser'
 
 var { height, width } = Dimensions.get('window')
 var neededWidth = width,
@@ -99,18 +111,18 @@ var zoom = 0.5
 export function MainTestScreen() {
   // console.log(i18n.currentLocale())
 
-  React.useEffect(() => {
-    Platform.OS !== 'web' &&
-      (async () => {
-        await setTestDeviceIDAsync('EMULATOR')
+  // React.useEffect(() => {
+  //   Platform.OS !== 'web' &&
+  //     (async () => {
+  //       await setTestDeviceIDAsync('EMULATOR')
 
-        await AdMobInterstitial.setAdUnitID(
-          'ca-app-pub-3940256099942544/1033173712'
-        )
-        await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true })
-        await AdMobInterstitial.showAdAsync()
-      })()
-  })
+  //       await AdMobInterstitial.setAdUnitID(
+  //         'ca-app-pub-3940256099942544/1033173712'
+  //       )
+  //       await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true })
+  //       await AdMobInterstitial.showAdAsync()
+  //     })()
+  // })
 
   const scrollViewRef = React.useRef<ScrollView>()
   const animatedZoom = React.useRef(new Animated.Value(1))
@@ -151,10 +163,58 @@ export function MainTestScreen() {
       // return this.props.onZoomEnd()
     }
   })
+  const result = useAppSelector((state) =>
+    selectAlleNewChapterNotification(state)
+  )
+  const { data, isSuccess } = useApiOriginRecently('1')
+
+  React.useEffect(() => {
+    const root = HTMLParser.parse(data)
+    console.log(data)
+    console.log(root.querySelector('.row > .item'))
+  }, [data])
+
+  React.useEffect(() => {
+    console.log(isSuccess)
+  }, [isSuccess])
+
+  const [str, setStr] = React.useState('')
+
+  React.useEffect(() => {
+    AsyncStorage.getItem('notifications-template').then((s) =>
+      s ? setStr(s) : null
+    )
+    // fetchBackgroundTask()
+  }, [])
 
   return (
-    <View flex={1}>
-      {Platform.OS !== 'web' && (
+    <ScrollView>
+      {/* <Text>Result: {result && result[0]?.notification.chapterName}</Text>
+      <Text> {result && result[0]?.notification.chapterPath}</Text>
+      <Text> {result && result[0]?.notification.count}</Text>
+      <Text> {result && result[0]?.notification.createdAt}</Text>
+      <Text> {result && result[0]?.notification.createdAt}</Text>
+      <Text> {result && result[0]?.notification.updatedAt}</Text> */}
+      <Text> Async storage{str}</Text>
+      {/* <Text>
+        Notification :
+        {result &&
+          JSON.stringify(
+            result?.map((item) => {
+              return item.notification
+            })
+          )}
+      </Text> */}
+      {/* <Text>Data: {data && JSON.stringify(data)}</Text> */}
+      {/* <RenderHtml
+        source={{
+          baseUrl: 'http://www.nettruyenmoi.com',
+          method: 'get',
+          uri: '/'
+        }}
+        contentWidth={width}
+      /> */}
+      {/* {Platform.OS !== 'web' && (
         <AdMobBanner
           // style={{ height: 100, backgroundColor: 'gray' }}
           bannerSize="smartBannerLandscape"
@@ -167,9 +227,9 @@ export function MainTestScreen() {
           //   ])
           // }
         />
-      )}
+      )} */}
 
-      <Animated.ScrollView
+      {/* <Animated.ScrollView
         style={{ flex: 1, transform: [{ scale: animatedZoom.current }] }}
         // @ts-ignore
         ref={(ref) => (scrollViewRef.current = ref)}
@@ -186,7 +246,7 @@ export function MainTestScreen() {
         >
           <Text>Hello</Text>
         </Animated.View>
-      </Animated.ScrollView>
-    </View>
+      </Animated.ScrollView> */}
+    </ScrollView>
   )
 }

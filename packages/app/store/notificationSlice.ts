@@ -86,6 +86,7 @@ const notificationSlice = createSlice({
       const comicPath = action.payload
 
       delete state.newChapter[comicPath]
+      // state.newChapter[comicPath] = undefined
       state.newChapterList = state.newChapterList.filter(
         (cPath) => cPath !== comicPath
       )
@@ -151,9 +152,7 @@ const genFetchNotificationDataFN =
     isBackground: boolean
   ) =>
   async (cPath: string) => {
-    const lastedCptPath =
-      notification?.newChapter[cPath]?.chapterPath ||
-      comics[cPath]?.chapters[0]?.path
+    const lastedCptPath = comics[cPath]?.chapters[0]?.path
 
     await axios
       .get(`https://hahunavth-express-api.herokuapp.com/api/v1${cPath}`)
@@ -166,10 +165,15 @@ const genFetchNotificationDataFN =
         // const oldNoti = notification.newChapter[cPath]
         if (
           // TODO: id > 0, >=0 -> test
-          id >= 0 &&
+          id > 0 &&
           result?.chapters[id] &&
           lastedCptPath &&
-          lastedCptPath !== result?.chapters[0].path
+          lastedCptPath !== notification?.newChapter[cPath]?.chapterPath &&
+          // NOTE: COMPARE WITH STATE
+          // result?.chapters[0].path !== lastedCptPath
+          result?.chapters[0].path !==
+            notification.newChapter[cPath].chapterPath &&
+          id !== notification.newChapter[cPath].count
         ) {
           console.log(id)
 
@@ -198,8 +202,8 @@ const genFetchNotificationDataFN =
                       url: result.posterUrl
                     }
                   ],
-                  subtitle: 'subtitle',
-                  badge: 2,
+                  subtitle: result.chapters[0].path,
+                  // badge: 2,
                   launchImageName: result.posterUrl
                 },
                 //
@@ -224,7 +228,7 @@ export const fetchBackgroundInfo = async (
   isBackground: boolean = false
 ) => {
   // TODO: USE isBackground in if
-  if (typeof state.history !== 'string') {
+  if (!isBackground && typeof state.history !== 'string') {
     await mapSeries(
       Object.keys(state.history.comics),
       genFetchNotificationDataFN(
@@ -236,6 +240,7 @@ export const fetchBackgroundInfo = async (
       )
     )
   } else {
+    console.log(typeof state.history)
     const comics = JSON.parse(state.history).comics
     // @ts-ignore
     const notification = JSON.parse(state.notification)
@@ -348,8 +353,11 @@ export const selectAlleNewChapterNotification = createSelector(
     (state: RootState) => state.notification.newChapterList
   ],
   (newChapter, comics, newChapterList) =>
-    newChapterList.map((cPath) => ({
-      notification: newChapter[cPath],
-      comicDetail: comics[cPath]
-    }))
+    newChapterList
+      ?.map((cPath) => ({
+        notification: newChapter[cPath],
+        comicDetail: comics[cPath]
+      }))
+      ?.filter((item) => item.comicDetail && item.notification) || []
+  // NOTE: WITHOUT ? CAUSE ERROR: REMOVE NATIVE VIEW ...
 )

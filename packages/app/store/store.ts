@@ -12,6 +12,7 @@ import {
 } from 'redux-persist'
 
 import { comicApi } from './api'
+import { originApi } from './apiOrigin'
 import homeSlice from './homeSlice'
 import settingReducer from './settingSlice'
 import historyReducer, {
@@ -60,13 +61,14 @@ const reducer = combineReducers({
   history: historyReducer,
   recent: recentReducer,
   notification: notificationReducer,
-  [comicApi.reducerPath]: comicApi.reducer
+  [comicApi.reducerPath]: comicApi.reducer,
+  [originApi.reducerPath]: originApi.reducer
 })
 
 const persistConfig = {
   key: 'root',
   storage: storage,
-  blacklist: [comicApi.reducerPath, 'home']
+  blacklist: [comicApi.reducerPath, 'home', originApi.reducerPath]
 }
 
 const persistedReducer = persistReducer(persistConfig, reducer)
@@ -78,7 +80,9 @@ const store = configureStore({
       serializableCheck: false,
       immutableCheck: false,
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-    }).concat(comicApi.middleware)
+    })
+      .concat(comicApi.middleware)
+      .concat(originApi.middleware)
 
     // IF DEV -> CONCAT MIDDLEWARE
     if (createFlipperDebugger) {

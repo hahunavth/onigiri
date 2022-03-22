@@ -233,11 +233,11 @@ function App() {
     Quicksand_600SemiBold,
     Quicksand_700Bold
   })
-  const [a, b, c] = useApiLazyRecently()
-  const [e, f, g] = useApiLazyHot()
-  const [h, i, k] = useApiLazyTopWeek()
-  const { refetch } =
-    comicApi.endpoints.getRecentlyByPage.useQuerySubscription('1')
+  // const [a, b, c] = useApiLazyRecently()
+  // const [e, f, g] = useApiLazyHot()
+  // const [h, i, k] = useApiLazyTopWeek()
+  // const { refetch } =
+  //   comicApi.endpoints.getRecentlyByPage.useQuerySubscription('1')
   // useApiTopMonth('1')
 
   const Preload = React.useCallback(async () => {
@@ -246,11 +246,11 @@ function App() {
     await Font.loadAsync(AntDesign.font)
     await Font.loadAsync(MaterialCommunityIcons.font)
     await Font.loadAsync(Ionicons.font)
-    console.log('prefetch---------------')
-    a('1')
-    e('1')
-    h('1')
-    await new Promise((resolve) => setTimeout(resolve, 10000))
+    // console.log('prefetch---------------')
+    // a('1')
+    // e('1')
+    // h('1')
+    // await new Promise((resolve) => setTimeout(resolve, 10000))
     // await triggerNotifications()
     // NOTE: ADS
   }, [])
@@ -269,10 +269,10 @@ function App() {
   //   )
 
   return (
-    <>
+    <Provider store={store}>
       {!isReady && !fontsLoaded && !isNavReady ? (
         <>
-          <StatusBar animated={true} translucent={true} style={'auto'} />
+          {/* <StatusBar animated={true} translucent={true} style={'auto'} /> */}
 
           <AppLoading
             startAsync={Preload}
@@ -297,20 +297,18 @@ function App() {
           </PersistGate>
         </NavigationContainer>
       )}
-    </>
-  )
-}
-
-function ReduxWrappedApp() {
-  return (
-    <Provider store={store}>
-      <App />
     </Provider>
   )
 }
 
+// function ReduxWrappedApp() {
+//   return (
+//       <App />
+//   )
+// }
+
 // Sentry
-export default Sentry.wrap(ReduxWrappedApp)
+export default Sentry.wrap(App)
 
 /**
  * TODO:

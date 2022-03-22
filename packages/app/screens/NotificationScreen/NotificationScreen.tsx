@@ -41,7 +41,7 @@ const NotificationScreen = () => {
         <TouchableOpacity
           style={{ marginVertical: 4, marginHorizontal: 8 }}
           onPress={() => {
-            if (item.comicDetail?.path) {
+            if (item?.comicDetail?.path) {
               navigate('comic-detail', {
                 path: item.comicDetail?.path,
                 preloadItem: {
@@ -49,18 +49,17 @@ const NotificationScreen = () => {
                   name: item.comicDetail?.title
                 }
               })
-
-              dispatch(
-                notificationAction.removeNewChapterNotification(
-                  item.comicDetail?.path
-                )
-              )
+              // dispatch(
+              //   notificationAction.removeNewChapterNotification(
+              //     item.comicDetail?.path
+              //   )
+              // )
             }
           }}
         >
-          <ANbHStack
-            entering={LightSpeedInLeft.delay(index * 100)}
-            exiting={LightSpeedInRight}
+          <HStack
+            // entering={LightSpeedInLeft.delay(index * 100)}
+            // exiting={LightSpeedInRight}
             alignItems={'center'}
             space={3}
             bg={'white'}
@@ -80,7 +79,7 @@ const NotificationScreen = () => {
                 Lasted: {item.notification?.chapterName}
               </Text>
             </VStack>
-          </ANbHStack>
+          </HStack>
         </TouchableOpacity>
       )
     },
@@ -92,25 +91,40 @@ const NotificationScreen = () => {
 
   return (
     <View bg={'gray.50'} flex={1}>
-      {allNewChapterNotification.length ? (
+      {allNewChapterNotification?.length ? (
         <FlatList
           data={allNewChapterNotification}
           renderItem={renderItem}
-          keyExtractor={(item, id) => item.notification.chapterPath}
+          keyExtractor={(item, id) => {
+            // console.log(item.notification.chapterPath || id.toString())
+            return item.comicDetail?.path || id.toString()
+          }}
         />
       ) : (
         <NoNotification />
       )}
       {__DEV__ && (
-        <Button
-          onPress={() =>
-            fetchBackgroundTask().then(() => {
-              dispatch(mergeNewChapterNotificationThunk())
-            })
-          }
-        >
-          Test
-        </Button>
+        <>
+          <Button
+            onPress={() =>
+              fetchBackgroundTask().then(() => {
+                // dispatch(mergeNewChapterNotificationThunk())
+              })
+            }
+          >
+            Test
+          </Button>
+          <Button
+            onPress={
+              () =>
+                // fetchBackgroundTask().then(() => {
+                dispatch(mergeNewChapterNotificationThunk())
+              // })
+            }
+          >
+            Dispatch
+          </Button>
+        </>
       )}
     </View>
   )

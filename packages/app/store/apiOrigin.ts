@@ -32,9 +32,9 @@ const axiosBaseQuery =
         data,
         // headers: { referer: 'www.nettruyenpro.com' }
         headers: {
-          host: 'www.nettruyenmoi.com',
-          'user-agent':
-            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36'
+          host: 'www.nettruyenmoi.com'
+          // 'user-agent':
+          // 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36'
         }
       })
       // console.log(result.status)
@@ -68,7 +68,7 @@ export const originApi = createApi({
           // console.log('🚀 ~ file: apiOrigin.ts ~ line 18 ~ getRecentlyByPage')
           return {
             url: `/?page=${page}`,
-            method: 'get'
+            method: 'GET'
           }
         },
 
@@ -79,8 +79,8 @@ export const originApi = createApi({
           // let doc = new DOMParser().parseFromString(html, 'text/html')
           // console.log(doc)
 
-          const $ = require('cheerio-without-node-native').load(html)
-          console.log($)
+          // const $ = require('cheerio-without-node-native').load(html)
+          // console.log($)
           return html
         }
       })
