@@ -9,6 +9,7 @@ import { SubscribeTab } from 'app/screens/LibraryScreen/SubscribeTab'
 import { StyleSheet } from 'react-native'
 import { useColorModeStyle } from '../hooks/useColorModeStyle'
 import i18n from 'i18n-js'
+import { useThemedTopTabScreenOption } from '../components/Typo'
 
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<LibraryTopNavigatorParamList>()
@@ -20,40 +21,12 @@ type LibraryTopNavigatorParamList = {
 }
 
 export const LibraryTopNavigator = () => {
-  // const styles = useStyleSheet(themedStyles);
-
-  const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
-  const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle('', 'Secondary')
+  const screenOptions = useThemedTopTabScreenOption()
 
   return (
     <Navigator
       backBehavior="none"
-      screenOptions={{
-        tabBarStyle: {
-          backgroundColor: bs1.backgroundColor
-        },
-
-        tabBarLabelStyle: {},
-        tabBarItemStyle: {
-          margin: -5,
-          justifyContent: 'center',
-          alignItems: 'center'
-        },
-
-        tabBarPressOpacity: 0.1,
-        tabBarIndicatorStyle: {
-          backgroundColor: bs2._text.color as any,
-          flex: 1,
-          height: 38,
-          borderWidth: 5,
-          borderRadius: 12,
-          borderColor: 'transparent'
-        },
-        tabBarActiveTintColor: bs1.backgroundColor as any,
-        tabBarAllowFontScaling: false,
-        tabBarInactiveTintColor: bs1._text.color as any,
-        tabBarPressColor: 'transparent'
-      }}
+      screenOptions={screenOptions}
       showPageIndicator
     >
       <Screen

@@ -149,7 +149,7 @@ const listHeaderStyle = StyleSheet.create({
     // fontFamily: QFontFamily.Quicksand_600SemiBold
   },
   activate: {
-    color: 'red'
+    color: '#704217'
   }
 })
 

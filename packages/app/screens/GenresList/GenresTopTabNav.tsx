@@ -1,13 +1,11 @@
 import React from 'react'
 import {
-  MaterialTopTabBar,
   createMaterialTopTabNavigator,
-  MaterialTopTabBarProps,
-  MaterialTopTabNavigationProp,
   MaterialTopTabScreenProps
 } from '@react-navigation/material-top-tabs'
 import ComicListByGenres from './ComicListByGenres'
 import { ComicListByGenresProps } from './type'
+import { useThemedTopTabScreenOption } from '../../components/Typo'
 
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<GenresTopTabNavParamList>()
@@ -57,39 +55,41 @@ const propsList: PropsListT = {
 type Props = {}
 
 const GenresTopTabNav = (props: Props) => {
+  const screenOptions = useThemedTopTabScreenOption()
+
   return (
     <Navigator
       backBehavior="none"
-      screenOptions={{
-        // tabBarContentContainerStyle: {
-        //   position: 'absolute',
-        //   bottom: 0
-        // },
-        //
-        tabBarScrollEnabled: true,
-        tabBarBounces: true,
-        tabBarLabelStyle: {},
-        tabBarItemStyle: {
-          margin: -5,
-          justifyContent: 'center',
-          alignItems: 'center'
-        },
-
-        tabBarPressOpacity: 0.1,
-        tabBarIndicatorStyle: {
-          backgroundColor: '#1285f0df',
-          flex: 1,
-          height: 38,
-          borderWidth: 5,
-          borderRadius: 12,
-          borderColor: 'transparent'
-        },
-        tabBarActiveTintColor: 'white',
-        tabBarAllowFontScaling: false,
-        tabBarInactiveTintColor: 'gray',
-        tabBarPressColor: 'transparent'
-      }}
-      // showPageIndicator
+      screenOptions={{ ...screenOptions, tabBarScrollEnabled: true }}
+      // screenOptions={{
+      //   // tabBarContentContainerStyle: {
+      //   //   position: 'absolute',
+      //   //   bottom: 0
+      //   // },
+      //   //
+      //   tabBarScrollEnabled: true,
+      //   tabBarBounces: true,
+      //   tabBarLabelStyle: {},
+      //   tabBarItemStyle: {
+      //     margin: -5,
+      //     justifyContent: 'center',
+      //     alignItems: 'center'
+      //   },
+      //   tabBarPressOpacity: 0.1,
+      //   tabBarIndicatorStyle: {
+      //     backgroundColor: '#1285f0df',
+      //     flex: 1,
+      //     height: 38,
+      //     borderWidth: 5,
+      //     borderRadius: 12,
+      //     borderColor: 'transparent'
+      //   },
+      //   tabBarActiveTintColor: 'white',
+      //   tabBarAllowFontScaling: false,
+      //   tabBarInactiveTintColor: 'gray',
+      //   tabBarPressColor: 'transparent'
+      // }}
+      showPageIndicator
       offscreenPageLimit={2}
       overdrag={true}
     >

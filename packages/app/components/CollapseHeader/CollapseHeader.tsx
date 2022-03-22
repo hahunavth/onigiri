@@ -25,11 +25,7 @@ import Animated, {
   withDecay,
   withDelay
 } from 'react-native-reanimated'
-import {
-  createMaterialTopTabNavigator,
-  MaterialTopTabBarProps,
-  MaterialTopTabNavigationOptions
-} from '@react-navigation/material-top-tabs'
+import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context'
 import { useAppSafeAreaInsets } from 'app/provider/safe-area/use-safe-area'
 // App

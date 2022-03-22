@@ -90,7 +90,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
                     style={{ margin: 4 }}
                     size={'xs'}
                     variant={'subtle'}
-                    colorScheme={'danger'}
+                    colorScheme={'warning'}
                     onPress={() =>
                       navigate('genres', {
                         genresName: kind
