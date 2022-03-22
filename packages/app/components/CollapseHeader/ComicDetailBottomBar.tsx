@@ -58,7 +58,7 @@ import type {
 import useInteraction from '../../hooks/useInteraction'
 import usePrevious from 'react-use/esm/usePrevious'
 import useRaf from 'react-use/esm/useRaf'
-import { ANbView } from '../Typo/View'
+// import { ANbView } from '../Typo/View'
 
 type ComicDetailBottomBarProps = {
   comic?: resComicDetail_T
@@ -132,9 +132,9 @@ const ComicDetailBottomBar = React.memo(
 
     // TODO: FIX ANY STYLE
     return (
-      <ANbView
-        shadow={'3'}
-        entering={SlideInDown.duration(500)}
+      <Animated.View
+        // shadow={'3'}
+        // entering={SlideInDown.duration(500)}
         style={animatedStyle}
       >
         <TouchableOpacity
@@ -181,7 +181,7 @@ const ComicDetailBottomBar = React.memo(
             'Read now!'
           )}
         </Button>
-      </ANbView>
+      </Animated.View>
     )
   }
 )

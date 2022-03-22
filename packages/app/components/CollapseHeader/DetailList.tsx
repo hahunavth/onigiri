@@ -54,8 +54,8 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
       if (index === 0) {
         return (
           <Animated.View
-            entering={FadeInDown.delay(300 * index + 50)}
-            layout={Layout.springify()}
+          // entering={FadeInDown.delay(300 * index + 50)}
+          // layout={Layout.springify()}
           >
             <CollapseRoundView detail={item?.detail}></CollapseRoundView>
           </Animated.View>
@@ -64,8 +64,8 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
       if (index === 1)
         return (
           <Animated.View
-            entering={FadeInDown.delay(300 * index + 50)}
-            layout={Layout.springify()}
+          // entering={FadeInDown.delay(300 * index + 50)}
+          // layout={Layout.springify()}
           >
             {/* <FadeInView style={{ backgroundColor: "transparent" }}> */}
             <RoundView>
@@ -158,8 +158,8 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
 
       return (
         <Animated.View
-          entering={FadeInDown.delay(300 * index + 50)}
-          layout={Layout.springify()}
+        // entering={FadeInDown.delay(300 * index + 50)}
+        // layout={Layout.springify()}
         >
           {data && <Comment data={data} />}
         </Animated.View>

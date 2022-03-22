@@ -18,7 +18,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming
 } from 'react-native-reanimated'
-import { ANbView } from 'app/components/Typo/View'
+// import { ANbView } from 'app/components/Typo/View'
 
 export default function Page() {
   const { data } = useApiHot('1')
@@ -35,7 +35,7 @@ export default function Page() {
   })
 
   return (
-    <ANbView
+    <View
       w={['full', 'lg', '4/5', '3/4', '2/3']}
       // justifyContent={''}
       alignSelf={'center'}
@@ -71,7 +71,7 @@ export default function Page() {
           />
         </TouchableOpacity>
       </LinearGradient>
-    </ANbView>
+    </View>
   )
 
   return (

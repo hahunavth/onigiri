@@ -22,7 +22,7 @@ import { navigate } from '../../navigators'
 import { NotFound } from '../../components/EmptyPage/NotFound'
 import { NoNotification } from '../../components/EmptyPage'
 import { fetchBackgroundTask } from '../../utils/backgroundFetchServices'
-import { ANbHStack, ANbView } from '../../components/Typo/View'
+// import { ANbHStack, ANbView } from '../../components/Typo/View'
 import {
   Layout,
   LightSpeedInLeft,
