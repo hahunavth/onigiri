@@ -30,8 +30,24 @@ import { Text } from 'react-native'
 import * as Linking from 'expo-linking'
 
 import '../components/Carousel/style.css'
+
 import i18n from 'i18n-js'
-import 'app/i18n'
+
+// NOTE: IMPORT app/i18n NOT WORKING
+// import 'app/i18n'
+import en from 'app/i18n/en'
+import jp from 'app/i18n/jp.json'
+import vi from 'app/i18n/vi.json'
+// import store from '../store/store'
+/**
+ */
+i18n.translations = {
+  en: en,
+  ja: jp,
+  vi: vi
+}
+
+i18n.fallbacks = true
 
 // NOTE: CONFIG LG IN NEXT.JS
 const config = {
@@ -148,14 +164,47 @@ export default function App({ Component, pageProps }: AppProps) {
             <NavigationContainer
               ref={navigationRef}
               linking={{
-                prefixes: [Linking.createURL('/native/')],
+                prefixes: [Linking.createURL('/')],
                 config: {
                   initialRouteName: 'main',
                   screens: {
-                    'comic-detail': 'comic-detail',
+                    'comic-detail': 'main/comic-detail/:path',
                     'comic-list': 'comic-list',
                     'downloaded-chapter': 'downloaded-chapter',
-                    'find-by-name-result': 'find-by-name-result'
+                    'find-by-name-result': 'find-by-name-result',
+                    'find-result': 'find-result',
+                    'genres-comic-list': 'genres-comic-list',
+                    'genres.badge-list': 'genres.badge-list',
+                    'home-session-detail-list': 'home-session-detail-list',
+                    'offline-chapter-screen': 'offline-chapter-screen',
+                    'offline-comic-screen': 'offline-comic-screen',
+                    'select-download-chapter': 'select-download-chapter',
+                    'sign-up': 'sign-up',
+                    'top-comic': 'top-comic',
+                    'top-comic-screen': 'top-comic-screen',
+                    chapter: 'chapter',
+                    genres: 'genres',
+                    login: 'login',
+                    main: {
+                      screens: {
+                        'main/discover': 'main/discover',
+                        'main/library':
+                          // 'main/lib',
+                          {
+                            screens: {
+                              recent: 'recent',
+                              subscribes: 'subscribes',
+                              downloaded: 'downloaded'
+                            }
+                          },
+                        'main/setting': 'main/setting',
+                        'main/test': 'main/test',
+                        'main/home': 'main'
+                      }
+                    },
+                    notification: 'notification',
+                    shared: 'shared',
+                    test: 'test'
                   }
                 }
               }}

@@ -30,6 +30,10 @@ const withTM = require('next-transpile-modules')([
 
 const nextConfig = {
   distDir: 'build',
+  // i18n: {
+  //   locales: ['en-US', 'vi-VN', 'ja-JP'],
+  //   defaultLocale: 'en-US'
+  // },
   images: {
     disableStaticImages: true,
     domains: [

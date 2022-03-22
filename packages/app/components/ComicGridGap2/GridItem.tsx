@@ -10,6 +10,8 @@ import {
 } from 'native-base'
 import React from 'react'
 import { TouchableNativeFeedback } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { navigate } from '../../navigators'
 import type { resComicItem_T } from '../../types'
 import { num2FormatString } from '../../utils/stringFormat'
 import { NextLink } from '../NextLink'
@@ -18,12 +20,20 @@ import { GridItemProps } from './types'
 
 export const GridItem = (props: GridItemProps) => {
   return (
-    <NextLink
-      routeName={props.loading ? 'comic-detail' : 'main'}
-      params={{
-        preloadItem: props.item,
-        path: props.item?.path
-      }}
+    // <NextLink
+    //   routeName={props.loading ? 'comic-detail' : 'main'}
+    //   params={{
+    //     preloadItem: props.item,
+    //     path: props.item?.path
+    //   }}
+    // >
+    <TouchableOpacity
+      onPress={() =>
+        navigate('comic-detail', {
+          preloadItem: props.item,
+          path: props.item?.path || ''
+        })
+      }
     >
       <VStack
         flexDirection={'column-reverse'}
@@ -91,6 +101,8 @@ export const GridItem = (props: GridItemProps) => {
           </Text>
         </Box>
       </VStack>
-    </NextLink>
+    </TouchableOpacity>
+
+    // </NextLink>
   )
 }
