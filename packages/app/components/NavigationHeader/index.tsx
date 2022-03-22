@@ -53,6 +53,7 @@ import recentSlice, {
   recentSelector
 } from '../../store/recentSlice'
 import usePrevious from 'react-use/esm/usePrevious'
+import i18n from 'i18n-js'
 
 export function NavigationHeader(props: NativeStackHeaderProps) {
   const leftLabel = React.useMemo(() => {
@@ -329,7 +330,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
             pb={1}
             // opacity={0.8}
           >
-            Find History:{' '}
+            {i18n.t('button.find-history')}
           </Text>
           <HStack flex={1} flexWrap={'wrap'}>
             {findNames.slice(0, 10).map((v, id) => (
@@ -356,7 +357,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
                     'Remove history',
                     'Do you want remove history?',
                     [
-                      { text: 'cancel', style: 'cancel' },
+                      { text: i18n.t('button.cancel'), style: 'cancel' },
                       {
                         text: 'OK',
                         style: 'default',
@@ -432,7 +433,7 @@ const RefAnimatedInput = React.forwardRef<TextInput, any>((props, ref) => {
           ref ? (ref.current = myref) : null
           inputRef ? (inputRef.current = myref) : null
         }}
-        placeholder="Search"
+        placeholder={i18n.t('button.search')}
         variant="outline"
         // mx={35}
         size={'xs'}

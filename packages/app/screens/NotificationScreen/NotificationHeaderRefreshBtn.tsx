@@ -3,6 +3,7 @@ import { View, Text, Toast } from 'native-base'
 import React from 'react'
 import { useAppDispatch } from '../../store/hooks'
 import { fetchNewChapterNotificationThunk } from '../../store/notificationSlice'
+import i18n from 'i18n-js'
 
 type Props = {}
 
@@ -19,7 +20,7 @@ export const NotificationHeaderRefreshBtn = (props: Props) => {
       }}
     >
       <Text color={'$light.textPrimary'} fontFamily={'mono'}>
-        Refresh
+        {i18n.t('button.refresh')}
       </Text>
     </TouchableOpacity>
   )

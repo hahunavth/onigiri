@@ -57,6 +57,7 @@ import useInteraction from '../../hooks/useInteraction'
 import usePrevious from 'react-use/esm/usePrevious'
 import ComicDetailBottomBar, { styles } from './ComicDetailBottomBar'
 import CollapseTab from './CollapseTab'
+import { useThemedColor } from '../Typo'
 
 const AnimatedAntDesign = Animated.createAnimatedComponent(AntDesign)
 const AnimatedAntDesign2 = Animated.createAnimatedComponent(AntDesign)
@@ -70,6 +71,9 @@ type Props = {
 }
 
 const CollapseTop = (props: Props) => {
+  const { backgroundPrimary, backgroundSecondary, textPrimary, textSecondary } =
+    useThemedColor()
+
   const { headerDiff, translateY } = props
   const handleGoBack = useCallback(() => goBack(), [])
   const handleDownloadClick = useCallback(
@@ -89,7 +93,7 @@ const CollapseTop = (props: Props) => {
       color: interpolateColor(
         -translateY.value,
         [0, headerDiff],
-        ['#fff', '#111']
+        ['#fff', textPrimary]
       )
     }
   })
@@ -100,7 +104,7 @@ const CollapseTop = (props: Props) => {
       color: interpolateColor(
         -translateY.value,
         [0, headerDiff],
-        ['#fff', '#111']
+        ['#fff', textPrimary]
       )
     }
   })
@@ -149,13 +153,21 @@ type IconAnimatedProps = {
 
 function Menuunfold(props: IconAnimatedProps) {
   const { translateY, headerDiff } = props
+
+  const { backgroundPrimary, backgroundSecondary, textPrimary, textSecondary } =
+    useThemedColor()
+
   const trans = useDerivedValue(() => {
     return -translateY.value
   })
   const headerIconStyle3 = useAnimatedStyle(() => {
     return {
       marginTop: 4,
-      color: interpolateColor(trans.value, [0, headerDiff], ['#fff', '#111'])
+      color: interpolateColor(
+        trans.value,
+        [0, headerDiff],
+        ['#fff', textPrimary]
+      )
     }
   }, [translateY.value])
 

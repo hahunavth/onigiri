@@ -78,74 +78,6 @@ type SectionT = {
   sectionType: 'user-info' | 'form'
 }
 
-const sections: SectionT[] = [
-  {
-    title: i18n.t('setting.account.name'),
-    sectionType: 'user-info',
-    data: [
-      {
-        name: '',
-        type: 'Login'
-      }
-    ]
-  },
-  {
-    title: i18n.t('setting.setting.name'),
-    sectionType: 'form',
-    data: [
-      {
-        name: i18n.t('setting.setting.items.0'),
-        type: 'component',
-        default: false,
-        component: ToggleThemeOption
-      },
-      {
-        name: i18n.t('setting.setting.items.1'),
-        type: 'select'
-      }
-    ]
-  },
-  {
-    title: i18n.t('setting.pushNotification.name'),
-    sectionType: 'form',
-    data: [
-      {
-        name: i18n.t('setting.pushNotification.items.0'),
-        type: 'boolean'
-      }
-    ]
-  },
-  {
-    title: i18n.t('setting.about.name'),
-    sectionType: 'form',
-    data: [
-      {
-        name: i18n.t('setting.about.items.0'),
-        type: 'link',
-        data: 'https://hahunavth.xyz'
-      },
-      { name: i18n.t('setting.about.items.1'), type: 'navigate' },
-      { name: i18n.t('setting.about.items.2'), type: 'navigate' },
-      { name: i18n.t('setting.about.items.3'), type: 'navigate' },
-      { name: i18n.t('setting.about.items.4'), type: 'navigate' }
-    ]
-  }
-  // {
-  //   title: 'Dangerous',
-  //   sectionType: 'form',
-  //   data: [
-  //     {
-  //       name: 'logout',
-  //       type: 'button'
-  //     },
-  //     {
-  //       name: 'Remove data',
-  //       type: 'button'
-  //     }
-  //   ]
-  // }
-]
-
 /**
  * Setting screen:
  * Sessions
@@ -201,6 +133,74 @@ export const SettingScreen = (props: Props) => {
     ),
     []
   )
+
+  const sections: SectionT[] = [
+    {
+      title: i18n.t('setting.account.name'),
+      sectionType: 'user-info',
+      data: [
+        {
+          name: '',
+          type: 'Login'
+        }
+      ]
+    },
+    {
+      title: i18n.t('setting.setting.name'),
+      sectionType: 'form',
+      data: [
+        {
+          name: i18n.t('setting.setting.items.0'),
+          type: 'component',
+          default: false,
+          component: ToggleThemeOption
+        },
+        {
+          name: i18n.t('setting.setting.items.1'),
+          type: 'select'
+        }
+      ]
+    },
+    {
+      title: i18n.t('setting.pushNotification.name'),
+      sectionType: 'form',
+      data: [
+        {
+          name: i18n.t('setting.pushNotification.items.0'),
+          type: 'boolean'
+        }
+      ]
+    },
+    {
+      title: i18n.t('setting.about.name'),
+      sectionType: 'form',
+      data: [
+        {
+          name: i18n.t('setting.about.items.0'),
+          type: 'link',
+          data: 'https://hahunavth.xyz'
+        },
+        { name: i18n.t('setting.about.items.1'), type: 'navigate' },
+        { name: i18n.t('setting.about.items.2'), type: 'navigate' },
+        { name: i18n.t('setting.about.items.3'), type: 'navigate' },
+        { name: i18n.t('setting.about.items.4'), type: 'navigate' }
+      ]
+    }
+    // {
+    //   title: 'Dangerous',
+    //   sectionType: 'form',
+    //   data: [
+    //     {
+    //       name: 'logout',
+    //       type: 'button'
+    //     },
+    //     {
+    //       name: 'Remove data',
+    //       type: 'button'
+    //     }
+    //   ]
+    // }
+  ]
 
   return (
     <View flex={1}>

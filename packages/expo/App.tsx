@@ -15,7 +15,7 @@ import UI from 'app/ExpoUI'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 // @ts-ignore
 import { connectToDevTools } from 'react-devtools-core'
-import { Platform, BackHandler, Alert, LogBox } from 'react-native'
+import { Platform, BackHandler, Alert, LogBox, UIManager } from 'react-native'
 import { useEffect } from 'react'
 
 import { triggerNotifications } from 'app/utils/notification'
@@ -126,6 +126,13 @@ if (__DEV__ && Platform.OS !== 'web') {
 }
 enableScreens(true)
 
+// Configure layout animation
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true)
+  }
+}
+
 /**
  *
  * App
@@ -179,7 +186,7 @@ function App() {
   const backAction = () => {
     Alert.alert('Hold on!', 'Are you sure you want to go exit?', [
       {
-        text: 'Cancel',
+        text: i18n.t('button.cancel'),
         onPress: () => null,
         style: 'cancel'
       },

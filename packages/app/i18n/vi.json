@@ -1,72 +1,96 @@
 {
   "welcome": "Xin chào",
-  "name": "Charlie",
+  "name": "Charlie.",
   "home": {
-    "name": "Trang chủ",
+    "name": "Nhà",
     "recently": {
-      "title": "Bản phát hành mới!",
-      "subtitle": "Đọc đề xuất truyện tranh cuối cùng!"
+      "title": "Phát Hành Mới!",
+      "subtitle": "Đọc tác phẩm truyện tranh kéo dài!"
     },
     "categories": {
-      "title": "Thể loại",
+      "title": "Danh mục",
       "subtitle": "Tìm thêm ở đây!",
-      "items": [
-        "Truyện tranh hàng đầu",
-        "Thể loại",
-        "Tìm truyện tranh",
-        "Charlie0"
-      ]
+      "items": ["Truyện tranh", "Thể loại", "Tìm truyện tranh", "Thêm nữa"]
     },
     "hot": {
-      "title": "Charlie1",
+      "title": "Nóng",
       "subtitle": ""
     },
     "topWeek": {
-      "title": "Charlie2",
+      "title": "Tuần đầu",
       "subtitle": ""
     },
     "history": {
-      "title": "Charlie3",
+      "title": "Lịch sử",
       "subtitle": ""
     },
-    "button": "Charlie4"
+    "button": "Hiển thị thêm"
   },
   "library": {
-    "name": "Charlie5",
+    "name": "Thư viện",
     "recent": {
-      "name": "Charlie6"
+      "name": "Gần đây"
     },
     "subscribes": {
-      "name": "Charlie7"
+      "name": "được đăng ký"
     },
     "downloads": {
-      "name": "Charlie8"
+      "name": "tải xuống"
     }
   },
   "discover": {
-    "name": "Charlie9",
+    "name": "Khám phá",
     "genres": {
-      "title": "Trang chủ0"
+      "title": "Chọn thể loại"
     },
     "user": {
-      "title": "Trang chủ1"
+      "title": "Cho người dùng"
     },
     "maxCpts": {
-      "title": "Trang chủ2"
+      "title": "Tối đa chương"
     },
     "status": {
-      "title": "Trang chủ3"
+      "title": "Trạng thái"
     },
     "sortBy": {
-      "title": "Trang chủ4"
+      "title": "Sắp xếp theo"
     }
   },
   "setting": {
-    "name": "Trang chủ5",
+    "name": "Cài đặt",
     "account": {
-      "name": "Trang chủ6",
-      "title": "Trang chủ7",
-      "subtitle": "Trang chủ8"
+      "name": "tài khoản",
+      "title": "Đăng nhập",
+      "subtitle": "Đăng nhập để sử dụng thêm tính năng"
+    },
+    "setting": {
+      "name": "cài đặt",
+      "items": ["DarkTheme", "Ngôn ngữ"]
+    },
+    "pushNotification": {
+      "name": "Thông báo Push",
+      "items": ["Chương mới"]
+    },
+    "about": {
+      "name": "about",
+      "items": ["Trang web", "Hạn", "Về chúng ta", "Riêng tư", "Liên hệ"]
     }
+  },
+  "stackNavScreens": {
+    "comic-detail": "Màn hình chi tiết truyện tranh",
+    "chapter": "Màn hình ChapterScreen",
+    "comic-list": "Màn hình Danh sách hài",
+    "find-result": "Tìm Màn Hình Kết Quả",
+    "find-by-name-result": "Tìm theo kết quả tên",
+    "genres": "Thể loại: ",
+    "genres-badge-list": "Thể loại",
+    "genres-comic-list": "Danh sách truyện tranh",
+    "login": "Tên đăng nhập",
+    "notification": "Thông báo",
+    "sign-up": "&amp; Ký màn hình",
+    "top-comic": "Màn hình ảnh hàng đầu",
+    "select-download-chapter": "Chọn chương",
+    "offline-comic-screen": "Màn hình ảnh ngoại tuyến",
+    "offline-chapter-screen": "Màn hình ảnh ngoại tuyến"
   }
 }

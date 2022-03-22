@@ -56,6 +56,7 @@ import type {
 import useInteraction from '../../hooks/useInteraction'
 import usePrevious from 'react-use/esm/usePrevious'
 import ComicDetailBottomBar, { styles } from './ComicDetailBottomBar'
+import { useThemedTopTabScreenOption } from '../Typo'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -68,45 +69,45 @@ type CollapseTabProps = {
 const CollapseTab = (props: CollapseTabProps) => {
   const { renderTabBar, renderFriends, renderSuggestions } = props
 
-  // console.log('object')
+  const screenOptions = useThemedTopTabScreenOption()
 
-  const screenOptions = useMemo<MaterialTopTabNavigationOptions>(
-    () => ({
-      tabBarLabelStyle: {},
-      tabBarItemStyle: {
-        margin: -5,
-        justifyContent: 'center',
-        alignItems: 'center'
-      },
-      tabBarPressOpacity: 0.1,
-      tabBarIndicatorStyle: {
-        backgroundColor: '#f0125cdf',
-        flex: 1,
-        height: 38,
-        borderWidth: 5,
-        borderRadius: 12,
-        borderColor: 'transparent'
+  // const screenOptions = useMemo<MaterialTopTabNavigationOptions>(
+  //   () => ({
+  //     tabBarLabelStyle: {},
+  //     tabBarItemStyle: {
+  //       margin: -5,
+  //       justifyContent: 'center',
+  //       alignItems: 'center'
+  //     },
+  //     tabBarPressOpacity: 0.1,
+  //     tabBarIndicatorStyle: {
+  //       backgroundColor: '#f0125cdf',
+  //       flex: 1,
+  //       height: 38,
+  //       borderWidth: 5,
+  //       borderRadius: 12,
+  //       borderColor: 'transparent'
 
-        // web
-        // margin: 6,
-        // // marginHorizontal: 20,
-        // borderWidth: 0,
-        // height: 25
-        // 'box-sizing': 'border-box'
-      },
-      tabBarActiveTintColor: 'white',
-      tabBarAllowFontScaling: false,
-      tabBarInactiveTintColor: 'gray',
-      tabBarPressColor: 'transparent',
-      lazyPreloadDistance: 2
-      // web
-      // tabBarStyle: {
-      //   // maxWidth: 500,
-      //   paddingHorizontal: 'auto'
-      // }
-    }),
-    []
-  )
+  //       // web
+  //       // margin: 6,
+  //       // // marginHorizontal: 20,
+  //       // borderWidth: 0,
+  //       // height: 25
+  //       // 'box-sizing': 'border-box'
+  //     },
+  //     tabBarActiveTintColor: 'white',
+  //     tabBarAllowFontScaling: false,
+  //     tabBarInactiveTintColor: 'gray',
+  //     tabBarPressColor: 'transparent',
+  //     lazyPreloadDistance: 2
+  //     // web
+  //     // tabBarStyle: {
+  //     //   // maxWidth: 500,
+  //     //   paddingHorizontal: 'auto'
+  //     // }
+  //   }),
+  //   []
+  // )
 
   return (
     <Tab.Navigator
