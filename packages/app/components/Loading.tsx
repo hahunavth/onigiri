@@ -2,8 +2,9 @@ import { Heading, HStack as VStack, Spinner } from 'native-base'
 import React from 'react'
 import { MotiView } from 'moti'
 import LottieView from 'lottie-react-native'
+import { ViewStyle } from 'react-native'
 
-type Props = { text?: string; animation?: boolean }
+type Props = { text?: string; animation?: boolean; style?: ViewStyle }
 
 export const Loading = (props: Props) => {
   return (
@@ -28,7 +29,7 @@ export const Loading = (props: Props) => {
           : null
       }
     >
-      <VStack space={2} justifyContent="center">
+      <VStack space={2} justifyContent="center" style={props.style}>
         <LottieView
           // ref={animation => {
           //   this.animation = animation;
@@ -38,7 +39,7 @@ export const Loading = (props: Props) => {
           //   height: 1
           //   // backgroundColor: '#eee'
           // }}
-          source={require('../assets/loading.json')}
+          source={require('../assets/bloading.json')}
           // OR find more Lottie files @ https://lottiefiles.com/featured
           // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
           autoPlay

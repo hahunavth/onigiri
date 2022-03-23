@@ -11,7 +11,9 @@ import { ComicHorizontalList } from 'app/components/ComicHorizontalList'
 import { navigate } from '../../navigators'
 import Categories from '../../components/Categories'
 import { Carousel } from '../../../next/src/components/Carousel'
-import FadeInView, { FadeInWrapper } from '../../components/FadeInView'
+import FadeInView, {
+  FadeInWrapper
+} from '../../components/AnimationWrapper/FadeInView'
 import useInteraction from '../../hooks/useInteraction'
 import I18n from 'i18n-js'
 

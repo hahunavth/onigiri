@@ -71,6 +71,17 @@ const CollapseTab = (props: CollapseTabProps) => {
 
   const screenOptions = useThemedTopTabScreenOption()
 
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    const emit = setTimeout(() => {
+      setLoading(false)
+    }, 100)
+    return () => {
+      clearTimeout(emit)
+    }
+  })
+
   // const screenOptions = useMemo<MaterialTopTabNavigationOptions>(
   //   () => ({
   //     tabBarLabelStyle: {},
@@ -110,23 +121,27 @@ const CollapseTab = (props: CollapseTabProps) => {
   // )
 
   return (
-    <Tab.Navigator
-      tabBar={renderTabBar}
-      // pageMargin={10}
-      backBehavior="none"
-      screenOptions={screenOptions}
-    >
-      <Tab.Screen name="Friends">{renderFriends}</Tab.Screen>
-      <Tab.Screen
-        name="Suggestions"
-        // component={renderSuggestions}
-        // NOTE: Do not use component props like above
-        //       It will rerender component when navigate
-        //       Use children props will render once
-      >
-        {renderSuggestions}
-      </Tab.Screen>
-    </Tab.Navigator>
+    <>
+      {loading ? null : (
+        <Tab.Navigator
+          tabBar={renderTabBar}
+          // pageMargin={10}
+          backBehavior="none"
+          screenOptions={screenOptions}
+        >
+          <Tab.Screen name="Friends">{renderFriends}</Tab.Screen>
+          <Tab.Screen
+            name="Suggestions"
+            // component={renderSuggestions}
+            // NOTE: Do not use component props like above
+            //       It will rerender component when navigate
+            //       Use children props will render once
+          >
+            {renderSuggestions}
+          </Tab.Screen>
+        </Tab.Navigator>
+      )}
+    </>
   )
 }
 

@@ -12,7 +12,7 @@ import {
   Text,
   LayoutAnimation
 } from 'react-native'
-import { Button, View, Box } from 'native-base'
+import { Button, View, Box, Fade } from 'native-base'
 import Animated, {
   Easing,
   // FadeInDown,
@@ -26,7 +26,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
 
-import FadeInView from '../FadeInView'
+import FadeInView, { FadeInWrapper } from '../AnimationWrapper/FadeInView'
 import useInteraction from '../../hooks/useInteraction'
 import { navigate } from '../../navigators'
 import RoundView from './RoundView'
@@ -35,6 +35,9 @@ import { useApiComicComment } from '../../store/api'
 import { Comment } from '../Comment'
 import { num2FormatString } from '../../utils/stringFormat'
 import { Layout, LightSpeedInLeft } from 'react-native-reanimated'
+import { Loading } from '../Loading'
+import { MotiView } from 'moti'
+import { SideInDownView } from '../AnimationWrapper/SideInDownView'
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -55,20 +58,19 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
       // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       if (index === 0) {
         return (
-          <Animated.View
           // entering={FadeInDown.delay(300 * index + 50)}
+          // exiting={FadeInDown.delay(300 * index + 50)}
           // layout={Layout.springify()}
-          >
+          // FIXME: RN REANIMATED LAYOUT ANIMATION CAUSE CRASH HERE
+          <SideInDownView delay={index * 100 + 200}>
             <CollapseRoundView detail={item?.detail}></CollapseRoundView>
-          </Animated.View>
+          </SideInDownView>
         )
       }
       if (index === 1)
         return (
-          <Animated.View
-          // entering={FadeInDown.delay(300 * index + 50)}
-          // layout={Layout.springify()}
-          >
+          // FIXME: RN REANIMATED LAYOUT ANIMATION CAUSE CRASH HERE
+          <SideInDownView delay={index * 100 + 200}>
             {/* <FadeInView style={{ backgroundColor: "transparent" }}> */}
             <RoundView>
               <Text
@@ -155,17 +157,10 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
             </RoundView>
 
             {/* </FadeInView> */}
-          </Animated.View>
+          </SideInDownView>
         )
 
-      return (
-        <Animated.View
-        // entering={FadeInDown.delay(300 * index + 50)}
-        // layout={Layout.springify()}
-        >
-          {data && <Comment data={data} />}
-        </Animated.View>
-      )
+      return <View>{data && <Comment data={data} />}</View>
     },
     [data]
   )
@@ -192,7 +187,9 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
 
   return (
     <Animated.View style={[{ flex: 1 }, offsetStyle]}>
-      {loading ? null : (
+      {loading || !props.data?.length ? (
+        <Loading style={{ paddingTop: 12 }} />
+      ) : (
         <AnimatedFlatList
           ref={ref}
           style={styles.container}

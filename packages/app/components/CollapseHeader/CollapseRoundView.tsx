@@ -23,7 +23,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
 
-import FadeInView from '../FadeInView'
+import FadeInView from '../AnimationWrapper/FadeInView'
 import useInteraction from '../../hooks/useInteraction'
 import { navigate } from '../../navigators'
 import { useThemedColor } from '../Typo'
