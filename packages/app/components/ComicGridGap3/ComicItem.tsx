@@ -13,7 +13,8 @@ import React from "react";
 import { TouchableNativeFeedback } from "react-native";
 import type { resComicItem_T } from "../../types";
 import { NextLink } from "app/components/NextLink";
-import FastImage from "react-native-fast-image";
+// import FastImage from "react-native-fast-image";
+import TFastImage from "app/components/Typo/TFastImage";
 
 export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
   const itemDim = useBreakpointValue({
@@ -91,14 +92,14 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
               rounded={'sm'}
             />
              */}
-            <FastImage
+            <TFastImage
               source={{
                 uri: props.item?.posterUrl,
-                priority: FastImage.priority.low
+                priority: TFastImage?.priority?.low
               }}
               // w={'full'}
               // h={'full'}
-              resizeMode={FastImage.resizeMode.cover}
+              resizeMode={TFastImage?.resizeMode?.cover}
               style={{ flex: 2, borderRadius: 2 }}
               // rounded={'sm'}
             />

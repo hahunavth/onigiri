@@ -1,8 +1,8 @@
-import { View, Text } from 'native-base'
-import React from 'react'
-import LottieView from 'lottie-react-native'
+import { View, Text } from "native-base";
+import React from "react";
+import LottieView from "lottie-react-native";
 
-type Props = {}
+type Props = {};
 
 export const NotFound = (props: Props) => {
   return (
@@ -16,7 +16,7 @@ export const NotFound = (props: Props) => {
         //   height: 1
         //   // backgroundColor: '#eee'
         // }}
-        source={require('../../assets/404.json')}
+        source={require("../../assets/404-2.json")}
         // OR find more Lottie files @ https://lottiefiles.com/featured
         // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
         autoPlay
@@ -24,5 +24,5 @@ export const NotFound = (props: Props) => {
         style={{ marginBottom: 24 }}
       />
     </View>
-  )
-}
+  );
+};
