@@ -188,9 +188,10 @@ if (Platform.OS === "android") {
 function App() {
   // NOTE: APP STATE ON ACTIVE DISPATCH ACTION
   const appState = React.useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = React.useState(
-    appState.current
-  );
+  // NOTE: CAUSE CRASH WHEN RELOAD #2
+  // const [appStateVisible, setAppStateVisible] = React.useState(
+  //   appState.current
+  // );
 
   useEffect(() => {
     AppState.addEventListener("change", _handleAppStateChange);
@@ -210,7 +211,7 @@ function App() {
     }
 
     appState.current = nextAppState;
-    setAppStateVisible(appState.current);
+    // setAppStateVisible(appState.current);
     console.log("AppState", appState.current);
   };
 
