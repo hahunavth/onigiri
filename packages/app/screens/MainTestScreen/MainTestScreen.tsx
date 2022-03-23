@@ -184,7 +184,7 @@ export function MainTestScreen() {
   React.useEffect(() => {
     mmkvStorage
       .getItem('notifications-template')
-      .then((s) => (s ? setStr(s) : null))
+      .then((s: string) => (s ? setStr(s) : null))
     // fetchBackgroundTask()
   }, [])
 

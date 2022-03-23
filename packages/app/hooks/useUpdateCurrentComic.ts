@@ -1,7 +1,7 @@
-import { homeActions } from 'app/store/homeSlice'
-import { useAppDispatch } from '../store/hooks'
-import { resComicDetail_T } from './../types/api'
-import useInteraction from './useInteraction'
+import { homeActions } from "app/store/homeSlice";
+import { useAppDispatch } from "../store/hooks";
+import { resComicDetail_T } from "./../types/api";
+import useInteraction from "./useInteraction";
 
 /**
  * Call hooks when visit comic detail information and this page has link to other page use common comicDetail in  store
@@ -9,21 +9,21 @@ import useInteraction from './useInteraction'
  * @returns loadingState
  */
 export default function useUpdateCurrentComic(comicDetail?: resComicDetail_T) {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const { loading, setLoading, result } = useInteraction({
     dependencyList: [comicDetail],
     callback: () => {
-      setImmediate(() => {
-        comicDetail && dispatch(homeActions.setCurrentComic(comicDetail))
-      })
+      // setImmediate(() => {
+      comicDetail && dispatch(homeActions.setCurrentComic(comicDetail));
+      // });
     },
     cleanupCallback: () => dispatch(homeActions.removeCurrentComic())
-  })
+  });
 
   return {
     loading
-  }
+  };
 }
 
 // NOTE: PREV

@@ -1,21 +1,21 @@
-import { resChapterDetail_T } from './../types/api'
-import { homeActions, homeSelector } from '../store/homeSlice'
-import { useAppDispatch, useAppSelector } from '../store/hooks'
-import useInteraction from './useInteraction'
-import { historyAction } from '../store/historySlice'
+import { resChapterDetail_T } from "./../types/api";
+import { homeActions, homeSelector } from "../store/homeSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import useInteraction from "./useInteraction";
+import { historyAction } from "../store/historySlice";
 
 type Param = {
-  chapterDetail: resChapterDetail_T | undefined
-  isFetching: boolean
-  id: number | undefined
-  callback?: () => any
-  cleanupCallback?: () => any
-}
+  chapterDetail: resChapterDetail_T | undefined;
+  isFetching: boolean;
+  id: number | undefined;
+  callback?: () => any;
+  cleanupCallback?: () => any;
+};
 
 export default function useUpdateCurrentChapter(param: Param) {
-  const { chapterDetail, isFetching, id } = param
-  const home = useAppSelector(homeSelector)
-  const dispatch = useAppDispatch()
+  const { chapterDetail, isFetching, id } = param;
+  const home = useAppSelector(homeSelector);
+  const dispatch = useAppDispatch();
   const { loading } = useInteraction({
     dependencyList: [isFetching, chapterDetail],
     callback: () => {
@@ -25,30 +25,30 @@ export default function useUpdateCurrentChapter(param: Param) {
             ...chapterDetail,
             id: id !== undefined ? id : -1
           })
-        )
+        );
         if (home.currentComic) {
           // console.log('setcomic')
-          dispatch(historyAction.pushReadComic(home.currentComic))
+          dispatch(historyAction.pushReadComic(home.currentComic));
           dispatch(
             historyAction.pushChapter({
               comicPath: home.currentComic?.path,
               chapterPath: chapterDetail.path
             })
-          )
-          console.log(home.currentComic?.path, chapterDetail?.path)
+          );
+          console.log(home.currentComic?.path, chapterDetail?.path);
 
           // NOTE: SPLASH ANIMATION ON RENDER
         }
-        param.callback && param.callback()
+        param.callback && param.callback();
       }
     },
     cleanupCallback: () => {
-      dispatch(homeActions.removeCurrentChapter())
-      param.cleanupCallback && param.cleanupCallback()
+      dispatch(homeActions.removeCurrentChapter());
+      param.cleanupCallback && param.cleanupCallback();
     }
-  })
+  });
 
-  return { loading }
+  return { loading };
 }
 
 // NOTE: PREV

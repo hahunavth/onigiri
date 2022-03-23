@@ -1,27 +1,32 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { MMKV } from 'react-native-mmkv'
-import { Storage } from 'redux-persist'
+/**
+ * NOTE: SPECIFIC NATIVE
+ */
 
-export const storage = new MMKV()
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { MMKV } from "react-native-mmkv";
+import { Storage } from "redux-persist";
+import { Platform } from "react-native";
+
+export const storage = new MMKV();
 
 /**
  * NOTE: STORAGE WRAPPER
  */
 
 export const mmkvStorage: Storage = {
-  setItem: (key, value) => {
-    storage.set(key, value)
-    return Promise.resolve(true)
+  setItem: (key, value: string) => {
+    storage.set(key, value);
+    return Promise.resolve(true);
   },
   getItem: (key) => {
-    const value = storage.getString(key)
-    return Promise.resolve(value)
+    const value = storage.getString(key);
+    return Promise.resolve(value);
   },
   removeItem: (key) => {
-    storage.delete(key)
-    return Promise.resolve()
+    storage.delete(key);
+    return Promise.resolve();
   }
-}
+};
 
 /**
  * NOTE: MIGRATE STORAGE FROM ASYNC STORAGE
@@ -29,40 +34,40 @@ export const mmkvStorage: Storage = {
 
 // TODO: Remove `hasMigratedFromAsyncStorage` after a while (when everyone has migrated)
 export const hasMigratedFromAsyncStorage = storage.getBoolean(
-  'hasMigratedFromAsyncStorage'
-)
+  "hasMigratedFromAsyncStorage"
+);
 
 // TODO: Remove `hasMigratedFromAsyncStorage` after a while (when everyone has migrated)
 export async function migrateFromAsyncStorage(): Promise<void> {
-  console.log('Migrating from AsyncStorage -> MMKV...')
-  const start = global.performance.now()
+  console.log("Migrating from AsyncStorage -> MMKV...");
+  const start = global.performance.now();
 
-  const keys = await AsyncStorage.getAllKeys()
+  const keys = await AsyncStorage.getAllKeys();
 
   for (const key of keys) {
     try {
-      const value = await AsyncStorage.getItem(key)
+      const value = await AsyncStorage.getItem(key);
 
       if (value != null) {
-        if (['true', 'false'].includes(value)) {
-          storage.set(key, value === 'true')
+        if (["true", "false"].includes(value)) {
+          storage.set(key, value === "true");
         } else {
-          storage.set(key, value)
+          storage.set(key, value);
         }
 
-        AsyncStorage.removeItem(key)
+        AsyncStorage.removeItem(key);
       }
     } catch (error) {
       console.error(
         `Failed to migrate key "${key}" from AsyncStorage to MMKV!`,
         error
-      )
-      throw error
+      );
+      throw error;
     }
   }
 
-  storage.set('hasMigratedFromAsyncStorage', true)
+  storage.set("hasMigratedFromAsyncStorage", true);
 
-  const end = global.performance.now()
-  console.log(`Migrated from AsyncStorage -> MMKV in ${end - start}ms!`)
+  const end = global.performance.now();
+  console.log(`Migrated from AsyncStorage -> MMKV in ${end - start}ms!`);
 }

@@ -1,32 +1,32 @@
-import { Heading, HStack as VStack, Spinner } from 'native-base'
-import React from 'react'
-import { MotiView } from 'moti'
-import LottieView from 'lottie-react-native'
-import { ViewStyle } from 'react-native'
+import { Heading, HStack as VStack, Spinner } from "native-base";
+import React from "react";
+import { MotiView } from "moti";
+import LottieView from "lottie-react-native";
+import { ViewStyle } from "react-native";
 
-type Props = { text?: string; animation?: boolean; style?: ViewStyle }
+type Props = { text?: string; animation?: boolean; style?: ViewStyle };
 
 export const Loading = (props: Props) => {
   return (
     <MotiView
       style={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: "center",
+        alignItems: "center"
       }}
       from={
         props.animation
           ? {
               transform: [{ scale: 0 }, { translateX: -10 }]
             }
-          : null
+          : undefined
       }
       animate={
         props.animation
           ? {
               transform: [{ scale: 1 }, { translateX: 0 }]
             }
-          : null
+          : undefined
       }
     >
       <VStack space={2} justifyContent="center" style={props.style}>
@@ -39,7 +39,7 @@ export const Loading = (props: Props) => {
           //   height: 1
           //   // backgroundColor: '#eee'
           // }}
-          source={require('../assets/bloading.json')}
+          source={require("../assets/bloading.json")}
           // OR find more Lottie files @ https://lottiefiles.com/featured
           // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
           autoPlay
@@ -52,5 +52,5 @@ export const Loading = (props: Props) => {
         </Heading> */}
       </VStack>
     </MotiView>
-  )
-}
+  );
+};

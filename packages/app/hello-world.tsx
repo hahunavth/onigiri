@@ -1,4 +1,4 @@
-import { View, Text, Center } from 'native-base'
+import { View, Text, Center } from "native-base";
 
 export function HelloWorld() {
   return (
@@ -6,5 +6,5 @@ export function HelloWorld() {
       <Text>Hello, World!</Text>
       <Text>kk</Text>
     </Center>
-  )
+  );
 }

@@ -1,26 +1,27 @@
-import React from 'react'
-import {InteractionManager } from 'react-native'
+import React from "react";
+import { InteractionManager } from "react-native";
+
 type Param = {
-  dependencyList?: any[]
-  callback?: (dependencyList?: any[]) => any
-  cleanupCallback?: (result?: any, dependencyList?: any[]) => any
-}
+  dependencyList?: any[];
+  callback?: (dependencyList?: any[]) => any;
+  cleanupCallback?: (result?: any, dependencyList?: any[]) => any;
+};
 
 export default function useInteraction(param?: Param) {
-  const [loading, setLoading] = React.useState(true)
+  const [loading, setLoading] = React.useState(true);
   let result: any = null;
   React.useEffect(() => {
     // NOTE: DEPRECATED
     const interaction = InteractionManager.runAfterInteractions(() => {
-      param && param.callback && param.callback(param?.dependencyList)
-      setLoading(false)
-    })
+      param && param.callback && param.callback(param?.dependencyList);
+      setLoading(false);
+    });
     return () => {
       param &&
         param.cleanupCallback &&
-        param.cleanupCallback(result, param?.dependencyList)
-      interaction.cancel()
-    }
+        param.cleanupCallback(result, param?.dependencyList);
+      interaction.cancel();
+    };
 
     // NOTE: Use setImmediate instead of interaction
     // const immediate = setImmediate(() => {
@@ -33,14 +34,13 @@ export default function useInteraction(param?: Param) {
     //     param.cleanupCallback &&
     //     param.cleanupCallback(result, param?.dependencyList)
     //  // interaction.cancel()
-      // clearImmediate(immediate)
+    // clearImmediate(immediate)
     // }
-
-  }, param?.dependencyList || [])
+  }, param?.dependencyList || []);
 
   return {
     loading,
     setLoading,
     result
-  }
+  };
 }
