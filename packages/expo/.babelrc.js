@@ -4,7 +4,10 @@ module.exports = function (api) {
   return {
     presets: [['babel-preset-expo', { jsxRuntime: 'automatic' }]],
     plugins: [
-      'react-native-reanimated/plugin'
+      'react-native-reanimated/plugin',
+      // NOTE: LOAD FROM APP CONFIG
+      // 'transform-inline-environment-variables'
+      'inline-dotenv'
       // NOT WORK
       // ['transform-remove-console']
       // 'transform-remove-console'

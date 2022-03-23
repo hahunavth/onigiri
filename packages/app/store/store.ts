@@ -1,3 +1,4 @@
+// import { mmkvStorage } from './../utils/mmkvStorage';
 import { Platform } from 'react-native'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import {
@@ -50,7 +51,8 @@ if (__DEV__ && Platform.OS !== 'web') {
 
 // STUB: DYNAMIC IMPORT REDUX PERSIST STORAGE
 const _getStorage = Platform.select({
-  native: () => require('@react-native-async-storage/async-storage').default,
+  // native: () => require('@react-native-async-storage/async-storage').default,
+  native: () => require('app/utils/mmkvStorage').mmkvStorage,
   web: () => require('app/utils/ssrStorage').default
 })
 const storage = _getStorage ? _getStorage() : null

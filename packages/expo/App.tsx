@@ -78,8 +78,39 @@ import {
   useApiTopWeek
 } from 'app/store/api'
 
+import { MMKV } from 'react-native-mmkv'
+import { initializeMMKVFlipper } from 'react-native-mmkv-flipper-plugin'
+// NOTE: BARE WORKFLOW DONT HAVE ACCESS TO THIS MODULE
+// import Constants from 'expo-constants'
+
+// NOTE: LogBox first to remove warning
+LogBox.ignoreLogs([
+  'Sentry Logger [Warn]: Note: Native Sentry SDK is disabled.',
+  `Picker has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-picker/picker' instead of 'react-native'. See https://github.com/react-native-picker/react-native-picker`,
+  'Bridge was already shutdown.'
+])
+
+// import { InteractionManager } from 'react-native'
+// import {
+//   hasMigratedFromAsyncStorage,
+//   migrateFromAsyncStorage
+// } from 'app/utils/mmkvStorage'
+
+const storage = new MMKV()
+
+/**
+ * TODO: USE MMKV INSTEAD OF ASYNC STORAGE
+ */
+if (__DEV__) {
+  initializeMMKVFlipper({ default: storage })
+}
+
+// FIXME: CAUSE ERROR
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
-const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
+// const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
+
+// console.log('Dsn: adgasjhasg ------------------  ' + process.env.SENTRY_DSN)
+// console.log(process)
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -90,28 +121,22 @@ Sentry.init({
       tracingOrigins: ['localhost', 'my-site-url.com', /^\//]
     })
   ],
-  // debug: true,
+  debug: true,
   // To set a uniform sample rate
   tracesSampleRate: 0.2,
   //
   enableAutoSessionTracking: true,
   // Sessions close after app is 10 seconds in the background.
-  sessionTrackingIntervalMillis: 10000,
-  beforeSend(event) {
-    // exclude all events that have no stack trace
-    if (event.stacktrace?.frames?.length) {
-      return event
-    } else {
-      return null
-    }
-  }
+  sessionTrackingIntervalMillis: 10000
+  // beforeSend(event) {
+  //   // exclude all events that have no stack trace
+  //   if (event.stacktrace?.frames?.length) {
+  //     return event
+  //   } else {
+  //     return null
+  //   }
+  // }
 })
-
-LogBox.ignoreLogs([
-  'Sentry Logger [Warn]: Note: Native Sentry SDK is disabled.',
-  `Picker has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-picker/picker' instead of 'react-native'. See https://github.com/react-native-picker/react-native-picker`,
-  'Bridge was already shutdown.'
-])
 
 // FLIPPER CONNECT
 if (__DEV__ && Platform.OS !== 'web') {
@@ -138,6 +163,24 @@ if (Platform.OS === 'android') {
  * App
  */
 function App() {
+  // TODO: Remove `hasMigratedFromAsyncStorage` after a while (when everyone has migrated)
+  // const [hasMigrated, setHasMigrated] = React.useState(
+  //   hasMigratedFromAsyncStorage
+  // )
+
+  // useEffect(() => {
+  //   if (!hasMigratedFromAsyncStorage) {
+  //     InteractionManager.runAfterInteractions(async () => {
+  //       try {
+  //         await migrateFromAsyncStorage()
+  //         setHasMigrated(true)
+  //       } catch (e) {
+  //         // TODO: fall back to AsyncStorage? Wipe storage clean and use MMKV? Crash app?
+  //       }
+  //     })
+  //   }
+  // }, [])
+
   // Hooks from this package only work during development and are disabled in production.
   // You don't need to do anything special to remove them from the production build.
   useFlipper(navigationRef)
@@ -219,16 +262,16 @@ function App() {
     })()
   }, [isRegistered, status, toggleFetchTask])
 
-  console.log(
-    isRegistered,
-    status
-    // status && BackgroundFetch.BackgroundFetchStatus[status]
-  )
+  // console.log(
+  //   isRegistered,
+  //   status
+  //   // status && BackgroundFetch.BackgroundFetchStatus[status]
+  // )
 
   React.useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
-      console.log('Connection type', state.type)
-      console.log('Is connected?', state.isConnected)
+      // console.log('Connection type', state.type)
+      // console.log('Is connected?', state.isConnected)
     })
     return () => unsubscribe()
   })
@@ -275,6 +318,15 @@ function App() {
   //     </>
   //   )
 
+  // if (!hasMigrated) {
+  //   // show loading indicator while app is migrating storage...
+  //   return (
+  //     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+  //       <ActivityIndicator color="black" />
+  //     </View>
+  //   )
+  // }
+
   return (
     <Provider store={store}>
       {!isReady && !fontsLoaded && !isNavReady ? (
@@ -294,7 +346,7 @@ function App() {
             // Splash
             setIsNavReady(true)
             // Sentry
-            routingInstrumentation.registerNavigationContainer(navigationRef)
+            // routingInstrumentation.registerNavigationContainer(navigationRef)
           }}
         >
           <PersistGate persistor={persistor}>

@@ -26,11 +26,11 @@ import {
   StorageManager,
   themeTools
 } from 'native-base'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { colors } from 'app/colors'
 import { useAppDispatch, useAppSelector } from './store/hooks'
 import { mergeNewChapterNotificationThunk } from './store/notificationSlice'
 import { settingSelector } from './store/settingSlice'
+import { mmkvStorage } from './utils/mmkvStorage'
 
 // REVIEW: CUSTOM APP
 
@@ -107,7 +107,7 @@ export default function UI() {
   const colorModeManager: StorageManager = {
     get: async () => {
       try {
-        let val = await AsyncStorage.getItem('@my-app-color-mode')
+        let val = await mmkvStorage.getItem('@my-app-color-mode')
         return val === 'dark' ? 'dark' : 'light'
       } catch (e) {
         console.log(e)
@@ -116,7 +116,7 @@ export default function UI() {
     },
     set: async (value: ColorMode) => {
       try {
-        await AsyncStorage.setItem('@my-app-color-mode', value || 'light')
+        await mmkvStorage.setItem('@my-app-color-mode', value || 'light')
       } catch (e) {
         console.log(e)
       }

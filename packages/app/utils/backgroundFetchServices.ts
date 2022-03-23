@@ -1,3 +1,4 @@
+import { mmkvStorage } from './mmkvStorage'
 /**
  *
  * NOTE: SPECIFIC EXPO
@@ -10,7 +11,6 @@ import {
   NotificationStoreT
 } from './../store/notificationSlice'
 import { RootState } from './../store/store'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { fetchNewChapterNotificationThunk } from '../store/notificationSlice'
 import * as BackgroundFetch from 'expo-background-fetch'
 import * as TaskManager from 'expo-task-manager'
@@ -25,37 +25,37 @@ export const fetchBackgroundTask = async () => {
   console.log(
     `Got background fetch call at date: ${new Date(now).toISOString()}`
   )
-  const str = await AsyncStorage.getItem('background-fetch-last-number')
+  const str = await mmkvStorage.getItem('background-fetch-last-number')
   const num = Number.parseInt(str || '0') || 0
-  await AsyncStorage.setItem(
+  await mmkvStorage.setItem(
     'background-fetch-last-number',
     (num + 1).toString()
   )
 
-  // await triggerBackgroundFetchNotification()
-  // await store.dispatch(fetchNewChapterNotificationThunk())
-  // .catch(
   async function bg() {
     // instead of notificationSlice/fetchNewChapterNotificationAsync
-    const state: RootState = await AsyncStorage.getItem('persist:root').then(
-      (s) => (s ? JSON.parse(s) : undefined)
-    )
+    const state: RootState = await mmkvStorage
+      .getItem('persist:root')
+      .then((s) => (s ? JSON.parse(s) : undefined))
     if (state) {
       const notifications: NotificationStoreT['newChapter'] = {}
       const comicPushList: resComicDetail_T[] = []
       await fetchBackgroundInfo(state, notifications, comicPushList, true)
       console.log('bg fetch result: ')
       console.log(notifications)
-      await AsyncStorage.setItem(
+      await mmkvStorage.setItem(
         'notifications-template',
         JSON.stringify(notifications)
       )
-      await AsyncStorage.setItem(
+      await mmkvStorage.setItem(
         'comicPushList-template',
         JSON.stringify(comicPushList)
       )
     }
   }
+  // await triggerBackgroundFetchNotification()
+  // await store.dispatch(fetchNewChapterNotificationThunk())
+  // .catch(
   // )
 
   await bg()

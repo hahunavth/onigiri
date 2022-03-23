@@ -97,9 +97,10 @@ import {
 import { useWindowDimensions } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 import { fetchBackgroundTask } from '../../utils/backgroundFetchServices'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+// import AsyncStorage from '@react-native-async-storage/async-storage'
 // @ts-ignore
 import HTMLParser from 'fast-html-parser'
+import { mmkvStorage } from '../../utils/mmkvStorage'
 
 var { height, width } = Dimensions.get('window')
 var neededWidth = width,
@@ -181,9 +182,9 @@ export function MainTestScreen() {
   const [str, setStr] = React.useState('')
 
   React.useEffect(() => {
-    AsyncStorage.getItem('notifications-template').then((s) =>
-      s ? setStr(s) : null
-    )
+    mmkvStorage
+      .getItem('notifications-template')
+      .then((s) => (s ? setStr(s) : null))
     // fetchBackgroundTask()
   }, [])
 

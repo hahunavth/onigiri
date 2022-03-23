@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { mmkvStorage } from './../utils/mmkvStorage'
 import { createSelector } from 'reselect'
 import { historyAction, HistoryComicT } from 'app/store/historySlice'
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
@@ -172,8 +172,8 @@ const genFetchNotificationDataFN =
           // NOTE: COMPARE WITH STATE
           // result?.chapters[0].path !== lastedCptPath
           result?.chapters[0].path !==
-            notification.newChapter[cPath].chapterPath &&
-          id !== notification.newChapter[cPath].count
+            notification.newChapter[cPath]?.chapterPath &&
+          id !== notification.newChapter[cPath]?.count
         ) {
           console.log(id)
 
@@ -195,16 +195,16 @@ const genFetchNotificationDataFN =
                 content: {
                   title: `${result?.title}`,
                   body: `${result?.chapters[0]}`,
-                  data: { data: 'ABCD' },
+                  // data: { data: 'ABCD' },
                   autoDismiss: true,
-                  attachments: [
-                    {
-                      url: result.posterUrl
-                    }
-                  ],
-                  subtitle: result.chapters[0].path,
+                  // attachments: [
+                  //   {
+                  //     url: result.posterUrl
+                  //   }
+                  // ],
+                  subtitle: result?.chapters[0]?.path
                   // badge: 2,
-                  launchImageName: result.posterUrl
+                  // launchImageName: result.posterUrl
                 },
                 //
                 trigger: { seconds: 2 }
@@ -241,6 +241,7 @@ export const fetchBackgroundInfo = async (
     )
   } else {
     console.log(typeof state.history)
+    // @ts-ignore
     const comics = JSON.parse(state.history).comics
     // @ts-ignore
     const notification = JSON.parse(state.notification)
@@ -298,20 +299,19 @@ export const mergeNewChapterNotificationThunk = createAsyncThunk(
   ) => {
     const state = getState()
 
-    const notifications: NotificationStoreT['newChapter'] =
-      await AsyncStorage.getItem('notifications-template').then((s) =>
-        s ? JSON.parse(s) : undefined
-      )
-    const comicPushList: resComicDetail_T[] = await AsyncStorage.getItem(
-      'comicPushList-template'
-    ).then((s) => (s ? JSON.parse(s) : undefined))
+    const notifications: NotificationStoreT['newChapter'] = await mmkvStorage
+      .getItem('notifications-template')
+      .then((s) => (s ? JSON.parse(s) : undefined))
+    const comicPushList: resComicDetail_T[] = await mmkvStorage
+      .getItem('comicPushList-template')
+      .then((s) => (s ? JSON.parse(s) : undefined))
 
     if (notifications && comicPushList) {
       // ANCHOR: MODIFY STATE
       comicPushList.forEach((c) => dispatch(historyAction.pushComic(c)))
     }
-    await AsyncStorage.removeItem('notifications-template')
-    await AsyncStorage.removeItem('comicPushList-template')
+    await mmkvStorage.removeItem('notifications-template')
+    await mmkvStorage.removeItem('comicPushList-template')
     console.log(
       'merge done with ',
       comicPushList.length,

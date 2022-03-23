@@ -1,5 +1,5 @@
 import React from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { mmkvStorage } from '../../utils/mmkvStorage'
 
 type ChapterScreenContextProps = {
   children: React.ReactNode
@@ -34,14 +34,14 @@ export default function ChapterContextProvider(
   const setViewStatusAndAsyncStorage = React.useCallback(
     (param: 'vertical' | 'horizontal') => {
       setViewStatus(param)
-      AsyncStorage.setItem('chapterViewStatus', param)
+      mmkvStorage.setItem('chapterViewStatus', param)
     },
     []
   )
 
   React.useEffect(() => {
     ;(async () => {
-      const vs = await AsyncStorage.getItem('chapterViewStatus')
+      const vs = await mmkvStorage.getItem('chapterViewStatus')
       // console.log('vs' + vs)
       setViewStatus((vs as 'vertical' | 'horizontal') || 'horizontal')
     })()

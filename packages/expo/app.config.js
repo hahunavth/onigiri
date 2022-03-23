@@ -6,7 +6,7 @@ import 'dotenv/config'
 // the secrets created with eas secret:create will
 // be merged with process.env during eas builds
 const SENTRY_DSN = process.env.SENTRY_DSN
-
+// console.log(process.env.SENTRY_DSN)
 const STAGE = process.env.STAGE
 const SCHEME = process.env.SCHEME ?? 'com.hahunavth'
 
@@ -64,7 +64,7 @@ export default {
     // },
     jsEngine: 'hermes',
     config: {
-      googleMobileAdsAppId: 'ca-app-pub-1646154512233519~1161794425' // sample id, replace with your own
+      googleMobileAdsAppId: 'ca-app-pub-1646154512233519~1161794425' //
     }
   },
   androidNavigationBar: {
@@ -90,7 +90,7 @@ export default {
         file: 'sentry-expo/upload-sourcemaps',
         config: {
           organization: 'aseryo',
-          project: 'com.hahunavth.onigiri',
+          project: 'onigiri',
           authToken:
             '5a61ecb37707446193e7a36cdb735bef8a36776c0fac48d990b1c0c55bca311a'
         }
@@ -99,11 +99,17 @@ export default {
   },
   extra: {
     STAGE: process.env.STAGE,
-    SENTRY_DSN: SENTRY_DSN
+    SENTRY_DSN: SENTRY_DSN,
+    ANDROID_ADMOD_BANNER_TEST: process.env.ANDROID_ADMOD_BANNER_TEST,
+    ANDROID_ADMOD_INTERSTITIAL_TEST:
+      process.env.ANDROID_ADMOD_INTERSTITIAL_TEST,
+    ANDROID_ADMOD_BANNER: process.env.ANDROID_ADMOD_BANNER,
+    ANDROID_ADMOD_INTERSTITIAL: process.env.ANDROID_ADMOD_INTERSTITIAL
   },
-  // NOTE: MANAGED WORKFLOW
   plugins: [
-    // 'sentry-expo',
+    // NOTE: MANAGED WORKFLOW
+    'sentry-expo',
+    './react-native-mmkv-plugin.js',
     'expo-community-flipper',
     'expo-ads-admob'
   ],
