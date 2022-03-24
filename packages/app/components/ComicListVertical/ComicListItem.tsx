@@ -1,16 +1,16 @@
-import React from 'react'
-import { View, Text, Image, Box } from 'native-base'
-import { TouchableOpacity, ImageStyle, StyleSheet } from 'react-native'
-import { resComicItem_T } from '../../types'
-import { navigate } from '../../navigators'
-import { useColorModeStyle } from '../../hooks/useColorModeStyle'
-import { SharedElement } from 'react-navigation-shared-element'
+import React from "react";
+import { View, Text, Image, Box } from "native-base";
+import { TouchableOpacity, ImageStyle, StyleSheet } from "react-native";
+import { resComicItem_T } from "../../types";
+import { navigate, navPush } from "../../navigators";
+import { useColorModeStyle } from "../../hooks/useColorModeStyle";
+import { SharedElement } from "react-navigation-shared-element";
 // import usePrevious from 'react-use/esm/usePrevious'
 
 type Props = {
-  item: resComicItem_T
+  item: resComicItem_T;
   // handlePress?: () => any
-}
+};
 
 export const ComicListItem = React.memo(
   function ComicListItem({
@@ -20,20 +20,23 @@ export const ComicListItem = React.memo(
     // const prev = usePrevious(item)
     // console.log(item.path, item === prev)
 
-    const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle('', 'Primary')
-    const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle('', 'Secondary')
+    const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle("", "Primary");
+    const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle(
+      "",
+      "Secondary"
+    );
 
     const handlePress = React.useCallback(
       () =>
         item.path &&
-        navigate('shared', {
-          screen: 'shared/comic-detail',
+        navPush("shared", {
+          screen: "shared/comic-detail",
           params: { preloadItem: item, path: item.path }
         }),
       [item, item.path]
-    )
+    );
 
-    if (!item) return null
+    if (!item) return null;
 
     return (
       <TouchableOpacity onPress={handlePress}>
@@ -46,7 +49,7 @@ export const ComicListItem = React.memo(
             <Image
               source={{ uri: item.posterUrl }}
               style={styles.poster as ImageStyle}
-              alt={'avatar'}
+              alt={"avatar"}
             />
           </SharedElement>
           <View style={styles.infoContainer}>
@@ -85,19 +88,19 @@ export const ComicListItem = React.memo(
           </View>
         </View>
       </TouchableOpacity>
-    )
+    );
   },
   /**
    * NOTE: Default compare fn not work, it cause rerender and touch wont response
    */
   (prev, next) => prev.item.path === next.item.path
-)
+);
 
 const styles = StyleSheet.create({
   itemContainer: {
     // borderColor: ColorSchemeE["border-basic-color-3"],
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: 6,
     borderBottomWidth: 1
   },
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   infoContainer: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     flex: 1,
     paddingVertical: 4,
     paddingHorizontal: 16
@@ -120,12 +123,12 @@ const styles = StyleSheet.create({
     fontSize: 13
   },
   bottomContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginRight: 12
   },
   bottomText: {
     fontSize: 13,
     opacity: 0.7
   }
-})
+});

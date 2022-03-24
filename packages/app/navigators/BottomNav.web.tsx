@@ -1,5 +1,5 @@
 import { Text, useColorModeValue, useToken, View } from "native-base";
-import { Easing, Platform } from "react-native";
+import { Easing, Platform, useWindowDimensions } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
@@ -34,7 +34,7 @@ export type BottomNavParamsList = {
 /**
  * ANCHOR: RETURN NAVIGATION
  */
-const { Navigator, Screen } = createBottomTabNavigator<BottomNavParamsList>();
+const { Navigator, Screen } = createDrawerNavigator<BottomNavParamsList>();
 
 export default function BottomNav() {
   const textT = useColorModeValue("$light.textPrimary", "$dark.textPrimary");
@@ -43,92 +43,103 @@ export default function BottomNav() {
     "$dark.backgroundPrimary"
   );
   const [text, background] = useToken("colors", [textT, backgroundT]);
+  const dimensions = useWindowDimensions();
 
   return (
     <Navigator
-      // initialRouteName={__DEV__ ? 'main/test' : 'main/home'}
-      tabBar={
-        Platform.OS === "web"
-          ? ({ descriptors, insets, navigation, state }) => {
-              console.log(descriptors);
-
-              const selectedIndex = state.index;
-              // @ts-ignore
-              const onSelect = (id: number) => navigate(state.routeNames[id]);
-
-              return (
-                <View
-                  _web={{
-                    position: "absolute",
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    width: 200,
-                    bg: "$light.backgroundSecondary"
-                  }}
-                >
-                  {state.routes.map(({ name, path }, id) => (
-                    <TouchableOpacity onPress={() => onSelect(id)}>
-                      <Text
-                        fontSize={20}
-                        color={
-                          id === selectedIndex
-                            ? "$light.textPrimary"
-                            : "$light.textDisable"
-                        }
-                      >
-                        {name}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              );
-            }
-          : undefined
-      }
+      defaultStatus="open"
+      useLegacyImplementation={false}
+      detachInactiveScreens
       screenOptions={{
-        // TODO: WEB SPECIFIC STYLE
-        // TODO: WEB SPECIFIC STYLE
-        headerShown: false,
-        header: BottomTabNavigationHeader,
-        tabBarActiveTintColor: text,
-        tabBarActiveBackgroundColor: background,
-        tabBarInactiveBackgroundColor: background,
-        tabBarHideOnKeyboard: true,
-        tabBarVisibilityAnimationConfig: {
-          show: {
-            animation: "timing",
-            config: { duration: 700, easing: Easing.out(Easing.exp) }
-          }
-          // hide: {
-          //   animation: 'timing';
-          //   config: {
-
-          //   }
-          // }
-        }
-        // tabBarVisibilityAnimationConfig
-        //  TODO: WEB, SPECIFIC
-        // tabBarItemStyle: {
-        //   flex: undefined,
-        //   height: 100,
-        //   flexDirection: 'column',
-        //   width: 200
-        // },
-        // // tabbarSty
-        // tabBarStyle:
-        //   Platform.OS === 'web'
-        //     ? {
-        //         position: 'absolute',
-        //         top: 0,
-        //         left: 0,
-        //         width: 500,
-        //         flexDirection: 'column',
-        //         flex: 1,
-        //         height: '100vh'
-        //       }
-        //     : null
+        drawerType: dimensions.width >= 768 ? "permanent" : "front",
+        drawerPosition: "right",
+        overlayColor: "transparent"
+        // headerShown: false
       }}
+
+      // initialRouteName={__DEV__ ? 'main/test' : 'main/home'}
+      // tabBar={
+      //   Platform.OS === "web"
+      //     ? ({ descriptors, insets, navigation, state }) => {
+      //         console.log(descriptors);
+
+      //         const selectedIndex = state.index;
+      //         // @ts-ignore
+      //         const onSelect = (id: number) => navigate(state.routeNames[id]);
+
+      //         return (
+      //           <View
+      //             _web={{
+      //               position: "absolute",
+      //               top: 0,
+      //               bottom: 0,
+      //               left: 0,
+      //               width: 200,
+      //               bg: "$light.backgroundSecondary"
+      //             }}
+      //           >
+      //             {state.routes.map(({ name, path }, id) => (
+      //               <TouchableOpacity onPress={() => onSelect(id)}>
+      //                 <Text
+      //                   fontSize={20}
+      //                   color={
+      //                     id === selectedIndex
+      //                       ? "$light.textPrimary"
+      //                       : "$light.textDisable"
+      //                   }
+      //                 >
+      //                   {name}
+      //                 </Text>
+      //               </TouchableOpacity>
+      //             ))}
+      //           </View>
+      //         );
+      //       }
+      //     : undefined
+      // }
+      // screenOptions={{
+      //   // TODO: WEB SPECIFIC STYLE
+      //   // TODO: WEB SPECIFIC STYLE
+      //   headerShown: false,
+      //   header: BottomTabNavigationHeader,
+      //   tabBarActiveTintColor: text,
+      //   tabBarActiveBackgroundColor: background,
+      //   tabBarInactiveBackgroundColor: background,
+      //   tabBarHideOnKeyboard: true,
+      //   tabBarVisibilityAnimationConfig: {
+      //     show: {
+      //       animation: "timing",
+      //       config: { duration: 700, easing: Easing.out(Easing.exp) }
+      //     }
+      //     // hide: {
+      //     //   animation: 'timing';
+      //     //   config: {
+
+      //     //   }
+      //     // }
+      //   }
+      //   // tabBarVisibilityAnimationConfig
+      //   //  TODO: WEB, SPECIFIC
+      //   // tabBarItemStyle: {
+      //   //   flex: undefined,
+      //   //   height: 100,
+      //   //   flexDirection: 'column',
+      //   //   width: 200
+      //   // },
+      //   // // tabbarSty
+      //   // tabBarStyle:
+      //   //   Platform.OS === 'web'
+      //   //     ? {
+      //   //         position: 'absolute',
+      //   //         top: 0,
+      //   //         left: 0,
+      //   //         width: 500,
+      //   //         flexDirection: 'column',
+      //   //         flex: 1,
+      //   //         height: '100vh'
+      //   //       }
+      //   //     : null
+      // }}
 
       // detachInactiveScreens={false}
     >
@@ -137,7 +148,7 @@ export default function BottomNav() {
         component={HomeScreen}
         options={{
           title: i18n.t("home.name"),
-          tabBarIcon: HomeIcon
+          drawerIcon: HomeIcon
         }}
       ></Screen>
 
@@ -146,7 +157,7 @@ export default function BottomNav() {
         component={LibraryScreen}
         options={{
           title: i18n.t("library.name"),
-          tabBarIcon: LibraryIcon
+          drawerIcon: LibraryIcon
         }}
       ></Screen>
 
@@ -156,7 +167,7 @@ export default function BottomNav() {
         options={{
           title: i18n.t("discover.name"),
 
-          tabBarIcon: DiscoverIcon
+          drawerIcon: DiscoverIcon
         }}
       ></Screen>
 
@@ -166,7 +177,7 @@ export default function BottomNav() {
         options={{
           title: i18n.t("setting.name"),
 
-          tabBarIcon: SettingIcon
+          drawerIcon: SettingIcon
         }}
       ></Screen>
 
@@ -176,7 +187,7 @@ export default function BottomNav() {
         component={MainTestScreen}
         options={{
           title: "Test",
-          tabBarIcon: TestIcon
+          drawerIcon: TestIcon
         }}
       ></Screen>
       {/* )} */}

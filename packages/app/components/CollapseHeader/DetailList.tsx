@@ -1,6 +1,6 @@
-import { resComicDetail_T } from 'app/types'
+import { resComicDetail_T } from "app/types";
 // import { Button, Icon, Layout } from "@ui-kitten/components";
-import React, { forwardRef, memo, useCallback, useState } from 'react'
+import React, { forwardRef, memo, useCallback, useState } from "react";
 import {
   FlatList,
   FlatListProps,
@@ -11,8 +11,8 @@ import {
   ViewStyle,
   Text,
   LayoutAnimation
-} from 'react-native'
-import { Button, View, Box, Fade } from 'native-base'
+} from "react-native";
+import { Button, View, Box, Fade } from "native-base";
 import Animated, {
   Easing,
   // FadeInDown,
@@ -23,35 +23,35 @@ import Animated, {
   withSpring,
   ZoomInDown,
   FadeInDown
-} from 'react-native-reanimated'
-import { LinearGradient } from 'expo-linear-gradient'
+} from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
 
-import FadeInView, { FadeInWrapper } from '../AnimationWrapper/FadeInView'
-import useInteraction from '../../hooks/useInteraction'
-import { navigate } from '../../navigators'
-import RoundView from './RoundView'
-import CollapseRoundView from './CollapseRoundView'
-import { useApiComicComment } from '../../store/api'
-import { Comment } from '../Comment'
-import { num2FormatString } from '../../utils/stringFormat'
-import { Layout, LightSpeedInLeft } from 'react-native-reanimated'
-import { Loading } from '../Loading'
-import { MotiView } from 'moti'
-import { SideInDownView } from '../AnimationWrapper/SideInDownView'
+import FadeInView, { FadeInWrapper } from "../AnimationWrapper/FadeInView";
+import useInteraction from "../../hooks/useInteraction";
+import { navigate, navPush } from "../../navigators";
+import RoundView from "./RoundView";
+import CollapseRoundView from "./CollapseRoundView";
+import { useApiComicComment } from "../../store/api";
+import { Comment } from "../Comment";
+import { num2FormatString } from "../../utils/stringFormat";
+import { Layout, LightSpeedInLeft } from "react-native-reanimated";
+import { Loading } from "../Loading";
+import { MotiView } from "moti";
+import { SideInDownView } from "../AnimationWrapper/SideInDownView";
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
-  Animated.createAnimatedComponent(FlatList)
+  Animated.createAnimatedComponent(FlatList);
 
-type Props = Omit<FlatListProps<resComicDetail_T>, 'renderItem'>
+type Props = Omit<FlatListProps<resComicDetail_T>, "renderItem">;
 
 const Details = forwardRef<FlatList, Props>((props, ref) => {
   const { data } = useApiComicComment(
-    props.data?.length ? props.data[0].path : ''
-  )
+    props.data?.length ? props.data[0].path : ""
+  );
 
   // console.log(data, props.data?.length && props.data[0]?.path)
-  const keyExtractor = useCallback((_, index) => index.toString(), [])
+  const keyExtractor = useCallback((_, index) => index.toString(), []);
 
   const renderItem = useCallback<ListRenderItem<resComicDetail_T>>(
     ({ item, index }) => {
@@ -65,7 +65,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
           <SideInDownView delay={index * 100 + 200}>
             <CollapseRoundView detail={item?.detail}></CollapseRoundView>
           </SideInDownView>
-        )
+        );
       }
       if (index === 1)
         return (
@@ -84,19 +84,19 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
               </Text>
               <View
                 style={{
-                  flexDirection: 'row',
-                  flexWrap: 'wrap'
+                  flexDirection: "row",
+                  flexWrap: "wrap"
                 }}
               >
                 {item?.kind?.map((kind) => (
                   <Button
                     key={kind}
                     style={{ margin: 4 }}
-                    size={'xs'}
-                    variant={'subtle'}
-                    colorScheme={'warning'}
+                    size={"xs"}
+                    variant={"subtle"}
+                    colorScheme={"warning"}
                     onPress={() =>
-                      navigate('genres', {
+                      navPush("genres", {
                         genresName: kind
                       })
                     }
@@ -115,7 +115,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
                 Complete info
               </Text>
               <View style={{ paddingLeft: 4 }}>
-                <Text style={{ color: '#ccc', fontSize: 11 }}>Author:</Text>
+                <Text style={{ color: "#ccc", fontSize: 11 }}>Author:</Text>
 
                 <Text
                   style={{
@@ -126,7 +126,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
                   {item?.author}
                 </Text>
 
-                <Text style={{ color: '#ccc', fontSize: 11 }}>Status:</Text>
+                <Text style={{ color: "#ccc", fontSize: 11 }}>Status:</Text>
                 <Text
                   style={{
                     fontSize: 14
@@ -135,7 +135,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
                 >
                   {item?.status}
                 </Text>
-                <Text style={{ color: '#ccc', fontSize: 11 }}>Rating:</Text>
+                <Text style={{ color: "#ccc", fontSize: 11 }}>Rating:</Text>
                 <Text
                   style={{
                     fontSize: 14
@@ -144,7 +144,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
                 >
                   {item?.rate}
                 </Text>
-                <Text style={{ color: '#ccc', fontSize: 11 }}>Followers:</Text>
+                <Text style={{ color: "#ccc", fontSize: 11 }}>Followers:</Text>
                 <Text
                   style={{
                     fontSize: 14
@@ -158,19 +158,19 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
 
             {/* </FadeInView> */}
           </SideInDownView>
-        )
+        );
 
-      return <View>{data && <Comment data={data} />}</View>
+      return <View>{data && <Comment data={data} />}</View>;
     },
     [data]
-  )
-  const offset = useSharedValue(100)
+  );
+  const offset = useSharedValue(100);
   const offsetStyle = useAnimatedStyle(() => {
     return {
       // transform: [{ translateY: withTiming(offset.value) }],
       opacity: withDelay(400, withSpring((100 - offset.value) / 100))
-    }
-  })
+    };
+  });
 
   // React.useEffect(() => {
   //   setTimeout(() => {
@@ -181,9 +181,9 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
 
   const { loading } = useInteraction({
     callback: () => {
-      offset.value = 0
+      offset.value = 0;
     }
-  })
+  });
 
   return (
     <Animated.View style={[{ flex: 1 }, offsetStyle]}>
@@ -202,17 +202,17 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
         />
       )}
     </Animated.View>
-  )
-})
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: "white",
     flex: 1
   }
-})
+});
 
-export default memo(Details)
+export default memo(Details);
 
 /**
  * Helper component

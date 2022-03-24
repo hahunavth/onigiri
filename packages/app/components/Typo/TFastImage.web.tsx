@@ -8,11 +8,13 @@ import type {
   ResizeMode,
   Source
 } from "react-native-fast-image";
-import { Image } from "native-base";
+import { Image, IImageProps } from "native-base";
 import React from "react";
 // @ts-ignore
-const TFastImage = Image as React.Component<FastImageProps> &
-  FastImageStaticProperties;
+const TFastImage = (props: IImageProps) =>
+  // @ts-ignore
+  (<Image alt={"TImage"} {...props} />) as React.Component<FastImageProps> &
+    FastImageStaticProperties;
 
-export * from "react-native-fast-image";
+// export * from "react-native-fast-image";
 export default TFastImage;

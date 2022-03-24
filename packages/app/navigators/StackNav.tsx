@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 import {
   createNativeStackNavigator,
   NativeStackScreenProps
-} from '@react-navigation/native-stack'
-import { NavigatorScreenParams, useNavigation } from '@react-navigation/native'
+} from "@react-navigation/native-stack";
+import { NavigatorScreenParams, useNavigation } from "@react-navigation/native";
 
 import {
   NavigationHeader,
   SearchNavigationHeader
-} from 'app/components/NavigationHeader'
+} from "app/components/NavigationHeader";
 import {
   ChapterScreen,
   ComicDetailScreen,
@@ -24,30 +24,30 @@ import {
   Genres,
   HomeSessionDetailListScreen,
   GenresBadgeListScreen
-} from 'app/screens'
+} from "app/screens";
 
-import BottomNav, { BottomNavParamsList } from './BottomNav'
+import BottomNav, { BottomNavParamsList } from "./BottomNav";
 import type {
   resComicItem_T,
   resComicDetail_T,
   resChapterDetail_T
-} from '../types'
-import { SelectDownloadChapter } from '../screens/SelectDownloadChapterScreen/SelectDownloadChapter'
-import { HistoryComicT } from '../store/historySlice'
-import { FindOptionT } from '../utils/findOption'
-import Header from '../components/CollapseHeader/Header'
-import { Icon, Text, View } from 'native-base'
-import { TouchableOpacity, Platform } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { AntDesign } from '@expo/vector-icons'
-import { MotiView } from 'moti'
-import { FindByNameResultScreen } from '../screens/FindByNameResultScreen'
+} from "../types";
+import { SelectDownloadChapter } from "../screens/SelectDownloadChapterScreen/SelectDownloadChapter";
+import { HistoryComicT } from "../store/historySlice";
+import { FindOptionT } from "../utils/findOption";
+import Header from "../components/CollapseHeader/Header";
+import { Icon, Text, View } from "native-base";
+import { TouchableOpacity, Platform } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { MotiView } from "moti";
+import { FindByNameResultScreen } from "../screens/FindByNameResultScreen";
 
-import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
-import { SharedNav, SharedNavParamList } from './SharedNav'
-import NotificationScreen from '../screens/NotificationScreen/NotificationScreen'
-import { NotificationHeaderRefreshBtn } from '../screens/NotificationScreen/NotificationHeaderRefreshBtn'
-import i18n from 'i18n-js'
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+import { SharedNav, SharedNavParamList } from "./SharedNav";
+import NotificationScreen from "../screens/NotificationScreen/NotificationScreen";
+import { NotificationHeaderRefreshBtn } from "../screens/NotificationScreen/NotificationHeaderRefreshBtn";
+import i18n from "i18n-js";
 
 /**
  * Using common params
@@ -55,123 +55,123 @@ import i18n from 'i18n-js'
  * @param preloadItem: option in expo
  */
 export type StackNavParamsList = {
-  main: NavigatorScreenParams<BottomNavParamsList>
-  shared: NavigatorScreenParams<SharedNavParamList>
-  'comic-detail': {
-    path: string
-    preloadItem?: Partial<resComicItem_T>
-  }
-  'comic-list': undefined
+  main: NavigatorScreenParams<BottomNavParamsList>;
+  shared: NavigatorScreenParams<SharedNavParamList>;
+  "comic-detail": {
+    path: string;
+    preloadItem?: Partial<resComicItem_T>;
+  };
+  "comic-list": undefined;
   chapter: {
-    path: string
-    id: number
-    preloadItem?: Partial<resComicDetail_T>
-    name?: string
-  }
-  'find-result': {
-    path: string
-    findOption: FindOptionT
-  }
-  'find-by-name-result': {
-    name: string
-  }
-  'top-comic': undefined
+    path: string;
+    id: number;
+    preloadItem?: Partial<resComicDetail_T>;
+    name?: string;
+  };
+  "find-result": {
+    path: string;
+    findOption: FindOptionT;
+  };
+  "find-by-name-result": {
+    name: string;
+  };
+  "top-comic": undefined;
   test: {
-    name: string
-    id: string | number
-  }
-  login: undefined
-  'sign-up': undefined
-  'select-download-chapter': {
-    comic: resComicDetail_T
-  }
-  'downloaded-chapter': {
-    path: string
-    id: number
-    preloadItem?: Partial<resComicDetail_T>
-  }
-  'offline-comic-screen': {
-    path: string
+    name: string;
+    id: string | number;
+  };
+  login: undefined;
+  "sign-up": undefined;
+  "select-download-chapter": {
+    comic: resComicDetail_T;
+  };
+  "downloaded-chapter": {
+    path: string;
+    id: number;
+    preloadItem?: Partial<resComicDetail_T>;
+  };
+  "offline-comic-screen": {
+    path: string;
     // Load comic from source and pass navigate
     // comic: Partial<HistoryComicT>
-  }
-  'offline-chapter-screen': {
-    comicPath: string
-    chapterPath: string
-  }
-  'genres-comic-list': undefined
+  };
+  "offline-chapter-screen": {
+    comicPath: string;
+    chapterPath: string;
+  };
+  "genres-comic-list": undefined;
   genres: {
-    genresName: string
-  }
-  'genres.badge-list': undefined
-  'home-session-detail-list': {
-    type: 'recently' | 'hot' | 'week'
-  }
-  notification: undefined
-  'top-comic-screen': undefined
-}
+    genresName: string;
+  };
+  "genres.badge-list": undefined;
+  "home-session-detail-list": {
+    type: "recently" | "hot" | "week";
+  };
+  notification: undefined;
+  "top-comic-screen": undefined;
+};
 
 /**
  * Screen props
  */
 export type ComicDetailScreenProps = NativeStackScreenProps<
   StackNavParamsList,
-  'comic-detail'
->
+  "comic-detail"
+>;
 export type ChapterScreenProps = NativeStackScreenProps<
   StackNavParamsList,
-  'chapter'
->
+  "chapter"
+>;
 export type SelectDownloadChapterProps = NativeStackScreenProps<
   StackNavParamsList,
-  'select-download-chapter'
->
+  "select-download-chapter"
+>;
 export type DownloadedChapterScreen = NativeStackScreenProps<
   StackNavParamsList,
-  'downloaded-chapter'
->
+  "downloaded-chapter"
+>;
 export type OfflineComicScreenProps = NativeStackScreenProps<
   StackNavParamsList,
-  'offline-comic-screen'
->
+  "offline-comic-screen"
+>;
 export type OfflineChapterScreenProps = NativeStackScreenProps<
   StackNavParamsList,
-  'offline-chapter-screen'
->
+  "offline-chapter-screen"
+>;
 export type FindResultScreenProps = NativeStackScreenProps<
   StackNavParamsList,
-  'find-result'
->
+  "find-result"
+>;
 export type FindByNameResultScreenProps = NativeStackScreenProps<
   StackNavParamsList,
-  'find-by-name-result'
->
+  "find-by-name-result"
+>;
 export type GenresScreenProps = NativeStackScreenProps<
   StackNavParamsList,
-  'genres'
->
+  "genres"
+>;
 export type HomeSessionDetailListScreenProps = NativeStackScreenProps<
   StackNavParamsList,
-  'home-session-detail-list'
->
+  "home-session-detail-list"
+>;
 
 /**
  * Export navigation
  */
 // FIXME: NOT SUPPORT FOR WEB
 const createNavigator: typeof createNativeStackNavigator = Platform.select({
-  native: require('@react-navigation/native-stack').createNativeStackNavigator,
-  web: require('react-navigation-shared-element')
+  native: require("@react-navigation/native-stack").createNativeStackNavigator,
+  web: require("react-navigation-shared-element")
     .createSharedElementStackNavigator
-})
+});
 
-const { Navigator, Screen } = createNavigator<StackNavParamsList>()
+const { Navigator, Screen } = createNavigator<StackNavParamsList>();
 
 export function StackNav() {
   const renderHeader = React.useCallback(
     (props: any) => <NavigationHeader {...props} />,
     []
-  )
+  );
 
   const renderRight = React.useCallback((props: any) => {
     return (
@@ -185,25 +185,28 @@ export function StackNav() {
       >
         <AntDesign name="upsquare" size={24} color="black" />
       </MotiView>
-    )
-  }, [])
+    );
+  }, []);
 
   return (
     <Navigator
       screenOptions={{
+        // NOTE: IN STACK, NOT IN NATIVE STACK
+        // @ts-ignore
+        animationEnabled: true,
         // NOTE: Configure for native stack
         // header: NavigationHeader
-        animation: 'fade_from_bottom',
-        animationTypeForReplace: 'pop',
-        statusBarAnimation: 'slide',
+        animation: "fade_from_bottom",
+        animationTypeForReplace: "pop",
+        statusBarAnimation: "slide",
         // NOTE: For shaered element stack
         // animationEnabled: true,
         // animationTypeForReplace: 'push',
         // gestureEnabled: false,
         // transitionSpec: {}
         // FIXME: NOT SUPPORTED FOR WEB
-        header: Platform.OS === 'web' ? undefined : renderHeader,
-        headerRight: Platform.OS === 'web' ? undefined : renderRight,
+        header: Platform.OS === "web" ? undefined : renderHeader,
+        headerRight: Platform.OS === "web" ? undefined : renderRight,
         headerShadowVisible: true,
         headerLargeTitleShadowVisible: true
       }}
@@ -211,10 +214,10 @@ export function StackNav() {
       <Screen
         name="main"
         options={{
-          headerShown: true,
+          headerShown: Platform.OS === "web" ? false : true,
           // FIXME: NOT SUPPORTED FOR WEB
           header:
-            Platform.OS === 'web'
+            Platform.OS === "web"
               ? undefined
               : (props) => <SearchNavigationHeader {...(props as any)} />
         }}
@@ -232,7 +235,7 @@ export function StackNav() {
       <Screen
         name="comic-detail"
         options={{
-          title: i18n.t('stackNavScreens.comic-detail'),
+          title: i18n.t("stackNavScreens.comic-detail"),
           headerShown: false
         }}
         component={ComicDetailScreen}
@@ -241,7 +244,7 @@ export function StackNav() {
       <Screen
         name="chapter"
         options={{
-          title: i18n.t('stackNavScreens.chapter'),
+          title: i18n.t("stackNavScreens.chapter"),
           headerShown: false
         }}
         component={ChapterScreen}
@@ -250,7 +253,7 @@ export function StackNav() {
       <Screen
         name="comic-list"
         options={{
-          title: i18n.t('stackNavScreens.comic-list')
+          title: i18n.t("stackNavScreens.comic-list")
         }}
         component={ComicListScreen}
       ></Screen>
@@ -258,7 +261,7 @@ export function StackNav() {
       <Screen
         name="find-result"
         options={{
-          title: i18n.t('stackNavScreens.find-result'),
+          title: i18n.t("stackNavScreens.find-result"),
           header: renderHeader,
           headerRight: renderRight
         }}
@@ -268,7 +271,7 @@ export function StackNav() {
       <Screen
         name="find-by-name-result"
         options={{
-          title: i18n.t('stackNavScreens.find-by-name-result')
+          title: i18n.t("stackNavScreens.find-by-name-result")
         }}
         component={FindByNameResultScreen}
       ></Screen>
@@ -277,7 +280,7 @@ export function StackNav() {
         name="genres"
         options={(props) => ({
           title:
-            i18n.t('stackNavScreens.genres') +
+            i18n.t("stackNavScreens.genres") +
             `${props.route.params.genresName}`
         })}
         component={Genres}
@@ -288,7 +291,7 @@ export function StackNav() {
         //   title:  `${props.route.params.genresName}`
         // })}
         options={{
-          title: i18n.t('stackNavScreens.genres-badge-list')
+          title: i18n.t("stackNavScreens.genres-badge-list")
         }}
         component={GenresBadgeListScreen}
       ></Screen>
@@ -296,7 +299,7 @@ export function StackNav() {
       <Screen
         name="genres-comic-list"
         options={{
-          title: i18n.t('stackNavScreens.genres-comic-list')
+          title: i18n.t("stackNavScreens.genres-comic-list")
         }}
         component={GenresList}
       ></Screen>
@@ -312,7 +315,7 @@ export function StackNav() {
       <Screen
         name="login"
         options={{
-          title: i18n.t('stackNavScreens.login')
+          title: i18n.t("stackNavScreens.login")
         }}
         component={LoginScreen}
       ></Screen>
@@ -321,7 +324,7 @@ export function StackNav() {
         name="notification"
         options={{
           gestureEnabled: true,
-          title: i18n.t('stackNavScreens.notification'),
+          title: i18n.t("stackNavScreens.notification"),
           headerRight: NotificationHeaderRefreshBtn
         }}
         component={NotificationScreen}
@@ -330,7 +333,7 @@ export function StackNav() {
       <Screen
         name="sign-up"
         options={{
-          title: i18n.t('stackNavScreens.sign-up')
+          title: i18n.t("stackNavScreens.sign-up")
         }}
         component={SignupScreen}
       ></Screen>
@@ -338,7 +341,7 @@ export function StackNav() {
       <Screen
         name="test"
         options={{
-          title: 'Test Screen'
+          title: "Test Screen"
         }}
         component={TestScreen}
       ></Screen>
@@ -346,7 +349,7 @@ export function StackNav() {
       <Screen
         name="top-comic"
         options={{
-          title: i18n.t('stackNavScreens.top-comic')
+          title: i18n.t("stackNavScreens.top-comic")
         }}
         component={TopComicScreen}
       ></Screen>
@@ -354,7 +357,7 @@ export function StackNav() {
       <Screen
         name="select-download-chapter"
         options={{
-          title: i18n.t('stackNavScreens.select-download-chapter')
+          title: i18n.t("stackNavScreens.select-download-chapter")
         }}
         component={SelectDownloadChapter}
       ></Screen>
@@ -363,7 +366,7 @@ export function StackNav() {
         name="offline-comic-screen"
         options={{
           headerShown: false,
-          title: i18n.t('stackNavScreen.offline-comic-screen')
+          title: i18n.t("stackNavScreen.offline-comic-screen")
         }}
         component={OfflineComicScreen}
       />
@@ -372,10 +375,10 @@ export function StackNav() {
         name="offline-chapter-screen"
         options={{
           headerShown: false,
-          title: i18n.t('stackNavScreen.offline-chapter-screen')
+          title: i18n.t("stackNavScreen.offline-chapter-screen")
         }}
         component={OfflineChapterScreen}
       />
     </Navigator>
-  )
+  );
 }
