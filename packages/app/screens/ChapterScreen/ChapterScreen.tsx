@@ -5,7 +5,8 @@ import {
   InteractionManager,
   StyleSheet,
   FlatList as FlatListT,
-  Platform
+  Platform,
+  LayoutAnimation
 } from "react-native";
 import { View, Text, FlatList, HStack } from "native-base";
 import { ChapterScreenProps } from "app/navigators/StackNav";
@@ -29,6 +30,14 @@ import { FontAwesome } from "@expo/vector-icons";
 import { CommentBottomSheet, CommentLoader } from "../../components/Comment";
 import { homeSelector } from "../../store/homeSlice";
 import { ChapterViewHorizontalList } from "./ChapterViewHorizontalList";
+import ChapterSetting from "../ChapterSettingScreen/ChapterSettingScreen";
+import { navigate } from "../../navigators";
+import {
+  chapterActions,
+  chapterSelector,
+  selectChapterInfo
+} from "../../store/chapterSlice";
+import { resComicDetailChapterItem_T } from "../../types";
 
 export function ChapterScreen(props: ChapterScreenProps) {
   return (
@@ -42,25 +51,43 @@ let oldOffset = 0;
 const screenHeight = Dimensions.get("screen").height;
 
 function ChapterScreenNode(props: ChapterScreenProps) {
-  const {
-    ctxId,
-    ctxName,
-    ctxPath,
-    setCtxId,
-    setCtxName,
-    setCtxPath,
-    viewStatus
-  } = useContext(ChapterContext);
+  // const {
+  //   ctxId,
+  //   ctxName,
+  //   ctxPath,
+  //   setCtxId,
+  //   setCtxName,
+  //   setCtxPath,
+  //   viewStatus
+  // } = useContext(ChapterContext);
+  // NOTE: INITIAL
+  const { path: _path, name: _name, id: _id, preloadItem } = props.route.params;
 
+  const dispatch = useAppDispatch();
   const comicPath = useAppSelector(homeSelector).currentComic?.path;
+  const { current, setting } = useAppSelector(chapterSelector);
+  const {
+    id,
+    name,
+    path,
+    updatedAt,
+    updatedDistance,
+    updatedVew,
+    url
+  }: Partial<resComicDetailChapterItem_T> = useAppSelector((state) =>
+    selectChapterInfo(state)
+  );
 
-  const { path, name, id, preloadItem } = props.route.params;
   const flatListRef = React.useRef<FlatListT>(null);
 
   useEffect(() => {
-    setCtxId && setCtxId(id);
-    setCtxName && setCtxName(name || "");
-    setCtxPath && setCtxPath(path);
+    // setCtxId && setCtxId(id);
+    // setCtxName && setCtxName(name || "");
+    // setCtxPath && setCtxPath(path);
+    dispatch(chapterActions.setCurrentChapter(_id));
+    return () => {
+      dispatch(chapterActions.setCurrentChapter(-1));
+    };
   }, []);
 
   // const {} = props.navigation.
@@ -134,7 +161,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
 
   // ANCHOR: DATA LOGIC
   // VAr
-  const { data, isFetching } = useApiChapter(ctxPath || path);
+  const { data, isFetching } = useApiChapter(path || "_path");
   const chapterInfo = data?.data;
 
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([]);
@@ -152,29 +179,34 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   // NOTE: Start animation when change chapter
   React.useEffect(() => {
     // reset
+    // LayoutAnimation.easeInEaseOut();
     setImgs([]);
-    flatListRef.current?.scrollToIndex({ animated: true, index: 0 });
+    flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
     splashOffset.value = 0;
-  }, [ctxPath]);
+  }, [path]);
 
   useInteraction({
     callback: () => {
       setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })) || []);
     },
-    dependencyList: [ctxPath, chapterInfo]
+    dependencyList: [path, chapterInfo]
   });
 
   // DISPATCH ACTION
   const { loading } = useUpdateCurrentChapter({
     chapterDetail: data?.data,
-    id: ctxId,
+    id: id,
     isFetching,
     callback: () => (splashOffset.value = 2)
   });
 
   // ref
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  // const bottomSheetRef = useRef<BottomSheet>(null);
+  // const settingRef = useRef<BottomSheet>(null);
   // MEMO
+  // const toggleSetting = React.useCallback(() => {
+  //   settingRef.current?.expand();
+  // }, [settingRef]);
   const handleScroll = React.useCallback((e) => {
     // NOTE: V1: Chapter bar show related with scroll
     // const currentOffset = e.nativeEvent.contentOffset.y
@@ -204,13 +236,13 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     else offset.value = 64;
   }, [offset]);
 
-  const expandSheet = React.useCallback(() => {
-    bottomSheetRef.current?.snapToIndex(0);
-  }, []);
+  // const expandSheet = React.useCallback(() => {
+  //   bottomSheetRef.current?.snapToIndex(0);
+  // }, []);
 
-  useEffect(() => {
-    bottomSheetRef.current?.close();
-  }, [ctxId]);
+  // useEffect(() => {
+  //   bottomSheetRef.current?.close();
+  // }, [ctxId]);
 
   // return <ComicViewHorizontaList />
 
@@ -219,11 +251,11 @@ function ChapterScreenNode(props: ChapterScreenProps) {
       <SafeAreaView style={style.container}>
         {/* Splash */}
         <Animated.View style={splashStyles}>
-          <Text style={style.splashText}>{ctxName}</Text>
+          <Text style={style.splashText}>{name}</Text>
         </Animated.View>
 
         {/* ComicView */}
-        {loading ? null : viewStatus === "vertical" ? (
+        {loading ? null : setting.viewMode === "Vertical" ? (
           <View style={style.container}>
             <ChapterViewVerticalList
               ref={flatListRef as any}
@@ -231,7 +263,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
               imgs={imgs}
               imgList={chapterInfo?.chapterList || []}
               setImgs={setImgs}
-              onEndReach={expandSheet}
+              // onEndReach={expandSheet}
             />
           </View>
         ) : (
@@ -241,18 +273,25 @@ function ChapterScreenNode(props: ChapterScreenProps) {
             imgs={imgs}
             imgList={chapterInfo?.chapterList || []}
             setImgs={setImgs}
-            onEndReach={expandSheet}
+            // onEndReach={expandSheet}
             toggleFloatingVisible={toggleFloatingVisible}
           />
         )}
       </SafeAreaView>
 
-      {/* Floading */}
-      <ChapterHeader style={headerAnimatedStyles} name={ctxName} />
-      <ChapterBar style={animatedStyles} onCommentClick={expandSheet} />
+      {/* Floating */}
+      <ChapterHeader style={headerAnimatedStyles} name={name} />
+      <ChapterBar
+        style={animatedStyles}
+        onCommentClick={() => navigate("comment", { path: comicPath || "a" })}
+        //  onCommentClick={expandSheet}
+      />
       {/* FIXME: NOT SUPPORT FOR WEB */}
       {Platform.OS !== "web" && loading ? null : (
-        <CommentBottomSheet ref={bottomSheetRef} path={comicPath || ""} />
+        <>
+          {/* <CommentBottomSheet ref={bottomSheetRef} path={comicPath || ""} /> */}
+          {/* <ChapterSetting ref={settingRef} /> */}
+        </>
       )}
     </>
   );

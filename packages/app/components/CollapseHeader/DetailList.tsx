@@ -35,7 +35,7 @@ import { useApiComicComment } from "../../store/api";
 import { Comment } from "../Comment";
 import { num2FormatString } from "../../utils/stringFormat";
 import { Layout, LightSpeedInLeft } from "react-native-reanimated";
-import { Loading } from "../Loading";
+import { Loading } from "../EmptyPage/Loading";
 import { MotiView } from "moti";
 import { SideInDownView } from "../AnimationWrapper/SideInDownView";
 

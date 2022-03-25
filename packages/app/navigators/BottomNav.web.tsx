@@ -1,15 +1,11 @@
 import { Text, useColorModeValue, useToken, View } from "native-base";
 import { Easing, Platform, useWindowDimensions } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {} from "react";
 // NOTE: IMPORT COMPONENT
-import {
-  BottomTabNavigationHeader,
-  SearchNavigationHeader
-} from "app/components/NavigationHeader";
+
 import {
   HomeScreen,
   LibraryScreen,
@@ -143,7 +139,7 @@ export default function BottomNav() {
 
       // detachInactiveScreens={false}
     >
-      <Screen
+      {/* <Screen
         name="main/home"
         component={HomeScreen}
         options={{
@@ -179,7 +175,7 @@ export default function BottomNav() {
 
           drawerIcon: SettingIcon
         }}
-      ></Screen>
+      ></Screen> */}
 
       {/* {__DEV__ && ( */}
       <Screen

@@ -1,5 +1,5 @@
-import { resComicItem_T } from 'app/types/api'
-import React, { useEffect, useRef, useState } from 'react'
+import { resComicItem_T } from "app/types/api";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -7,33 +7,74 @@ import {
   ListRenderItemInfo,
   StyleSheet,
   TouchableNativeFeedback
-} from 'react-native'
-import { Text, View } from 'react-native'
-import SwiperFlatList from 'react-native-swiper-flatlist'
+} from "react-native";
+import { Text, View } from "native-base";
+import SwiperFlatList from "react-native-swiper-flatlist";
 
-import { useApiRecently } from 'app/store/api'
-import { MaterialIcons } from '@expo/vector-icons'
+import { useApiRecently } from "app/store/api";
+import { MaterialIcons } from "@expo/vector-icons";
 
-import { CustomPagination } from './CustomPagination'
-import { LinearGradient } from 'expo-linear-gradient'
+import { CustomPagination } from "./CustomPagination";
+import { LinearGradient } from "expo-linear-gradient";
 
-import { isNullOrUndefined } from 'util'
-import { NextLink } from 'app/components/NextLink'
-import Item from './Item'
-import { HEIGHT, ITEM_HEIGHT, ITEM_PADDING, ITEM_WIDTH, NUM_ITEM } from './size'
-import { Box, Pressable, Skeleton } from 'native-base'
+import { isNullOrUndefined } from "util";
+import Item from "./Item";
+import {
+  HEIGHT,
+  ITEM_HEIGHT,
+  ITEM_PADDING,
+  ITEM_WIDTH,
+  NUM_ITEM
+} from "./size";
+import { Box, Pressable, Skeleton } from "native-base";
 
 export const FlatlistBanner = () => {
-  const [list, setList] = useState<resComicItem_T[]>([])
-  const flatListRef = React.useRef<SwiperFlatList>(null)
-  const { data, isError, isFetching, isSuccess, error } = useApiRecently('1', {
+  const [list, setList] = useState<resComicItem_T[]>([]);
+  const flatListRef = React.useRef<SwiperFlatList>(null);
+
+  React.useEffect(() => {
+    const emit = Dimensions.addEventListener("change", () => {
+      flatListRef.current?.goToFirstIndex();
+    });
+    return () => {
+      emit.remove();
+    };
+  }, []);
+
+  const { data, isError, isFetching, isSuccess, error } = useApiRecently("1", {
     selectFromResult: (result) => result
-  })
+  });
 
   useEffect(() => {
     if (isSuccess)
-      setList((list) => data?.data.filter((item, id) => id < NUM_ITEM) || list)
-  }, [isFetching])
+      setList((list) => data?.data.filter((item, id) => id < NUM_ITEM) || list);
+  }, [isFetching]);
+
+  return (
+    <View w="full" h={215} p={1}>
+      {isSuccess ? (
+        <View>
+          <SwiperFlatList
+            ref={flatListRef}
+            autoplay
+            autoplayDelay={25}
+            autoplayLoop
+            data={isSuccess ? list : []}
+            renderItem={(props) => <Item {...props} />}
+            showPagination
+            initialNumToRender={1}
+            PaginationComponent={CustomPagination}
+          />
+        </View>
+      ) : (
+        <Box bg={"$light.backgroundPrimary"}>
+          <Skeleton m="auto" />
+        </Box>
+      )}
+    </View>
+  );
+
+  //
 
   return (
     <View
@@ -61,16 +102,16 @@ export const FlatlistBanner = () => {
           {/*Floating Btn*/}
           <Pressable
             style={{
-              position: 'absolute',
+              position: "absolute",
               left: 0,
-              top: '50%',
+              top: "50%",
               transform: [{ translateY: -18 }]
             }}
             onPress={() => {
-              const curId = flatListRef.current?.getCurrentIndex()
+              const curId = flatListRef.current?.getCurrentIndex();
               if (curId !== undefined && curId > 0)
-                flatListRef.current?.scrollToIndex({ index: curId - 1 })
-              else flatListRef.current?.goToLastIndex()
+                flatListRef.current?.scrollToIndex({ index: curId - 1 });
+              else flatListRef.current?.goToLastIndex();
             }}
           >
             {({ isFocused, isHovered, isPressed }) => {
@@ -82,25 +123,25 @@ export const FlatlistBanner = () => {
                   style={{
                     opacity: isPressed ? 0.4 : isHovered ? 0.8 : 1,
                     borderRadius: 100,
-                    backgroundColor: '#1499b1'
+                    backgroundColor: "#1499b1"
                   }}
                 />
-              )
+              );
             }}
           </Pressable>
 
           <Pressable
             style={{
-              position: 'absolute',
+              position: "absolute",
               right: 0,
-              top: '50%',
+              top: "50%",
               transform: [{ translateY: -18 }]
             }}
             onPress={() => {
-              const curId = flatListRef.current?.getCurrentIndex()
+              const curId = flatListRef.current?.getCurrentIndex();
               if (curId !== undefined && curId < NUM_ITEM - 1)
-                flatListRef.current?.scrollToIndex({ index: curId + 1 })
-              else flatListRef.current?.goToFirstIndex()
+                flatListRef.current?.scrollToIndex({ index: curId + 1 });
+              else flatListRef.current?.goToFirstIndex();
             }}
           >
             {({ isFocused, isHovered, isPressed }) => {
@@ -112,16 +153,16 @@ export const FlatlistBanner = () => {
                   style={{
                     opacity: isPressed ? 0.4 : isHovered ? 0.8 : 1,
                     borderRadius: 100,
-                    backgroundColor: '#1499b1'
+                    backgroundColor: "#1499b1"
                   }}
                 />
-              )
+              );
             }}
           </Pressable>
           {/* Floating Btn */}
         </View>
       ) : (
-        <Box bg={'$light.backgroundPrimary'}>
+        <Box bg={"$light.backgroundPrimary"}>
           <Skeleton
             w={ITEM_WIDTH}
             h={ITEM_HEIGHT}
@@ -131,5 +172,5 @@ export const FlatlistBanner = () => {
         </Box>
       )}
     </View>
-  )
-}
+  );
+};

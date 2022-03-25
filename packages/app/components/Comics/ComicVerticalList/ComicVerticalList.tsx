@@ -1,22 +1,22 @@
-import React from 'react'
-import { View, ListRenderItemInfo, InteractionManager } from 'react-native'
-import { FlatList } from 'native-base'
-import { ComicListItem } from './ComicListItem'
-import { Loading } from '../Loading'
-import { ListFooter } from './ListFooter'
+import React from "react";
+import { View, ListRenderItemInfo, InteractionManager } from "react-native";
+import { FlatList } from "native-base";
+import { ComicListItem } from "./ComicListItem";
+import { Loading } from "../../EmptyPage/Loading";
+import { ListFooter } from "./ListFooter";
 
-import type { resComicItem_T } from '../../types'
-import useInteraction from '../../hooks/useInteraction'
-import { navigate } from '../../navigators'
-import { TNFlatlist } from '../Typo'
+import type { resComicItem_T } from "../../../types";
+import useInteraction from "../../../hooks/useInteraction";
+import { navigate } from "../../../navigators";
+import { TNFlatlist } from "../../Typo";
 
 type Props = {
-  list: resComicItem_T[]
-  onEndReach?: () => any
-  listFooterComponent?: React.ReactElement
-}
+  list: resComicItem_T[];
+  onEndReach?: () => any;
+  listFooterComponent?: React.ReactElement;
+};
 
-export const ComicListVertical = ({
+export const ComicVerticalList = ({
   list,
   onEndReach,
   listFooterComponent
@@ -27,14 +27,14 @@ export const ComicListVertical = ({
    *
    * TODO: Convert all flatlist to this.
    */
-  console.log('re codev')
+  console.log("re codev");
   const renderItem = React.useCallback(
     (props: ListRenderItemInfo<resComicItem_T>) => {
       // if (props.index === 1 || props.index === 5) return <Text>Sticky</Text>
-      return <ComicListItem item={props.item} />
+      return <ComicListItem item={props.item} />;
     },
     []
-  )
+  );
 
   const keyExtractor = React.useCallback(
     // FIXME: Find why have same key
@@ -42,9 +42,9 @@ export const ComicListVertical = ({
     (item, index) => index.toString(),
 
     []
-  )
+  );
 
-  const { loading } = useInteraction()
+  const { loading } = useInteraction();
 
   return loading ? (
     <Loading animation={true} />
@@ -107,5 +107,5 @@ export const ComicListVertical = ({
         ListFooterComponent={listFooterComponent}
       />
     </View>
-  )
-}
+  );
+};

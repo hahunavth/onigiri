@@ -1,12 +1,12 @@
-import { View, Text, Select, CheckIcon, Button } from 'native-base'
-import React from 'react'
+import { View, Text, Select, CheckIcon, Button } from "native-base";
+import React from "react";
 // NOTE: This lib does not have type declaration
 // @ts-ignore
-import SelectBox from 'react-native-multi-selectbox'
-import { xorBy } from 'lodash'
+import SelectBox from "react-native-multi-selectbox";
+import { xorBy } from "lodash";
 // TODO: Use this instead
-import { Dropdown } from 'react-native-element-dropdown'
-import { Picker } from '@react-native-picker/picker'
+import { Dropdown } from "react-native-element-dropdown";
+import { Picker } from "@react-native-picker/picker";
 
 import {
   FOR_USER,
@@ -17,47 +17,45 @@ import {
   SORT_BY,
   toIdListStr,
   FindOptionT
-} from '../../utils/findOption'
-import { navigate } from '../../navigators'
-import { SelectOne } from '../../components/DropdownSelect'
-import { AntDesign } from '@expo/vector-icons'
-import i18n from 'i18n-js'
-
-type Props = {}
+} from "../../utils/findOption";
+import { navigate } from "../../navigators";
+import { SelectOne } from "../../components/DropdownSelect";
+import { AntDesign } from "@expo/vector-icons";
+import i18n from "i18n-js";
 
 // TODO: Optimize using useCallback
-export const DiscoverScreen = (props: Props) => {
+export const DiscoverScreen = () => {
   const [selectedForUser, setSelectedForUser] = React.useState<
     Partial<OptionT>
-  >(FOR_USER[2] || {})
+  >(FOR_USER[2] || {});
   const [selectedNumChapter, setSelectedNumChapter] = React.useState<
     Partial<OptionT>
-  >(NUM_CHAPTER[0] || {})
+  >(NUM_CHAPTER[0] || {});
   const [selectedSortBy, setSelectedSortBy] = React.useState<Partial<OptionT>>(
     SORT_BY[0] || {}
-  )
+  );
   const [selectedStatus, setSelectedStatus] = React.useState<Partial<OptionT>>(
     STATUS[0] || {}
-  )
+  );
 
-  const [selectedGenres, setSelectedGenres] = React.useState([])
+  const [selectedGenres, setSelectedGenres] = React.useState([]);
 
-  console.log('rerender2')
+  console.log("rerender2");
 
   function onForUserChange() {
-    return (val) => setSelectedForUser(val)
+    return (val) => setSelectedForUser(val);
   }
   function onNumChapterChange() {
-    return (val) => setSelectedNumChapter(val)
+    return (val) => setSelectedNumChapter(val);
   }
   function onSortByChange() {
-    return (val) => setSelectedSortBy(val)
+    return (val) => setSelectedSortBy(val);
   }
   function onStatusChange() {
-    return (val) => setSelectedStatus(val)
+    return (val) => setSelectedStatus(val);
   }
   function onMultiChange() {
-    return (item) => setSelectedGenres(xorBy(selectedGenres, [item], 'id'))
+    return (item) => setSelectedGenres(xorBy(selectedGenres, [item], "id"));
   }
 
   const getFindPath = () => {
@@ -68,23 +66,23 @@ export const DiscoverScreen = (props: Props) => {
       selectedStatus?.id || -1
     }&minchapter=${selectedNumChapter?.id || -1}&sort=${
       selectedSortBy?.id || 0
-    }`
+    }`;
     // console.log(selectedForUser)
-  }
+  };
   const getFindOption = (): FindOptionT => ({
     forUser: selectedForUser,
     genres: selectedGenres,
     numChapter: selectedNumChapter,
     sortBy: selectedSortBy,
     status: selectedStatus
-  })
+  });
 
   // const [selectedLanguage, setSelectedLanguage] = React.useState()
 
   return (
-    <View flex={1} p={2} bg={'gray.50'} _dark={{ bg: 'gray.900' }}>
+    <View flex={1} p={2} bg={"gray.50"} _dark={{ bg: "gray.900" }}>
       <SelectBoxMultiple
-        label={i18n.t('discover.genres.title')}
+        label={i18n.t("discover.genres.title")}
         options={GENRES_LIST}
         selectedValues={selectedGenres}
         onMultiSelect={onMultiChange()}
@@ -95,28 +93,28 @@ export const DiscoverScreen = (props: Props) => {
         }}
       />
       <SelectBoxSingle
-        label={i18n.t('discover.user.title')}
+        label={i18n.t("discover.user.title")}
         options={FOR_USER}
         value={selectedForUser}
         onChange={onForUserChange()}
         hideInputFilter={true}
       />
       <SelectBoxSingle
-        label={i18n.t('discover.maxCpts.title')}
+        label={i18n.t("discover.maxCpts.title")}
         options={NUM_CHAPTER}
         value={selectedNumChapter}
         onChange={onNumChapterChange()}
         hideInputFilter={true}
       />
       <SelectBoxSingle
-        label={i18n.t('discover.status.title')}
+        label={i18n.t("discover.status.title")}
         options={STATUS}
         value={selectedStatus}
         onChange={onStatusChange()}
         hideInputFilter={true}
       />
       <SelectBoxSingle
-        label={i18n.t('discover.sortBy.title')}
+        label={i18n.t("discover.sortBy.title")}
         options={SORT_BY}
         value={selectedSortBy}
         onChange={onSortByChange()}
@@ -126,28 +124,28 @@ export const DiscoverScreen = (props: Props) => {
       <Button
         mx={4}
         my={8}
-        colorScheme={'orange'}
-        bg={'$light.backgroundButton'}
-        _text={{ color: '$light.textButton' }}
+        colorScheme={"orange"}
+        bg={"$light.backgroundButton"}
+        _text={{ color: "$light.textButton" }}
         onPress={() =>
-          navigate('shared', {
+          navigate("shared", {
             // path: 'shared/find-result',
             params: {
               findOption: getFindOption(),
               path: getFindPath()
             },
-            screen: 'shared/find-result'
+            screen: "shared/find-result"
           })
         }
       >
         Find
       </Button>
     </View>
-  )
-}
+  );
+};
 
 function SelectBoxMultiple(props: any) {
-  console.log('rerender')
+  console.log("rerender");
 
   return (
     <SelectBox
@@ -167,10 +165,10 @@ function SelectBoxMultiple(props: any) {
       isMulti
       containerStyle={{
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: "white",
         borderRadius: 4,
         padding: 12,
-        shadowColor: '#000',
+        shadowColor: "#000",
         shadowOffset: {
           width: 0,
           height: 1
@@ -186,14 +184,14 @@ function SelectBoxMultiple(props: any) {
       inputFilterStyle={{
         paddingLeft: 10,
         fontSize: 14,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         // color: '#555',
         opacity: 0.5
       }}
       inputFilterContainerStyle={{
-        backgroundColor: '#eee',
+        backgroundColor: "#eee",
         borderWidth: 1,
-        borderColor: '#ddd'
+        borderColor: "#ddd"
         // padding: 0
         // margin: 0
         // display: 'hidden'
@@ -212,7 +210,7 @@ function SelectBoxMultiple(props: any) {
       }}
       {...props}
     />
-  )
+  );
 }
 
 function SelectBoxSingle(props: any) {
@@ -240,10 +238,10 @@ function SelectBoxSingle(props: any) {
         // borderColor: '#ddd',
 
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: "white",
         borderRadius: 4,
         padding: 12,
-        shadowColor: '#000',
+        shadowColor: "#000",
         shadowOffset: {
           width: 0,
           height: 1
@@ -260,14 +258,14 @@ function SelectBoxSingle(props: any) {
       inputFilterStyle={{
         paddingLeft: 10,
         fontSize: 14,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         // color: '#555',
         opacity: 0.5
       }}
       inputFilterContainerStyle={{
-        backgroundColor: '#eee',
+        backgroundColor: "#eee",
         borderWidth: 1,
-        borderColor: '#ddd'
+        borderColor: "#ddd"
         // padding: 0
         // margin: 0
         // display: 'hidden'
@@ -286,5 +284,5 @@ function SelectBoxSingle(props: any) {
       }}
       {...props}
     />
-  )
+  );
 }

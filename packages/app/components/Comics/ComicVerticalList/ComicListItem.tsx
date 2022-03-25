@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, Image, Box } from "native-base";
 import { TouchableOpacity, ImageStyle, StyleSheet } from "react-native";
-import { resComicItem_T } from "../../types";
-import { navigate, navPush } from "../../navigators";
-import { useColorModeStyle } from "../../hooks/useColorModeStyle";
+import { resComicItem_T } from "../../../types";
+import { navigate, navPush } from "../../../navigators";
+import { useColorModeStyle } from "../../../hooks/useColorModeStyle";
 import { SharedElement } from "react-navigation-shared-element";
 // import usePrevious from 'react-use/esm/usePrevious'
 

@@ -145,8 +145,8 @@ const genFetchNotificationDataFN =
       [key: string]: HistoryComicT | undefined;
     },
     // state.notification
-    memoNotification: NotificationStoreT,
-    stateNotification: NotificationStoreT,
+    memoNotification: NotificationStoreT | undefined,
+    stateNotification: NotificationStoreT | undefined,
     // new result
     notifications: NotificationStoreT["newChapter"],
     comicPushList: resComicDetail_T[],
@@ -169,8 +169,8 @@ const genFetchNotificationDataFN =
           id > 0 &&
           result?.chapters[id] &&
           lastedCptPath &&
-          id !== stateNotification.newChapter[cPath]?.count &&
-          id !== memoNotification.newChapter[cPath]?.count
+          id !== stateNotification?.newChapter[cPath]?.count &&
+          id !== memoNotification?.newChapter[cPath]?.count
         ) {
           console.log(id);
           notifications[cPath] = {
@@ -248,8 +248,15 @@ export const fetchBackgroundInfo = async (
      * I only want to get comics list in the store!
      */
     // @ts-ignore
-    const stateNotification = JSON.parse(state.notification);
-    const memoNotification = mmkvStorage.getItem("notifications-template");
+    const stateNotification = JSON.parse(state.notification || "");
+
+    const memoNotification = await mmkvStorage
+      .getItem("notifications-template")
+      .then((s: string | undefined) => (s ? JSON.parse(s) : {}));
+    console.log(
+      "🚀 ~ file: notificationSlice.ts ~ line 254 ~ memoNotification",
+      memoNotification
+    );
     await mapSeries(
       Object.keys(comics),
       genFetchNotificationDataFN(

@@ -9,7 +9,7 @@ import {
   Modal
 } from "react-native";
 import { Image, View, Text, Box } from "native-base";
-import { Loading } from "./Loading";
+import { Loading } from "./EmptyPage/Loading";
 import { useColorModeStyle } from "../hooks/useColorModeStyle";
 // import FastImage from "react-native-fast-image";
 

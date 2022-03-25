@@ -4,7 +4,7 @@ import {
   NativeStackScreenProps
 } from "@react-navigation/native-stack";
 import { NavigatorScreenParams, useNavigation } from "@react-navigation/native";
-
+import { TransitionPresets } from "@react-navigation/stack";
 import {
   NavigationHeader,
   SearchNavigationHeader
@@ -48,6 +48,8 @@ import { SharedNav, SharedNavParamList } from "./SharedNav";
 import NotificationScreen from "../screens/NotificationScreen/NotificationScreen";
 import { NotificationHeaderRefreshBtn } from "../screens/NotificationScreen/NotificationHeaderRefreshBtn";
 import i18n from "i18n-js";
+import ChapterSetting from "../screens/ChapterSettingScreen/ChapterSettingScreen";
+import { CommentScreen } from "../screens/CommentScreen";
 
 /**
  * Using common params
@@ -67,6 +69,10 @@ export type StackNavParamsList = {
     id: number;
     preloadItem?: Partial<resComicDetail_T>;
     name?: string;
+  };
+  "chapter-setting": undefined;
+  comment: {
+    path: string;
   };
   "find-result": {
     path: string;
@@ -154,6 +160,10 @@ export type HomeSessionDetailListScreenProps = NativeStackScreenProps<
   StackNavParamsList,
   "home-session-detail-list"
 >;
+export type CommentScreenProps = NativeStackScreenProps<
+  StackNavParamsList,
+  "comment"
+>;
 
 /**
  * Export navigation
@@ -165,7 +175,7 @@ const createNavigator: typeof createNativeStackNavigator = Platform.select({
     .createSharedElementStackNavigator
 });
 
-const { Navigator, Screen } = createNavigator<StackNavParamsList>();
+const { Navigator, Screen, Group } = createNavigator<StackNavParamsList>();
 
 export function StackNav() {
   const renderHeader = React.useCallback(
@@ -241,50 +251,85 @@ export function StackNav() {
         component={ComicDetailScreen}
       ></Screen>
 
-      <Screen
-        name="chapter"
-        options={{
-          title: i18n.t("stackNavScreens.chapter"),
-          headerShown: false
-        }}
-        component={ChapterScreen}
-      ></Screen>
+      <Group>
+        <Screen
+          name="chapter"
+          options={{
+            title: i18n.t("stackNavScreens.chapter"),
+            headerShown: false
+          }}
+          component={ChapterScreen}
+        ></Screen>
+        <Screen
+          name="chapter-setting"
+          options={{
+            animation: "fade",
+            headerShown: false,
+            gestureEnabled: true,
+            fullScreenGestureEnabled: true,
+            headerTransparent: true,
+            // REVIEW: TYPE MODAL, ........................
+            presentation: "transparentModal",
+            ...TransitionPresets.BottomSheetAndroid
+          }}
+          component={ChapterSetting}
+        ></Screen>
 
-      <Screen
-        name="comic-list"
-        options={{
-          title: i18n.t("stackNavScreens.comic-list")
-        }}
-        component={ComicListScreen}
-      ></Screen>
+        <Screen
+          name="comment"
+          options={{
+            animation: "fade",
+            headerShown: false,
+            gestureEnabled: true,
+            fullScreenGestureEnabled: true,
+            headerTransparent: true,
+            // REVIEW: TYPE MODAL, ........................
+            presentation: "transparentModal",
+            ...TransitionPresets.BottomSheetAndroid
+          }}
+          component={CommentScreen}
+        ></Screen>
+      </Group>
 
-      <Screen
-        name="find-result"
-        options={{
-          title: i18n.t("stackNavScreens.find-result"),
-          header: renderHeader,
-          headerRight: renderRight
-        }}
-        component={FindResultScreen}
-      ></Screen>
+      <Group>
+        <Screen
+          name="comic-list"
+          options={{
+            title: i18n.t("stackNavScreens.comic-list")
+          }}
+          component={ComicListScreen}
+        ></Screen>
 
-      <Screen
-        name="find-by-name-result"
-        options={{
-          title: i18n.t("stackNavScreens.find-by-name-result")
-        }}
-        component={FindByNameResultScreen}
-      ></Screen>
+        <Screen
+          name="find-result"
+          options={{
+            title: i18n.t("stackNavScreens.find-result"),
+            header: renderHeader,
+            headerRight: renderRight
+          }}
+          component={FindResultScreen}
+        ></Screen>
 
-      <Screen
-        name="genres"
-        options={(props) => ({
-          title:
-            i18n.t("stackNavScreens.genres") +
-            `${props.route.params.genresName}`
-        })}
-        component={Genres}
-      ></Screen>
+        <Screen
+          name="find-by-name-result"
+          options={{
+            // headerShown: false,
+            title: i18n.t("stackNavScreens.find-by-name-result")
+          }}
+          component={FindByNameResultScreen}
+        ></Screen>
+
+        <Screen
+          name="genres"
+          options={(props) => ({
+            title:
+              i18n.t("stackNavScreens.genres") +
+              `${props.route.params.genresName}`
+          })}
+          component={Genres}
+        ></Screen>
+      </Group>
+
       <Screen
         name="genres.badge-list"
         // options={(props) => ({
@@ -362,23 +407,25 @@ export function StackNav() {
         component={SelectDownloadChapter}
       ></Screen>
 
-      <Screen
-        name="offline-comic-screen"
-        options={{
-          headerShown: false,
-          title: i18n.t("stackNavScreen.offline-comic-screen")
-        }}
-        component={OfflineComicScreen}
-      />
+      <Group>
+        <Screen
+          name="offline-comic-screen"
+          options={{
+            headerShown: false,
+            title: i18n.t("stackNavScreen.offline-comic-screen")
+          }}
+          component={OfflineComicScreen}
+        />
 
-      <Screen
-        name="offline-chapter-screen"
-        options={{
-          headerShown: false,
-          title: i18n.t("stackNavScreen.offline-chapter-screen")
-        }}
-        component={OfflineChapterScreen}
-      />
+        <Screen
+          name="offline-chapter-screen"
+          options={{
+            headerShown: false,
+            title: i18n.t("stackNavScreen.offline-chapter-screen")
+          }}
+          component={OfflineChapterScreen}
+        />
+      </Group>
     </Navigator>
   );
 }

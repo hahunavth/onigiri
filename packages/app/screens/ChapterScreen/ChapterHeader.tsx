@@ -1,5 +1,5 @@
-import { BlurView } from 'app/components/BlurView'
-import React, { useEffect, useState } from 'react'
+import { BlurView } from "app/components/BlurView";
+import React, { useEffect, useState } from "react";
 import {
   useWindowDimensions,
   StyleSheet,
@@ -7,44 +7,44 @@ import {
   InteractionManager,
   Alert,
   Platform
-} from 'react-native'
-import { Text, View, Menu } from 'native-base'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { AntDesign, Ionicons } from '@expo/vector-icons'
-import { useAppSelector } from 'app/store/hooks'
-import { homeSelector } from 'app/store/homeSlice'
-import { useNavigation } from '@react-navigation/native'
-import { ComicDetailScreenProps } from 'app/navigators/StackNav'
-import { usePrefetch } from 'app/store/api'
-import Animated from 'react-native-reanimated'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useAppSafeAreaInsets } from 'app/provider/safe-area/use-safe-area'
-import { useColorModeStyle } from '../../hooks/useColorModeStyle'
-import { goBack, navigate } from '../../navigators'
-import { ChapterContext } from './ChapterContext'
+} from "react-native";
+import { Text, View, Menu } from "native-base";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { useAppSelector } from "app/store/hooks";
+import { homeSelector } from "app/store/homeSlice";
+import { useNavigation } from "@react-navigation/native";
+import { ComicDetailScreenProps } from "app/navigators/StackNav";
+import { usePrefetch } from "app/store/api";
+import Animated from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useAppSafeAreaInsets } from "app/provider/safe-area/use-safe-area";
+import { useColorModeStyle } from "../../hooks/useColorModeStyle";
+import { goBack, navigate } from "../../navigators";
+import { ChapterContext } from "./ChapterContext";
 
 interface Props {
-  style?: ViewStyle
-  name?: string
+  style?: ViewStyle;
+  name?: string;
 }
 
 // NOTE: CHANGESS
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(
   Platform.select({
-    web: require('native-base').View,
-    native: require('react-native-safe-area-context').SafeAreaView
+    web: require("native-base").View,
+    native: require("react-native-safe-area-context").SafeAreaView
   })
-)
+);
 
 const ChapterHeader = (props: Props) => {
-  const { top } = useAppSafeAreaInsets()
-  const { boxStyle, textStyle } = useColorModeStyle('', 'Secondary')
-  const { setViewStatus, viewStatus } = React.useContext(ChapterContext)
+  const { top } = useAppSafeAreaInsets();
+  const { boxStyle, textStyle } = useColorModeStyle("", "Secondary");
+  const { setViewStatus, viewStatus } = React.useContext(ChapterContext);
 
   const containerStyle = React.useMemo(() => {
     return [
       {
-        position: 'absolute',
+        position: "absolute",
         top: 0,
         // width: '100%',
         left: 0,
@@ -58,21 +58,21 @@ const ChapterHeader = (props: Props) => {
         // backgroundColor: "transparent",
       },
       props.style
-    ]
-  }, [props.style, top])
+    ];
+  }, [props.style, top]);
 
   const onMenuPress = React.useCallback(() => {
-    Alert.alert('', '', [
+    Alert.alert("", "", [
       {
-        text: 'vertical',
-        onPress: () => setViewStatus && setViewStatus('horizontal')
+        text: "vertical",
+        onPress: () => setViewStatus && setViewStatus("horizontal")
       },
       {
-        text: 'horizontal',
-        onPress: () => setViewStatus && setViewStatus('vertical')
+        text: "horizontal",
+        onPress: () => setViewStatus && setViewStatus("vertical")
       }
-    ])
-  }, [])
+    ]);
+  }, []);
 
   return (
     <>
@@ -81,17 +81,20 @@ const ChapterHeader = (props: Props) => {
         <SafeAreaView
           style={[
             {
-              position: 'absolute',
+              position: "absolute",
               right: 4,
               top: 0,
               bottom: 0,
-              justifyContent: 'center',
-              alignItems: 'center'
+              justifyContent: "center",
+              alignItems: "center"
             },
             textStyle
           ]}
         >
-          <TouchableOpacity onPress={onMenuPress}>
+          <TouchableOpacity
+            // onPress={props.rightPress ? props.rightPress : onMenuPress}
+            onPress={() => navigate("chapter-setting")}
+          >
             <AntDesign name="menuunfold" size={28} color={textStyle.color} />
           </TouchableOpacity>
         </SafeAreaView>
@@ -99,19 +102,19 @@ const ChapterHeader = (props: Props) => {
         <SafeAreaView
           style={[
             {
-              position: 'absolute',
+              position: "absolute",
               left: 4,
               top: 0,
               bottom: 0,
-              justifyContent: 'center',
-              alignItems: 'center'
+              justifyContent: "center",
+              alignItems: "center"
             },
             textStyle
           ]}
         >
           <TouchableOpacity
             onPress={() => {
-              goBack()
+              goBack();
             }}
           >
             <AntDesign name="arrowleft" size={34} color={textStyle.color} />
@@ -145,13 +148,13 @@ const ChapterHeader = (props: Props) => {
         /> */}
         <View
           style={{
-            position: 'relative',
+            position: "relative",
             flex: 1,
-            backgroundColor: 'transparent',
+            backgroundColor: "transparent",
             // borderBottomLeftRadius: 20,
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            flexDirection: 'row',
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "row",
             // marginBottom: ,
             marginTop: 2
           }}
@@ -160,7 +163,7 @@ const ChapterHeader = (props: Props) => {
         </View>
       </AnimatedSafeAreaView>
     </>
-  )
-}
+  );
+};
 
-export default ChapterHeader
+export default ChapterHeader;

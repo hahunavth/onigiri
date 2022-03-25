@@ -1,30 +1,30 @@
-import { View, Text, Box, Center, HStack, VStack, Image } from 'native-base'
-import { ListRenderItemInfo } from 'react-native'
-import React from 'react'
-import { FlatGrid } from 'react-native-super-grid'
-import { useBreakpointValue } from 'native-base'
+import { View, Text, Box, Center, HStack, VStack, Image } from "native-base";
+import { ListRenderItemInfo } from "react-native";
+import React from "react";
+import { FlatGrid } from "react-native-super-grid";
+import { useBreakpointValue } from "native-base";
 
-import { TouchableNativeFeedback } from 'react-native'
-import type { resComicItem_T } from '../../types'
-import { ListHeader } from '../ListHeader'
-import { ComicItem } from './ComicItem'
+import { TouchableNativeFeedback } from "react-native";
+import type { resComicItem_T } from "../../../types";
+import { ListHeader } from "../../ListHeader";
+import { ComicItem } from "./ComicItem";
 
 export function ComicGridGap3(props: { list: resComicItem_T[] }) {
-  const numItem = useBreakpointValue({ base: 6, md: 12, lg: 18, xl: 24 })
+  const numItem = useBreakpointValue({ base: 6, md: 12, lg: 18, xl: 24 });
   const itemDim = useBreakpointValue({
     sm: 108,
     base: 112,
     md: 160,
     lg: 180,
     xl: 200
-  })
+  });
 
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<resComicItem_T>) => {
-      return <ComicItem item={item} loading={!!item} />
+      return <ComicItem item={item} loading={!!item} />;
     },
     []
-  )
+  );
 
   return (
     <FlatGrid
@@ -32,8 +32,8 @@ export function ComicGridGap3(props: { list: resComicItem_T[] }) {
       itemDimension={itemDim}
       itemContainerStyle={{
         flex: 1,
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        justifyContent: "space-between",
+        alignItems: "center"
       }}
       // numColumns={3}
       data={
@@ -45,7 +45,7 @@ export function ComicGridGap3(props: { list: resComicItem_T[] }) {
       scrollEnabled={false}
       // keyExtractor={(item, id) => item?.path || id.toString()}
     />
-  )
+  );
 
   // return null
 

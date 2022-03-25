@@ -11,7 +11,7 @@ import {
 } from "native-base";
 import React from "react";
 import { TouchableNativeFeedback } from "react-native";
-import type { resComicItem_T } from "../../types";
+import type { resComicItem_T } from "../../../types";
 import { NextLink } from "app/components/NextLink";
 // import FastImage from "react-native-fast-image";
 import TFastImage from "app/components/Typo/TFastImage";

@@ -1,7 +1,5 @@
 import { Box, Center, View, Text, Factory } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { NativeStackHeaderProps } from "@react-navigation/native-stack";
-
 import {
   NativeSyntheticEvent,
   NativeTouchEvent,
@@ -83,5 +81,3 @@ export const NavigationHeader = React.memo(function ({
     </FSafeAreaView>
   );
 });
-
-// export { BottomTabNavigationHeader } from "./index";

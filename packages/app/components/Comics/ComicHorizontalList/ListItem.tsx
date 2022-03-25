@@ -9,26 +9,26 @@ import {
   HStack,
   VStack,
   useColorMode
-} from 'native-base'
-import { TouchableNativeFeedback } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
-import React from 'react'
-import { resComicItem_T } from '../../types'
-import { HistoryComicT } from '../../store/historySlice'
-import { NextLink } from '../NextLink'
-import { BlurView } from 'expo-blur'
+} from "native-base";
+import { TouchableNativeFeedback } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
+import { resComicItem_T } from "../../../types";
+import { HistoryComicT } from "../../../store/historySlice";
+import { NextLink } from "../../NextLink";
+import { BlurView } from "expo-blur";
 
 type Props = {
-  item: Partial<HistoryComicT>
-}
+  item: Partial<HistoryComicT>;
+};
 
 export function ListItem({ item }: Props) {
-  const [bgLight, bgDark] = useToken('colors', [
-    '$light.backgroundPrimary',
-    '$light.backgroundSecondary'
-  ])
+  const [bgLight, bgDark] = useToken("colors", [
+    "$light.backgroundPrimary",
+    "$light.backgroundSecondary"
+  ]);
 
-  const { colorMode } = useColorMode()
+  const { colorMode } = useColorMode();
 
   return (
     <NextLink
@@ -40,18 +40,18 @@ export function ListItem({ item }: Props) {
     >
       <Box
         p={1}
-        bg={'$light.backgroundPrimary'}
+        bg={"$light.backgroundPrimary"}
         _dark={{
-          bg: '$dark.backgroundPrimary'
+          bg: "$dark.backgroundPrimary"
         }}
-        rounded={'sm'}
+        rounded={"sm"}
         w={230}
         h={160}
         m={2}
         borderColor={bgDark}
         borderWidth={1}
       >
-        <ZStack w={220} h={150} rounded={'sm'}>
+        <ZStack w={220} h={150} rounded={"sm"}>
           <Image
             source={{
               uri: item.posterUrl
@@ -63,13 +63,13 @@ export function ListItem({ item }: Props) {
             rounded="sm"
           />
           <Box
-            position={'absolute'}
+            position={"absolute"}
             bottom={0}
             left={0}
             right={0}
             height={44}
             roundedBottom="sm"
-            overflow={'hidden'}
+            overflow={"hidden"}
           >
             {/* <LinearGradient
               // Button Linear Gradient
@@ -78,14 +78,14 @@ export function ListItem({ item }: Props) {
             > */}
             <BlurView
               intensity={100}
-              tint={colorMode === 'dark' ? 'dark' : 'light'}
+              tint={colorMode === "dark" ? "dark" : "light"}
               // style={{ margin: 1, borderRadius: 2 }}
               style={{ flex: 1 }}
             >
-              <VStack justifyContent={'center'} alignItems={'center'} flex={1}>
+              <VStack justifyContent={"center"} alignItems={"center"} flex={1}>
                 <Text
-                  color={'$light.textPrimary'}
-                  _dark={{ color: '$dark.textPrimary' }}
+                  color={"$light.textPrimary"}
+                  _dark={{ color: "$dark.textPrimary" }}
                   fontWeight="600"
                   numberOfLines={1}
                   fontSize={15}
@@ -116,21 +116,21 @@ export function ListItem({ item }: Props) {
           </Box>
 
           <Box
-            position={'absolute'}
+            position={"absolute"}
             top={1}
             right={1}
-            bg={'$light.backgroundPrimary'}
+            bg={"$light.backgroundPrimary"}
             px={2}
-            rounded={'full'}
+            rounded={"full"}
             shadow={1}
             opacity={0.85}
           >
-            <Text fontSize={12} fontWeight={600} color={'$light.textPrimary'}>
+            <Text fontSize={12} fontWeight={600} color={"$light.textPrimary"}>
               {item.lastedReadChapter}
             </Text>
           </Box>
         </ZStack>
       </Box>
     </NextLink>
-  )
+  );
 }

@@ -1,26 +1,26 @@
-import { View, Text, SectionList, FlatList } from 'native-base'
-import { FindResultScreenProps } from '../../navigators/StackNav'
-import { API_URL, resComicItem_T } from '../../types'
-import axios from 'axios'
-import { useApiFindComic, usePrefetch } from '../../store/api'
-import { ComicListVertical } from '../../components/ComicListVertical/ComicListVertical'
-import { useColorModeStyle } from '../../hooks/useColorModeStyle'
-import { Loading } from '../../components/Loading'
-import React from 'react'
+import { View, Text, SectionList, FlatList } from "native-base";
+import { FindResultScreenProps } from "../../navigators/StackNav";
+import { API_URL, resComicItem_T } from "../../types";
+import axios from "axios";
+import { useApiFindComic, usePrefetch } from "../../store/api";
+import { ComicVerticalList } from "../../components/Comics/ComicVerticalList/ComicVerticalList";
+import { useColorModeStyle } from "../../hooks/useColorModeStyle";
+import { Loading } from "../../components/EmptyPage/Loading";
+import React from "react";
 import {
   InteractionManager,
   ListRenderItem,
   SectionListRenderItemInfo
-} from 'react-native'
-import { selectDownloadedChapters } from '../../store/historySlice'
-import { ListFooter } from '../../components/ComicListVertical/ListFooter'
-import { NotFound } from '../../components/EmptyPage/NotFound'
+} from "react-native";
+import { selectDownloadedChapters } from "../../store/historySlice";
+import { ListFooter } from "../../components/Comics/ComicVerticalList/ListFooter";
+import { NotFound } from "../../components/EmptyPage/NotFound";
 
 /**
  * FIXME: INFINITY LIST UPDATE NEW PAGE SLOW
  */
 export const FindResultScreen = (props: FindResultScreenProps) => {
-  const { findOption, path } = props.route.params
+  const { findOption, path } = props.route.params;
 
   // const result = axios
   //   .get(
@@ -34,42 +34,42 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
   // console.log(`http://www.nettruyenpro.com${path}`)
   // const colorStyled = useColorModeStyle('', 'Secondary')
 
-  const [page, setPage] = React.useState(1)
-  const [seed, setSeed] = React.useState(0)
-  const [max, setMax] = React.useState(1)
-  const [list, setList] = React.useState<resComicItem_T[]>([])
-  const [err, setErr] = React.useState<any>(null)
-  const [refreshing, setRefreshing] = React.useState(false)
+  const [page, setPage] = React.useState(1);
+  const [seed, setSeed] = React.useState(0);
+  const [max, setMax] = React.useState(1);
+  const [list, setList] = React.useState<resComicItem_T[]>([]);
+  const [err, setErr] = React.useState<any>(null);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const { isSuccess, isLoading, data, requestId, refetch } = useApiFindComic({
     ...findOption,
     page: page
-  })
+  });
 
-  const prefetchFindComic = usePrefetch('findComic', {})
+  const prefetchFindComic = usePrefetch("findComic", {});
 
   // Interaction
-  const [loading, setLoading] = React.useState(true)
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const interaction = InteractionManager.runAfterInteractions(() => {
       // console.log('object')
-      setLoading(false)
-    })
+      setLoading(false);
+    });
     return () => {
-      interaction.cancel()
-    }
-  }, [])
+      interaction.cancel();
+    };
+  }, []);
 
   // Infinity list
   React.useEffect(() => {
     // console.log(Object.keys(data ||))
     if (max === 1)
       setMax((max) =>
-        typeof data?.pagination?.max === 'number' && data?.pagination?.max > 0
+        typeof data?.pagination?.max === "number" && data?.pagination?.max > 0
           ? data?.pagination?.max
           : max
-      )
+      );
     if (
       isSuccess &&
       data?.data?.length &&
@@ -77,29 +77,29 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
       data?.pagination?.page === page &&
       data?.pagination?.page <= max
     ) {
-      setList((list) => [...list, ...data.data])
-      setSeed(page)
-      setRefreshing(false)
-      console.log(page, seed)
+      setList((list) => [...list, ...data.data]);
+      setSeed(page);
+      setRefreshing(false);
+      console.log(page, seed);
     }
-  }, [isSuccess, isLoading, data])
+  }, [isSuccess, isLoading, data]);
 
   const onEndReach = React.useCallback(() => {
-    console.log('reach', page, seed)
+    console.log("reach", page, seed);
     if (page === seed) {
       // setImmediate(() => {
-      console.log('reach active', page, seed)
-      setRefreshing(true)
-      setPage(page + 1)
-      refetch()
+      console.log("reach active", page, seed);
+      setRefreshing(true);
+      setPage(page + 1);
+      refetch();
       if (page <= max)
         prefetchFindComic({
           ...findOption,
           page: page + 2
-        })
+        });
       // })
     }
-  }, [setPage, seed, page])
+  }, [setPage, seed, page]);
 
   const ListFooterComponent = React.useMemo(() => {
     return (
@@ -110,10 +110,10 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
           </View>
         ) : undefined}
       </>
-    )
-  }, [refreshing])
+    );
+  }, [refreshing]);
 
-  console.log('out', page, seed, max)
+  console.log("out", page, seed, max);
 
   return (
     <View flex={1}>
@@ -133,10 +133,10 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
         <NotFound />
       )}
     </View>
-  )
-}
+  );
+};
 
-const MemoComicListVertical = React.memo(ComicListVertical)
+const MemoComicListVertical = React.memo(ComicVerticalList);
 
 /**
  * Refactor

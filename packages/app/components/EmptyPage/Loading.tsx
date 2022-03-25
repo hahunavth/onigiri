@@ -39,7 +39,7 @@ export const Loading = (props: Props) => {
           //   height: 1
           //   // backgroundColor: '#eee'
           // }}
-          source={require("../assets/bloading.json")}
+          source={require("app/assets/bloading.json")}
           // OR find more Lottie files @ https://lottiefiles.com/featured
           // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
           autoPlay

@@ -1,50 +1,53 @@
-import React, { useEffect, useRef, useContext } from 'react'
+import React, { useEffect, useRef, useContext } from "react";
 import {
   ListRenderItemInfo,
   Dimensions,
   InteractionManager,
   StyleSheet,
   FlatList as FlatListT
-} from 'react-native'
-import { View, Text, FlatList, HStack } from 'native-base'
-import { ChapterScreenProps } from 'app/navigators/StackNav'
-import { useApiChapter } from 'app/store/api'
-import { useAppDispatch, useAppSelector } from 'app/store/hooks'
+} from "react-native";
+import { View, Text, FlatList, HStack } from "native-base";
+import { ChapterScreenProps } from "app/navigators/StackNav";
+import { useApiChapter } from "app/store/api";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import Animated, {
   Easing,
   withTiming,
   useSharedValue,
   useAnimatedStyle
-} from 'react-native-reanimated'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import useUpdateCurrentChapter from '../../hooks/useUpdateCurrentChapter'
-import useInteraction from '../../hooks/useInteraction'
-import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet'
-import { FontAwesome } from '@expo/vector-icons'
-import { CommentLoader } from '../../components/Comment'
-import { homeSelector } from '../../store/homeSlice'
-import { CommentBottomSheetProps } from './types'
-import { BottomSheetCustomFooter } from './BottomSheetCustomFooter'
-import { CommentFLLoader } from './CommentFLLoader'
+} from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import useUpdateCurrentChapter from "../../hooks/useUpdateCurrentChapter";
+import useInteraction from "../../hooks/useInteraction";
+import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import { FontAwesome } from "@expo/vector-icons";
+import { CommentLoader } from "../../components/Comment";
+import { homeSelector } from "../../store/homeSlice";
+import { CommentBottomSheetProps } from "./types";
+import { BottomSheetCustomFooter } from "./BottomSheetCustomFooter";
+import { CommentFLLoader } from "./CommentFLLoader";
 
 export const CommentBottomSheet = React.memo(
   React.forwardRef<BottomSheet, CommentBottomSheetProps>(
     ({ path }, bottomSheetRef) => {
       // Bottom sheet
-
+      // console.log("pathhhhhhhhhhhhhhhhhhhhh", path);
       // variables
       const snapPoints = React.useMemo(
-        () => [160, '50%', Dimensions.get('window').height - 40],
+        () => [160, "50%", Dimensions.get("window").height - 40],
         []
-      )
+      );
       // callbacks
       const handleSheetChanges = React.useCallback((index: number) => {
         // console.log('handleSheetChanges', index)
-      }, [])
+      }, []);
+
+      // const { loading } = useInteraction();
+
       return (
         <BottomSheet
           ref={bottomSheetRef}
-          index={-1}
+          index={1}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           footerComponent={BottomSheetCustomFooter}
@@ -58,7 +61,7 @@ export const CommentBottomSheet = React.memo(
             zIndex: 10000,
             margin: 1,
 
-            shadowColor: '#000',
+            shadowColor: "#000",
             shadowOffset: {
               width: 0,
               height: 2
@@ -74,8 +77,8 @@ export const CommentBottomSheet = React.memo(
               flex: 1
             }}
           >
-            <HStack justifyContent={'space-between'} mx={4}>
-              <Text fontSize={18} fontWeight={'bold'}>
+            <HStack justifyContent={"space-between"} mx={4}>
+              <Text fontSize={18} fontWeight={"bold"}>
                 Comment
               </Text>
               <HStack lineHeight={18}>
@@ -93,23 +96,23 @@ export const CommentBottomSheet = React.memo(
             {/*  */}
             <BottomSheetTextInput value="Awesome 🎉" style={styles.input} />
             {/*  */}
-            <CommentFLLoader path={path || ''} />
+            <CommentFLLoader path={path || ""} />
           </View>
         </BottomSheet>
-      )
+      );
     }
   )
-)
+);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: 'grey'
+    backgroundColor: "grey"
   },
   contentContainer: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: "center"
   },
   input: {
     marginTop: 8,
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
     padding: 8,
-    backgroundColor: 'rgba(151, 151, 151, 0.25)',
+    backgroundColor: "rgba(151, 151, 151, 0.25)",
     marginHorizontal: 12
   }
-})
+});

@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import { Dropdown } from 'react-native-element-dropdown'
-import { AntDesign } from '@expo/vector-icons'
-import { SelectOptionT } from './types'
+import React, { useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
+import { AntDesign } from "@expo/vector-icons";
+import { SelectOptionT } from "./types";
 
 // const data = [
 //   { label: 'Item 1', value: '1' },
@@ -16,10 +16,10 @@ import { SelectOptionT } from './types'
 // ]
 
 type Props = {
-  data: SelectOptionT[]
-  value: SelectOptionT
-  setValue: (any) => null
-}
+  data: SelectOptionT[];
+  value: SelectOptionT;
+  setValue: (any: any) => null;
+};
 
 export const SelectOne = ({ data, setValue, value }: Props) => {
   // const [value, setValue] = useState(null)
@@ -37,8 +37,8 @@ export const SelectOne = ({ data, setValue, value }: Props) => {
           />
         )}
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <Dropdown
@@ -56,25 +56,25 @@ export const SelectOne = ({ data, setValue, value }: Props) => {
       searchPlaceholder="Search..."
       value={value}
       onChange={(item) => {
-        setValue(item.value)
+        setValue(item.value);
       }}
       renderLeftIcon={() => (
         <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
       )}
       renderItem={renderItem}
     />
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   dropdown: {
     margin: 16,
     height: 50,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 12,
     padding: 12,
 
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 1
@@ -88,9 +88,9 @@ const styles = StyleSheet.create({
   },
   item: {
     padding: 17,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   textItem: {
     flex: 1,
@@ -110,4 +110,4 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16
   }
-})
+});

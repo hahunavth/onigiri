@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component, useEffect, useState, useMemo } from 'react'
+import React, { Component, useEffect, useState, useMemo } from "react";
 import {
   Image as ImageElement,
   StyleSheet,
@@ -7,37 +7,37 @@ import {
   ScaledSize,
   ActivityIndicator,
   Modal
-} from 'react-native'
-import { Image, View, Text, Box } from 'native-base'
-import { Loading } from './Loading'
-import { useColorModeStyle } from '../hooks/useColorModeStyle'
-import { default as NextImage } from 'next/image'
+} from "react-native";
+import { Image, View, Text, Box } from "native-base";
+import { Loading } from "./EmptyPage/Loading";
+import { useColorModeStyle } from "../hooks/useColorModeStyle";
+import { default as NextImage } from "next/image";
 
 // import { Image as ImageElement } from 'native-base'
 
 // const screen = Dimensions.get('window')
-const window = Dimensions.get('screen')
+const window = Dimensions.get("screen");
 
 type ScaledImageProps = {
   source: {
-    uri: string
-  }
-  setImgs?: React.Dispatch<React.SetStateAction<{ uri: string; h: number }[]>>
-  h: number
-  id?: number
-}
+    uri: string;
+  };
+  setImgs?: React.Dispatch<React.SetStateAction<{ uri: string; h: number }[]>>;
+  h: number;
+  id?: number;
+};
 
 const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
   // const [size, setSize] = useState({ width: 1, height: 1 })
   // const [dimensions, setDimensions] = useState({ window, screen })
   // const [loading, setLoading] = useState(true)
-  const [data, setData] = useState('')
+  const [data, setData] = useState("");
 
   // if (source.uri === '')
   // console.log('empty')
 
   useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
     if (!h) {
       // console.log('getSize' + id, ' h ', h)
       // ImageElement.getSizeWithHeaders(
@@ -71,13 +71,13 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
             imgs?.map((item, index) =>
               index === id ? { ...item, h: (320 / 240) * window.width } : item
             ) || []
-          )
-        })
+          );
+        });
     }
     return () => {
-      isMounted = false
-    }
-  }, [source])
+      isMounted = false;
+    };
+  }, [source]);
 
   // useEffect(() => {
   //   const onChange = ({
@@ -150,30 +150,30 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
   // }, [h, window.width])
 
   const imageSrc = React.useMemo(() => {
-    return { uri: data }
-  }, [data])
+    return { uri: data };
+  }, [data]);
 
-  const { boxStyle, textStyle } = useColorModeStyle('', 'Primary')
+  const { boxStyle, textStyle } = useColorModeStyle("", "Primary");
   const { boxStyle: boxStyle2, textStyle: textStyle2 } = useColorModeStyle(
-    '',
-    'Secondary'
-  )
+    "",
+    "Secondary"
+  );
 
   if (!h) {
     return (
       <Box
-        justifyContent={'center'}
-        alignItems={'center'}
+        justifyContent={"center"}
+        alignItems={"center"}
         height={window.width}
         bg={boxStyle.backgroundColor}
         _text={textStyle}
       >
         <Text
           fontSize={20}
-          fontWeight={'bold'}
-          textAlign={'center'}
+          fontWeight={"bold"}
+          textAlign={"center"}
           lineHeight={52}
-          borderRadius={'full'}
+          borderRadius={"full"}
           h={60}
           w={60}
           borderWidth={10}
@@ -182,7 +182,7 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
           {id}
         </Text>
       </Box>
-    )
+    );
   }
 
   return (
@@ -213,8 +213,8 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
         // fadeDuration={0}
       />
     </>
-  )
-}
+  );
+};
 
 //make this component available to the app
-export const ScaledImage = React.memo(ScaledImagex)
+export const ScaledImage = React.memo(ScaledImagex);

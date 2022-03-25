@@ -1,6 +1,6 @@
 // import { mmkvStorage } from './../utils/mmkvStorage';
-import { Platform } from 'react-native'
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { Platform } from "react-native";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   FLUSH,
   PAUSE,
@@ -10,52 +10,54 @@ import {
   PURGE,
   REGISTER,
   REHYDRATE
-} from 'redux-persist'
+} from "redux-persist";
 
-import { comicApi } from './api'
-import { originApi } from './apiOrigin'
-import homeSlice from './homeSlice'
-import settingReducer from './settingSlice'
+import { comicApi } from "./api";
+import { originApi } from "./apiOrigin";
+import homeSlice from "./homeSlice";
+import settingReducer from "./settingSlice";
+import chapterSlice, { selectChapterInfo } from "./chapterSlice";
 import historyReducer, {
   selectDownloadedChapters,
   selectLastedReadChapterPath,
   selectReadChapters,
   selectThisComicIsSubscribed
-} from './historySlice'
-import recentReducer from './recentSlice'
+} from "./historySlice";
+import recentReducer from "./recentSlice";
 import notificationReducer, {
   selectAlleNewChapterNotification,
   selectOneNewChapterNotification
-} from './notificationSlice'
+} from "./notificationSlice";
 
 // STUB: FLIPPER REDUX
 // NEED REBUILD EAS
-let createFlipperDebugger: any = null
-if (__DEV__ && Platform.OS !== 'web') {
-  createFlipperDebugger = require('redux-flipper').default
+let createFlipperDebugger: any = null;
+if (__DEV__ && Platform.OS !== "web") {
+  createFlipperDebugger = require("redux-flipper").default;
 }
-if (__DEV__ && Platform.OS !== 'web') {
+if (__DEV__ && Platform.OS !== "web") {
   const selectors = [
     selectAlleNewChapterNotification,
     selectOneNewChapterNotification,
     selectDownloadedChapters,
     selectLastedReadChapterPath,
     selectReadChapters,
-    selectThisComicIsSubscribed
-  ]
-  const reselectDebugger = require('reselect-debugger-flipper')
+    selectThisComicIsSubscribed,
+    selectChapterInfo
+  ];
+  const reselectDebugger = require("reselect-debugger-flipper");
   reselectDebugger.configure({
     selectors
-  })
+  });
 }
 
 // STUB: DYNAMIC IMPORT REDUX PERSIST STORAGE
 const _getStorage = Platform.select({
   // native: () => require('@react-native-async-storage/async-storage').default,
-  native: () => require('app/utils/mmkvStorage').mmkvStorage,
-  web: () => require('app/utils/ssrStorage').default
-})
-const storage = _getStorage ? _getStorage() : null
+  native: () => require("app/utils/mmkvStorage").mmkvStorage,
+  web: () => require("app/utils/ssrStorage").default
+});
+const storage = _getStorage ? _getStorage() : null;
 
 const reducer = combineReducers({
   home: homeSlice,
@@ -63,17 +65,18 @@ const reducer = combineReducers({
   history: historyReducer,
   recent: recentReducer,
   notification: notificationReducer,
+  chapter: chapterSlice,
   [comicApi.reducerPath]: comicApi.reducer,
   [originApi.reducerPath]: originApi.reducer
-})
+});
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage: storage,
-  blacklist: [comicApi.reducerPath, 'home', originApi.reducerPath]
-}
+  blacklist: [comicApi.reducerPath, "home", originApi.reducerPath]
+};
 
-const persistedReducer = persistReducer(persistConfig, reducer)
+const persistedReducer = persistReducer(persistConfig, reducer);
 
 const store = configureStore({
   reducer: persistedReducer,
@@ -84,21 +87,21 @@ const store = configureStore({
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
     })
       .concat(comicApi.middleware)
-      .concat(originApi.middleware)
+      .concat(originApi.middleware);
 
     // IF DEV -> CONCAT MIDDLEWARE
     if (createFlipperDebugger) {
       // NOTE: PUSH DEBUG MIDDLEWARE FIRST!!!
       // AND REBUILD THE APP IF USING CUSTOM DEV CLIENT
-      middleware.push(createFlipperDebugger())
+      middleware.push(createFlipperDebugger());
     }
 
-    return middleware
+    return middleware;
   }
-})
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
-export const persistor = persistStore(store)
-export default store
+export const persistor = persistStore(store);
+export default store;

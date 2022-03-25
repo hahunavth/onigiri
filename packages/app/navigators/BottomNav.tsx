@@ -7,10 +7,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {} from "react";
 // NOTE: IMPORT COMPONENT
 import {
-  BottomTabNavigationHeader,
-  SearchNavigationHeader
-} from "app/components/NavigationHeader";
-import {
   HomeScreen,
   LibraryScreen,
   DiscoverScreen,
@@ -87,10 +83,8 @@ export default function BottomNav() {
           : undefined
       }
       screenOptions={{
-        // TODO: WEB SPECIFIC STYLE
-        // TODO: WEB SPECIFIC STYLE
         headerShown: false,
-        header: BottomTabNavigationHeader,
+        // header: BottomTabNavigationHeader,
         tabBarActiveTintColor: text,
         tabBarActiveBackgroundColor: background,
         tabBarInactiveBackgroundColor: background,

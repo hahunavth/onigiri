@@ -44,10 +44,10 @@ Feel free to create new issue: https://github.com/hahunavth/comic-net-native/iss
 - [x] Subscribe comic
 - [ ] Comment (1/2)
 - [x] Leech and save on db
-- [ ] Add Sentry
+- [x] Add Sentry
 - [x] Background fetch notification
 - [ ] Rotate responsive
 - [x] I18n
 - [ ] Dark theme
 - [ ] nextjs
-- [ ] Admob (Need ios config)
+- [ ] Admob (Need config for ios)

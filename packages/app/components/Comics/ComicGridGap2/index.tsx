@@ -1,38 +1,40 @@
-import { Center, HStack } from 'native-base'
-import { ListRenderItemInfo } from 'react-native'
-import React from 'react'
-import { FlatGrid } from 'react-native-super-grid'
+import { Center, HStack } from "native-base";
+import { ListRenderItemInfo, useWindowDimensions } from "react-native";
+import React from "react";
+import { FlatGrid } from "react-native-super-grid";
 
-import { GridItem } from './GridItem'
+import { GridItem } from "./GridItem";
 
-import type { ComicGridGap2Props } from './types'
-import { resComicItem_T } from '../../types'
-import { useBreakpointValue } from 'native-base'
-export * from './types'
+import type { ComicGridGap2Props } from "./types";
+import { resComicItem_T } from "../../../types";
+import { useBreakpointValue } from "native-base";
+export * from "./types";
 
 export const ComicGridGap2 = (props: ComicGridGap2Props) => {
+  const windowSize = useWindowDimensions();
+
   // const loading = props.list && props.list.length > 6
   const numItem = useBreakpointValue({
     base: 6,
     md: 8,
     lg: 14,
     xl: 16,
-    '2xl': 18
-  })
+    "2xl": 18
+  });
   const itemWidth = useBreakpointValue({
     sm: 180,
     // base: 180,
     md: 200,
     lg: 220,
     xl: 240,
-    '2xl': 320
-  })
+    "2xl": 320
+  });
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<resComicItem_T>) => {
-      return <GridItem item={item} loading={!!item} />
+      return <GridItem item={item} loading={!!item} />;
     },
     [props.list]
-  )
+  );
 
   return (
     <FlatGrid
@@ -43,7 +45,7 @@ export const ComicGridGap2 = (props: ComicGridGap2Props) => {
           // margin: 40
         }
       }
-      indicatorStyle={'black'}
+      indicatorStyle={"black"}
       // additionalRowStyle={{
       //   backgroundColor: 'red',
       //   marginLeft: 10,
@@ -52,16 +54,17 @@ export const ComicGridGap2 = (props: ComicGridGap2Props) => {
       // }}
       itemContainerStyle={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: "center",
+        alignItems: "center"
       }}
       itemDimension={itemWidth}
+      windowSize={windowSize.width}
       data={props.list.slice(0, numItem) || new Array(numItem).fill(false)}
       renderItem={renderItem}
       scrollEnabled={false}
       keyExtractor={(item, id) => item?.path || id.toString()}
     />
-  )
+  );
 
   // return null
 
@@ -89,4 +92,4 @@ export const ComicGridGap2 = (props: ComicGridGap2Props) => {
   //     </HStack>
   //   </Center>
   // )
-}
+};
