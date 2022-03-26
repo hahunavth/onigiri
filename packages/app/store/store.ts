@@ -1,3 +1,4 @@
+import { selectLastedReadChapterPathList } from "./historySlice";
 // import { mmkvStorage } from './../utils/mmkvStorage';
 import { Platform } from "react-native";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -43,7 +44,8 @@ if (__DEV__ && Platform.OS !== "web") {
     selectLastedReadChapterPath,
     selectReadChapters,
     selectThisComicIsSubscribed,
-    selectChapterInfo
+    selectChapterInfo,
+    selectLastedReadChapterPathList
   ];
   const reselectDebugger = require("reselect-debugger-flipper");
   reselectDebugger.configure({

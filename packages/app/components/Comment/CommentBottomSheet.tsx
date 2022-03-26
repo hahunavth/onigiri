@@ -26,15 +26,17 @@ import { homeSelector } from "../../store/homeSlice";
 import { CommentBottomSheetProps } from "./types";
 import { BottomSheetCustomFooter } from "./BottomSheetCustomFooter";
 import { CommentFLLoader } from "./CommentFLLoader";
+import { useAppSafeAreaInsets } from "../../provider/safe-area/use-safe-area.web";
 
 export const CommentBottomSheet = React.memo(
   React.forwardRef<BottomSheet, CommentBottomSheetProps>(
     ({ path }, bottomSheetRef) => {
+      const { bottom, top } = useAppSafeAreaInsets();
       // Bottom sheet
       // console.log("pathhhhhhhhhhhhhhhhhhhhh", path);
       // variables
       const snapPoints = React.useMemo(
-        () => [160, "50%", Dimensions.get("window").height - 40],
+        () => [160, "50%", Dimensions.get("screen").height - top],
         []
       );
       // callbacks

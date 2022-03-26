@@ -1,5 +1,5 @@
 // Lib
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   FlatList,
   FlatListProps,
@@ -11,9 +11,9 @@ import {
   ViewProps,
   ViewStyle,
   InteractionManager
-} from 'react-native'
-import { Button, View, Text, Badge } from 'native-base'
-import { AntDesign, Ionicons } from '@expo/vector-icons'
+} from "react-native";
+import { Button, View, Text, Badge } from "native-base";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import Animated, {
   interpolate,
   useAnimatedScrollHandler,
@@ -22,65 +22,64 @@ import Animated, {
   useSharedValue,
   interpolateColor,
   withTiming
-} from 'react-native-reanimated'
+} from "react-native-reanimated";
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabBarProps,
   MaterialTopTabNavigationOptions
-} from '@react-navigation/material-top-tabs'
+} from "@react-navigation/material-top-tabs";
 
 // App
-import { useAppDispatch, useAppSelector } from 'app/store/hooks'
-import { goBack, navigate } from 'app/navigators'
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
+import { goBack, navigate } from "app/navigators";
 import {
   historySelector,
   selectDownloadedChapters,
   selectThisComicIsSubscribed,
   toggleSubscribeComicThunk
-} from 'app/store/historySlice'
-import { useColorModeStyle } from 'app/hooks/useColorModeStyle'
+} from "app/store/historySlice";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 // Local
-import Header, { HeaderConfig, Visibility } from './Header'
-import HeaderOverlay from './HeaderOverlay'
-import { ScrollPair } from './ScrollPair'
-import useScrollSync from './useScrollSync'
-import ChapterList from './ChapterList'
-import TabBar from './TabBar'
-import DetailList from './DetailList'
+import Header, { HeaderConfig, Visibility } from "./Header";
+import HeaderOverlay from "./HeaderOverlay";
+import { ScrollPair } from "./ScrollPair";
+import useScrollSync from "./useScrollSync";
+import TabBar from "./TabBar";
+import DetailList from "./DetailList";
 // Type
 import type {
   resComicDetailChapterItem_T,
   resComicDetail_T,
   resComicItem_T
-} from 'app/types'
-import useInteraction from '../../hooks/useInteraction'
-import usePrevious from 'react-use/esm/usePrevious'
-import ComicDetailBottomBar, { styles } from './ComicDetailBottomBar'
-import { useThemedTopTabScreenOption } from '../Typo'
+} from "app/types";
+import useInteraction from "../../hooks/useInteraction";
+import usePrevious from "react-use/esm/usePrevious";
+import ComicDetailBottomBar, { styles } from "./ComicDetailBottomBar";
+import { useThemedTopTabScreenOption } from "../Typo";
 
-const Tab = createMaterialTopTabNavigator()
+const Tab = createMaterialTopTabNavigator();
 
 type CollapseTabProps = {
-  renderTabBar: (props: MaterialTopTabBarProps) => React.ReactNode
-  renderFriends: () => JSX.Element
-  renderSuggestions: () => JSX.Element
-}
+  renderTabBar: (props: MaterialTopTabBarProps) => React.ReactNode;
+  renderFriends: () => JSX.Element;
+  renderSuggestions: () => JSX.Element;
+};
 
 const CollapseTab = (props: CollapseTabProps) => {
-  const { renderTabBar, renderFriends, renderSuggestions } = props
+  const { renderTabBar, renderFriends, renderSuggestions } = props;
 
-  const screenOptions = useThemedTopTabScreenOption()
+  const screenOptions = useThemedTopTabScreenOption();
 
-  const [loading, setLoading] = React.useState(true)
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const emit = setTimeout(() => {
-      setLoading(false)
-    }, 100)
+      setLoading(false);
+    }, 100);
     return () => {
-      clearTimeout(emit)
-    }
-  })
+      clearTimeout(emit);
+    };
+  });
 
   // const screenOptions = useMemo<MaterialTopTabNavigationOptions>(
   //   () => ({
@@ -142,8 +141,8 @@ const CollapseTab = (props: CollapseTabProps) => {
         </Tab.Navigator>
       )}
     </>
-  )
-}
+  );
+};
 
-export default CollapseTab
+export default CollapseTab;
 // export default React.memo(CollapseTab)

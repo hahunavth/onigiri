@@ -1,44 +1,45 @@
-import type { ApiResponse_T } from './../types/api'
-import axios from 'axios'
+import type { ApiResponse_T } from "./../types/api";
+import axios from "axios";
 import {
   resComicDetailChapterItem_T,
   resComicDetail_T,
   resChapterDetail_T
-} from 'app/types'
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from './store'
-import { addMultipleImgs, deleteChapter } from '../utils/imgManager'
-import { createSelector } from 'reselect'
+} from "app/types";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
+import { addMultipleImgs, deleteChapter } from "../utils/imgManager";
+import { createSelector } from "reselect";
 
 // ANCHOR: TYPE DEFINITION
 type TimestampT = {
-  readAt?: Date | number | string
-  createdAt?: Date | number | string
-  downloadedAt?: Date | number | string
-  downloadCount?: number
-}
+  readAt?: Date | number | string;
+  createdAt?: Date | number | string;
+  downloadedAt?: Date | number | string;
+  downloadCount?: number;
+};
 
 export type HistoryComicT = resComicDetail_T &
   TimestampT & {
-    chapters: (resComicDetailChapterItem_T & TimestampT)[]
-    lastedReadChapter?: string
-    subtribe?: Date | number | string
-  }
+    chapters: (resComicDetailChapterItem_T & TimestampT)[];
+    lastedReadChapter?: string;
+    lastedReadPathList: string[];
+    subtribe?: Date | number | string;
+  };
 
 type HistoryStoreT = {
   comics: {
-    [key: string]: HistoryComicT | undefined
-  }
-  readComics: string[]
-  subscribeComics: string[]
+    [key: string]: HistoryComicT | undefined;
+  };
+  readComics: string[];
+  subscribeComics: string[];
   readCpt: {
-    [key: string]: number
-  }
+    [key: string]: number;
+  };
   downloadCpt: {
-    [key: string]: resChapterDetail_T | undefined
-  }
-  downloadComics: string[]
-}
+    [key: string]: resChapterDetail_T | undefined;
+  };
+  downloadComics: string[];
+};
 
 /**
  * Comic save hash <string, resComicItem_T>
@@ -53,14 +54,14 @@ const initialState: HistoryStoreT = {
   readCpt: {},
   downloadComics: [],
   downloadCpt: {}
-}
+};
 
 /**
  * ANCHOR: HISTORY SLICE
  * save read history, subscribe, download comic logic
  */
 const historySlice = createSlice({
-  name: 'history',
+  name: "history",
   initialState,
   /**
    * Create Slice will auto immutable state
@@ -71,7 +72,7 @@ const historySlice = createSlice({
      * RESET STATE TO INITIAL
      */
     reset: (state, action: PayloadAction<null>) => {
-      return initialState
+      return initialState;
     },
     /**
      * Push comic to list if not exists
@@ -79,26 +80,27 @@ const historySlice = createSlice({
      */
     pushComic: (state, action: PayloadAction<resComicDetail_T>) => {
       // Find comic in state
-      const findResult = state.comics[action.payload.path]
+      const findResult = state.comics[action.payload.path];
       if (!findResult) {
         const historyComic: HistoryComicT = {
           ...action.payload,
+          lastedReadPathList: [],
           readAt: Date.now()
-        }
+        };
         // If not found, push new
         // ANCHOR: Modify state
-        state.comics[historyComic.path] = historyComic
+        state.comics[historyComic.path] = historyComic;
       } else {
         // If found
         // Update chapter list in state
         const pushNum =
-          action.payload.chapters.length - findResult.chapters.length
+          action.payload.chapters.length - findResult.chapters.length;
         if (pushNum) {
           // ANCHOR: Modify state
           // Push first if num chapters change
           findResult.chapters.unshift(
             ...action.payload.chapters.slice(0, pushNum)
-          )
+          );
         }
       }
     },
@@ -107,18 +109,19 @@ const historySlice = createSlice({
      * Update chapter list in comic if exists in state
      */
     pushReadComic: (state, action: PayloadAction<resComicDetail_T>) => {
-      const findResult = state.comics[action.payload.path]
+      const findResult = state.comics[action.payload.path];
       if (!findResult) {
         // If not exists in state.comics
         // -> not exists in state.readComics
         // -> add new comic and readComic
         const historyComic: HistoryComicT = {
           ...action.payload,
+          lastedReadPathList: [],
           readAt: Date.now()
-        }
+        };
         // ANCHOR: Modify state
-        state.comics[historyComic.path] = historyComic
-        state.readComics.unshift(historyComic.path)
+        state.comics[historyComic.path] = historyComic;
+        state.readComics.unshift(historyComic.path);
       } else {
         // If found comic in state
         // Unknown readComic in state
@@ -126,40 +129,42 @@ const historySlice = createSlice({
         // Update comic
         // if add readComic if not exists
         const pushNum =
-          action.payload.chapters.length - findResult.chapters.length
+          action.payload.chapters.length - findResult.chapters.length;
         if (pushNum) {
           // ANCHOR: Modify state
           // Push first if num chapters change
           findResult.chapters.unshift(
             ...action.payload.chapters.slice(0, pushNum)
-          )
+          );
         }
         // Add if not exists
-        const comicIdInArr = state.readComics.indexOf(action.payload.path)
+        const comicIdInArr = state.readComics.indexOf(action.payload.path);
         if (comicIdInArr === -1) {
-          state.readComics.unshift(action.payload.path)
+          state.readComics.unshift(action.payload.path);
         } else {
           // else remove and unshift to first
-          state.readComics.splice(comicIdInArr, 1)
-          state.readComics.unshift(action.payload.path)
+          state.readComics.splice(comicIdInArr, 1);
+          state.readComics.unshift(action.payload.path);
         }
       }
 
       // console.log('history/comic: No effect')
     },
     removeReadComic: (state, action: PayloadAction<{ path: string }>) => {
-      const comicPath = action.payload.path
+      const comicPath = action.payload.path;
       // const readComic = state.readComics.find(str => str === comicPath);
       // ANCHOR: MODIFY STATE
-      const id = state.readComics.indexOf(comicPath)
+      const id = state.readComics.indexOf(comicPath);
       if (id !== -1) {
-        const cpts = state.comics[comicPath]?.chapters
-        cpts?.forEach((cpt) => delete state.readCpt[cpt.path])
-        const subId = state.subscribeComics.indexOf(comicPath)
-        const downId = state.downloadComics.indexOf(comicPath)
-        state.readComics = state.readComics.filter((path) => path !== comicPath)
+        const cpts = state.comics[comicPath]?.chapters;
+        cpts?.forEach((cpt) => delete state.readCpt[cpt.path]);
+        const subId = state.subscribeComics.indexOf(comicPath);
+        const downId = state.downloadComics.indexOf(comicPath);
+        state.readComics = state.readComics.filter(
+          (path) => path !== comicPath
+        );
         if (subId === -1 && downId === -1) {
-          delete state.comics[comicPath]
+          delete state.comics[comicPath];
         }
       }
     },
@@ -172,17 +177,28 @@ const historySlice = createSlice({
       state,
       action: PayloadAction<{ comicPath: string; chapterPath: string }>
     ) => {
-      const { chapterPath, comicPath } = action.payload
+      const { chapterPath, comicPath } = action.payload;
       // Find reading comic
       // const curComic = state.comics.find((comic) => comic.path === comicPath);
-      const curComic = state.comics[comicPath]
+      const curComic = state.comics[comicPath];
 
       if (!!curComic) {
+        const newLastedReadChapter =
+          curComic.chapters.find((cpt) => cpt.path === chapterPath)?.name || "";
+        const newLastedReadPathList = curComic.lastedReadPathList;
+        const id = newLastedReadPathList.indexOf(newLastedReadChapter);
+        if (id > 0) {
+          newLastedReadPathList.slice(id, 1);
+          newLastedReadPathList.unshift(newLastedReadChapter);
+        } else if (id === -1) {
+          newLastedReadPathList.length > 3
+            ? newLastedReadPathList.slice(2, 1).push(newLastedReadChapter)
+            : newLastedReadPathList.push(newLastedReadChapter);
+        }
         const changedCurComic: HistoryComicT = {
           ...curComic,
-          lastedReadChapter:
-            curComic.chapters.find((cpt) => cpt.path === chapterPath)?.name ||
-            '',
+          lastedReadChapter: newLastedReadChapter,
+          lastedReadPathList: newLastedReadPathList,
           readAt: Date.now(),
           chapters: curComic.chapters.map((cpt) => {
             // If found reading chapter -> add fill read at
@@ -191,18 +207,18 @@ const historySlice = createSlice({
                 TimestampT = {
                 ...cpt,
                 readAt: Date.now()
-              }
-              return changedCurChapter
+              };
+              return changedCurChapter;
             }
             // else do nothing
-            return cpt
+            return cpt;
           })
-        }
+        };
         // ANCHOR: Modify state
-        state.comics[comicPath] = changedCurComic
-        state.readCpt[chapterPath] = Date.now()
+        state.comics[comicPath] = changedCurComic;
+        state.readCpt[chapterPath] = Date.now();
       } else {
-        console.log('history/chapter:ERR: Not found comic')
+        console.log("history/chapter:ERR: Not found comic");
       }
     },
 
@@ -221,71 +237,72 @@ const historySlice = createSlice({
      * @param comicPath
      */
     toggleSubscribeComic: (state, action: PayloadAction<resComicDetail_T>) => {
-      const comic = action.payload
+      const comic = action.payload;
       const resultPath = state.subscribeComics.find(
         (path) => path === comic.path
-      )
+      );
 
       if (resultPath) {
         // Unsubscribe
         state.subscribeComics = state.subscribeComics.filter(
           (path) => path !== resultPath
-        )
+        );
         // Delete if not need
         const readComicPath = state.readComics.find(
           (path) => path === resultPath
-        )
+        );
 
         if (!readComicPath && !state.comics[comic.path]?.downloadCount) {
-          state.comics[comic.path] = undefined
+          state.comics[comic.path] = undefined;
         }
       } else {
         // Subscribe
         const historyComic: HistoryComicT = {
           ...action.payload,
           // readAt: Date.now(),
+          lastedReadPathList: [],
           subtribe: Date.now()
-        }
-        const findResult = state.comics[action.payload.path]
+        };
+        const findResult = state.comics[action.payload.path];
         if (!findResult) {
           // ANCHOR: Modify state
           // if (!!state.comics[historyComic.path])
           // state.comics[historyComic.path].subtribe = Date.now();
-          state.comics[action.payload.path] = historyComic
+          state.comics[action.payload.path] = historyComic;
         } else {
           const pushNum =
-            action.payload.chapters.length - findResult.chapters.length
+            action.payload.chapters.length - findResult.chapters.length;
           if (pushNum) {
             // ANCHOR: Modify state
             // Push first if num chapters change
             findResult.chapters.unshift(
               ...action.payload.chapters.slice(0, pushNum)
-            )
+            );
           }
         }
-        state.subscribeComics.unshift(historyComic.path)
+        state.subscribeComics.unshift(historyComic.path);
       }
     },
 
     unSubscribeComic: (state, action: PayloadAction<string>) => {
-      const comicPath = action.payload
+      const comicPath = action.payload;
 
       const resultPath = state.subscribeComics.find(
         (path) => path === comicPath
-      )
+      );
 
       if (resultPath) {
         // Unsubscribe
         state.subscribeComics = state.subscribeComics.filter(
           (path) => path !== resultPath
-        )
+        );
         // Delete if dont need
         const readComicPath = state.readComics.find(
           (path) => path === resultPath
-        )
+        );
 
         if (!readComicPath && !state.comics[comicPath]?.downloadCount) {
-          delete state.comics[comicPath]
+          delete state.comics[comicPath];
         }
       }
     },
@@ -298,50 +315,50 @@ const historySlice = createSlice({
     pushDownloadChapter: (
       state,
       action: PayloadAction<{
-        comic: resComicDetail_T
-        chapter: resChapterDetail_T
+        comic: resComicDetail_T;
+        chapter: resChapterDetail_T;
       }>
     ) => {
-      const comicPath = action.payload.comic.path
-      const chapterPath = action.payload.chapter.path
+      const comicPath = action.payload.comic.path;
+      const chapterPath = action.payload.chapter.path;
 
       // Find comic in state
       // If not found -> error
-      const comic = state.comics[comicPath]
+      const comic = state.comics[comicPath];
       if (!comic) {
-        console.log('Not found comic, no effect !')
-        return
+        console.log("Not found comic, no effect !");
+        return;
       }
 
       // find chapter, if exists add downloadCpt
       const result = comic.chapters.find((cpt) => {
-        return cpt.path === chapterPath
-      })
+        return cpt.path === chapterPath;
+      });
       if (result) {
         // ANCHOR: MODIFY STATE
-        state.downloadCpt[chapterPath] = action.payload.chapter
+        state.downloadCpt[chapterPath] = action.payload.chapter;
         if (state.downloadComics.indexOf(comicPath) === -1)
-          state.downloadComics.push(comicPath)
+          state.downloadComics.push(comicPath);
 
-        const dc = state.comics[comicPath]?.downloadCount
-        const comic = state.comics[comicPath]
-        if (comic) comic.downloadCount = dc ? dc + 1 : 0
-      } else console.log('Not found chapter in object, no effect!')
+        const dc = state.comics[comicPath]?.downloadCount;
+        const comic = state.comics[comicPath];
+        if (comic) comic.downloadCount = dc ? dc + 1 : 0;
+      } else console.log("Not found chapter in object, no effect!");
     },
     removeDownloadChapter: (
       state,
       action: PayloadAction<{ comicPath: string; chapterPath: string }>
     ) => {
-      const { chapterPath, comicPath } = action.payload
-      const downloadCount = state.comics[comicPath]?.downloadCount
-      const comic = state.comics[comicPath]
+      const { chapterPath, comicPath } = action.payload;
+      const downloadCount = state.comics[comicPath]?.downloadCount;
+      const comic = state.comics[comicPath];
       // ANCHOR: REMOVE downloadCpt
       // update downloadCount or remove comic, downloadComic
-      state.downloadCpt[chapterPath] = undefined
+      state.downloadCpt[chapterPath] = undefined;
       if (downloadCount) {
-        const id = state.downloadComics.indexOf(comicPath)
+        const id = state.downloadComics.indexOf(comicPath);
         if (id) {
-          state.downloadComics.splice(id, 1)
+          state.downloadComics.splice(id, 1);
         }
         // Check and remove comic
         if (
@@ -350,42 +367,44 @@ const historySlice = createSlice({
           comic?.downloadCount &&
           comic?.downloadCount <= 1
         ) {
-          state.comics[comicPath] = undefined
+          state.comics[comicPath] = undefined;
         }
       }
     }
   },
   extraReducers: (builder) => {
     builder.addCase(downloadComicThunk.fulfilled, (state, action) => {
-      console.log(action.payload)
-    })
+      console.log(action.payload);
+    });
   }
-})
+});
 
 /**
  * ANCHOR: THUNKS
  */
 export const downloadComicThunk = createAsyncThunk(
-  'downloadComicThunk',
+  "downloadComicThunk",
   async (
     props: { comic: resComicDetail_T; chapterPaths: string[] },
     { getState, dispatch }
   ) => {
     try {
-      const state = getState()
+      const state = getState();
       // let isComicErr = false
-      let cptPathErrList: string[] = []
-      dispatch(historyAction.pushComic(props.comic))
+      let cptPathErrList: string[] = [];
+      dispatch(historyAction.pushComic(props.comic));
       // Get chapter in loop
       for await (let path of props.chapterPaths) {
-        console.log(`https://hahunavth-express-api.herokuapp.com/api/v1${path}`)
+        console.log(
+          `https://hahunavth-express-api.herokuapp.com/api/v1${path}`
+        );
 
         const { data } = await axios.get(
           `https://hahunavth-express-api.herokuapp.com/api/v1${path}`
-        )
+        );
 
         if (data) {
-          const result = data as ApiResponse_T<resChapterDetail_T>
+          const result = data as ApiResponse_T<resChapterDetail_T>;
           await addMultipleImgs(
             result.data?.images,
             props.comic.path,
@@ -397,58 +416,58 @@ export const downloadComicThunk = createAsyncThunk(
                   comic: props.comic,
                   chapter: result.data
                 })
-              )
+              );
             })
             .catch((e) => {
-              cptPathErrList.push(result.data.path)
+              cptPathErrList.push(result.data.path);
               //  REMOVE CHAPTER IN MEMORY
-              deleteChapter(props.comic.path, result.data.path)
-            })
+              deleteChapter(props.comic.path, result.data.path);
+            });
         }
       }
       return {
         isCptErr: cptPathErrList.length === props.chapterPaths.length,
         cptPathErrList
-      }
+      };
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
-)
+);
 
 export const toggleSubscribeComicThunk = createAsyncThunk(
-  'toggleSubscribeComicThunk',
+  "toggleSubscribeComicThunk",
   (comic: resComicDetail_T, { getState, dispatch }) => {
-    const state = getState()
+    const state = getState();
 
     return new Promise((res, rej) => {
-      dispatch(historyAction.toggleSubscribeComic(comic))
-    })
+      dispatch(historyAction.toggleSubscribeComic(comic));
+    });
   }
-)
+);
 
 /**
  * ANCHOR: EXPORT
  */
-export default historySlice.reducer
-export const historyAction = historySlice.actions
+export default historySlice.reducer;
+export const historyAction = historySlice.actions;
 
-export const historySelector = (state: RootState) => state.history
+export const historySelector = (state: RootState) => state.history;
 export const selectDownloadedChapters = createSelector(
   (state: RootState) => state.history.downloadCpt,
   (state) => state
-)
+);
 export const selectReadChapters = createSelector(
   (state: RootState) => state.history.readCpt,
   (state) => state
-)
+);
 export const selectThisComicIsSubscribed = createSelector(
   [
     (state: RootState) => state.history.subscribeComics,
     (state: any, myPath: string) => myPath
   ],
   (subscribeComics, myPath) => subscribeComics.find((path) => path === myPath)
-)
+);
 
 export const selectLastedReadChapterPath = createSelector(
   [
@@ -456,4 +475,28 @@ export const selectLastedReadChapterPath = createSelector(
     (state: any, myPath: string) => myPath
   ],
   (comics, myPath) => comics[myPath]?.lastedReadChapter
-)
+);
+export const selectLastedReadChapterPathList = createSelector(
+  [
+    (state: RootState) =>
+      state.home?.currentComic?.path
+        ? state.history.comics[state.home?.currentComic?.path]
+            ?.lastedReadPathList
+        : null,
+    (state: RootState) => state.home.currentComic?.chapters || null
+  ],
+  (pathList, cptList) => {
+    console.log(cptList);
+    return (pathList
+      ?.map((path) => cptList?.find((_cpt) => _cpt.name === path))
+      .filter((c) => c) || []) as resComicDetailChapterItem_T[];
+  }
+  // (comicPath, comics) =>
+  //   comicPath
+  //     ? (comics[comicPath]?.lastedReadPathList
+  //         .map((path) =>
+  //           comics[comicPath]?.chapters.find((c) => c?.path === path)
+  //         )
+  //         .filter((c) => c) as resComicDetailChapterItem_T[])
+  //     : undefined
+);

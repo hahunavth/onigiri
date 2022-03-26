@@ -1,21 +1,22 @@
-import { View, Text, FlatList } from 'native-base'
-import React from 'react'
+import { View, Text, FlatList } from "native-base";
+import React from "react";
 
-import { HistoryComicT, historySelector } from 'app/store/historySlice'
-import { useAppDispatch, useAppSelector } from 'app/store/hooks'
-import { NextLink } from '../../components/NextLink'
-import LibraryList from './LibraryList'
-import { navigate } from '../../navigators'
-import { LibraryContext } from './LibraryContext'
+import { HistoryComicT, historySelector } from "app/store/historySlice";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
+import { NextLink } from "../../components/NextLink";
+import LibraryList from "./LibraryList";
+import { navigate } from "../../navigators";
+import { LibraryContext } from "./LibraryContext";
+import { Download } from "../../components/EmptyPage";
 
 interface Props {}
 
 export const DownloadTab = (props: Props) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const { comics, downloadComics, downloadCpt } =
-    useAppSelector(historySelector)
+    useAppSelector(historySelector);
 
-  const { showModal } = React.useContext(LibraryContext)
+  const { showModal } = React.useContext(LibraryContext);
 
   return (
     <View style={{ flex: 1 }}>
@@ -36,10 +37,11 @@ export const DownloadTab = (props: Props) => {
       /> */}
 
       <LibraryList
+        customLoadingComponent={Download}
         data={
           (downloadComics?.map((str) => comics[str]) as HistoryComicT[]) || []
         }
-        addonFieldName={'Downloaded:'}
+        addonFieldName={"Downloaded:"}
         addonFieldExtractor={(comic) =>
           comic.chapters
             .map((cpt) => downloadCpt[cpt.path])
@@ -47,17 +49,17 @@ export const DownloadTab = (props: Props) => {
             .length.toString()
         }
         onPress={(comic) =>
-          navigate('offline-comic-screen', {
-            path: comic.path || ''
+          navigate("offline-comic-screen", {
+            path: comic.path || ""
           })
         }
         onLongPress={(comic) => {
           showModal &&
             showModal(true, comic.path, () => (path) => {
-              console.log('test remove downloaded chapter ' + path)
-            })
+              console.log("test remove downloaded chapter " + path);
+            });
         }}
       />
     </View>
-  )
-}
+  );
+};

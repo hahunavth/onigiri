@@ -179,7 +179,6 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   // NOTE: Start animation when change chapter
   React.useEffect(() => {
     // reset
-    // LayoutAnimation.easeInEaseOut();
     setImgs([]);
     flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
     splashOffset.value = 0;

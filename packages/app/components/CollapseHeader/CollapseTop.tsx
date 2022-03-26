@@ -1,5 +1,5 @@
 // Lib
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   FlatList,
   FlatListProps,
@@ -11,9 +11,9 @@ import {
   ViewProps,
   ViewStyle,
   InteractionManager
-} from 'react-native'
-import { Button, View, Text, Badge, Factory, Box } from 'native-base'
-import { AntDesign, Ionicons } from '@expo/vector-icons'
+} from "react-native";
+import { Button, View, Text, Badge, Factory, Box } from "native-base";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import Animated, {
   interpolate,
   useAnimatedScrollHandler,
@@ -22,68 +22,67 @@ import Animated, {
   useSharedValue,
   interpolateColor,
   withTiming
-} from 'react-native-reanimated'
+} from "react-native-reanimated";
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabBarProps,
   MaterialTopTabNavigationOptions
-} from '@react-navigation/material-top-tabs'
-import { SafeAreaView } from 'react-native-safe-area-context'
+} from "@react-navigation/material-top-tabs";
+import { SafeAreaView } from "react-native-safe-area-context";
 // App
-import { useAppDispatch, useAppSelector } from 'app/store/hooks'
-import { goBack, navigate } from 'app/navigators'
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
+import { goBack, navigate } from "app/navigators";
 import {
   historySelector,
   selectDownloadedChapters,
   selectThisComicIsSubscribed,
   toggleSubscribeComicThunk
-} from 'app/store/historySlice'
-import { useColorModeStyle } from 'app/hooks/useColorModeStyle'
+} from "app/store/historySlice";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 // Local
-import Header, { HeaderConfig, Visibility } from './Header'
-import HeaderOverlay from './HeaderOverlay'
-import { ScrollPair } from './ScrollPair'
-import useScrollSync from './useScrollSync'
-import ChapterList from './ChapterList'
-import TabBar from './TabBar'
-import DetailList from './DetailList'
+import Header, { HeaderConfig, Visibility } from "./Header";
+import HeaderOverlay from "./HeaderOverlay";
+import { ScrollPair } from "./ScrollPair";
+import useScrollSync from "./useScrollSync";
+import TabBar from "./TabBar";
+import DetailList from "./DetailList";
 // Type
 import type {
   resComicDetailChapterItem_T,
   resComicDetail_T,
   resComicItem_T
-} from 'app/types'
-import useInteraction from '../../hooks/useInteraction'
-import usePrevious from 'react-use/esm/usePrevious'
-import ComicDetailBottomBar, { styles } from './ComicDetailBottomBar'
-import CollapseTab from './CollapseTab'
-import { useThemedColor } from '../Typo'
+} from "app/types";
+import useInteraction from "../../hooks/useInteraction";
+import usePrevious from "react-use/esm/usePrevious";
+import ComicDetailBottomBar, { styles } from "./ComicDetailBottomBar";
+import CollapseTab from "./CollapseTab";
+import { useThemedColor } from "../Typo";
 
-const AnimatedAntDesign = Animated.createAnimatedComponent(AntDesign)
-const AnimatedAntDesign2 = Animated.createAnimatedComponent(AntDesign)
-const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons)
+const AnimatedAntDesign = Animated.createAnimatedComponent(AntDesign);
+const AnimatedAntDesign2 = Animated.createAnimatedComponent(AntDesign);
+const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons);
 
 type Props = {
-  comic?: resComicDetail_T
-  offline?: boolean
-  headerDiff: number
-  translateY: Readonly<Animated.SharedValue<number>>
-}
+  comic?: resComicDetail_T;
+  offline?: boolean;
+  headerDiff: number;
+  translateY: Readonly<Animated.SharedValue<number>>;
+};
 
 const CollapseTop = (props: Props) => {
   const { backgroundPrimary, backgroundSecondary, textPrimary, textSecondary } =
-    useThemedColor()
+    useThemedColor();
 
-  const { headerDiff, translateY } = props
-  const handleGoBack = useCallback(() => goBack(), [])
+  const { headerDiff, translateY } = props;
+  const handleGoBack = useCallback(() => goBack(), []);
   const handleDownloadClick = useCallback(
     () =>
       props.comic &&
-      navigate('select-download-chapter', { comic: props.comic }),
+      navigate("select-download-chapter", { comic: props.comic }),
     [props.comic]
-  )
+  );
   // NOTE:color
-  const { boxStyle: bs1 } = useColorModeStyle('Blue', 'Secondary')
+  const { boxStyle: bs1 } = useColorModeStyle("Blue", "Secondary");
 
   /**
    * FIXME: Animation not work in first render
@@ -93,10 +92,10 @@ const CollapseTop = (props: Props) => {
       color: interpolateColor(
         -translateY.value,
         [0, headerDiff],
-        ['#fff', textPrimary]
+        ["#fff", textPrimary]
       )
-    }
-  })
+    };
+  });
   const headerIconStyle2 = useAnimatedStyle(() => {
     return {
       marginRight: 4,
@@ -104,10 +103,10 @@ const CollapseTop = (props: Props) => {
       color: interpolateColor(
         -translateY.value,
         [0, headerDiff],
-        ['#fff', textPrimary]
+        ["#fff", textPrimary]
       )
-    }
-  })
+    };
+  });
 
   return (
     <SafeAreaView style={styles.headerIconContainer}>
@@ -116,7 +115,7 @@ const CollapseTop = (props: Props) => {
       </TouchableOpacity>
       <View style={styles.downloadIconContainer}>
         {props.offline ? (
-          <Badge variant={'subtle'} colorScheme={'danger'}>
+          <Badge variant={"subtle"} colorScheme={"danger"}>
             Offline
           </Badge>
         ) : (
@@ -139,37 +138,37 @@ const CollapseTop = (props: Props) => {
         <Menuunfold headerDiff={headerDiff} translateY={translateY} />
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 /**
  * Helper component
  * NOTE: FIX multi useAnimatedStyle
  */
 type IconAnimatedProps = {
-  translateY: Animated.SharedValue<number>
-  headerDiff: number
-}
+  translateY: Animated.SharedValue<number>;
+  headerDiff: number;
+};
 
 function Menuunfold(props: IconAnimatedProps) {
-  const { translateY, headerDiff } = props
+  const { translateY, headerDiff } = props;
 
   const { backgroundPrimary, backgroundSecondary, textPrimary, textSecondary } =
-    useThemedColor()
+    useThemedColor();
 
   const trans = useDerivedValue(() => {
-    return -translateY.value
-  })
+    return -translateY.value;
+  });
   const headerIconStyle3 = useAnimatedStyle(() => {
     return {
       marginTop: 4,
       color: interpolateColor(
         trans.value,
         [0, headerDiff],
-        ['#fff', textPrimary]
+        ["#fff", textPrimary]
       )
-    }
-  }, [translateY.value])
+    };
+  }, [translateY.value]);
 
   return (
     <AnimatedAntDesign2
@@ -178,8 +177,8 @@ function Menuunfold(props: IconAnimatedProps) {
       style={headerIconStyle3}
       // style={{ color: 'red' }}
     />
-  )
+  );
 }
 
 // export default CollapseTop
-export default React.memo(CollapseTop)
+export default React.memo(CollapseTop);

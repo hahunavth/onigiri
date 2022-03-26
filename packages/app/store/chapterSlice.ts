@@ -54,6 +54,7 @@ export const selectCptSettingViewMode = (state: RootState) =>
   state.chapter.setting.viewMode;
 export const selectCptId = (state: RootState) =>
   state.chapter.current.chapterId;
+
 export const selectChapterInfo = createSelector(
   [
     (state: RootState) => state.chapter.current.chapterId,

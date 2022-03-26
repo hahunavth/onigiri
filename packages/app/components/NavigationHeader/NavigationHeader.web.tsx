@@ -3,12 +3,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {
   NativeSyntheticEvent,
   NativeTouchEvent,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  ViewStyle
 } from "react-native";
 import React from "react";
 import { goBack } from "app/navigators/index";
 
-type Props = {
+export type NavigationHeaderProps = {
   onRightPress?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
   onLeftPress?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
   rightLabel?: string | null;
@@ -16,6 +17,7 @@ type Props = {
   title?: string;
   headerRight?: (props: any) => React.ReactNode;
   headerLeft?: (props: any) => React.ReactNode;
+  style?: ViewStyle;
 };
 
 const FSafeAreaView = Factory(SafeAreaView);
@@ -26,8 +28,9 @@ export const NavigationHeader = React.memo(function ({
   rightLabel,
   title,
   headerLeft,
-  headerRight
-}: Props) {
+  headerRight,
+  style
+}: NavigationHeaderProps) {
   const HeaderRight = headerRight && headerRight(null);
   const HeaderLeft = React.useMemo(() => headerLeft && headerLeft(null), []);
 
@@ -39,6 +42,7 @@ export const NavigationHeader = React.memo(function ({
       height={16}
       pl={2}
       pr={2}
+      style={style}
     >
       <View>
         {/* Left */}

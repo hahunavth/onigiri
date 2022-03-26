@@ -27,7 +27,7 @@ export const ComicVerticalList = ({
    *
    * TODO: Convert all flatlist to this.
    */
-  console.log("re codev");
+  // console.log("re codev");
   const renderItem = React.useCallback(
     (props: ListRenderItemInfo<resComicItem_T>) => {
       // if (props.index === 1 || props.index === 5) return <Text>Sticky</Text>

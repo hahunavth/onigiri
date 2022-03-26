@@ -6,6 +6,7 @@ import { navigate, navPush } from "../../../navigators";
 import { useColorModeStyle } from "../../../hooks/useColorModeStyle";
 import { SharedElement } from "react-navigation-shared-element";
 // import usePrevious from 'react-use/esm/usePrevious'
+import { useNavigation, useRoute } from "@react-navigation/core";
 
 type Props = {
   item: resComicItem_T;
@@ -19,7 +20,7 @@ export const ComicListItem = React.memo(
   Props) {
     // const prev = usePrevious(item)
     // console.log(item.path, item === prev)
-
+    const { name } = useRoute();
     const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle("", "Primary");
     const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle(
       "",
@@ -28,11 +29,16 @@ export const ComicListItem = React.memo(
 
     const handlePress = React.useCallback(
       () =>
-        item.path &&
-        navPush("shared", {
-          screen: "shared/comic-detail",
-          params: { preloadItem: item, path: item.path }
-        }),
+        // STUB: SHARED ELEMENT ONLY WORK WITH NAVIGATE
+        item.path && name === "shared/find-result"
+          ? navigate("shared", {
+              screen: "shared/comic-detail",
+              params: { preloadItem: item, path: item.path }
+            })
+          : navPush("shared", {
+              screen: "shared/comic-detail",
+              params: { preloadItem: item, path: item.path }
+            }),
       [item, item.path]
     );
 

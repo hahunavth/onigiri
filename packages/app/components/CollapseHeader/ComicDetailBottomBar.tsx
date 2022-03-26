@@ -1,5 +1,5 @@
 // Lib
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   FlatList,
   FlatListProps,
@@ -11,9 +11,9 @@ import {
   ViewProps,
   ViewStyle,
   InteractionManager
-} from 'react-native'
-import { Button, View, Text, Badge } from 'native-base'
-import { AntDesign, Ionicons } from '@expo/vector-icons'
+} from "react-native";
+import { Button, View, Text, Badge } from "native-base";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import Animated, {
   interpolate,
   useAnimatedScrollHandler,
@@ -23,50 +23,52 @@ import Animated, {
   interpolateColor,
   withTiming,
   SlideInDown
-} from 'react-native-reanimated'
+} from "react-native-reanimated";
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabBarProps,
   MaterialTopTabNavigationOptions
-} from '@react-navigation/material-top-tabs'
-import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context'
+} from "@react-navigation/material-top-tabs";
+import {
+  useSafeAreaInsets,
+  SafeAreaView
+} from "react-native-safe-area-context";
 // App
-import { useAppDispatch, useAppSelector } from 'app/store/hooks'
-import { goBack, navigate } from 'app/navigators'
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
+import { goBack, navigate } from "app/navigators";
 import {
   historySelector,
   selectDownloadedChapters,
   selectLastedReadChapterPath,
   selectThisComicIsSubscribed,
   toggleSubscribeComicThunk
-} from 'app/store/historySlice'
-import { useColorModeStyle } from 'app/hooks/useColorModeStyle'
+} from "app/store/historySlice";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 // Local
-import Header, { HeaderConfig, Visibility } from './Header'
-import HeaderOverlay from './HeaderOverlay'
-import { ScrollPair } from './ScrollPair'
-import useScrollSync from './useScrollSync'
-import ChapterList from './ChapterList'
-import TabBar from './TabBar'
-import DetailList from './DetailList'
+import Header, { HeaderConfig, Visibility } from "./Header";
+import HeaderOverlay from "./HeaderOverlay";
+import { ScrollPair } from "./ScrollPair";
+import useScrollSync from "./useScrollSync";
+import TabBar from "./TabBar";
+import DetailList from "./DetailList";
 // Type
 import type {
   resComicDetailChapterItem_T,
   resComicDetail_T,
   resComicItem_T
-} from 'app/types'
-import useInteraction from '../../hooks/useInteraction'
-import usePrevious from 'react-use/esm/usePrevious'
-import useRaf from 'react-use/esm/useRaf'
-import { useThemedColor } from '../Typo'
+} from "app/types";
+import useInteraction from "../../hooks/useInteraction";
+import usePrevious from "react-use/esm/usePrevious";
+import useRaf from "react-use/esm/useRaf";
+import { useThemedColor } from "../Typo";
 // import { ANbView } from '../Typo/View'
 
 type ComicDetailBottomBarProps = {
-  comic?: resComicDetail_T
-  path: string
+  comic?: resComicDetail_T;
+  path: string;
   // handleReadNowClick: () => any
   // handleSubscribeClick: () => any
-}
+};
 
 const ComicDetailBottomBar = React.memo(
   ({
@@ -75,22 +77,22 @@ const ComicDetailBottomBar = React.memo(
   }: // handleReadNowClick,
   // handleSubscribeClick
   ComicDetailBottomBarProps) => {
-    const { boxStyle: bs1 } = useColorModeStyle('Blue', 'Secondary')
+    const { boxStyle: bs1 } = useColorModeStyle("Blue", "Secondary");
     const subscribed = !!useAppSelector((state) =>
-      selectThisComicIsSubscribed(state, path || ('' as any))
-    )
+      selectThisComicIsSubscribed(state, path || ("" as any))
+    );
 
     // ANIMATED
     // const offset = useSharedValue(0)
     const animatedStyle = useAnimatedStyle(() => {
       return {
         //  opacity: offset.value,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
         padding: 5
-      }
-    })
+      };
+    });
 
     // useInteraction({
     //   callback: () => {
@@ -98,45 +100,45 @@ const ComicDetailBottomBar = React.memo(
     //   }
     // })
 
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
 
     const lastedReadCptName = useAppSelector((state) =>
-      selectLastedReadChapterPath(state, comic?.path || '')
-    )
+      selectLastedReadChapterPath(state, comic?.path || "")
+    );
     // NOTE: Handle function
     const handleSubscribeClick = useCallback(() => {
-      if (comic) dispatch(toggleSubscribeComicThunk(comic))
-    }, [comic])
+      if (comic) dispatch(toggleSubscribeComicThunk(comic));
+    }, [comic]);
 
     const currCptId = React.useMemo(() => {
-      return comic?.chapters.findIndex((cpt) => cpt.name === lastedReadCptName)
-    }, [comic, lastedReadCptName])
+      return comic?.chapters.findIndex((cpt) => cpt.name === lastedReadCptName);
+    }, [comic, lastedReadCptName]);
 
     const handleReadNowClick = useCallback(() => {
-      if (typeof currCptId === 'number' && currCptId !== -1) {
-        navigate('chapter', {
+      if (typeof currCptId === "number" && currCptId !== -1) {
+        navigate("chapter", {
           id: currCptId,
-          path: comic?.chapters[currCptId].path || '',
+          path: comic?.chapters[currCptId].path || "",
           name: comic?.chapters[currCptId].name
-        })
+        });
       } else {
-        const chapter1 = comic?.chapters[comic?.chapters.length - 1]
+        const chapter1 = comic?.chapters[comic?.chapters.length - 1];
         chapter1?.path &&
           comic?.chapters.length &&
-          navigate('chapter', {
+          navigate("chapter", {
             id: comic?.chapters.length - 1,
             name: chapter1.name,
             path: chapter1.path
-          })
+          });
       }
-    }, [comic])
+    }, [comic]);
 
     const {
       backgroundPrimary,
       backgroundSecondary,
       textPrimary,
       textSecondary
-    } = useThemedColor()
+    } = useThemedColor();
 
     // TODO: FIX ANY STYLE
     return (
@@ -161,13 +163,13 @@ const ComicDetailBottomBar = React.memo(
           <AntDesign
             name="adduser"
             size={24}
-            style={{ color: subscribed ? 'red' : textPrimary }}
+            style={{ color: subscribed ? "red" : textPrimary }}
           />
           <Text
             style={
               {
                 fontSize: 11,
-                color: subscribed ? 'red' : textPrimary
+                color: subscribed ? "red" : textPrimary
               } as any
             }
           >
@@ -175,32 +177,32 @@ const ComicDetailBottomBar = React.memo(
           </Text>
         </TouchableOpacity>
         <Button
-          _pressed={{ bg: 'warning.900' }}
-          bg={'$light.backgroundButton'}
-          _text={{ color: '$light.textButton' }}
+          _pressed={{ bg: "warning.900" }}
+          bg={"$light.backgroundButton"}
+          _text={{ color: "$light.textButton" }}
           _dark={{
-            bg: '$dark.backgroundButton',
-            _text: { color: '$dark.textButton' }
+            bg: "$dark.backgroundButton",
+            _text: { color: "$dark.textButton" }
           }}
           style={styles.readNowBtn}
           onPress={handleReadNowClick}
         >
           {lastedReadCptName ? (
-            <Text numberOfLines={1} color={'white'}>
+            <Text numberOfLines={1} color={"white"}>
               Read {lastedReadCptName}
             </Text>
           ) : (
-            'Read now!'
+            "Read now!"
           )}
         </Button>
       </Animated.View>
-    )
+    );
   }
-)
+);
 
 const ToastComingSoon = () => {
-  ToastAndroid.show('Coming Soon!', 500)
-}
+  ToastAndroid.show("Coming Soon!", 500);
+};
 
 export const styles = StyleSheet.create({
   wrapperContainer: {
@@ -213,56 +215,56 @@ export const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    position: 'absolute',
+    position: "absolute",
     zIndex: 1
   },
   headerIconContainer: {
-    position: 'absolute',
+    position: "absolute",
     zIndex: 100,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     left: 0,
     right: 0,
     height: 72,
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 4
   },
   overlayName: {
     fontSize: 24
   },
   collapsedOverlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    justifyContent: 'center',
+    justifyContent: "center",
     zIndex: 2
   },
   headerContainer: {
     top: 0,
     left: 0,
     right: 0,
-    position: 'absolute',
+    position: "absolute",
     zIndex: 1
   },
-  downloadIconContainer: { alignSelf: 'flex-end', flexDirection: 'row' },
+  downloadIconContainer: { alignSelf: "flex-end", flexDirection: "row" },
   shareIconContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 5
     // backgroundColor: 'red',
     // opacity: 0
   },
   shareIconTouchOpacity: {
-    margin: 'auto',
-    alignItems: 'center',
+    margin: "auto",
+    alignItems: "center",
     marginLeft: 24
   },
   shareIconText: { fontSize: 11 },
   subscribeTouchOpacity: {
-    margin: 'auto',
-    alignItems: 'center'
+    margin: "auto",
+    alignItems: "center"
   },
   readNowBtn: {
     width: 210,
@@ -271,6 +273,6 @@ export const styles = StyleSheet.create({
     padding: 0,
     marginRight: 12
   }
-})
+});
 
-export default ComicDetailBottomBar
+export default ComicDetailBottomBar;

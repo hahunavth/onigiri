@@ -50,6 +50,9 @@ import { NotificationHeaderRefreshBtn } from "../screens/NotificationScreen/Noti
 import i18n from "i18n-js";
 import ChapterSetting from "../screens/ChapterSettingScreen/ChapterSettingScreen";
 import { CommentScreen } from "../screens/CommentScreen";
+import { ChapterListScreen } from "../screens/ChapterListScreen";
+import { DayAndNightProps } from "../components/EmptyPage";
+import { SwitchThemeScreen } from "../screens/SwitchThemeScreen";
 
 /**
  * Using common params
@@ -71,6 +74,7 @@ export type StackNavParamsList = {
     name?: string;
   };
   "chapter-setting": undefined;
+  "chapter-list": undefined;
   comment: {
     path: string;
   };
@@ -115,6 +119,7 @@ export type StackNavParamsList = {
   };
   notification: undefined;
   "top-comic-screen": undefined;
+  "day-and-night": DayAndNightProps;
 };
 
 /**
@@ -163,6 +168,10 @@ export type HomeSessionDetailListScreenProps = NativeStackScreenProps<
 export type CommentScreenProps = NativeStackScreenProps<
   StackNavParamsList,
   "comment"
+>;
+export type DayAndNightScreenProps = NativeStackScreenProps<
+  StackNavParamsList,
+  "day-and-night"
 >;
 
 /**
@@ -289,6 +298,35 @@ export function StackNav() {
           }}
           component={CommentScreen}
         ></Screen>
+        <Screen
+          name="chapter-list"
+          options={{
+            animation: "fade",
+            headerShown: false,
+            gestureEnabled: true,
+            fullScreenGestureEnabled: true,
+            headerTransparent: true,
+            // REVIEW: TYPE MODAL, ........................
+            presentation: "transparentModal",
+            ...TransitionPresets.BottomSheetAndroid
+          }}
+          component={ChapterListScreen}
+        />
+
+        <Screen
+          name="day-and-night"
+          options={{
+            animation: "fade",
+            headerShown: false,
+            gestureEnabled: true,
+            fullScreenGestureEnabled: true,
+            headerTransparent: true,
+            // REVIEW: TYPE MODAL, ........................
+            presentation: "transparentModal",
+            ...TransitionPresets.BottomSheetAndroid
+          }}
+          component={SwitchThemeScreen}
+        />
       </Group>
 
       <Group>

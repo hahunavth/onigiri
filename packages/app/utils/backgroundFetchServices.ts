@@ -1,3 +1,4 @@
+import { mergeNewChapterNotificationThunk } from "app/store/notificationSlice";
 import { mmkvStorage } from "./mmkvStorage";
 /**
  *
@@ -55,13 +56,13 @@ export const fetchBackgroundTask = async () => {
   }
   // await triggerBackgroundFetchNotification()
   // .catch(bg)
-  if (!store?.getState() && store?.dispatch) {
-    await store.dispatch(fetchNewChapterNotificationThunk());
-  } else {
-    await bg();
-  }
+  // if (!store?.getState() && store?.dispatch) {
+  //   await store.dispatch(fetchNewChapterNotificationThunk());
+  // } else {
+  //   await bg();
+  // }
 
-  // await bg()
+  await bg().then(() => store.dispatch(mergeNewChapterNotificationThunk()));
   //
   console.log("background fetch done!");
   // Be sure to return the successful result type!

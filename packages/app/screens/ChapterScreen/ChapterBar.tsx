@@ -21,6 +21,8 @@ import { useColorModeStyle } from "../../hooks/useColorModeStyle";
 import { resComicDetailChapterItem_T } from "../../types";
 import { ChapterContext } from "./ChapterContext";
 import { chapterActions, selectCptId } from "../../store/chapterSlice";
+import { Entypo } from "@expo/vector-icons";
+
 interface Props {
   style?: ViewStyle;
   onCommentClick?: () => void;
@@ -216,8 +218,8 @@ const ChapterBar = (props: Props) => {
           <TouchableOpacity onPress={props.onCommentClick}>
             <AntDesign name={"message1"} size={28} color={textStyle.color} />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <AntDesign name={"reload1"} size={28} color={textStyle.color} />
+          <TouchableOpacity onPress={() => navigate("chapter-list")}>
+            <Entypo name={"list"} size={32} color={textStyle.color} />
           </TouchableOpacity>
           <TouchableOpacity
             // style={prevStyle}

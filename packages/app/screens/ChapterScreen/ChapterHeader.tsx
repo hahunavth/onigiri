@@ -22,6 +22,7 @@ import { useAppSafeAreaInsets } from "app/provider/safe-area/use-safe-area";
 import { useColorModeStyle } from "../../hooks/useColorModeStyle";
 import { goBack, navigate } from "../../navigators";
 import { ChapterContext } from "./ChapterContext";
+import { MaterialIcons } from "@expo/vector-icons";
 
 interface Props {
   style?: ViewStyle;
@@ -95,7 +96,11 @@ const ChapterHeader = (props: Props) => {
             // onPress={props.rightPress ? props.rightPress : onMenuPress}
             onPress={() => navigate("chapter-setting")}
           >
-            <AntDesign name="menuunfold" size={28} color={textStyle.color} />
+            <MaterialIcons
+              name="settings-applications"
+              size={32}
+              color={textStyle.color}
+            />
           </TouchableOpacity>
         </SafeAreaView>
 
@@ -159,7 +164,14 @@ const ChapterHeader = (props: Props) => {
             marginTop: 2
           }}
         >
-          <Text style={textStyle}>{props.name}</Text>
+          <Text
+            style={textStyle}
+            mx={12}
+            numberOfLines={2}
+            textAlign={"center"}
+          >
+            {props.name}
+          </Text>
         </View>
       </AnimatedSafeAreaView>
     </>

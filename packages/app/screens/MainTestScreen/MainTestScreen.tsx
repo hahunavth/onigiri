@@ -103,6 +103,7 @@ import { fetchBackgroundTask } from "../../utils/backgroundFetchServices";
 import HTMLParser from "fast-html-parser";
 import { mmkvStorage } from "../../utils/mmkvStorage";
 import DynamicColumnGrid from "../../components/DynamicColumnGrid/DynamicColumnGrid";
+import { DayAndNight } from "../../components/EmptyPage";
 
 const source = {
   html: `
@@ -483,6 +484,7 @@ export function MainTestScreen() {
       {/* <RenderHtml contentWidth={width} source={source} /> */}
 
       <DynamicColumnGrid />
+      <DayAndNight type="day-to-night" />
     </ScrollView>
   );
 }

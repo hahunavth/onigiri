@@ -1,4 +1,8 @@
-import type { resComicDetailChapterItem_T } from 'app/types'
+/**
+ * NOTE: COLLAPSE HEADER CHAPTER LIST
+ */
+
+import type { resComicDetailChapterItem_T } from "app/types";
 import React, {
   forwardRef,
   memo,
@@ -6,7 +10,7 @@ import React, {
   useEffect,
   useMemo,
   useState
-} from 'react'
+} from "react";
 import {
   Dimensions,
   FlatList,
@@ -16,31 +20,30 @@ import {
   StyleSheet,
   TouchableOpacity,
   View
-} from 'react-native'
-import { Text } from 'native-base'
-import Animated from 'react-native-reanimated'
-import ChapterListItem from './ChapterListItem'
-import { MotiScrollView } from 'moti'
-import { useAppSelector } from 'app/store/hooks'
-import { historySelector } from 'app/store/historySlice'
-import { homeSelector } from '../../store/homeSlice'
-import useInteraction from '../../hooks/useInteraction'
-import usePrevious from 'react-use/esm/usePrevious'
+} from "react-native";
+import { Text } from "native-base";
+import Animated from "react-native-reanimated";
+import ChapterListItem from "./ChapterListItem";
+import { MotiScrollView } from "moti";
+import { useAppSelector } from "app/store/hooks";
+import { historySelector } from "app/store/historySlice";
+import { homeSelector } from "../../store/homeSlice";
+import useInteraction from "../../hooks/useInteraction";
+import usePrevious from "react-use/esm/usePrevious";
 // import { ANFlatlist } from '../Typo'
-import { AnimatedFlatList } from './DetailList'
 
 // @ts-ignore
-// export const AnimatedFlatList: typeof FlatList =
-//   Animated.createAnimatedComponent(FlatList)
+export const AnimatedFlatList: typeof FlatList =
+  Animated.createAnimatedComponent(FlatList);
 
 type Props = Omit<
   FlatListProps<
     resComicDetailChapterItem_T & {
-      visited?: boolean
+      visited?: boolean;
     }
   >,
-  'renderItem'
->
+  "renderItem"
+>;
 
 /**
  * Main component
@@ -49,20 +52,18 @@ const ConnectionList = forwardRef<
   FlatList,
   Props & {
     // This props for downloaded offline comic
-    offline?: boolean
+    offline?: boolean;
   }
 >((props, ref) => {
-  const history = useAppSelector(historySelector)
-  const [sortNewer, setSortNewer] = useState(true)
-  const { currentComic } = useAppSelector(homeSelector)
-  // const prev = usePrevious(currentComic)
-  // console.log('render chapter list', prev === currentComic)
+  const history = useAppSelector(historySelector);
+  const [sortNewer, setSortNewer] = useState(true);
+  const { currentComic } = useAppSelector(homeSelector);
 
   // Memo
   const keyExtractor = useCallback(
     (_: resComicDetailChapterItem_T, index) => _.path,
     []
-  )
+  );
 
   const renderItem = useCallback<ListRenderItem<resComicDetailChapterItem_T>>(
     ({ item, index }) => (
@@ -81,47 +82,39 @@ const ConnectionList = forwardRef<
       />
     ),
     [props.offline, sortNewer]
-  )
-  // const olderList = useMemo(() => {
-  //   const list = []
-  //   if (props.data)
-  //     for (let i = props.data?.length - 1; i > 0; i--) {
-  //       list.push(props.data[i])
-  //     }
-  //   return list
-  // }, [props.data])
+  );
 
-  const [olderList, setOlderList] = useState<resComicDetailChapterItem_T[]>([])
+  const [olderList, setOlderList] = useState<resComicDetailChapterItem_T[]>([]);
 
   const { loading } = useInteraction({
     callback: () => {
-      const list = []
+      const list = [];
       if (props.data)
         for (let i = props.data?.length - 1; i > 0; i--) {
-          list.push(props.data[i])
+          list.push(props.data[i]);
         }
-      setOlderList(list)
+      setOlderList(list);
     },
     dependencyList: [props.data]
-  })
+  });
 
   const ListHeaderComponent = () => {
     return (
       <ListHeader
-        lastedChapter={(props.data && props.data[0].name) || ''}
+        lastedChapter={(props.data && props.data[0].name) || ""}
         sortType={sortNewer}
         onSortTypeChange={setSortNewer}
       />
-    )
-  }
+    );
+  };
 
   const getItemLayout = React.useCallback((data, index) => {
     return {
       index,
       offset: index * 50,
       length: 50
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -139,8 +132,8 @@ const ConnectionList = forwardRef<
         />
       )}
     </View>
-  )
-})
+  );
+});
 
 const listHeaderStyle = StyleSheet.create({
   flex1: { flex: 1 },
@@ -150,23 +143,23 @@ const listHeaderStyle = StyleSheet.create({
     // fontFamily: QFontFamily.Quicksand_600SemiBold
   },
   activate: {
-    color: '#704217'
+    color: "#704217"
   }
-})
+});
 
 export const ListHeader = ({
   lastedChapter,
   sortType,
   onSortTypeChange
 }: {
-  lastedChapter: string
-  sortType: boolean
-  onSortTypeChange: (type: boolean) => any
+  lastedChapter: string;
+  sortType: boolean;
+  onSortTypeChange: (type: boolean) => any;
 }) => (
   <View
     style={{
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+      flexDirection: "row",
+      justifyContent: "space-between",
       marginHorizontal: 10,
       marginBottom: 5
     }}
@@ -174,10 +167,10 @@ export const ListHeader = ({
     <Text style={{ fontSize: 11 }} numberOfLines={1}>
       Lasted Chapter: {lastedChapter}
     </Text>
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
       <TouchableOpacity
         onPress={() => {
-          onSortTypeChange(true)
+          onSortTypeChange(true);
         }}
       >
         <Text
@@ -195,7 +188,7 @@ export const ListHeader = ({
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          onSortTypeChange(false)
+          onSortTypeChange(false);
         }}
       >
         <Text
@@ -213,12 +206,11 @@ export const ListHeader = ({
       </TouchableOpacity>
     </View>
   </View>
-)
+);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
   }
-})
-
-export default memo(ConnectionList)
+});
+export const ChapterList = memo(ConnectionList);

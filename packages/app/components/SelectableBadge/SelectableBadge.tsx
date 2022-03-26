@@ -1,14 +1,19 @@
-import React from 'react'
-import { TouchableOpacity } from 'react-native'
-import { TouchableNativeFeedback } from 'react-native-gesture-handler'
-import { Badge, IBadgeProps, View } from 'native-base'
-import { NextLink } from '../NextLink'
+/**
+ * NOTE: DEPRECATED BECAUSE PERFORMANCE
+ *          use app/components/ChapterList/DownloadChapterItem
+ */
+
+import React from "react";
+import { TouchableOpacity } from "react-native";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import { Badge, IBadgeProps, View } from "native-base";
+import { NextLink } from "../NextLink";
 
 type Props = IBadgeProps & {
-  onPress?: (id: any) => any
-  id?: number
-  name?: string | number
-}
+  onPress?: (id: any) => any;
+  id?: number;
+  name?: string | number;
+};
 
 /**
  * Show genres component
@@ -19,19 +24,19 @@ export const SelectableBadge = React.memo(function (props: Props) {
    * STUB: INCREASE PERFORMANCE FOR LONG LIST
    * Rerender button before state in parent component change
    */
-  const [toggling, setToggling] = React.useState(false)
+  const [toggling, setToggling] = React.useState(false);
   React.useEffect(() => {
     if (toggling)
-      props?.onPress ? Promise.resolve(props?.onPress(props.id)) : null
-    setToggling(false)
-  }, [props.variant, toggling])
+      props?.onPress ? Promise.resolve(props?.onPress(props.id)) : null;
+    setToggling(false);
+  }, [props.variant, toggling]);
   /** */
 
   return (
     <View
-      overflow={'hidden'}
+      overflow={"hidden"}
       style={{
-        alignSelf: 'center',
+        alignSelf: "center",
         borderRadius: 10,
         marginHorizontal: 2,
         marginBottom: 8
@@ -41,7 +46,7 @@ export const SelectableBadge = React.memo(function (props: Props) {
       <TouchableNativeFeedback
         style={{ borderRadius: 10 }}
         onPress={() => {
-          setToggling(true)
+          setToggling(true);
         }}
         // onPress={() => console.log('first')}
       >
@@ -49,21 +54,21 @@ export const SelectableBadge = React.memo(function (props: Props) {
           {...props}
           variant={
             toggling
-              ? props.variant === 'subtle'
-                ? 'outline'
-                : 'subtle'
+              ? props.variant === "subtle"
+                ? "outline"
+                : "subtle"
               : props.variant
           }
           // variant={props.variant}
-          colorScheme={'info'}
+          colorScheme={"info"}
           rounded={100}
           w={120}
           h={8}
-          _text={{ m: 'auto' }}
+          _text={{ m: "auto" }}
         >
           {props?.name}
         </Badge>
       </TouchableNativeFeedback>
     </View>
-  )
-})
+  );
+});
