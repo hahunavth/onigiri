@@ -1,8 +1,3 @@
-/**
- * NOTE: DEPRECATED BECAUSE PERFORMANCE
- *          use app/components/ChapterList/DownloadChapterItem
- */
-
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";

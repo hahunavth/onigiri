@@ -195,8 +195,9 @@ export function SelectDownloadChapter(props: SelectDownloadChapterProps) {
                 index
               };
             }}
-            initialNumToRender={10}
+            initialNumToRender={100}
             maxToRenderPerBatch={10}
+            updateCellsBatchingPeriod={50}
             keyExtractor={(item) => item.name.toString()}
           />
         )}

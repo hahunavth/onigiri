@@ -6,47 +6,47 @@ import {
   FlatList,
   VStack,
   HStack
-} from 'native-base'
-import { ImageProps, Dimensions } from 'react-native'
-import React from 'react'
-import { deleteAllImgs, getSingleImg } from 'app/utils/imgManager'
-import { useApiComicDetail } from '../../store/api'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { historySelector } from '../../store/historySlice'
+} from "native-base";
+import { ImageProps, Dimensions } from "react-native";
+import React from "react";
+import { deleteAllImgs, getSingleImg } from "app/utils/imgManager";
+import { useApiComicDetail } from "../../store/api";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { historySelector } from "../../store/historySlice";
 
-import { SelectableBadge } from '../../components/SelectableBadge'
+import { SelectableBadge } from "../../components/SelectableBadge";
 
-type Props = {}
+type Props = {};
 
 const comicPath =
-  '/truyen-tranh/monster-ga-afureru-sekai-ni-natta-node-suki-ni-ikitai-to-omoimasu-25132'
+  "/truyen-tranh/monster-ga-afureru-sekai-ni-natta-node-suki-ni-ikitai-to-omoimasu-25132";
 const chpaterPath =
-  '/truyen-tranh/monster-ga-afureru-sekai-ni-natta-node-suki-ni-ikitai-to-omoimasu/chap-2/503986'
+  "/truyen-tranh/monster-ga-afureru-sekai-ni-natta-node-suki-ni-ikitai-to-omoimasu/chap-2/503986";
 
 export const DownloadedChapterScreen = (props: Props) => {
-  const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([])
+  const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([]);
 
   // const { data } = useApiComicDetail(
   //   '/truyen-tranh/monster-ga-afureru-sekai-ni-natta-node-suki-ni-ikitai-to-omoimasu-25132'
   // )
   // const dispatch = useAppDispatch()
-  const history = useAppSelector(historySelector)
+  const history = useAppSelector(historySelector);
 
   React.useEffect(() => {
-    let isMounted = true
-    ;(async () => {
+    let isMounted = true;
+    (async () => {
       const fileUrls = await Promise.all(
         history?.downloadCpt[chpaterPath]?.images.map((url) => {
-          return getSingleImg(url, comicPath, chpaterPath)
+          return getSingleImg(url, comicPath, chpaterPath);
         }) || []
-      )
+      );
       // console.log(fileUrls)
-      if (isMounted) setImgs(fileUrls.map((uri) => ({ uri: uri, h: 0 })))
-    })()
+      if (isMounted) setImgs(fileUrls.map((uri) => ({ uri: uri, h: 0 })));
+    })();
     return () => {
-      isMounted = false
-    }
-  }, [])
+      isMounted = false;
+    };
+  }, []);
 
   const renderItem = React.useCallback(({ item, index }) => {
     return (
@@ -62,8 +62,8 @@ export const DownloadedChapterScreen = (props: Props) => {
         // alt="img"
         // setImgs={setHList}
       />
-    )
-  }, [])
+    );
+  }, []);
 
   return (
     <View>
@@ -92,54 +92,54 @@ export const DownloadedChapterScreen = (props: Props) => {
       </ScrollView> */}
       <Text>TestScreen 222</Text>
     </View>
-  )
-}
+  );
+};
 
-const w = Dimensions.get('window').width
+const w = Dimensions.get("window").width;
 
 const ComicImage = React.memo(function (
   props: ImageProps & {
-    setImgs?: React.Dispatch<React.SetStateAction<any[]>>
-    h?: number
-    id?: number
+    setImgs?: React.Dispatch<React.SetStateAction<any[]>>;
+    h?: number;
+    id?: number;
   }
 ) {
   React.useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
     if (!props.h) {
       // @ts-ignore
-      Image.getSize(props.source?.uri || '', (width, height) => {
-        const screenWidth = w
-        const scaleFactor = width / screenWidth
-        const imageHeight = height / scaleFactor
+      Image.getSize(props.source?.uri || "", (width, height) => {
+        const screenWidth = w;
+        const scaleFactor = width / screenWidth;
+        const imageHeight = height / scaleFactor;
 
         if (isMounted) {
           // setSize({ width: screenWidth, height: imageHeight })
           props.setImgs &&
             props.setImgs((arr) =>
               arr.map((item, id) => {
-                if (id !== props.id) return item
-                return { ...item, h: imageHeight }
+                if (id !== props.id) return item;
+                return { ...item, h: imageHeight };
               })
-            )
+            );
         }
         // console.log(props.id)
-      })
+      });
     }
     // console.log('r' + props.id)
 
     return () => {
-      isMounted = false
-    }
-  }, [])
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <Image
       {...props}
       w={w}
       h={props.h}
-      alt={'ComicImage'}
+      alt={"ComicImage"}
       // resizeMethod={'resize'}
     />
-  )
-})
+  );
+});

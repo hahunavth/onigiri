@@ -1,3 +1,7 @@
+/**
+ * Deprecated performance
+ */
+
 import { selectReadChapters } from "app/store/historySlice";
 import { useAppSelector } from "app/store/hooks";
 import { navigate } from "app/navigators";
