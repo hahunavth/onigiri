@@ -9,6 +9,9 @@ const SENTRY_DSN = process.env.SENTRY_DSN;
 const STAGE = process.env.STAGE;
 const SCHEME = process.env.SCHEME ?? "com.hahunavth.onigiri";
 
+const plugins = ["sentry-expo", "expo-community-flipper", "expo-ads-admob"];
+process.env.MMKV === "true" && plugins.push("./react-native-mmkv-plugin.js");
+
 const envConfig = {
   development: {
     scheme: `${SCHEME}.development`,
@@ -95,14 +98,11 @@ export default {
     ANDROID_ADMOD_INTERSTITIAL_TEST:
       process.env.ANDROID_ADMOD_INTERSTITIAL_TEST,
     ANDROID_ADMOD_BANNER: process.env.ANDROID_ADMOD_BANNER,
-    ANDROID_ADMOD_INTERSTITIAL: process.env.ANDROID_ADMOD_INTERSTITIAL
+    ANDROID_ADMOD_INTERSTITIAL: process.env.ANDROID_ADMOD_INTERSTITIAL,
+    MMKV: process.env.MMKV,
+    FAST_IMAGE: process.env.FAST_IMAGE === "true"
   },
-  plugins: [
-    "sentry-expo",
-    "./react-native-mmkv-plugin.js",
-    "expo-community-flipper",
-    "expo-ads-admob"
-  ],
+  plugins: plugins,
   // NOTE: RN WEB
   packagerOpts: {
     sourceExts: ["js", "json", "ts", "tsx", "jsx", "vue"],

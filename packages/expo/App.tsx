@@ -86,9 +86,6 @@ import {
   useApiTopWeek
 } from "app/store/api";
 
-import { MMKV } from "react-native-mmkv";
-import { initializeMMKVFlipper } from "react-native-mmkv-flipper-plugin";
-
 import * as Device from "expo-device";
 import { mergeNewChapterNotificationThunk } from "app/store/notificationSlice";
 // NOTE: BARE WORKFLOW DONT HAVE ACCESS TO THIS MODULE
@@ -107,12 +104,13 @@ LogBox.ignoreLogs([
 //   migrateFromAsyncStorage
 // } from 'app/utils/mmkvStorage'
 
-const storage = new MMKV();
-
 /**
  * TODO: USE MMKV INSTEAD OF ASYNC STORAGE
  */
-if (__DEV__) {
+if (__DEV__ && process.env.MMKV === "true") {
+  const initializeMMKVFlipper =
+    require("react-native-mmkv-flipper-plugin").initializeMMKVFlipper;
+  const storage = require("react-native-mmkv").MMKV;
   initializeMMKVFlipper({ default: storage });
 }
 
