@@ -1,4 +1,4 @@
-import React, { FC, memo, useMemo, useEffect } from 'react'
+import React, { FC, memo, useMemo, useEffect } from "react";
 import {
   Dimensions,
   Image,
@@ -7,56 +7,61 @@ import {
   StyleSheet,
   ViewProps,
   useWindowDimensions,
-  Platform
-} from 'react-native'
-import { View, Factory, Text } from 'native-base'
-import { LinearGradient } from 'expo-linear-gradient'
-import { AntDesign } from '@expo/vector-icons'
-import { SharedElement } from 'react-navigation-shared-element'
+  Platform,
+  Pressable
+} from "react-native";
+import { View, Factory, Text, HStack } from "native-base";
+import { LinearGradient } from "expo-linear-gradient";
+import { AntDesign } from "@expo/vector-icons";
+import { SharedElement } from "react-navigation-shared-element";
 import Animated, {
   useSharedValue,
   useDerivedValue,
   useAnimatedStyle,
   withTiming,
   withSpring
-} from 'react-native-reanimated'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import useInteraction from '../../hooks/useInteraction'
+} from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import useInteraction from "../../hooks/useInteraction";
+import { Rating, AirbnbRating } from "react-native-ratings";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { navigate } from "../../navigators";
 
-export const PHOTO_SIZE = 120
+export const PHOTO_SIZE = 120;
 
 // NOTE: Animation config
 export type HeaderConfig = {
-  heightExpanded: number
-  heightCollapsed: number
-}
+  heightExpanded: number;
+  heightCollapsed: number;
+};
 
 export enum Visibility {
   Hidden = 0,
   Visible = 1
 }
 
-type Props2 = Pick<ViewProps, 'style'> & {
-  photo: string
-  name: string
-  bio: string
-}
-const FLG = Factory(LinearGradient)
+type Props2 = Pick<ViewProps, "style"> & {
+  photo: string;
+  name: string;
+  bio: string;
+  rating?: number;
+};
+const FLG = Factory(LinearGradient);
 const AnimatedImageBackground =
-  Animated.createAnimatedComponent(ImageBackground)
-const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
+  Animated.createAnimatedComponent(ImageBackground);
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 // const AnimatedLinearGradient = Animated.createAnimatedComponent(FLG)
 
-const { height } = Dimensions.get('screen')
+const { height } = Dimensions.get("screen");
 
-const Header: FC<Props2> = ({ style, name, photo, bio }) => {
+const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
   // REVIEW: Save Style
-  const containerStyle = useMemo(() => [styles.container, style], [])
+  const containerStyle = useMemo(() => [styles.container, style], []);
 
   // REVIEW: Save Image source for next render
-  const photoSource = useMemo<ImageProps['source']>(() => ({ uri: photo }), [])
+  const photoSource = useMemo<ImageProps["source"]>(() => ({ uri: photo }), []);
   // const photoSource = { uri: photo };
-  const offset = useSharedValue(0)
+  const offset = useSharedValue(0);
   // const imageBackgroundHeight = useSharedValue(height)
   // const imageBackgroundHeight = useDerivedValue(() => {
   //   return offset.value * height
@@ -79,27 +84,27 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
       flex: 1,
       // justifyContent: "flex-end",
       // alignItems: "flex-start",
-      flexDirection: 'row',
+      flexDirection: "row",
       // backgroundColor: "white",
-      alignItems: 'flex-end',
+      alignItems: "flex-end",
       padding: 12
-    }
-  })
+    };
+  });
   const opacityStyle2 = useAnimatedStyle(() => {
     return {
       opacity: withTiming(offset.value)
       // width: withTiming(imageBackgroundHeight.value, {
       //   duration: 500,
       // })
-    }
-  })
+    };
+  });
 
   useInteraction({
     callback: () => {
       // imageBackgroundHeight.value = 280
-      offset.value = 1
+      offset.value = 1;
     }
-  })
+  });
 
   // React.useEffect(() => {
   //     requestAnimationFrame(() => {
@@ -116,14 +121,64 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
         fadeDuration={500}
       />
       <AnimatedLinearGradient
-        colors={['#000000d8', '#00000042', '#77777747']}
+        colors={["#000000d8", "#00000042", "#77777747"]}
         start={{ x: 0, y: 1.1 }}
         end={{ x: 0, y: 0 }}
         style={[opacityStyle1]}
       >
         <View style={styles.textContainer}>
           <Text style={styles.name}>{name}</Text>
-          <Text style={styles.bio}>{bio}</Text>
+          {rating ? (
+            <HStack space={2}>
+              <TouchableOpacity onPress={() => navigate("comic-rating")}>
+                <View
+                  rounded={10}
+                  overflow={"hidden"}
+                  bg={"white"}
+                  w={112}
+                  mt={2}
+                >
+                  {/* <Rating
+                  type="custom"
+                  showRating={false}
+                  jumpValue={0}
+                  readonly
+                  // ratingColor="#3498db"
+                  ratingBackgroundColor="black"
+                  tintColor={"white"}
+                  imageSize={20}
+                  startingValue={rating}
+                  // style={{ paddingVertical: 10 }}
+                /> */}
+                  <AirbnbRating
+                    count={5}
+                    reviews={[
+                      "Terrible",
+                      "Bad",
+                      "Meh",
+                      "OK",
+                      "Good",
+                      "Hmm...",
+                      "Very Good",
+                      "Wow",
+                      "Amazing",
+                      "Unbelievable",
+                      "Jesus"
+                    ]}
+                    showRating={false}
+                    defaultRating={rating}
+                    isDisabled
+                    size={12}
+                  />
+                </View>
+              </TouchableOpacity>
+              <Text style={styles.bio} fontWeight={700}>
+                {rating}
+              </Text>
+            </HStack>
+          ) : (
+            <Text style={styles.bio}>{bio}</Text>
+          )}
         </View>
         <SharedElement id={`item.${photo}.photo`}>
           <Image
@@ -136,28 +191,28 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
               height: 180,
               borderRadius: 10,
               borderWidth: 3,
-              borderColor: '#333',
+              borderColor: "#333",
               opacity: 1
             }}
           />
         </SharedElement>
       </AnimatedLinearGradient>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-  textContainer: { marginLeft: 8, justifyContent: 'flex-end', flex: 1 },
+  textContainer: { marginLeft: 8, justifyContent: "flex-end", flex: 1 },
   name: {
     fontSize: 20,
     // fontFamily: QFontFamily.Quicksand_700Bold,
-    color: 'white'
+    color: "white"
   },
-  bio: { fontSize: 15, marginTop: 4, color: '#ccc' },
+  bio: { fontSize: 15, marginTop: 4, color: "#ccc" },
   photo: {
     // height: PHOTO_SIZE,
     // width: width,
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     bottom: 0,
     left: 0,
@@ -165,12 +220,12 @@ const styles = StyleSheet.create({
     // borderRadius: PHOTO_SIZE / 2,
   },
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     // backgroundColor: "white",
     // alignItems: "flex-end",
     // padding: 24,
     height: 280
   }
-})
+});
 
-export default memo(Header)
+export default memo(Header);

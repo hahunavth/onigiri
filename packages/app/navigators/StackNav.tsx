@@ -53,6 +53,8 @@ import { CommentScreen } from "../screens/CommentScreen";
 import { ChapterListScreen } from "../screens/ChapterListScreen";
 import { DayAndNightProps } from "../components/EmptyPage";
 import { SwitchThemeScreen } from "../screens/SwitchThemeScreen";
+import { RatingScreen } from "../screens/RatingScreen";
+import { ComicRatingScreen } from "../screens/ComicRatingScreen";
 
 /**
  * Using common params
@@ -120,6 +122,11 @@ export type StackNavParamsList = {
   notification: undefined;
   "top-comic-screen": undefined;
   "day-and-night": DayAndNightProps;
+  rating: undefined;
+  "comic-rating": undefined;
+  // {
+  // comic: resComicDetail_T;
+  // };
 };
 
 /**
@@ -172,6 +179,10 @@ export type CommentScreenProps = NativeStackScreenProps<
 export type DayAndNightScreenProps = NativeStackScreenProps<
   StackNavParamsList,
   "day-and-night"
+>;
+export type ComicRatingScreenProps = NativeStackScreenProps<
+  StackNavParamsList,
+  "comic-rating"
 >;
 
 /**
@@ -327,6 +338,36 @@ export function StackNav() {
           }}
           component={SwitchThemeScreen}
         />
+
+        <Screen
+          name="rating"
+          options={{
+            animation: "fade",
+            headerShown: false,
+            gestureEnabled: true,
+            fullScreenGestureEnabled: true,
+            headerTransparent: true,
+            // REVIEW: TYPE MODAL, ........................
+            presentation: "transparentModal",
+            ...TransitionPresets.BottomSheetAndroid
+          }}
+          component={RatingScreen}
+        />
+
+        <Screen
+          name="comic-rating"
+          options={{
+            animation: "fade",
+            headerShown: false,
+            gestureEnabled: true,
+            fullScreenGestureEnabled: true,
+            headerTransparent: true,
+            // REVIEW: TYPE MODAL, ........................
+            presentation: "transparentModal",
+            ...TransitionPresets.BottomSheetAndroid
+          }}
+          component={ComicRatingScreen}
+        />
       </Group>
 
       <Group>
@@ -458,7 +499,7 @@ export function StackNav() {
         <Screen
           name="offline-chapter-screen"
           options={{
-            headerShown: false,
+            headerShown: true,
             title: i18n.t("stackNavScreen.offline-chapter-screen")
           }}
           component={OfflineChapterScreen}

@@ -77,6 +77,11 @@ const ConnectionItem: FC<Props> = ({
                     chapterPath: connection.path
                   });
               } else {
+                console.log({
+                  id: id,
+                  path: connection.path,
+                  name: connection.name
+                });
                 navigate("chapter", {
                   id: id,
                   path: connection.path,

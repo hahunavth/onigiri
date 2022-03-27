@@ -98,9 +98,11 @@ const historySlice = createSlice({
         if (pushNum) {
           // ANCHOR: Modify state
           // Push first if num chapters change
-          findResult.chapters.unshift(
-            ...action.payload.chapters.slice(0, pushNum)
-          );
+          // findResult.chapters.unshift(
+          //   ...action.payload.chapters.slice(0, pushNum)
+          // );
+          findResult.chapters = action.payload.chapters;
+          state.comics[action.payload.path] = findResult;
         }
       }
     },
@@ -133,9 +135,11 @@ const historySlice = createSlice({
         if (pushNum) {
           // ANCHOR: Modify state
           // Push first if num chapters change
-          findResult.chapters.unshift(
-            ...action.payload.chapters.slice(0, pushNum)
-          );
+          // findResult.chapters.unshift(
+          //   ...action.payload.chapters.slice(0, pushNum)
+          // );
+          findResult.chapters = action.payload.chapters;
+          state.comics[action.payload.path] = findResult;
         }
         // Add if not exists
         const comicIdInArr = state.readComics.indexOf(action.payload.path);
@@ -191,9 +195,9 @@ const historySlice = createSlice({
           newLastedReadPathList.slice(id, 1);
           newLastedReadPathList.unshift(newLastedReadChapter);
         } else if (id === -1) {
-          newLastedReadPathList.length > 3
+          newLastedReadPathList?.length > 3
             ? newLastedReadPathList.slice(2, 1).push(newLastedReadChapter)
-            : newLastedReadPathList.push(newLastedReadChapter);
+            : newLastedReadPathList.unshift(newLastedReadChapter);
         }
         const changedCurComic: HistoryComicT = {
           ...curComic,
@@ -275,9 +279,11 @@ const historySlice = createSlice({
           if (pushNum) {
             // ANCHOR: Modify state
             // Push first if num chapters change
-            findResult.chapters.unshift(
-              ...action.payload.chapters.slice(0, pushNum)
-            );
+            // findResult.chapters.unshift(
+            //   ...action.payload.chapters.slice(0, pushNum)
+            // );
+            findResult.chapters = action.payload.chapters;
+            state.comics[action.payload.path] = findResult;
           }
         }
         state.subscribeComics.unshift(historyComic.path);

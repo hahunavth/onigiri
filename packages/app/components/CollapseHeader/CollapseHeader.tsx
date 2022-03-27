@@ -342,9 +342,8 @@ export const CollapseHeader = (props: Props) => {
         >
           <Header
             name={props.routeParam?.name || props.comic?.title || ""}
-            bio={
-              props.comic?.rate ? `Rating: ${props.comic?.rate}` : "Loading..."
-            }
+            bio={"Loading..."}
+            rating={props.comic?.rate}
             photo={props.routeParam?.posterUrl || props.comic?.posterUrl || ""}
           />
         </Animated.View>

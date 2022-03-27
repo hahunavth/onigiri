@@ -81,7 +81,7 @@ const ConnectionList = forwardRef<
         comicPath={currentComic?.path}
       />
     ),
-    [props.offline, sortNewer]
+    [props.offline, sortNewer, props.data]
   );
 
   const [olderList, setOlderList] = useState<resComicDetailChapterItem_T[]>([]);

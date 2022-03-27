@@ -134,7 +134,7 @@ Sentry.init({
   integrations: [
     new Sentry.ReactNativeTracing({
       // routingInstrumentation,
-      // tracingOrigins: ["localhost", "my-site-url.com", /^\//]
+      tracingOrigins: ["localhost", "my-site-url.com", /^\//]
     })
   ],
   debug: true,
@@ -393,10 +393,10 @@ function App() {
         <NavigationContainer
           ref={navigationRef}
           onReady={() => {
-            // Splash
-            setIsNavReady(true);
             // Sentry
             // routingInstrumentation.registerNavigationContainer(navigationRef);
+            // Splash
+            setIsNavReady(true);
           }}
         >
           <PersistGate persistor={persistor}>

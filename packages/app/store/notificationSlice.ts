@@ -145,7 +145,11 @@ const genFetchNotificationDataFN =
       [key: string]: HistoryComicT | undefined;
     },
     // state.notification
-    memoNotification: NotificationStoreT | undefined,
+    memoNotification:
+      | {
+          [comicPath: string]: NewCptNotificationT;
+        }
+      | undefined,
     stateNotification: NotificationStoreT | undefined,
     // new result
     notifications: NotificationStoreT["newChapter"],
@@ -164,13 +168,17 @@ const genFetchNotificationDataFN =
           (cpt) => cpt.path === lastedCptPath || ""
         );
         // const oldNoti = notification.newChapter[cPath]
+        // console.log(stateNotification, memoNotification);
+
+        const n1 = stateNotification?.newChapter[cPath]?.count || -1;
+        const n2 = memoNotification ? memoNotification[cPath]?.count : -1;
         if (
           // TODO: id > 0, >=0 -> test
           id > 0 &&
           result?.chapters[id] &&
           lastedCptPath &&
-          id !== stateNotification?.newChapter[cPath]?.count &&
-          id !== memoNotification?.newChapter[cPath]?.count
+          id !== n1 &&
+          id !== n2
         ) {
           console.log(id);
           notifications[cPath] = {
@@ -227,7 +235,7 @@ export const fetchBackgroundInfo = async (
   if (!isBackground && typeof state.history !== "string") {
     const memoNotification = await mmkvStorage
       .getItem("notifications-template")
-      .then((s: string) => (s ? JSON.parse(s) : undefined));
+      .then((s: string) => (s ? JSON.parse(s || "") : {}));
     await mapSeries(
       Object.keys(state.history.comics),
       genFetchNotificationDataFN(
@@ -242,17 +250,17 @@ export const fetchBackgroundInfo = async (
   } else {
     console.log(typeof state.history);
     // @ts-ignore
-    const comics = JSON.parse(state.history).comics;
+    const comics = JSON.parse(state.history).comics || {};
     /**
      * FIXED: GET NOTIFICATION OBJECT FROM ASYNC STORAGE INSTEAD OF STORE
      * I only want to get comics list in the store!
      */
     // @ts-ignore
-    const stateNotification = JSON.parse(state.notification || "");
+    const stateNotification = JSON.parse(state.notification || "") || {};
 
     const memoNotification = await mmkvStorage
       .getItem("notifications-template")
-      .then((s: string | undefined) => (s ? JSON.parse(s) : {}));
+      .then((s: string | undefined) => (s ? JSON.parse(s || "") : {}));
     console.log(
       "🚀 ~ file: notificationSlice.ts ~ line 254 ~ memoNotification",
       memoNotification
@@ -315,10 +323,10 @@ export const mergeNewChapterNotificationThunk = createAsyncThunk(
 
     const notifications: NotificationStoreT["newChapter"] = await mmkvStorage
       .getItem("notifications-template")
-      .then((s: string) => (s ? JSON.parse(s) : undefined));
+      .then((s: string) => (s ? JSON.parse(s || "") : {}));
     const comicPushList: resComicDetail_T[] = await mmkvStorage
       .getItem("comicPushList-template")
-      .then((s: string) => (s ? JSON.parse(s) : undefined));
+      .then((s: string) => (s ? JSON.parse(s || "") : {}));
 
     if (notifications && comicPushList) {
       // ANCHOR: MODIFY STATE

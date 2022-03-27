@@ -76,6 +76,7 @@ type DataT = {
   default?: number | boolean;
   data?: any;
   component?: (props: { data: DataT }) => React.ReactElement;
+  onPress?: () => any;
 };
 
 type SectionT = {
@@ -189,7 +190,13 @@ export const SettingScreen = (props: Props) => {
         { name: i18n.t("setting.about.items.1"), type: "navigate" },
         { name: i18n.t("setting.about.items.2"), type: "navigate" },
         { name: i18n.t("setting.about.items.3"), type: "navigate" },
-        { name: i18n.t("setting.about.items.4"), type: "navigate" }
+        { name: i18n.t("setting.about.items.4"), type: "navigate" },
+        // TODO: I18N
+        {
+          name: "Feedback",
+          type: "navigate",
+          onPress: () => navigate("rating")
+        }
       ]
     }
     // {
@@ -250,7 +257,7 @@ const SelectOption = ({ data }: { data: DataT }) => {
         <Picker
           style={{ flex: 1, minWidth: 100 }}
           selectedValue={language}
-          onValueChange={(itemValue, itemIndex) => {
+          onValueChange={(itemValue: any, itemIndex: any) => {
             // setService(itemValue)
             dispatch(settingAction.changeLanguage(itemValue));
             console.log(language);
@@ -268,9 +275,12 @@ const SelectOption = ({ data }: { data: DataT }) => {
 const NavigateOption = ({ data }: { data: DataT }) => {
   return (
     <TouchableNativeFeedback
-      onPress={() => {
-        data.type === "link" ? Linking.openURL(data.data) : null;
-      }}
+      onPress={
+        data?.onPress ||
+        (() => {
+          data.type === "link" ? Linking.openURL(data.data) : null;
+        })
+      }
     >
       <HStack
         h={44}
