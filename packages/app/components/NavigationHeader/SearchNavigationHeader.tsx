@@ -289,15 +289,35 @@ const SearchNavigationHeaderChild = React.memo(() => {
         >
           {/* <Animated.View style={floatingOverlayAnimatedStyle}></Animated.View> */}
 
-          <Text
-            fontSize={15}
-            fontWeight={"bold"}
-            color={bs2._text.color}
-            pb={1}
-            // opacity={0.8}
-          >
-            {i18n.t("button.find-history")}
-          </Text>
+          <HStack justifyContent={"space-between"}>
+            <Text
+              fontSize={15}
+              fontWeight={"bold"}
+              color={bs2._text.color}
+              pb={1}
+              // opacity={0.8}
+            >
+              {i18n.t("button.find-history")}
+            </Text>
+            <TouchableOpacity
+              onPress={() => dispatch(recentAction.removeAllFindNames())}
+            >
+              <Text
+                fontSize={13}
+                fontWeight={"500"}
+                // color={bs2._text.color}
+                mb={1}
+                mr={4}
+                px={2}
+                pb={0.5}
+                rounded={12}
+                bg={"$light.backgroundButton"}
+                color={"$light.textButton"}
+              >
+                ClearAll
+              </Text>
+            </TouchableOpacity>
+          </HStack>
           <HStack flex={1} flexWrap={"wrap"}>
             {findNames.slice(0, 10).map((v, id) => (
               <Button

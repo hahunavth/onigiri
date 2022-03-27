@@ -1,31 +1,35 @@
-import { historyAction, historySelector } from 'app/store/historySlice'
-import { useAppDispatch, useAppSelector } from 'app/store/hooks'
-import { RecentTabProps } from 'app/navigators/LibraryTopNavigator'
-import { resComicDetail_T } from 'app/types'
-import React from 'react'
-import { View } from 'native-base'
+import { historyAction, historySelector } from "app/store/historySlice";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
+import { RecentTabProps } from "app/navigators/LibraryTopNavigator";
+import { resComicDetail_T } from "app/types";
+import React from "react";
+import { View } from "native-base";
 
-import LibraryList from './LibraryList'
-import ConfirmModal from '../../components/ConfirmModal'
-import { LibraryContext } from './LibraryContext'
+import LibraryList from "./LibraryList";
+import ConfirmModal from "../../components/ConfirmModal";
+import { LibraryContext } from "./LibraryContext";
 
 export const RecentTab: React.FunctionComponent<RecentTabProps> = (props) => {
-  const history = useAppSelector(historySelector)
-  const dispatch = useAppDispatch()
+  const history = useAppSelector(historySelector);
+  const dispatch = useAppDispatch();
 
-  const { showModal } = React.useContext(LibraryContext)
+  const { showModal } = React.useContext(LibraryContext);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{ flex: 1 }}
+      bg={"$light.backgroundPrimary"}
+      _dark={{ bg: "$dark.backgroundSecondary" }}
+    >
       <LibraryList
         data={
           (history.readComics
             .map((path) => history.comics[path])
             .filter((n) => n) as resComicDetail_T[]) || []
         }
-        addonFieldName={'Lasted read: '}
+        addonFieldName={"Lasted read: "}
         addonFieldExtractor={(item) => {
-          return item.lastedReadChapter || ''
+          return item.lastedReadChapter || "";
         }}
         onLongPress={(comic) => {
           // setPressedComicPath(comic.path)
@@ -36,10 +40,10 @@ export const RecentTab: React.FunctionComponent<RecentTabProps> = (props) => {
                 historyAction.removeReadComic({
                   path: path
                 })
-              )
-            })
+              );
+            });
         }}
       />
     </View>
-  )
-}
+  );
+};

@@ -164,16 +164,16 @@ export default function BottomNav() {
         }}
       ></Screen>
 
-      {/* {__DEV__ && ( */}
-      <Screen
-        name="main/test"
-        component={MainTestScreen}
-        options={{
-          title: "Test",
-          tabBarIcon: TestIcon
-        }}
-      ></Screen>
-      {/* )} */}
+      {__DEV__ && (
+        <Screen
+          name="main/test"
+          component={MainTestScreen}
+          options={{
+            title: "Test",
+            tabBarIcon: TestIcon
+          }}
+        ></Screen>
+      )}
     </Navigator>
   );
 }

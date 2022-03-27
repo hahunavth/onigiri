@@ -104,13 +104,17 @@ LogBox.ignoreLogs([
 //   migrateFromAsyncStorage
 // } from 'app/utils/mmkvStorage'
 
+// import { initializeMMKVFlipper } from "react-native-mmkv-flipper-plugin";
+// import { MMKV } from "react-native-mmkv";
 /**
  * TODO: USE MMKV INSTEAD OF ASYNC STORAGE
  */
 if (__DEV__ && process.env.MMKV === "true") {
   const initializeMMKVFlipper =
     require("react-native-mmkv-flipper-plugin").initializeMMKVFlipper;
-  const storage = require("react-native-mmkv").MMKV;
+  const MMKV = require("react-native-mmkv").MMKV;
+  const storage = new MMKV();
+  // console.log(storage);
   initializeMMKVFlipper({ default: storage });
 }
 

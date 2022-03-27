@@ -41,7 +41,9 @@ export const fetchBackgroundTask = async () => {
     if (state) {
       const notifications: NotificationStoreT["newChapter"] = {};
       const comicPushList: resComicDetail_T[] = [];
+
       await fetchBackgroundInfo(state, notifications, comicPushList, true);
+
       console.log("bg fetch result: ");
       console.log(notifications);
       await mmkvStorage.setItem(
@@ -62,7 +64,8 @@ export const fetchBackgroundTask = async () => {
   //   await bg();
   // }
 
-  await bg().then(() => store.dispatch(mergeNewChapterNotificationThunk()));
+  await bg();
+  // .then(() => store.dispatch(mergeNewChapterNotificationThunk()));
   //
   console.log("background fetch done!");
   // Be sure to return the successful result type!

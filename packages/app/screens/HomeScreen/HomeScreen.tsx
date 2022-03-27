@@ -102,7 +102,7 @@ const HomeScreenContent = () => {
         bg={"warmGray.100"}
         // @ts-ignore
         _dark={{
-          backgroundColor: "$dark.backgroundPrimary"
+          backgroundColor: "$dark.backgroundSecondary"
         }}
         // TODO: WEB SPECIFIC STYLE
         // @ts-ignore
@@ -111,7 +111,7 @@ const HomeScreenContent = () => {
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         initialNumToRender={1}
-        bgColor={"white"}
+        // bgColor={"white"}
       ></FlatList>
     </>
   );

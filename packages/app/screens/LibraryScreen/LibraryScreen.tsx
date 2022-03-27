@@ -1,10 +1,10 @@
-import { View, Text } from 'native-base'
-import React from 'react'
-import { LibraryTopNavigator } from '../../navigators/LibraryTopNavigator'
-import ChapterContextProvider from '../ChapterScreen/ChapterContext'
-import LibraryContextProvider from './LibraryContext'
+import { View, Text } from "native-base";
+import React from "react";
+import { LibraryTopNavigator } from "../../navigators/LibraryTopNavigator";
+import ChapterContextProvider from "../ChapterScreen/ChapterContext";
+import LibraryContextProvider from "./LibraryContext";
 
-type Props = {}
+type Props = {};
 
 export const LibraryScreen = (props: Props) => {
   return (
@@ -13,5 +13,5 @@ export const LibraryScreen = (props: Props) => {
         <LibraryTopNavigator />
       </LibraryContextProvider>
     </View>
-  )
-}
+  );
+};
