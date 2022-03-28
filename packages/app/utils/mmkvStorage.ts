@@ -3,6 +3,7 @@
  */
 
 // import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { MMKV } from "react-native-mmkv";
 import { Storage } from "redux-persist";
 import { Platform } from "react-native";
 

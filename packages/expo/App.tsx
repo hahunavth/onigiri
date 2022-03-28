@@ -88,6 +88,7 @@ import {
 
 import * as Device from "expo-device";
 import { mergeNewChapterNotificationThunk } from "app/store/notificationSlice";
+
 // NOTE: BARE WORKFLOW DONT HAVE ACCESS TO THIS MODULE
 // import Constants from 'expo-constants'
 
@@ -104,15 +105,16 @@ LogBox.ignoreLogs([
 //   migrateFromAsyncStorage
 // } from 'app/utils/mmkvStorage'
 
-// import { initializeMMKVFlipper } from "react-native-mmkv-flipper-plugin";
-// import { MMKV } from "react-native-mmkv";
+import { initializeMMKVFlipper } from "react-native-mmkv-flipper-plugin";
+import { MMKV } from "react-native-mmkv";
 /**
  * TODO: USE MMKV INSTEAD OF ASYNC STORAGE
  */
 if (__DEV__ && process.env.MMKV === "true") {
-  const initializeMMKVFlipper =
-    require("react-native-mmkv-flipper-plugin").initializeMMKVFlipper;
-  const MMKV = require("react-native-mmkv").MMKV;
+  console.log("USING MMKV DEBUGGER");
+  // const initializeMMKVFlipper =
+  // require("react-native-mmkv-flipper-plugin").initializeMMKVFlipper;
+  // const MMKV = require("react-native-mmkv").MMKV;
   const storage = new MMKV();
   // console.log(storage);
   initializeMMKVFlipper({ default: storage });
@@ -182,6 +184,25 @@ if (Platform.OS === "android") {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+
+/**
+ * Prefetch image
+ * Catching
+ */
+
+// function cacheImages(images) {
+//   return images.map((image) => {
+//     if (typeof image === "string") {
+//       return Image.prefetch(image);
+//     } else {
+//       return Asset.fromModule(image).downloadAsync();
+//     }
+//   });
+// }
+
+// function cacheFonts(fonts) {
+//   return fonts.map((font) => Font.loadAsync(font));
+// }
 
 /**
  *

@@ -48,7 +48,7 @@ export default function BottomNav() {
       detachInactiveScreens
       screenOptions={{
         drawerType: dimensions.width >= 768 ? "permanent" : "front",
-        drawerPosition: "right",
+        drawerPosition: "left",
         overlayColor: "transparent"
         // headerShown: false
       }}
@@ -139,7 +139,7 @@ export default function BottomNav() {
 
       // detachInactiveScreens={false}
     >
-      {/* <Screen
+      <Screen
         name="main/home"
         component={HomeScreen}
         options={{
@@ -175,7 +175,7 @@ export default function BottomNav() {
 
           drawerIcon: SettingIcon
         }}
-      ></Screen> */}
+      ></Screen>
 
       {/* {__DEV__ && ( */}
       <Screen

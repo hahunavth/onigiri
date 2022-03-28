@@ -3,14 +3,23 @@
 // This is just for the builds that happen outside of eas
 import "dotenv/config";
 
+/**
+ * STUB: .env not work in eas build
+ */
+process.env.MMKV = "true";
+process.env.FAST_IMAGE = "true";
+
 // the secrets created with eas secret:create will
 // be merged with process.env during eas builds
 const SENTRY_DSN = process.env.SENTRY_DSN;
 const STAGE = process.env.STAGE;
 const SCHEME = process.env.SCHEME ?? "com.hahunavth.onigiri";
-
 const plugins = ["sentry-expo", "expo-community-flipper", "expo-ads-admob"];
-process.env.MMKV === "true" && plugins.push("./react-native-mmkv-plugin.js");
+// NOTE: WHEN BUILD DEV CLIENT, WE ALSO NEED THIS PLUGIN
+process.env.MMKV !== "false" && plugins.push("./react-native-mmkv-plugin.js");
+console.log(plugins);
+console.log(process.env.MMKV);
+console.log(process.env.SCHEME);
 
 const envConfig = {
   development: {
@@ -47,6 +56,8 @@ export default {
   owner: "hahunavth",
   icon: config.icon,
   version: "0.0.2",
+  // NOTE: eas update
+  runtimeVersion: "0.0.2",
   splash: {
     image: config.image,
     resizeMode: "cover",
@@ -76,7 +87,9 @@ export default {
   assetBundlePatterns: ["**/*"],
   // orientation: 'portrait',
   updates: {
-    fallbackToCacheTimeout: 0
+    fallbackToCacheTimeout: 0,
+    // NOTE: eas update ( Not work with expo publish )
+    url: "https://u.expo.dev/11ff3e77-ae95-4a1e-8869-cf81503a9b5e"
   },
   hooks: {
     postPublish: [
@@ -109,5 +122,5 @@ export default {
     config: "metro.config.js"
   },
   // NOTE: ASSETS CATCHING
-  assetBundlePatterns: ["../app/assets"]
+  assetBundlePatterns: ["../app/assets/*"]
 };

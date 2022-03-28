@@ -37,7 +37,7 @@ import { navigate } from "../../navigators";
  */
 const ToggleThemeOption = ({ data }: { data: DataT }) => {
   const { colorMode, toggleColorMode, setColorMode } = useColorMode();
-  const [isLight, setIsLight] = React.useState(
+  const [isLight, setIsLight] = React.useState(() =>
     colorMode === "light" ? true : false
   );
 
@@ -49,10 +49,11 @@ const ToggleThemeOption = ({ data }: { data: DataT }) => {
         // navigate("day-and-night", {
         //   type: colorMode === "light" ? "day-to-night" : "day-to-night"
         // });
-        // setTimeout(() => {
-        toggleColorMode();
-        // }, 200);
+        setTimeout(() => {
+          toggleColorMode();
+        }, 100);
         setIsLight(!isLight);
+        navigate("day-and-night", { type: "day-to-night" });
       }}
       value={isLight}
     />

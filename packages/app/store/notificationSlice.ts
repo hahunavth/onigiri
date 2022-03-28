@@ -158,81 +158,90 @@ const genFetchNotificationDataFN =
     isBackground: boolean
   ) =>
   async (cPath: string) => {
-    const lastedCptPath = comics[cPath]?.chapters[0]?.path;
+    try {
+      const lastedCptPath = comics[cPath]?.chapters[0]?.path;
 
-    await axios
-      .get(`https://hahunavth-express-api.herokuapp.com/api/v1${cPath}`)
-      .then(({ data }) => {
-        const result = data as resComicDetail_T;
-        console.log(result?.path);
-        const id = result?.chapters?.findIndex(
-          (cpt) => cpt.path === lastedCptPath || ""
-        );
-        // const oldNoti = notification.newChapter[cPath]
-        // console.log(stateNotification, memoNotification);
-        // notifications.a = "h";
-        // console.log("mm", memoNotification, stateNotification);
-        const n1 = stateNotification?.newChapter[cPath]?.length || -1;
-        const n2 = memoNotification
-          ? memoNotification[cPath]?.length
-          : -1 || -1;
-        console.log(
-          "cmp",
-          result?.chapters?.length,
-          ">",
-          n1,
-          result?.chapters?.length,
-          ">",
-          n2
-        );
-        if (
-          // TODO: id > 0, >=0 -> test
-          // id >= 0
-          //  &&
-          // result?.chapters[id] &&
-          // lastedCptPath &&
-          result?.chapters?.length > n1 &&
-          result?.chapters?.length > n2
-          // 1
-        ) {
-          console.log(id);
-          notifications[cPath] = {
-            chapterName: result?.chapters[0].name,
-            updatedAt: result?.chapters[0].updatedAt,
-            count: id,
-            length: result?.chapters?.length,
-            chapterPath: result?.chapters[0].path,
-            createdAt: Date.now().toString(),
-            editedAt: Date.now().toString()
-          };
+      await axios
+        .get(`https://hahunavth-express-api.herokuapp.com/api/v1${cPath}`)
+        .then(({ data }) => {
+          const result = data as resComicDetail_T;
+          console.log(result?.path);
+          const id = result?.chapters?.findIndex(
+            (cpt) => cpt.path === lastedCptPath || ""
+          );
+          // const oldNoti = notification.newChapter[cPath]
+          // console.log(stateNotification, memoNotification);
+          // notifications.a = "h";
+          // console.log("mm", memoNotification, stateNotification);
+          const n1 = stateNotification?.newChapter[cPath]?.length || -1;
+          const n2 = memoNotification
+            ? memoNotification[cPath]?.length
+            : -1 || -1;
+          console.log(
+            "cmp",
+            result?.chapters?.length,
+            ">",
+            n1,
+            result?.chapters?.length,
+            ">",
+            n2,
+            "id",
+            id
+          );
+          /**
+           * WHEN PUSH NOTIFICATION ?
+           *
+           * CASE: found id > 0
+           *         and not have notification or memo
+           *             or notification and memo is null
+           */
+          if (
+            // TODO: id > 0, >=0 -> test
+            id > 0 &&
+            (!n1 || result?.chapters?.length > n1) &&
+            (!n2 || result?.chapters?.length > n2)
+          ) {
+            console.log(id);
+            notifications[cPath] = {
+              chapterName: result?.chapters[0].name,
+              updatedAt: result?.chapters[0].updatedAt,
+              count: id,
+              length: result?.chapters?.length,
+              chapterPath: result?.chapters[0].path,
+              createdAt: Date.now().toString(),
+              editedAt: Date.now().toString()
+            };
 
-          // ANCHOR: MODIFY STATE
-          // if (result) dispatch(historyAction.pushComic(result))
-          if (result) {
-            comicPushList.unshift(result);
-            if (Platform.OS !== "web" && Notifications) {
-              Notifications.scheduleNotificationAsync({
-                content: {
-                  title: `${result?.title}`,
-                  body: `${result?.chapters[0]}`,
-                  // data: { data: 'ABCD' },
-                  autoDismiss: true,
-                  // attachments: [
-                  //   {
-                  //     url: result.posterUrl
-                  //   }
-                  // ],
-                  subtitle: result?.chapters[0]?.path
-                  // badge: 2,
-                  // launchImageName: result.posterUrl
-                },
-                //
-                trigger: { seconds: 2 }
-              });
+            // ANCHOR: MODIFY STATE
+            // if (result) dispatch(historyAction.pushComic(result))
+            if (result) {
+              comicPushList.unshift(result);
+              if (Platform.OS !== "web" && Notifications) {
+                Notifications.scheduleNotificationAsync({
+                  content: {
+                    title: `${result?.title}`,
+                    body: `${id} new chapters`,
+                    // data: { data: 'ABCD' },
+                    autoDismiss: true,
+                    // attachments: [
+                    //   {
+                    //     url: result.posterUrl
+                    //   }
+                    // ],
+                    subtitle: `${result?.chapters[0]?.path}`
+                    // badge: 2,
+                    // launchImageName: result.posterUrl
+                  },
+                  //
+                  trigger: { seconds: 2 }
+                });
+              }
             }
           }
-        }
-      });
+        });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
 const mapSeries = async (iterable: any[], action: (a: any) => Promise<any>) => {
@@ -247,80 +256,88 @@ export const fetchBackgroundInfo = async (
   comicPushList: resComicDetail_T[],
   isBackground: boolean = false
 ) => {
-  const lock = await mmkvStorage
-    .getItem("fetch-notification-lock")
-    .then((s: string | undefined) => (s ? JSON.parse(s) : {}));
-  // console.log(Date.now());
-  const hourInMilliseconds = 60 * 60 * 1000;
-  if (lock?.locked === true && lock?.time - Date.now() < hourInMilliseconds) {
-    // NOTE: RETURN IF DATE
-    console.log("Break: task is running");
-    return;
-  } else {
+  try {
+    // Lock
+    const lock = await mmkvStorage
+      .getItem("fetch-notification-lock")
+      .then((s: string | undefined) => (s ? JSON.parse(s) : {}));
+    // console.log(Date.now());
+    const hourInMilliseconds = 60 * 60 * 1000;
+    if (lock?.locked === true && lock?.time - Date.now() < hourInMilliseconds) {
+      // NOTE: RETURN IF DATE
+      console.log("Break: task is running");
+      return;
+    } else {
+      await mmkvStorage.setItem(
+        "fetch-notification-lock",
+        JSON.stringify({
+          locked: true,
+          time: Date.now()
+        })
+      );
+    }
+
+    // TODO: USE isBackground in if
+    if (!isBackground && typeof state.history !== "string") {
+      const memoNotification = await mmkvStorage
+        .getItem("notifications-template")
+        .then((s: string) => (s ? JSON.parse(s || "") : {}));
+      await mapSeries(
+        Object.keys(state.history.comics),
+        genFetchNotificationDataFN(
+          state.history.comics,
+          memoNotification,
+          state.notification,
+          notifications,
+          comicPushList,
+          false
+        )
+      );
+    } else if (
+      typeof state.history === "string" &&
+      typeof state.notification === "string"
+    ) {
+      console.log(typeof state.history);
+      const comics = JSON.parse(state.history).comics || {};
+      /**
+       * FIXED: GET NOTIFICATION OBJECT FROM ASYNC STORAGE INSTEAD OF STORE
+       * I only want to get comics list in the store!
+       */
+      const stateNotification = JSON.parse(state.notification) || {};
+
+      const memoNotification = await mmkvStorage
+        .getItem("notifications-template")
+        .then((s: string | undefined) => (s ? JSON.parse(s || "") : {}));
+      console.log(
+        "🚀 ~ file: notificationSlice.ts ~ line 254 ~ memoNotification",
+        memoNotification
+      );
+      await mapSeries(
+        Object.keys(comics),
+        genFetchNotificationDataFN(
+          comics,
+          memoNotification,
+          stateNotification,
+          notifications,
+          comicPushList,
+          true
+        )
+      );
+    } else {
+      throw new Error("Unknown type of state");
+    }
+  } catch (e) {
+    console.log(e);
+  } finally {
+    // END:
     await mmkvStorage.setItem(
       "fetch-notification-lock",
       JSON.stringify({
-        locked: true,
+        locked: false,
         time: Date.now()
       })
     );
   }
-
-  // TODO: USE isBackground in if
-  if (!isBackground && typeof state.history !== "string") {
-    const memoNotification = await mmkvStorage
-      .getItem("notifications-template")
-      .then((s: string) => (s ? JSON.parse(s || "") : {}));
-    await mapSeries(
-      Object.keys(state.history.comics),
-      genFetchNotificationDataFN(
-        state.history.comics,
-        memoNotification,
-        state.notification,
-        notifications,
-        comicPushList,
-        false
-      )
-    );
-  } else {
-    console.log(typeof state.history);
-    // @ts-ignore
-    const comics = JSON.parse(state.history).comics || {};
-    /**
-     * FIXED: GET NOTIFICATION OBJECT FROM ASYNC STORAGE INSTEAD OF STORE
-     * I only want to get comics list in the store!
-     */
-    // @ts-ignore
-    const stateNotification = JSON.parse(state.notification || "") || {};
-
-    const memoNotification = await mmkvStorage
-      .getItem("notifications-template")
-      .then((s: string | undefined) => (s ? JSON.parse(s || "") : {}));
-    console.log(
-      "🚀 ~ file: notificationSlice.ts ~ line 254 ~ memoNotification",
-      memoNotification
-    );
-    await mapSeries(
-      Object.keys(comics),
-      genFetchNotificationDataFN(
-        comics,
-        memoNotification,
-        stateNotification,
-        notifications,
-        comicPushList,
-        true
-      )
-    );
-  }
-
-  // END:
-  await mmkvStorage.setItem(
-    "fetch-notification-lock",
-    JSON.stringify({
-      locked: false,
-      time: Date.now()
-    })
-  );
 };
 
 /**

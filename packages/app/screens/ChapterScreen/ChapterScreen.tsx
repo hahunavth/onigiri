@@ -1,4 +1,9 @@
-import React, { useEffect, useRef, useContext } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useContext,
+  useImperativeHandle
+} from "react";
 import {
   ListRenderItemInfo,
   Dimensions,
@@ -10,7 +15,7 @@ import {
 } from "react-native";
 import { View, Text, FlatList, HStack } from "native-base";
 import { ChapterScreenProps } from "app/navigators/StackNav";
-import { useApiChapter } from "app/store/api";
+import { comicApi, useApiChapter } from "app/store/api";
 import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import ChapterBar from "./ChapterBar";
 import ChapterHeader from "./ChapterHeader";
@@ -81,14 +86,11 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   const flatListRef = React.useRef<FlatListT>(null);
 
   useEffect(() => {
-    // setCtxId && setCtxId(id);
-    // setCtxName && setCtxName(name || "");
-    // setCtxPath && setCtxPath(path);
     dispatch(chapterActions.setCurrentChapter(_id));
     return () => {
       dispatch(chapterActions.setCurrentChapter(-1));
     };
-  }, []);
+  }, [id]);
 
   // const {} = props.navigation.
   // ANCHOR: ANIMATION
@@ -107,18 +109,6 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     };
   });
 
-  const animatedStyles2 = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateY: withTiming(offset.value, {
-            duration: 200,
-            easing: Easing.in(Easing.linear)
-          })
-        }
-      ]
-    };
-  });
   const headerAnimatedStyles = useAnimatedStyle(() => {
     return {
       opacity: 1 - offset.value / 100,
@@ -161,41 +151,72 @@ function ChapterScreenNode(props: ChapterScreenProps) {
 
   // ANCHOR: DATA LOGIC
   // VAr
-  const { data, isFetching } = useApiChapter(path || "_path");
-  const chapterInfo = data?.data;
+  // const { data, isFetching } = useApiChapter(path || "_path");
+  const [lazy, data, p] = comicApi.endpoints.getChapterByPath.useLazyQuery();
+  // const data?.data?.data = data?.data;
 
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([]);
+
+  React.useEffect(() => {
+    // setImmediate(async () => {
+    // console.log(p.lastArg);
+    const t = setTimeout(() => {
+      lazy(path || "_path");
+    }, 50);
+    // });
+    splashOffset.value = 0;
+    imgs?.length &&
+      flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
+    return () => {
+      clearTimeout(t);
+    };
+  }, [id, path]);
+  // TODO: USE LAYOUT EFFECT
+  React.useEffect(() => {
+    setImgs(data?.data?.data?.images.map((uri) => ({ uri, h: 0 })) || []);
+  }, [data]);
 
   // UPDATE IMAGE LIST
   // useEffect(() => {
   //   // NOTE: Do not using if here
   //   // useEffect run when change path (navigate to new chapter)
   //   // if (!imgs.length) {
-  //     setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })) || [])
+  //     setImgs(data?.data?.data?.images.map((uri) => ({ uri, h: 0 })) || [])
   //     setIsLoading(false)
   //   // }
   // }, [path])
 
   // NOTE: Start animation when change chapter
-  React.useEffect(() => {
-    // reset
-    setImgs([]);
-    flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
-    splashOffset.value = 0;
-  }, [path]);
+  // React.useEffect(() => {
+  // reset
+  // setImgs([]);
+  // }, [path]);
 
-  useInteraction({
-    callback: () => {
-      setImgs(chapterInfo?.images.map((uri) => ({ uri, h: 0 })) || []);
-    },
-    dependencyList: [path, chapterInfo]
-  });
+  // useImperativeHandle(flatListRef, () => {
+  //   return {
+  //     scrollToEnd: () => {
+  //       try {
+  //         imgs?.length &&
+  //           flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
+  //       } catch (e) {
+  //         console.log(e);
+  //       }
+  //     }
+  //   };
+  // });
+
+  // useInteraction({
+  //   callback: () => {
+  //     setImgs(data?.data?.data?.images.map((uri) => ({ uri, h: 0 })) || []);
+  //   },
+  //   dependencyList: [path, data?.data?.data]
+  // });
 
   // DISPATCH ACTION
   const { loading } = useUpdateCurrentChapter({
-    chapterDetail: data?.data,
+    chapterDetail: data?.data?.data,
     id: id,
-    isFetching,
+    isFetching: false,
     callback: () => (splashOffset.value = 2)
   });
 
@@ -254,28 +275,31 @@ function ChapterScreenNode(props: ChapterScreenProps) {
         </Animated.View>
 
         {/* ComicView */}
-        {loading ? null : setting.viewMode === "Vertical" ? (
-          <View style={style.container}>
-            <ChapterViewVerticalList
+        {
+          // loading ? null :
+          setting.viewMode === "Vertical" ? (
+            <View style={style.container}>
+              <ChapterViewVerticalList
+                ref={flatListRef as any}
+                handleScroll={handleScroll}
+                imgs={imgs}
+                imgList={data?.data?.data?.chapterList || []}
+                setImgs={setImgs}
+                // onEndReach={expandSheet}
+              />
+            </View>
+          ) : (
+            <ChapterViewHorizontalList
               ref={flatListRef as any}
               handleScroll={handleScroll}
               imgs={imgs}
-              imgList={chapterInfo?.chapterList || []}
+              imgList={data?.data?.data?.chapterList || []}
               setImgs={setImgs}
               // onEndReach={expandSheet}
+              toggleFloatingVisible={toggleFloatingVisible}
             />
-          </View>
-        ) : (
-          <ChapterViewHorizontalList
-            ref={flatListRef as any}
-            handleScroll={handleScroll}
-            imgs={imgs}
-            imgList={chapterInfo?.chapterList || []}
-            setImgs={setImgs}
-            // onEndReach={expandSheet}
-            toggleFloatingVisible={toggleFloatingVisible}
-          />
-        )}
+          )
+        }
       </SafeAreaView>
 
       {/* Floating */}
@@ -286,12 +310,6 @@ function ChapterScreenNode(props: ChapterScreenProps) {
         //  onCommentClick={expandSheet}
       />
       {/* FIXME: NOT SUPPORT FOR WEB */}
-      {Platform.OS !== "web" && loading ? null : (
-        <>
-          {/* <CommentBottomSheet ref={bottomSheetRef} path={comicPath || ""} /> */}
-          {/* <ChapterSetting ref={settingRef} /> */}
-        </>
-      )}
     </>
   );
 }

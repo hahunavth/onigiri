@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   Platform,
   TouchableOpacityProps,
-  TouchableNativeFeedbackProps
+  TouchableNativeFeedbackProps,
+  Image
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { navigate } from "../navigators";
@@ -28,6 +29,10 @@ const Categories = () => {
           size={24}
           color={textStyle.color}
         />
+        {/* <Image
+          source={require("./test.png")}
+          style={{ width: 100, height: 100 }}
+        /> */}
       </IconWithTitle>
       <IconWithTitle
         title={i18n.t("home.categories.items.1")}
