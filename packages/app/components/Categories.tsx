@@ -24,24 +24,33 @@ const Categories = () => {
           navigate("top-comic");
         }}
       >
-        <MaterialIcons
+        {/* <MaterialIcons
           name="align-vertical-top"
           size={24}
           color={textStyle.color}
-        />
-        {/* <Image
-          source={require("./test.png")}
-          style={{ width: 100, height: 100 }}
         /> */}
+        <Image
+          source={require("../../expo/assets/icons8-increase-100.png")}
+          style={{ width: 50, height: 50 }}
+          resizeMode={"contain"}
+          resizeMethod={"resize"}
+        />
       </IconWithTitle>
       <IconWithTitle
         title={i18n.t("home.categories.items.1")}
         onPress={() => navigate("genres.badge-list", undefined)}
       >
-        <MaterialIcons
+        {/* <MaterialIcons
           name="align-vertical-top"
           size={24}
           color={textStyle.color}
+        />
+         */}
+        <Image
+          source={require("../../expo/assets/icons8-checklist-100.png")}
+          style={{ width: 50, height: 50 }}
+          resizeMode={"contain"}
+          resizeMethod={"resize"}
         />
       </IconWithTitle>
       <IconWithTitle
@@ -52,7 +61,13 @@ const Categories = () => {
           })
         }
       >
-        <MaterialIcons name="more-horiz" size={24} color={textStyle.color} />
+        {/* <MaterialIcons name="more-horiz" size={24} color={textStyle.color} /> */}
+        <Image
+          source={require("../../expo/assets/icons8-bookmark-500.png")}
+          style={{ width: 50, height: 50 }}
+          resizeMode={"contain"}
+          resizeMethod={"resize"}
+        />
       </IconWithTitle>
       <IconWithTitle
         title={i18n.t("home.categories.items.3")}
@@ -60,7 +75,13 @@ const Categories = () => {
           navigate("genres-comic-list");
         }}
       >
-        <MaterialIcons name="more-horiz" size={24} color={textStyle.color} />
+        {/* <MaterialIcons name="more-horiz" size={24} color={textStyle.color} /> */}
+        <Image
+          source={require("../../expo/assets/icons8-menu-vertical-100.png")}
+          style={{ width: 50, height: 50 }}
+          resizeMode={"contain"}
+          resizeMethod={"resize"}
+        />
       </IconWithTitle>
     </HStack>
   );
@@ -82,13 +103,13 @@ const IconWithTitle = ({ children, onPress, title }: Props) => {
   const { boxStyle, textStyle } = useColorModeStyle("", "Primary");
 
   return (
-    <VStack
-      rounded={7}
-      overflow={"hidden"}
-      bg={boxStyle.backgroundColor}
-      shadow={"1"}
-    >
-      <Touchable onPress={onPress}>
+    <Touchable onPress={onPress}>
+      <VStack
+        rounded={7}
+        overflow={"hidden"}
+        // bg={boxStyle.backgroundColor}
+        // shadow={"1"}
+      >
         <View
           justifyContent={"center"}
           alignItems={"center"}
@@ -97,12 +118,12 @@ const IconWithTitle = ({ children, onPress, title }: Props) => {
           py={3}
         >
           <Box>{children}</Box>
-          <Text fontSize={12} style={textStyle}>
+          <Text fontSize={12} style={textStyle} textAlign={"center"}>
             {title}
           </Text>
         </View>
-      </Touchable>
-    </VStack>
+      </VStack>
+    </Touchable>
   );
 };
 

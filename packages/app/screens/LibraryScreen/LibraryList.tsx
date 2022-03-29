@@ -14,6 +14,7 @@ import { navigate } from "app/navigators";
 import { resComicDetail_T } from "app/types";
 import ListItemWithExtractor from "./ListItemWithExtractor";
 import { Empty } from "../../components/EmptyPage";
+import { Center } from "native-base";
 
 type Props = {
   data: HistoryComicT[];
@@ -56,9 +57,22 @@ const LibraryList = ({
           keyExtractor={(item, index) => index.toString()}
         />
       ) : CustomLoading ? (
-        <CustomLoading />
+        <>
+          <CustomLoading />
+        </>
       ) : (
-        <Empty />
+        <>
+          {/* <Empty /> */}
+          <Center flex={1} justifyContent={"center"}>
+            <Image
+              source={require("../../../expo/assets/icons8-likee-ap-500.png")}
+              style={{ width: 240, height: 240 }}
+              resizeMode={"contain"}
+              resizeMethod={"resize"}
+            />
+            <Text>Subscribed comics</Text>
+          </Center>
+        </>
       )}
     </>
   );
