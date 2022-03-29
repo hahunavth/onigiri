@@ -80,6 +80,7 @@
     "expo-next-react-navigation": "^2.0.2",
     "expo-notifications": "~0.14.0",
     "expo-random": "~12.1.1",
+    "expo-screen-orientation": "~4.1.1",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "expo-task-manager": "~10.1.0",

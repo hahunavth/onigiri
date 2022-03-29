@@ -11,6 +11,7 @@ import {
 import { Image, View, Text, Box } from "native-base";
 import { Loading } from "./EmptyPage/Loading";
 import { useColorModeStyle } from "../hooks/useColorModeStyle";
+import TFastImage from "./Typo/TFastImage";
 // import FastImage from "react-native-fast-image";
 
 // import { Image as ImageElement } from 'native-base'
@@ -212,6 +213,26 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
         alt={"image"}
         defaultSource={1}
       />
+      {/* <TFastImage
+        source={{
+          uri: source.uri.replace(
+            "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
+            ""
+          ),
+          method: "GET",
+          headers: {
+            referer: "https://www.nettruyenpro.com"
+          },
+          priority: TFastImage?.priority?.high
+        }}
+        // w={window.width}
+        // h={h}
+        style={{ height: h }}
+        fadeDuration={0}
+        alt={"image"}
+        defaultSource={1}
+        resizeMode={TFastImage?.resizeMode?.cover}
+      /> */}
     </>
   );
 };

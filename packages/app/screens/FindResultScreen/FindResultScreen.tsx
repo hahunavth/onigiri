@@ -119,18 +119,17 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
     <View flex={1}>
       {isLoading || loading ? (
         <Loading text="Fetching" />
-      ) : list?.length ? (
+      ) : (
         <>
           <MemoComicListVertical
             list={list || []}
             onEndReach={onEndReach}
             listFooterComponent={ListFooterComponent}
+            listEmptyComponent={() => <NotFound />}
           />
           {/* <ListFooter page={seed} max={max} /> */}
           {/* {ListFooterComponent} */}
         </>
-      ) : (
-        <NotFound />
       )}
     </View>
   );

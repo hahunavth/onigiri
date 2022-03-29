@@ -5,6 +5,7 @@ import { navigate } from "../../../navigators";
 import { num2FormatString } from "../../../utils/stringFormat";
 import { TextXsP } from "../../Typo";
 import { GridItemProps } from "./types";
+import TFastImage from "app/components/Typo/TFastImage";
 
 export const GridItem = (props: GridItemProps) => {
   return (
@@ -57,15 +58,26 @@ export const GridItem = (props: GridItemProps) => {
         <View flex={1} p={1}>
           {/* NOTE: RESPONSIVE IMAGE CONTAINER */}
           {props.loading ? (
-            <Image
+            // <Image
+            //   source={{
+            //     uri: props.item?.posterUrl
+            //   }}
+            //   alt="Alternate Text"
+            //   resizeMode="cover"
+            //   w={"full"}
+            //   h={"full"}
+            //   rounded={"sm"}
+            // />
+            <TFastImage
               source={{
-                uri: props.item?.posterUrl
+                uri: props.item?.posterUrl,
+                priority: TFastImage?.priority?.low
               }}
-              alt="Alternate Text"
-              resizeMode="cover"
-              w={"full"}
-              h={"full"}
-              rounded={"sm"}
+              // w={'full'}
+              // h={'full'}
+              resizeMode={TFastImage?.resizeMode?.cover}
+              style={{ flex: 2, borderRadius: 2 }}
+              // rounded={'sm'}
             />
           ) : (
             <Skeleton w={"full"} h={"full"} rounded={"sm"} />

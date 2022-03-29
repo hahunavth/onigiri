@@ -1,3 +1,5 @@
+// import FastImage from "react-native-fast-image"
+
 const TFastImage =
   process.env.FAST_IMAGE === "true"
     ? require("react-native-fast-image")

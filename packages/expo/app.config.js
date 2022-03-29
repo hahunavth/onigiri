@@ -17,9 +17,9 @@ const SCHEME = process.env.SCHEME ?? "com.hahunavth.onigiri";
 const plugins = ["sentry-expo", "expo-community-flipper", "expo-ads-admob"];
 // NOTE: WHEN BUILD DEV CLIENT, WE ALSO NEED THIS PLUGIN
 process.env.MMKV !== "false" && plugins.push("./react-native-mmkv-plugin.js");
-console.log(plugins);
-console.log(process.env.MMKV);
-console.log(process.env.SCHEME);
+// console.log(plugins);
+// console.log(process.env.MMKV);
+// console.log(process.env.SCHEME);
 
 const envConfig = {
   development: {

@@ -14,12 +14,18 @@ type Props = {
   list: resComicItem_T[];
   onEndReach?: () => any;
   listFooterComponent?: React.ReactElement;
+  listEmptyComponent?:
+    | React.ComponentType<any>
+    | React.ReactElement
+    | null
+    | undefined;
 };
 
 export const ComicVerticalList = ({
   list,
   onEndReach,
-  listFooterComponent
+  listFooterComponent,
+  listEmptyComponent
 }: Props) => {
   /**
    * STUB: Wrap item component of flatlist inside function
@@ -105,6 +111,7 @@ export const ComicVerticalList = ({
         // invertStickyHeaders
         alwaysBounceHorizontal={true}
         ListFooterComponent={listFooterComponent}
+        ListEmptyComponent={listEmptyComponent}
       />
     </View>
   );

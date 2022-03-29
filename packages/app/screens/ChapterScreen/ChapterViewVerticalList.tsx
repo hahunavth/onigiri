@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react";
 import {
   ListRenderItemInfo,
   FlatList,
   TouchableNativeFeedback,
   Dimensions
-} from 'react-native'
+} from "react-native";
 import {
   Badge,
   Box,
@@ -18,30 +18,31 @@ import {
   Text,
   View,
   VStack
-} from 'native-base'
+} from "native-base";
 // @ts-ignore
-import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView'
+import ReactNativeZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 
-import { ScaledImage } from '../../components/ScaledImage'
-import { AntDesign } from '@expo/vector-icons'
-import ChapterFooterBtn from '../../components/ChapterFooterBtn'
-import PinchWrapper from '../../components/PinchWrapper'
-import { ChapterContext } from './ChapterContext'
-import { useAppSelector } from '../../store/hooks'
-import { homeSelector } from '../../store/homeSlice'
-import { ChapterViewListProps } from './type'
+import { ScaledImage } from "../../components/ScaledImage";
+import { AntDesign } from "@expo/vector-icons";
+import ChapterFooterBtn from "../../components/ChapterFooterBtn";
+import PinchWrapper from "../../components/PinchWrapper";
+import { ChapterContext } from "./ChapterContext";
+import { useAppSelector } from "../../store/hooks";
+import { homeSelector } from "../../store/homeSlice";
+import { ChapterViewListProps } from "./type";
+import TFastImage from "app/components/Typo/TFastImage";
 
-const { width, height } = Dimensions.get('screen')
+const { width, height } = Dimensions.get("screen");
 
 const ChapterViewVerticalList = React.forwardRef<
   FlatList,
   ChapterViewListProps
 >((props, ref) => {
   // console.log(props.imgs)
-  const { setImgs, handleScroll, imgs } = props
+  const { setImgs, handleScroll, imgs } = props;
 
-  const { ctxId, changeChapter } = React.useContext(ChapterContext)
-  const { currentComic } = useAppSelector(homeSelector)
+  const { ctxId, changeChapter } = React.useContext(ChapterContext);
+  const { currentComic } = useAppSelector(homeSelector);
 
   const renderItem = React.useCallback(
     ({ item, index }: ListRenderItemInfo<{ uri: string; h: number }>) => {
@@ -52,20 +53,20 @@ const ChapterViewVerticalList = React.forwardRef<
         <ScaledImage
           source={{
             uri:
-              'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' +
+              "https://hahunavth-express-api.herokuapp.com/api/v1/cors/" +
               item.uri
           }}
           id={index}
           h={item.h}
           setImgs={setImgs}
         />
-      )
+      );
     },
     []
-  )
-  const keyExtractor = React.useCallback((item, id) => item.uri, [])
+  );
+  const keyExtractor = React.useCallback((item, id) => item.uri, []);
 
-  const flatlistRef = React.useRef<FlatList>()
+  const flatlistRef = React.useRef<FlatList>();
   // console.log(
   //   // Object.keys(
   //   flatlistRef.current?.getScrollResponder()?.type || {}
@@ -111,9 +112,9 @@ const ChapterViewVerticalList = React.forwardRef<
           // scrollEnabled={false}
           ref={(fref) => {
             if (fref) {
-              flatlistRef && (flatlistRef.current = fref)
+              flatlistRef && (flatlistRef.current = fref);
               // @ts-ignore
-              ref && (ref.current = fref)
+              ref && (ref.current = fref);
             }
           }}
           data={imgs || []}
@@ -127,6 +128,9 @@ const ChapterViewVerticalList = React.forwardRef<
           onEndReachedThreshold={1.1}
           onEndReached={(e) => props.onEndReach && props.onEndReach(e)}
           nestedScrollEnabled
+          ListHeaderComponent={() => {
+            return <View w={"full"} h={62}></View>;
+          }}
           ListFooterComponent={() => {
             return (
               <ScrollView my={24}>
@@ -137,10 +141,10 @@ const ChapterViewVerticalList = React.forwardRef<
                 <Divider my={12} />
                 <ChapterFooterBtn
                   onPress={() => {
-                    const length = currentComic?.chapters.length || -1
-                    const list = currentComic?.chapters || []
-                    const id = ctxId || -1
-                    console.log(length, id)
+                    const length = currentComic?.chapters.length || -1;
+                    const list = currentComic?.chapters || [];
+                    const id = ctxId || -1;
+                    console.log(length, id);
                     if (
                       id < length - 1 &&
                       id > 0 &&
@@ -151,17 +155,17 @@ const ChapterViewVerticalList = React.forwardRef<
                         ctxId: id + 1,
                         ctxName: list[id + 1].name,
                         ctxPath: list[id + 1].path
-                      })
+                      });
                     }
                   }}
                 />
                 <ChapterFooterBtn
                   type="next"
                   onPress={() => {
-                    const length = currentComic?.chapters.length || -1
-                    const list = currentComic?.chapters || []
-                    const id = ctxId || -1
-                    console.log(length, id)
+                    const length = currentComic?.chapters.length || -1;
+                    const list = currentComic?.chapters || [];
+                    const id = ctxId || -1;
+                    console.log(length, id);
                     if (
                       id < length &&
                       id >= 0 &&
@@ -172,7 +176,7 @@ const ChapterViewVerticalList = React.forwardRef<
                         ctxId: id - 1,
                         ctxName: list[id - 1].name,
                         ctxPath: list[id - 1].path
-                      })
+                      });
                     }
                   }}
                 />
@@ -182,13 +186,13 @@ const ChapterViewVerticalList = React.forwardRef<
                   <Text>Open comment BottomSheet</Text>
                 </Center>
               </ScrollView>
-            )
+            );
           }}
         />
       </View>
     </ReactNativeZoomableView>
     // </PinchWrapper>
-  )
-})
+  );
+});
 
-export default React.memo(ChapterViewVerticalList)
+export default React.memo(ChapterViewVerticalList);

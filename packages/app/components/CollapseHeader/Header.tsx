@@ -26,6 +26,7 @@ import useInteraction from "../../hooks/useInteraction";
 import { Rating, AirbnbRating } from "react-native-ratings";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { navigate } from "../../navigators";
+import TFastImage from "app/components/Typo/TFastImage";
 
 export const PHOTO_SIZE = 120;
 
@@ -181,7 +182,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
           )}
         </View>
         <SharedElement id={`item.${photo}.photo`}>
-          <Image
+          {/* <Image
             source={photoSource}
             // @ts-ignore
             width={100}
@@ -194,6 +195,24 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
               borderColor: "#333",
               opacity: 1
             }}
+          /> */}
+          <TFastImage
+            source={{
+              uri: photo,
+              priority: TFastImage?.priority?.high
+            }}
+            // w={'full'}
+            // h={'full'}
+            resizeMode={TFastImage?.resizeMode?.cover}
+            style={{
+              width: 130,
+              height: 180,
+              borderRadius: 10,
+              borderWidth: 3,
+              borderColor: "#333",
+              opacity: 1
+            }}
+            // rounded={'sm'}
           />
         </SharedElement>
       </AnimatedLinearGradient>

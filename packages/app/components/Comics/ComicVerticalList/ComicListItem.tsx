@@ -7,6 +7,7 @@ import { useColorModeStyle } from "../../../hooks/useColorModeStyle";
 import { SharedElement } from "react-navigation-shared-element";
 // import usePrevious from 'react-use/esm/usePrevious'
 import { useNavigation, useRoute } from "@react-navigation/core";
+import TFastImage from "app/components/Typo/TFastImage";
 
 type Props = {
   item: resComicItem_T;
@@ -52,10 +53,18 @@ export const ComicListItem = React.memo(
           borderColor={bs2.backgroundColor}
         >
           <SharedElement id={`item.${item.posterUrl}.photo`}>
-            <Image
+            {/* <Image
               source={{ uri: item.posterUrl }}
               style={styles.poster as ImageStyle}
               alt={"avatar"}
+            /> */}
+            <TFastImage
+              source={{
+                uri: item.posterUrl,
+                priority: TFastImage?.priority?.low
+              }}
+              resizeMode={TFastImage?.resizeMode?.cover}
+              style={styles.poster as ImageStyle}
             />
           </SharedElement>
           <View style={styles.infoContainer}>
