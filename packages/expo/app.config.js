@@ -122,5 +122,5 @@ export default {
     config: "metro.config.js"
   },
   // NOTE: ASSETS CATCHING
-  assetBundlePatterns: ["../app/assets/*"]
+  assetBundlePatterns: ["./assets/*"]
 };

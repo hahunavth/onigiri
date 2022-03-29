@@ -37,13 +37,14 @@ export function ComicItem(props: { loading?: boolean; item?: resComicItem_T }) {
     >
       <VStack
         flexDirection={"column-reverse"}
-        bg={"$light.backgroundPrimary"}
-        _dark={{
-          bg: "$dark.backgroundPrimary",
-          borderColor: "$dark.textSecondary"
-        }}
-        borderWidth={1}
-        borderColor={"$light.textButton"}
+        // NOTE: REMOVE BACKGROUND
+        // bg={"$light.backgroundPrimary"}
+        // _dark={{
+        // bg: "$dark.backgroundPrimary",
+        // borderColor: "$dark.textSecondary"
+        // }}
+        // borderWidth={1}
+        // borderColor1={"$light.textButton"}
         w={itemDim}
         height={itemDim * 1.6}
         rounded="sm"

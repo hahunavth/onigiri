@@ -128,9 +128,9 @@ const CollapseTab = (props: CollapseTabProps) => {
           backBehavior="none"
           screenOptions={screenOptions}
         >
-          <Tab.Screen name="Friends">{renderFriends}</Tab.Screen>
+          <Tab.Screen name="Detail">{renderFriends}</Tab.Screen>
           <Tab.Screen
-            name="Suggestions"
+            name="Chapters"
             // component={renderSuggestions}
             // NOTE: Do not use component props like above
             //       It will rerender component when navigate

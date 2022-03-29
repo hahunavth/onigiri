@@ -5,6 +5,7 @@ import {
   NavigationHeaderProps
 } from "./NavigationHeader.web";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 type Props = {};
 
@@ -13,11 +14,12 @@ const InScreenHeader = (props: NavigationHeaderProps) => {
     <WebNavigationHeader
       {...props}
       headerLeft={() => (
-        <MaterialCommunityIcons
-          name="arrow-left-bold-circle"
-          size={36}
-          color={"gray"}
-        />
+        // <MaterialCommunityIcons
+        //   name="arrow-left-bold-circle"
+        //   size={36}
+        //   color={"gray"}
+        // />
+        <Entypo name="chevron-down" size={24} color="black" />
       )}
     />
   );

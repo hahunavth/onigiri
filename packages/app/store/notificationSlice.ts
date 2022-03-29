@@ -186,7 +186,11 @@ const genFetchNotificationDataFN =
             ">",
             n2,
             "id",
-            id
+            id,
+            "  ->  ",
+            id > 0 &&
+              ((!n2 && (!n1 || result?.chapters?.length > n1)) ||
+                (n2 && result?.chapters?.length > n2))
           );
           /**
            * WHEN PUSH NOTIFICATION ?
@@ -198,8 +202,8 @@ const genFetchNotificationDataFN =
           if (
             // TODO: id > 0, >=0 -> test
             id > 0 &&
-            (!n1 || result?.chapters?.length > n1) &&
-            (!n2 || result?.chapters?.length > n2)
+            ((!n2 && (!n1 || result?.chapters?.length > n1)) ||
+              (n2 && result?.chapters?.length > n2))
           ) {
             console.log(id);
             notifications[cPath] = {

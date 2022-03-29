@@ -40,16 +40,16 @@ export function ListItem({ item }: Props) {
     >
       <Box
         p={1}
-        bg={"$light.backgroundPrimary"}
-        _dark={{
-          bg: "$dark.backgroundPrimary"
-        }}
+        // bg={"$light.backgroundPrimary"}
+        // _dark={{
+        //   bg: "$dark.backgroundPrimary"
+        // }}
         rounded={"sm"}
         w={230}
         h={160}
         m={2}
-        borderColor={bgDark}
-        borderWidth={1}
+        // borderColor={bgDark}
+        // borderWidth={1}
       >
         <ZStack w={220} h={150} rounded={"sm"}>
           <Image
@@ -123,9 +123,15 @@ export function ListItem({ item }: Props) {
             px={2}
             rounded={"full"}
             shadow={1}
+            ml={10}
             opacity={0.85}
           >
-            <Text fontSize={12} fontWeight={600} color={"$light.textPrimary"}>
+            <Text
+              fontSize={12}
+              fontWeight={600}
+              color={"$light.textPrimary"}
+              numberOfLines={1}
+            >
               {item.lastedReadChapter}
             </Text>
           </Box>

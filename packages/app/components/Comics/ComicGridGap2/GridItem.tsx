@@ -26,13 +26,13 @@ export const GridItem = (props: GridItemProps) => {
     >
       <VStack
         flexDirection={"column-reverse"}
-        bg={"$light.backgroundPrimary"}
-        _dark={{
-          bg: "$dark.backgroundPrimary",
-          borderColor: "$dark.textSecondary"
-        }}
-        borderWidth={1}
-        borderColor={"#c0d4f1"}
+        // bg={"$light.backgroundPrimary"}
+        // _dark={{
+        //   bg: "$dark.backgroundPrimary",
+        //   borderColor: "$dark.textSecondary"
+        // }}
+        // borderWidth={1}
+        // borderColor={"#c0d4f1"}
         w={190}
         height={208}
         rounded="sm"

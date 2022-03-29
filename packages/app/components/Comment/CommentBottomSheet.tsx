@@ -26,7 +26,7 @@ import { homeSelector } from "../../store/homeSlice";
 import { CommentBottomSheetProps } from "./types";
 import { BottomSheetCustomFooter } from "./BottomSheetCustomFooter";
 import { CommentFLLoader } from "./CommentFLLoader";
-import { useAppSafeAreaInsets } from "../../provider/safe-area/use-safe-area.web";
+import { useAppSafeAreaInsets } from "../../provider/safe-area/use-safe-area";
 
 export const CommentBottomSheet = React.memo(
   React.forwardRef<BottomSheet, CommentBottomSheetProps>(

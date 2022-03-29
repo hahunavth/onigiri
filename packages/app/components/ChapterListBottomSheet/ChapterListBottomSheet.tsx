@@ -23,12 +23,13 @@ import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { FontAwesome } from "@expo/vector-icons";
 import { CommentLoader } from "../Comment";
 import { homeSelector } from "../../store/homeSlice";
-import { useAppSafeAreaInsets } from "../../provider/safe-area/use-safe-area.web";
+import { useAppSafeAreaInsets } from "../../provider/safe-area/use-safe-area";
 import { goBack } from "../../navigators";
 import { NavigationHeader } from "../NavigationHeader";
 import InScreenHeader from "../NavigationHeader/InScreenHeader";
 import SheetHandle from "./SheetHandle";
 import ChapterList from "./ChapterList";
+import { Entypo } from "@expo/vector-icons";
 
 export const ChapterListBottomSheet = React.memo(
   React.forwardRef<BottomSheet, any>((props, bottomSheetRef) => {
@@ -37,7 +38,7 @@ export const ChapterListBottomSheet = React.memo(
     // console.log("pathhhhhhhhhhhhhhhhhhhhh", path);
     // variables
     const snapPoints = React.useMemo(
-      () => [Dimensions.get("screen").height],
+      () => [Dimensions.get("screen").height - top],
       []
     );
     // callbacks

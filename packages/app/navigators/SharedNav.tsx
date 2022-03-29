@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 import {
   createNativeStackNavigator,
   NativeStackScreenProps
-} from '@react-navigation/native-stack'
-import { NavigatorScreenParams, useNavigation } from '@react-navigation/native'
-import { Easing } from 'react-native'
+} from "@react-navigation/native-stack";
+import { NavigatorScreenParams, useNavigation } from "@react-navigation/native";
+import { Easing } from "react-native";
 import {
   NavigationHeader,
   SearchNavigationHeader
-} from 'app/components/NavigationHeader'
+} from "app/components/NavigationHeader";
 import {
   ChapterScreen,
   ComicDetailScreen,
@@ -23,29 +23,29 @@ import {
   GenresList,
   Genres,
   HomeSessionDetailListScreen
-} from 'app/screens'
+} from "app/screens";
 
-import BottomNav, { BottomNavParamsList } from './BottomNav'
+import BottomNav, { BottomNavParamsList } from "./BottomNav";
 import type {
   resComicItem_T,
   resComicDetail_T,
   resChapterDetail_T
-} from '../types'
-import { SelectDownloadChapter } from '../screens/SelectDownloadChapterScreen/SelectDownloadChapter'
-import { HistoryComicT } from '../store/historySlice'
-import { FindOptionT } from '../utils/findOption'
-import Header from '../components/CollapseHeader/Header'
-import { Icon, Text, View } from 'native-base'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { AntDesign } from '@expo/vector-icons'
-import { MotiView } from 'moti'
-import { FindByNameResultScreen } from '../screens/FindByNameResultScreen'
+} from "../types";
+import { SelectDownloadChapter } from "../screens/SelectDownloadChapterScreen/SelectDownloadChapter";
+import { HistoryComicT } from "../store/historySlice";
+import { FindOptionT } from "../utils/findOption";
+import Header from "../components/CollapseHeader/Header";
+import { Icon, Text, View } from "native-base";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { MotiView } from "moti";
+import { FindByNameResultScreen } from "../screens/FindByNameResultScreen";
 
 import {
   createSharedElementStackNavigator,
   SharedElementAnimation
-} from 'react-navigation-shared-element'
-import { StackNavParamsList } from './StackNav'
+} from "react-navigation-shared-element";
+import { StackNavParamsList } from "./StackNav";
 
 /**
  * Using common params
@@ -53,33 +53,33 @@ import { StackNavParamsList } from './StackNav'
  * @param preloadItem: option in expo
  */
 export type SharedNavParamList = {
-  'shared/comic-detail': StackNavParamsList['comic-detail']
-  'shared/find-result': StackNavParamsList['find-result']
-}
+  "shared/comic-detail": StackNavParamsList["comic-detail"];
+  "shared/find-result": StackNavParamsList["find-result"];
+};
 
 /**
  * Screen props
  */
 export type ComicDetailScreenProps = NativeStackScreenProps<
   SharedNavParamList,
-  'shared/comic-detail'
->
+  "shared/comic-detail"
+>;
 export type FindResultScreenProps = NativeStackScreenProps<
   SharedNavParamList,
-  'shared/find-result'
->
+  "shared/find-result"
+>;
 
 /**
  * Export navigation
  */
 const { Navigator, Screen } =
-  createSharedElementStackNavigator<SharedNavParamList>()
+  createSharedElementStackNavigator<SharedNavParamList>();
 
 export function SharedNav() {
   const renderHeader = React.useCallback(
     (props: any) => <NavigationHeader {...props} />,
     []
-  )
+  );
 
   const renderRight = React.useCallback((props: any) => {
     return (
@@ -93,8 +93,8 @@ export function SharedNav() {
       >
         <AntDesign name="upsquare" size={24} color="black" />
       </MotiView>
-    )
-  }, [])
+    );
+  }, []);
 
   return (
     <Navigator
@@ -112,14 +112,14 @@ export function SharedNav() {
         // },
         // detachPreviousScreen: false,
 
-        presentation: 'modal',
+        presentation: "modal",
         transitionSpec: {
           open: {
-            animation: 'timing',
+            animation: "timing",
             config: { duration: 700, easing: Easing.out(Easing.exp) }
           },
           close: {
-            animation: 'timing',
+            animation: "timing",
             config: { duration: 500, easing: Easing.out(Easing.exp) }
           }
           // close: {
@@ -138,7 +138,7 @@ export function SharedNav() {
         cardShadowEnabled: true,
 
         animationEnabled: true,
-        animationTypeForReplace: 'push',
+        animationTypeForReplace: "push",
         gestureEnabled: false,
         // transitionSpec: {}
         header: renderHeader,
@@ -148,7 +148,7 @@ export function SharedNav() {
       <Screen
         name="shared/comic-detail"
         options={{
-          title: 'Comic Detail Screen',
+          title: "Comic Detail Screen",
           headerShown: false
         }}
         component={ComicDetailScreen}
@@ -156,23 +156,23 @@ export function SharedNav() {
         sharedElements={(route, otherRoute, showing) => {
           // Only transition when coming from a specific route
           // console.log(route.name, otherRoute.name, showing)
-          if (otherRoute.name === 'shared/find-result') {
-            const { preloadItem } = route.params
-            return [`item.${preloadItem?.posterUrl}.photo`]
+          if (otherRoute.name === "shared/find-result") {
+            const { preloadItem } = route.params;
+            return [`item.${preloadItem?.posterUrl}.photo`];
           }
           // return [`${preloadItem?.posterUrl}`];
         }}
-        initialParams={{ path: '/truyen-tranh/dai-vuong-tha-mang-26499' }}
+        initialParams={{ path: "/truyen-tranh/dai-vuong-tha-mang-26499" }}
       ></Screen>
       <Screen
         name="shared/find-result"
         options={{
-          title: 'Find Result Screen',
+          title: "Find Result Screen",
           header: renderHeader,
           headerRight: renderRight
         }}
         component={FindResultScreen}
       ></Screen>
     </Navigator>
-  )
+  );
 }

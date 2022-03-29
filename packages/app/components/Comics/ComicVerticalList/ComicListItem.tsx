@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, Box } from "native-base";
+import { View, Text, Image, Box, Badge, HStack, VStack } from "native-base";
 import { TouchableOpacity, ImageStyle, StyleSheet } from "react-native";
 import { resComicItem_T } from "../../../types";
 import { navigate, navPush } from "../../../navigators";
@@ -68,19 +68,43 @@ export const ComicListItem = React.memo(
             />
           </SharedElement>
           <View style={styles.infoContainer}>
-            <Box>
-              <Text
-                style={[styles.titleText]}
-                color={ts1.color}
-                numberOfLines={1}
-              >
-                {item.name}
-              </Text>
-              <Text style={styles.detailText} color={ts2.color} opacity={0.8}>
+            <Box justifyContent={"space-between"} flex={1}>
+              <VStack>
+                <Text
+                  style={[styles.titleText]}
+                  color={ts1.color}
+                  numberOfLines={1}
+                >
+                  {item.name}
+                </Text>
+                {/* <Text style={styles.detailText} color={ts2.color} opacity={0.8}>
                 Author: {item.author}
               </Text>
               <Text style={styles.detailText} color={ts2.color} opacity={0.8}>
-                Status: {item.status}
+              Status: {item.status}
+            </Text> */}
+                <HStack flexWrap={"wrap"} space={1}>
+                  {item.kind?.map((name) => (
+                    <Badge
+                      key={name}
+                      colorScheme="orange"
+                      opacity={0.4}
+                      rounded={2}
+                      mt={1}
+                    >
+                      {name}
+                    </Badge>
+                  ))}
+                </HStack>
+              </VStack>
+              <Text
+                mt={"auto"}
+                style={styles.detailText}
+                color={ts2.color}
+                opacity={0.8}
+              >
+                Lasted:{" "}
+                {item?.lastedChapters && item?.lastedChapters[0]?.chapterName}
               </Text>
             </Box>
 

@@ -6,7 +6,8 @@ import {
   StyleSheet,
   ViewStyle,
   InteractionManager,
-  Text
+  Text,
+  ToastAndroid
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
@@ -22,6 +23,7 @@ import { resComicDetailChapterItem_T } from "../../types";
 import { ChapterContext } from "./ChapterContext";
 import { chapterActions, selectCptId } from "../../store/chapterSlice";
 import { Entypo } from "@expo/vector-icons";
+import { Toast } from "native-base";
 
 interface Props {
   style?: ViewStyle;
@@ -173,14 +175,16 @@ const ChapterBar = (props: Props) => {
           <TouchableOpacity
             // disabled={!nextChapter}
             // style={nextStyle}
-            // disabled={
-            //   typeof ctxId === 'number' && ctxId < (list?.length || 0) - 1
-            //     ? true
-            //     : false
-            // }
+            // disabled={id === -1 || id == LEN - 1}
             onPress={() => {
               if (id !== -1 && id < LEN - 1) {
                 dispatch(chapterActions.setCurrentChapter(id + 1));
+              } else {
+                ToastAndroid.show("This is the first chapter", 500);
+                // Toast.show({
+                //   title: "This is the last chapter",
+                //   duration: 500
+                // });
               }
               // if (nextChapter && typeof ctxId === 'number' && ctxId > -1) {
               //   {
@@ -210,7 +214,14 @@ const ChapterBar = (props: Props) => {
               // }
             }}
           >
-            <AntDesign name={"arrowleft"} size={32} color={textStyle.color} />
+            <AntDesign
+              name={"arrowleft"}
+              size={32}
+              color={textStyle.color}
+              style={{
+                opacity: id !== -1 && id < LEN - 1 ? 1 : 0.5
+              }}
+            />
           </TouchableOpacity>
           <TouchableOpacity>
             <AntDesign name={"like2"} size={32} color={textStyle.color} />
@@ -223,9 +234,16 @@ const ChapterBar = (props: Props) => {
           </TouchableOpacity>
           <TouchableOpacity
             // style={prevStyle}
+            // disabled={id === -1 || id === 0}
             onPress={() => {
               if (id !== -1 && id > 0) {
                 dispatch(chapterActions.setCurrentChapter(id - 1));
+              } else {
+                ToastAndroid.show("This is the last chapter", 500);
+                // Toast.show({
+                //   title: "This is the last chapter",
+                //   duration: 500
+                // });
               }
               // if (!!prevChapter && typeof ctxId === 'number' && ctxId > -1) {
               //   {
@@ -245,7 +263,14 @@ const ChapterBar = (props: Props) => {
               // }
             }}
           >
-            <AntDesign name={"arrowright"} size={32} color={textStyle.color} />
+            <AntDesign
+              name={"arrowright"}
+              size={32}
+              color={textStyle.color}
+              style={{
+                opacity: id !== -1 && id > 0 ? 1 : 0.5
+              }}
+            />
           </TouchableOpacity>
         </View>
         {/* <Text
