@@ -16,7 +16,8 @@ import {
   CheckIcon,
   Button,
   useColorMode,
-  Toast
+  Toast,
+  useColorModeValue
 } from "native-base";
 import { Picker, Linking } from "react-native";
 import React from "react";
@@ -217,7 +218,7 @@ export const SettingScreen = (props: Props) => {
   ];
 
   return (
-    <View flex={1}>
+    <View flex={1} bg={"warmGray.50"} _dark={{ bg: "warmGray.900" }}>
       <SectionList
         flex={1}
         // bg={'red.100'}
@@ -241,10 +242,10 @@ const SelectOption = ({ data }: { data: DataT }) => {
   return (
     <HStack
       h={44}
-      bg={"coolGray.50"}
       color="coolGray.500"
+      bg={"coolGray.50"}
       _dark={{
-        color: "warmGray.400"
+        bg: "warmGray.800"
       }}
       px={3}
       alignItems={"center"}
@@ -256,7 +257,11 @@ const SelectOption = ({ data }: { data: DataT }) => {
       <Box w="1/2" maxW="200" pb={1} mt={0} mr={-4}>
         {/* // FIXME: SELECT REQUIRE KEY */}
         <Picker
-          style={{ flex: 1, minWidth: 100 }}
+          style={{
+            flex: 1,
+            minWidth: 100,
+            color: useColorModeValue("#000000", "#b9a398")
+          }}
           selectedValue={language}
           onValueChange={(itemValue: any, itemIndex: any) => {
             // setService(itemValue)
@@ -287,9 +292,7 @@ const NavigateOption = ({ data }: { data: DataT }) => {
         h={44}
         bg={"coolGray.50"}
         color="coolGray.500"
-        _dark={{
-          color: "warmGray.400"
-        }}
+        _dark={{ bg: "warmGray.800" }}
         px={3}
         alignItems={"center"}
         justifyContent={"space-between"}
@@ -297,7 +300,12 @@ const NavigateOption = ({ data }: { data: DataT }) => {
         <TextSmI fontWeight="400" fontSize={16}>
           {data.name}
         </TextSmI>
-        <AntDesign name="right" size={24} color="black" alignSelf="flex-end" />
+        <AntDesign
+          name="right"
+          size={24}
+          color={useColorModeValue("#0c0c0c", "#9b684d")}
+          alignSelf="flex-end"
+        />
       </HStack>
     </TouchableNativeFeedback>
   );
@@ -326,9 +334,7 @@ const ToggleOption = ({
       h={44}
       bg={"coolGray.50"}
       color="coolGray.500"
-      _dark={{
-        color: "warmGray.400"
-      }}
+      _dark={{ bg: "warmGray.800" }}
       px={3}
       alignItems={"center"}
       justifyContent={"space-between"}
@@ -359,6 +365,7 @@ const UserLogin = () => {
         flex={1}
         h={84}
         bg={"coolGray.50"}
+        _dark={{ bg: "warmGray.800" }}
         alignItems={"center"}
         justifyContent={"space-between"}
         space={3}
@@ -384,7 +391,12 @@ const UserLogin = () => {
             <Text></Text>
           </VStack>
         </HStack>
-        <AntDesign name="right" size={24} color="black" alignSelf="flex-end" />
+        <AntDesign
+          name="right"
+          size={24}
+          color={useColorModeValue("#000000", "#99684d")}
+          alignSelf="flex-end"
+        />
       </HStack>
     </TouchableNativeFeedback>
   );

@@ -18,8 +18,10 @@ export const RecentTab: React.FunctionComponent<RecentTabProps> = (props) => {
   return (
     <View
       style={{ flex: 1 }}
-      bg={"$light.backgroundPrimary"}
-      _dark={{ bg: "$dark.backgroundSecondary" }}
+      // bg={"$light.backgroundPrimary"}
+      // _dark={{ bg: "$dark.backgroundSecondary" }}
+      bg={"warmGray.50"}
+      _dark={{ bg: "warmGray.900" }}
     >
       <LibraryList
         data={

@@ -19,7 +19,7 @@ export const DownloadTab = (props: Props) => {
   const { showModal } = React.useContext(LibraryContext);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} bg={"warmGray.50"} _dark={{ bg: "warmGray.900" }}>
       {/* <Text>{downloadComics.length}</Text>
       <FlatList
         data={downloadComics.map((str) => comics[str])}

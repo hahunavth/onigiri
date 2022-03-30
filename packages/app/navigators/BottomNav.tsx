@@ -1,4 +1,10 @@
-import { Text, useColorModeValue, useToken, View } from "native-base";
+import {
+  Text,
+  useColorMode,
+  useColorModeValue,
+  useToken,
+  View
+} from "native-base";
 import { Easing, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -86,8 +92,8 @@ export default function BottomNav() {
         headerShown: false,
         // header: BottomTabNavigationHeader,
         tabBarActiveTintColor: text,
-        tabBarActiveBackgroundColor: background,
-        tabBarInactiveBackgroundColor: background,
+        tabBarActiveBackgroundColor: useColorModeValue("#fbecdf", "#4b2510"),
+        tabBarInactiveBackgroundColor: useColorModeValue("#fbecdf", "#4b2510"),
         tabBarHideOnKeyboard: true,
         tabBarVisibilityAnimationConfig: {
           show: {
@@ -182,8 +188,13 @@ export default function BottomNav() {
  * ANCHOR: BOTTOM BAR ICONS
  */
 function HomeIcon({ focused }: { focused: boolean }) {
+  const {} = useToken("colors", "");
   return focused ? (
-    <Ionicons name="ios-home-sharp" size={24} color="#4a2702" />
+    <Ionicons
+      name="ios-home-sharp"
+      size={24}
+      color={useColorModeValue("#4a2702", "#f6d7bf")}
+    />
   ) : (
     <Ionicons name="ios-home-outline" size={24} color="#a8a8a8" />
   );
@@ -191,7 +202,11 @@ function HomeIcon({ focused }: { focused: boolean }) {
 
 function LibraryIcon({ focused }: { focused: boolean }) {
   return focused ? (
-    <Ionicons name="ios-library-sharp" size={24} color="#4a2702" />
+    <Ionicons
+      name="ios-library-sharp"
+      size={24}
+      color={useColorModeValue("#4a2702", "#f6d7bf")}
+    />
   ) : (
     <Ionicons name="ios-library-outline" size={24} color="#a8a8a8" />
   );
@@ -199,7 +214,11 @@ function LibraryIcon({ focused }: { focused: boolean }) {
 
 function DiscoverIcon({ focused }: { focused: boolean }) {
   return focused ? (
-    <MaterialCommunityIcons name="feature-search" size={24} color="#4a2702" />
+    <MaterialCommunityIcons
+      name="feature-search"
+      size={24}
+      color={useColorModeValue("#4a2702", "#f6d7bf")}
+    />
   ) : (
     <MaterialCommunityIcons
       name="feature-search-outline"
@@ -211,7 +230,11 @@ function DiscoverIcon({ focused }: { focused: boolean }) {
 
 function SettingIcon({ focused }: { focused: boolean }) {
   return focused ? (
-    <Ionicons name="ios-settings" size={24} color="#4a2702" />
+    <Ionicons
+      name="ios-settings"
+      size={24}
+      color={useColorModeValue("#4a2702", "#f6d7bf")}
+    />
   ) : (
     <Ionicons name="ios-settings-outline" size={24} color="#a8a8a8" />
   );
@@ -219,7 +242,11 @@ function SettingIcon({ focused }: { focused: boolean }) {
 
 function TestIcon({ focused }: { focused: boolean }) {
   return focused ? (
-    <MaterialCommunityIcons name="test-tube" size={24} color="#4a2702" />
+    <MaterialCommunityIcons
+      name="test-tube"
+      size={24}
+      color={useColorModeValue("#4a2702", "#f6d7bf")}
+    />
   ) : (
     <MaterialCommunityIcons name="test-tube-off" size={24} color="#a8a8a8" />
   );

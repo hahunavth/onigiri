@@ -15,6 +15,7 @@ import { resComicDetail_T } from "app/types";
 import ListItemWithExtractor from "./ListItemWithExtractor";
 import { Empty } from "../../components/EmptyPage";
 import { Center } from "native-base";
+import { TextMdP } from "../../components/Typo";
 
 type Props = {
   data: HistoryComicT[];
@@ -70,7 +71,7 @@ const LibraryList = ({
               resizeMode={"contain"}
               resizeMethod={"resize"}
             />
-            <Text>Subscribed comics</Text>
+            <TextMdP>Subscribed comics</TextMdP>
           </Center>
         </>
       )}

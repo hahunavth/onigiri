@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { View, Text, FlatList, HStack } from "native-base";
 import { ChapterScreenProps } from "app/navigators/StackNav";
-import { comicApi, useApiChapter } from "app/store/api";
+import { comicApi, useApiChapter, usePrefetch } from "app/store/api";
 import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import ChapterBar from "./ChapterBar";
 import ChapterHeader from "./ChapterHeader";
@@ -153,6 +153,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   // VAr
   // const { data, isFetching } = useApiChapter(path || "_path");
   const [lazy, data, p] = comicApi.endpoints.getChapterByPath.useLazyQuery();
+  const prefetch = usePrefetch("getChapterByPath");
   // const data?.data?.data = data?.data;
 
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([]);
@@ -160,17 +161,30 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   React.useEffect(() => {
     // setImmediate(async () => {
     // console.log(p.lastArg);
-    const t = setTimeout(() => {
-      lazy(path || "_path");
-    }, 50);
+    // const t = setTimeout(() => {
+    // lazy(path || "_path");
+    // }, 50);
+
     // });
+    // offset.value = 100;
     splashOffset.value = 0;
-    imgs?.length &&
-      flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
-    return () => {
-      clearTimeout(t);
-    };
+
+    // return () => {
+    //   clearTimeout(t);
+    // };
   }, [id, path]);
+
+  // React.useEffect(() => {
+  //   imgs?.length &&
+  //     flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
+  // }, [data]);
+
+  const { loading: loading2 } = useInteraction({
+    callback: () => {
+      lazy(path || "_path");
+    },
+    dependencyList: [id, path]
+  });
   // TODO: USE LAYOUT EFFECT
   React.useEffect(() => {
     setImgs(data?.data?.data?.images.map((uri) => ({ uri, h: 0 })) || []);
@@ -217,7 +231,11 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     chapterDetail: data?.data?.data,
     id: id,
     isFetching: false,
-    callback: () => (splashOffset.value = 2)
+    callback: () => {
+      imgs?.length &&
+        flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
+      splashOffset.value = 2;
+    }
   });
 
   // ref
@@ -275,31 +293,28 @@ function ChapterScreenNode(props: ChapterScreenProps) {
         </Animated.View>
 
         {/* ComicView */}
-        {
-          // loading ? null :
-          setting.viewMode === "Vertical" ? (
-            <View style={style.container}>
-              <ChapterViewVerticalList
-                ref={flatListRef as any}
-                handleScroll={handleScroll}
-                imgs={imgs}
-                imgList={data?.data?.data?.chapterList || []}
-                setImgs={setImgs}
-                // onEndReach={expandSheet}
-              />
-            </View>
-          ) : (
-            <ChapterViewHorizontalList
+        {loading ? null : setting.viewMode === "Vertical" ? (
+          <View style={style.container}>
+            <ChapterViewVerticalList
               ref={flatListRef as any}
               handleScroll={handleScroll}
               imgs={imgs}
               imgList={data?.data?.data?.chapterList || []}
               setImgs={setImgs}
               // onEndReach={expandSheet}
-              toggleFloatingVisible={toggleFloatingVisible}
             />
-          )
-        }
+          </View>
+        ) : (
+          <ChapterViewHorizontalList
+            ref={flatListRef as any}
+            handleScroll={handleScroll}
+            imgs={imgs}
+            imgList={data?.data?.data?.chapterList || []}
+            setImgs={setImgs}
+            // onEndReach={expandSheet}
+            toggleFloatingVisible={toggleFloatingVisible}
+          />
+        )}
       </SafeAreaView>
 
       {/* Floating */}

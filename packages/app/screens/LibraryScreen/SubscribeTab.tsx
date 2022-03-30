@@ -2,25 +2,25 @@ import {
   historyAction,
   HistoryComicT,
   historySelector
-} from 'app/store/historySlice'
-import { useAppDispatch, useAppSelector } from 'app/store/hooks'
+} from "app/store/historySlice";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
 // import { Layout } from "@ui-kitten/components";
-import React from 'react'
-import { Text, Image } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
-import { View } from 'native-base'
-import LibraryList from './LibraryList'
-import { LibraryContext } from './LibraryContext'
+import React from "react";
+import { Text, Image } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { View } from "native-base";
+import LibraryList from "./LibraryList";
+import { LibraryContext } from "./LibraryContext";
 interface Props {}
 
 export const SubscribeTab = (props: Props) => {
-  const history = useAppSelector(historySelector)
-  const dispatch = useAppDispatch()
-  const { showModal } = React.useContext(LibraryContext)
+  const history = useAppSelector(historySelector);
+  const dispatch = useAppDispatch();
+  const { showModal } = React.useContext(LibraryContext);
 
   // console.log(history.comics);
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} bg={"warmGray.50"} _dark={{ bg: "warmGray.900" }}>
       {/* <Text>Recent tab</Text> */}
       {/* <FlatList
         style={{ flex: 1 }}
@@ -53,10 +53,10 @@ export const SubscribeTab = (props: Props) => {
         onLongPress={(comic) => {
           showModal &&
             showModal(true, comic.path, () => (path) => {
-              dispatch(historyAction.unSubscribeComic(comic.path))
-            })
+              dispatch(historyAction.unSubscribeComic(comic.path));
+            });
         }}
       />
     </View>
-  )
-}
+  );
+};

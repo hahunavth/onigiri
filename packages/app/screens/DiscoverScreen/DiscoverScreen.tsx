@@ -80,7 +80,7 @@ export const DiscoverScreen = () => {
   // const [selectedLanguage, setSelectedLanguage] = React.useState()
 
   return (
-    <View flex={1} p={2} bg={"gray.50"} _dark={{ bg: "gray.900" }}>
+    <View flex={1} p={2} bg={"warmGray.50"} _dark={{ bg: "warmGray.900" }}>
       <SelectBoxMultiple
         label={i18n.t("discover.genres.title")}
         options={GENRES_LIST}
@@ -146,7 +146,7 @@ export const DiscoverScreen = () => {
 
 function SelectBoxMultiple(props: any) {
   console.log("rerender");
-
+  // useColorModeValue("#fbecdf", "#643318")
   return (
     <SelectBox
       // label="Select genres"

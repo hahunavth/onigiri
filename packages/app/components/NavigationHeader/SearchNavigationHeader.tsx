@@ -172,7 +172,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: bs2.backgroundColor,
+        backgroundColor: useColorModeValue("#fbecdf", "#643318"),
         zIndex: 10
       }}
     >

@@ -24,6 +24,7 @@ import { ChapterContext } from "./ChapterContext";
 import { chapterActions, selectCptId } from "../../store/chapterSlice";
 import { Entypo } from "@expo/vector-icons";
 import { Toast } from "native-base";
+import useInteraction from "../../hooks/useInteraction";
 
 interface Props {
   style?: ViewStyle;
@@ -40,19 +41,32 @@ const ChapterBar = (props: Props) => {
   const LEN = list?.length || 0;
   // const { changeChapter } = React.useContext(ChapterContext);
   // Prefetch next and prev chapter if exists
-  const prefetchChapter = usePrefetch("getChapterByPath", {});
+  const prefetchChapter = usePrefetch("getChapterByPath");
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    if (id !== -1) {
-      if (id > 0) {
-        prefetchChapter((id - 1).toString());
-      }
-      if (id < LEN - 1) {
-        prefetchChapter((id + 1).toString());
-      }
-    }
+    const t = setTimeout(() => {}, 2000);
+
+    return () => {
+      clearTimeout(t);
+    };
   }, [id]);
+
+  useInteraction({
+    callback: () => {
+      if (id !== -1) {
+        if (id > 0) {
+          const next = home.currentComic?.chapters[id - 1];
+          next && prefetchChapter(next.path);
+        }
+        if (id < LEN - 1) {
+          const prev = home.currentComic?.chapters[id - 1];
+          prev && prefetchChapter(prev.path);
+        }
+      }
+    },
+    dependencyList: [id]
+  });
 
   // const [nextChapter, setNextChapter] = useState<resComicDetailChapterItem_T>()
   // const [prevChapter, setPrevChapter] = useState<resComicDetailChapterItem_T>()

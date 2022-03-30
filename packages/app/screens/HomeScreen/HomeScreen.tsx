@@ -99,11 +99,13 @@ const HomeScreenContent = () => {
   return (
     <>
       <FlatList
-        bg={"warmGray.100"}
-        // @ts-ignore
-        _dark={{
-          backgroundColor: "$dark.backgroundSecondary"
-        }}
+        // bg={"warmGray.100"}
+        // // @ts-ignore
+        // _dark={{
+        //   backgroundColor: "$dark.backgroundSecondary"
+        // }}
+        bg={"warmGray.50"}
+        _dark={{ backgroundColor: "trueGray.900" }}
         // TODO: WEB SPECIFIC STYLE
         // @ts-ignore
         _web={{ marginLeft: 200 }}
