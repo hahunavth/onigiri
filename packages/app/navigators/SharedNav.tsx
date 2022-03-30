@@ -46,6 +46,7 @@ import {
   SharedElementAnimation
 } from "react-navigation-shared-element";
 import { StackNavParamsList } from "./StackNav";
+import { Loading } from "../components/EmptyPage";
 
 /**
  * Using common params

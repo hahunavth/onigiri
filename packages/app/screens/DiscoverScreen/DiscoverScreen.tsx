@@ -43,19 +43,20 @@ export const DiscoverScreen = () => {
   console.log("rerender2");
 
   function onForUserChange() {
-    return (val) => setSelectedForUser(val);
+    return (val: any) => setSelectedForUser(val);
   }
   function onNumChapterChange() {
-    return (val) => setSelectedNumChapter(val);
+    return (val: any) => setSelectedNumChapter(val);
   }
   function onSortByChange() {
-    return (val) => setSelectedSortBy(val);
+    return (val: any) => setSelectedSortBy(val);
   }
   function onStatusChange() {
-    return (val) => setSelectedStatus(val);
+    return (val: any) => setSelectedStatus(val);
   }
   function onMultiChange() {
-    return (item) => setSelectedGenres(xorBy(selectedGenres, [item], "id"));
+    return (item: any) =>
+      setSelectedGenres(xorBy(selectedGenres, [item], "id"));
   }
 
   const getFindPath = () => {

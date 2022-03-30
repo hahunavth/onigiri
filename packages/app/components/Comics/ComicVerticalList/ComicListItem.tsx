@@ -11,6 +11,8 @@ import TFastImage from "app/components/Typo/TFastImage";
 
 type Props = {
   item: resComicItem_T;
+  // for memo compare
+  id: number;
   // handlePress?: () => any
 };
 
@@ -56,7 +58,7 @@ export const ComicListItem = React.memo(
             {/* <Image
               source={{ uri: item.posterUrl }}
               style={styles.poster as ImageStyle}
-              alt={"avatar"}
+              alt={item.posterUrl}
             /> */}
             <TFastImage
               source={{
@@ -143,7 +145,12 @@ export const ComicListItem = React.memo(
   /**
    * NOTE: Default compare fn not work, it cause rerender and touch wont response
    */
-  (prev, next) => prev.item.path === next.item.path
+  // (prev, next) => prev.item.path === next.item.path
+  // (prev, next) => {
+  //   console.log(prev.id === next.id);
+  //   return prev.id === next.id;
+  // }
+  () => true
 );
 
 const styles = StyleSheet.create({

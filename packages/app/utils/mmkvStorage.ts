@@ -2,8 +2,6 @@
  * NOTE: SPECIFIC NATIVE
  */
 
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { MMKV } from "react-native-mmkv";
 import { Storage } from "redux-persist";
 import { Platform } from "react-native";
 
@@ -27,6 +25,7 @@ import { Platform } from "react-native";
 //   }
 // };
 const getStorage: () => Storage =
+  // STUB: COMMENT
   process.env.MMKV === "true"
     ? () => {
         console.log("USING MMKV STORAGE");
@@ -48,7 +47,9 @@ const getStorage: () => Storage =
         };
         return mmkvStorage;
       }
-    : () => {
+    : // STUB: COMMENT
+
+      () => {
         console.log("USING ASYNC STORAGE");
         return require("@react-native-async-storage/async-storage").default;
       };

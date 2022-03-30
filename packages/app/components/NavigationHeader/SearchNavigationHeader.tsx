@@ -88,10 +88,10 @@ const SearchNavigationHeaderChild = React.memo(() => {
       //   easing: Easing.out(Easing.exp)
       // }),
       position: "absolute",
-      right: -50,
+      right: -60,
       transform: [
         {
-          translateX: withTiming(-offset.value * 1.8, {
+          translateX: withTiming(-offset.value * 2, {
             duration: 500,
             easing: Easing.out(Easing.exp)
           })
@@ -202,7 +202,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
                 personIconAnimatedStyles
               ]}
             >
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigate("login")}>
                 <AnimatedIonIcons
                   name="md-person-circle-outline"
                   size={28}

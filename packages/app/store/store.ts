@@ -1,5 +1,4 @@
 import { selectLastedReadChapterPathList } from "./historySlice";
-// import { mmkvStorage } from './../utils/mmkvStorage';
 import { Platform } from "react-native";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {

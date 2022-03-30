@@ -37,7 +37,7 @@ export const ComicVerticalList = ({
   const renderItem = React.useCallback(
     (props: ListRenderItemInfo<resComicItem_T>) => {
       // if (props.index === 1 || props.index === 5) return <Text>Sticky</Text>
-      return <ComicListItem item={props.item} />;
+      return <ComicListItem item={props.item} id={props.index} />;
     },
     []
   );
@@ -99,9 +99,9 @@ export const ComicVerticalList = ({
         // TODO: USE SOLUTION2
         initialNumToRender={30}
         maxToRenderPerBatch={8}
-        updateCellsBatchingPeriod={100}
+        updateCellsBatchingPeriod={120}
         // alwaysBounceHorizontal
-        // removeClippedSubviews
+        removeClippedSubviews
         // directionalLockEnabled
         // disableVirtualization
 
