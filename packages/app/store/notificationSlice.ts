@@ -173,10 +173,8 @@ const genFetchNotificationDataFN =
           // console.log(stateNotification, memoNotification);
           // notifications.a = "h";
           // console.log("mm", memoNotification, stateNotification);
-          const n1 = stateNotification?.newChapter[cPath]?.length || -1;
-          const n2 = memoNotification
-            ? memoNotification[cPath]?.length
-            : -1 || -1;
+          const n1 = stateNotification?.newChapter[cPath]?.length || null;
+          const n2 = memoNotification ? memoNotification[cPath]?.length : null;
           console.log(
             "cmp",
             result?.chapters?.length,
@@ -189,8 +187,11 @@ const genFetchNotificationDataFN =
             id,
             "  ->  ",
             id > 0 &&
-              ((!n2 && (!n1 || result?.chapters?.length > n1)) ||
+              ((!n2 && n1 && result?.chapters?.length > n1) ||
                 (n2 && result?.chapters?.length > n2))
+            // ((!(!n2 || n2 === -1) &&
+            //   (!(!n1 || n1 === -1) || result?.chapters?.length > n1)) ||
+            //   ((n2 || n2 !== -1) && result?.chapters?.length > n2))
           );
           /**
            * WHEN PUSH NOTIFICATION ?

@@ -44,16 +44,26 @@ export const fetchBackgroundTask = async () => {
 
       await fetchBackgroundInfo(state, notifications, comicPushList, true);
 
-      console.log("bg fetch result: ");
-      console.log(notifications);
+      const memoNotification = await mmkvStorage
+        .getItem("notifications-template")
+        .then((s: string | undefined) => (s ? JSON.parse(s || "") : {}));
+
+      /**
+       * REVIEW: MERGE WITH OLD OBJECT
+       */
       await mmkvStorage.setItem(
         "notifications-template",
-        JSON.stringify(notifications)
+        JSON.stringify({ ...memoNotification, ...notifications })
       );
       await mmkvStorage.setItem(
         "comicPushList-template",
         JSON.stringify(comicPushList)
       );
+      console.log("bg fetch result: ");
+      await mmkvStorage
+        .getItem("notifications-template")
+        .then((s) => (s ? JSON.parse(s) : {}))
+        .then((j) => console.log(j));
     }
   }
   // await triggerBackgroundFetchNotification()

@@ -230,7 +230,7 @@ function App() {
       nextAppState === "active"
     ) {
       console.log("App has come to the foreground!");
-      store.dispatch(mergeNewChapterNotificationThunk());
+      // store.dispatch(mergeNewChapterNotificationThunk());
     }
 
     appState.current = nextAppState;

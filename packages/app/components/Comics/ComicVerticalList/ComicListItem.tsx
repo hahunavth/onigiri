@@ -72,6 +72,7 @@ export const ComicListItem = React.memo(
               <VStack>
                 <Text
                   style={[styles.titleText]}
+                  fontWeight={"600"}
                   color={ts1.color}
                   numberOfLines={1}
                 >
@@ -85,15 +86,25 @@ export const ComicListItem = React.memo(
             </Text> */}
                 <HStack flexWrap={"wrap"} space={1}>
                   {item.kind?.map((name) => (
-                    <Badge
+                    // <Badge
+                    //   key={name}
+                    //   colorScheme="orange"
+                    //   opacity={0.4}
+                    //   rounded={2}
+                    //   mt={1}
+                    // >
+                    //   {name}
+                    // </Badge>
+                    <Text
                       key={name}
-                      colorScheme="orange"
-                      opacity={0.4}
-                      rounded={2}
+                      fontSize={11}
+                      bg={"gray.100"}
                       mt={1}
+                      px={1}
+                      borderRadius={4}
                     >
                       {name}
-                    </Badge>
+                    </Text>
                   ))}
                 </HStack>
               </VStack>

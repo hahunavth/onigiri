@@ -82,7 +82,7 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
       setRefreshing(false);
       console.log(page, seed);
     }
-  }, [isSuccess, isLoading, data]);
+  }, [isSuccess, data]);
 
   const onEndReach = React.useCallback(() => {
     console.log("reach", page, seed);
@@ -113,6 +113,8 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
     );
   }, [refreshing]);
 
+  const listEmptyComponent = React.useCallback(() => <NotFound />, []);
+
   console.log("out", page, seed, max);
 
   return (
@@ -125,7 +127,7 @@ export const FindResultScreen = (props: FindResultScreenProps) => {
             list={list || []}
             onEndReach={onEndReach}
             listFooterComponent={ListFooterComponent}
-            listEmptyComponent={() => <NotFound />}
+            listEmptyComponent={listEmptyComponent}
           />
           {/* <ListFooter page={seed} max={max} /> */}
           {/* {ListFooterComponent} */}

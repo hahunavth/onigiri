@@ -11,6 +11,7 @@ process.env.FAST_IMAGE = "true";
 
 // the secrets created with eas secret:create will
 // be merged with process.env during eas builds
+const VERSION = "0.0.3";
 const SENTRY_DSN = process.env.SENTRY_DSN;
 const STAGE = process.env.STAGE;
 const SCHEME = process.env.SCHEME ?? "com.hahunavth.onigiri";
@@ -55,9 +56,9 @@ export default {
   scheme: "onigiri",
   owner: "hahunavth",
   icon: config.icon,
-  version: "0.0.2",
+  version: VERSION,
   // NOTE: eas update
-  runtimeVersion: "0.0.2",
+  runtimeVersion: VERSION,
   splash: {
     image: config.image,
     resizeMode: "cover",
@@ -113,7 +114,8 @@ export default {
     ANDROID_ADMOD_BANNER: process.env.ANDROID_ADMOD_BANNER,
     ANDROID_ADMOD_INTERSTITIAL: process.env.ANDROID_ADMOD_INTERSTITIAL,
     MMKV: process.env.MMKV,
-    FAST_IMAGE: process.env.FAST_IMAGE === "true"
+    FAST_IMAGE: process.env.FAST_IMAGE === "true",
+    VERSION: VERSION
   },
   plugins: plugins,
   // NOTE: RN WEB
