@@ -3,51 +3,68 @@ import React from "react";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import { StyleSheet } from "react-native";
-
-type Props = {};
+import { authActions, authSelector, UserInfo } from "../../store/authSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const CLIENTID =
-  "30060461713-lfr5t51vnh6vb08a89sj52s2rmsq4rp0.apps.googleusercontent.com";
-
-export const LoginScreen = (props: Props) => {
+export const LoginScreen = () => {
+  // console.log(process.env.STAGE);
   const [accessToken, setAccessToken] = React.useState("");
-  const [userInfo, setUserInfo] = React.useState({});
+  // const [userInfo, setUserInfo] = React.useState<UserInfo>();
+  const { userInfo, isLogin, loginAt } = useAppSelector(authSelector);
+  const dispatch = useAppDispatch();
 
   const [req, res, promptAsync] = Google.useAuthRequest({
-    expoClientId: "GOOGLE_GUID.apps.googleusercontent.com",
-    iosClientId: "GOOGLE_GUID.apps.googleusercontent.com",
-    androidClientId: CLIENTID,
-    webClientId:
-      "30060461713-n4h7b7dnj6jsu43gkcb69cr95e29a0kh.apps.googleusercontent.com"
+    expoClientId: __DEV__
+      ? process.env.OAUTH_TOKEN_WEB_DEV
+      : process.env.OAUTH_TOKEN_WEB_STG,
+    // iosClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+
+    androidClientId: __DEV__
+      ? process.env.OAUTH_TOKEN_AND_DEV
+      : process.env.OAUTH_TOKEN_AND_STG
+
+    // webClientId: __DEV__
+    //   ? process.env.OAUTH_TOKEN_WEB_DEV
+    //   : process.env.OAUTH_TOKEN_WEB_STG
   });
 
-  React.useEffect(() => {
-    if (res?.type === "success") {
-      const { authentication } = res;
-      setAccessToken(res.authentication?.accessToken);
-    }
-  }, [res]);
-
-  async function getUserData() {
+  async function getUserData(t?: string) {
     let userInfoResponse = await fetch(
       "https://www.googleapis.com/userinfo/v2/me",
       {
-        headers: { Authorization: `Bearer ${accessToken}` }
+        headers: { Authorization: `Bearer ${accessToken || t}` }
       }
     );
 
     userInfoResponse.json().then((data) => {
-      setUserInfo(data);
+      // setUserInfo(data);
+      dispatch(authActions.login(data));
     });
   }
 
+  React.useEffect(() => {
+    if (res?.type === "success") {
+      // const { authentication } = res;
+      if (res.authentication?.accessToken) {
+        setAccessToken(res.authentication?.accessToken);
+        getUserData(res.authentication.accessToken);
+      } else throw new Error("Token not found!");
+    }
+  }, [res]);
+
   function showUserInfo() {
     if (userInfo) {
+      console.log(userInfo);
+
       return (
         <View style={styles.userInfo}>
-          <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
+          <Image
+            source={{ uri: userInfo.picture }}
+            alt={"hello"}
+            style={styles.profilePic}
+          />
           <Text>Welcome {userInfo.name}</Text>
           <Text>{userInfo.email}</Text>
         </View>
@@ -58,17 +75,24 @@ export const LoginScreen = (props: Props) => {
   return (
     <View style={styles.container}>
       {showUserInfo()}
-      <Button
-        onPress={
-          accessToken
-            ? getUserData
-            : () => {
-                promptAsync({ useProxy: false, showInRecents: true });
-              }
-        }
-      >
-        {accessToken ? "Get User Data" : "Login"}
-      </Button>
+      {isLogin ? (
+        <Button onPress={() => dispatch(authActions.logout(null))}>
+          Logout
+        </Button>
+      ) : (
+        <Button
+          // @ts-ignore
+          onPress={
+            accessToken
+              ? getUserData
+              : () => {
+                  promptAsync({ useProxy: false, showInRecents: true });
+                }
+          }
+        >
+          {accessToken ? "Get User Data" : "Login"}
+        </Button>
+      )}
     </View>
   );
 };

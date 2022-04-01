@@ -7,3 +7,8 @@
       "react-native-mmkv-flipper-plugin": "^1.0.0",
   - Disable update.url in app.config.js
   - Set .env: MMKV=false
+
+## 
+expo fetch:android:hashes
+expo credentials:manager -p android
+expo start --dev-client 

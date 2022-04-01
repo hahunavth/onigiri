@@ -1,3 +1,7 @@
+/**
+ * Show read history list
+ */
+
 import { FlatList } from "native-base";
 import React from "react";
 import { HistoryComicT, historySelector } from "../../../store/historySlice";

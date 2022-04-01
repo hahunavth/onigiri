@@ -27,22 +27,24 @@ const envConfig = {
     scheme: `${SCHEME}.development`,
     icon: "./assets/icon.dark.png",
     image: "./assets/splash.dark.png",
-    name: "Onigiri - dev"
+    name: "Onigiri - dev",
+    stage: "development"
     // backgroundColor: '#FF0000'
   },
   staging: {
     scheme: `${SCHEME}.staging`,
     icon: "./assets/icon.yellow.png",
     image: "./assets/splash.yellow.png",
-    name: "Onigiri - staging"
-
+    name: "Onigiri - staging",
+    stage: "staging"
     // backgroundColor: '#8000FF'
   },
   production: {
     scheme: `${SCHEME}`,
     icon: "./assets/icon.png",
     image: "./assets/splash.png",
-    name: "Onigiri"
+    name: "Onigiri",
+    stage: "production"
     // backgroundColor: '#1610FF'
   }
 };
@@ -58,7 +60,7 @@ export default {
   icon: config.icon,
   version: VERSION,
   // NOTE: eas update
-  runtimeVersion: VERSION,
+  // runtimeVersion: VERSION,
   splash: {
     image: config.image,
     resizeMode: "cover",
@@ -78,7 +80,11 @@ export default {
     // },
     jsEngine: "hermes",
     config: {
-      googleMobileAdsAppId: "ca-app-pub-1646154512233519~1161794425" //
+      googleMobileAdsAppId: "ca-app-pub-1646154512233519~1161794425", //
+      googleSignIn: {
+        certificateHash:
+          "70:F4:FF:DE:DB:C6:26:B0:B9:3D:F4:ED:EF:18:3E:C6:FC:98:EF:6D"
+      }
     }
   },
   androidNavigationBar: {
@@ -88,9 +94,9 @@ export default {
   assetBundlePatterns: ["**/*"],
   // orientation: 'portrait',
   updates: {
-    fallbackToCacheTimeout: 0,
+    fallbackToCacheTimeout: 0
     // NOTE: eas update ( Not work with expo publish )
-    url: "https://u.expo.dev/11ff3e77-ae95-4a1e-8869-cf81503a9b5e"
+    // url: "https://u.expo.dev/11ff3e77-ae95-4a1e-8869-cf81503a9b5e"
   },
   hooks: {
     postPublish: [
@@ -106,7 +112,7 @@ export default {
     ]
   },
   extra: {
-    STAGE: process.env.STAGE,
+    // STAGE: process.env.STAGE,
     SENTRY_DSN: SENTRY_DSN,
     ANDROID_ADMOD_BANNER_TEST: process.env.ANDROID_ADMOD_BANNER_TEST,
     ANDROID_ADMOD_INTERSTITIAL_TEST:
@@ -115,7 +121,22 @@ export default {
     ANDROID_ADMOD_INTERSTITIAL: process.env.ANDROID_ADMOD_INTERSTITIAL,
     MMKV: process.env.MMKV,
     FAST_IMAGE: process.env.FAST_IMAGE === "true",
-    VERSION: VERSION
+    VERSION: VERSION,
+
+    STAGE: config.stage,
+
+    // TOKEN
+    OAUTH_TOKEN_WEB_DEV: process.env.OAUTH_TOKEN_WEB_DEV,
+    OAUTH_TOKEN_WEB_STG: process.env.OAUTH_TOKEN_WEB_STG,
+    OAUTH_TOKEN_WEB_PRO: process.env.OAUTH_TOKEN_WEB_PRO,
+
+    OAUTH_TOKEN_AND_DEV: process.env.OAUTH_TOKEN_AND_DEV,
+    OAUTH_TOKEN_AND_STG: process.env.OAUTH_TOKEN_AND_STG,
+    OAUTH_TOKEN_AND_PRO: process.env.OAUTH_TOKEN_AND_PRO,
+
+    OAUTH_TOKEN_IOS_DEV: process.env.OAUTH_TOKEN_IOS_DEV,
+    OAUTH_TOKEN_IOS_STG: process.env.OAUTH_TOKEN_IOS_STG,
+    OAUTH_TOKEN_IOS_PRO: process.env.OAUTH_TOKEN_IOS_PRO
   },
   plugins: plugins,
   // NOTE: RN WEB

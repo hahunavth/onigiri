@@ -15,6 +15,7 @@ import {
 import { comicApi } from "./api";
 import { originApi } from "./apiOrigin";
 import homeSlice from "./homeSlice";
+import authSlice from "./authSlice";
 import settingReducer from "./settingSlice";
 import chapterSlice, { selectChapterInfo } from "./chapterSlice";
 import historyReducer, {
@@ -62,6 +63,7 @@ const storage = _getStorage ? _getStorage() : null;
 
 const reducer = combineReducers({
   home: homeSlice,
+  auth: authSlice,
   setting: settingReducer,
   history: historyReducer,
   recent: recentReducer,

@@ -63,7 +63,7 @@
     "expo": "^44.0.0",
     "expo-ads-admob": "~12.0.0",
     "expo-app-loading": "~1.3.0",
-    "expo-application": "~4.0.1",
+    "expo-application": "^4.0.2",
     "expo-auth-session": "~3.5.0",
     "expo-background-fetch": "~10.1.0",
     "expo-blur": "~11.0.0",

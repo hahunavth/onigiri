@@ -19,10 +19,10 @@ import { NextLink } from "../../NextLink";
 import { BlurView } from "expo-blur";
 
 type Props = {
-  item: Partial<HistoryComicT>;
+  item: Partial<resComicItem_T>;
 };
 
-export function ListItem({ item }: Props) {
+export function ListItem2({ item }: Props) {
   const [bgLight, bgDark] = useToken("colors", [
     "$light.backgroundPrimary",
     "$light.backgroundSecondary"
@@ -38,26 +38,13 @@ export function ListItem({ item }: Props) {
         path: item.path
       }}
     >
-      <Box
-        // p={1}
-        // bg={"$light.backgroundPrimary"}
-        // _dark={{
-        //   bg: "$dark.backgroundPrimary"
-        // }}
-        rounded={"sm"}
-        w={120}
-        h={200}
-        p={1}
-        // borderColor={bgDark}
-        // borderWidth={1}
-      >
+      <Box rounded={"sm"} w={120} h={200} p={1}>
         <ZStack w={110} h={190} rounded={"sm"}>
           <Image
             source={{
               uri: item.posterUrl
             }}
             alt="Alternate Text"
-            // size="xl"
             w={110}
             h={190}
             rounded="sm"
@@ -71,15 +58,10 @@ export function ListItem({ item }: Props) {
             roundedBottom="sm"
             overflow={"hidden"}
           >
-            {/* <LinearGradient
-              // Button Linear Gradient
-              // colors={[bgDark, bgLight]}
-              style={{ flex: 1 }}
-            > */}
-            <BlurView
-              intensity={100}
-              tint={colorMode === "dark" ? "dark" : "light"}
-              // style={{ margin: 1, borderRadius: 2 }}
+            <Box
+              // intensity={100}
+              // tint={colorMode === "dark" ? "dark" : "light"}
+              bg={colorMode === "light" ? "white" : "dark.900"}
               style={{ flex: 1 }}
             >
               <VStack justifyContent={"center"} alignItems={"center"} flex={1}>
@@ -91,29 +73,10 @@ export function ListItem({ item }: Props) {
                   textAlign="center"
                   fontSize={13}
                 >
-                  {item.title}
+                  {item.name}
                 </Text>
-                {/* <HStack justifyContent="space-between"> */}
-                {/* <Text
-                    fontWeight={500}
-                    fontSize={12}
-                    color={'$light.textSecondary'}
-                    _dark={{ color: '$dark.textSecondary' }}
-                  >
-                    {item.lastedReadChapter}
-                  </Text> */}
-                {/* <Text
-                    fontWeight={500}
-                    fontSize={12}
-                    color={'$light.textSecondary'}
-                    _dark={{ color: '$dark.textSecondary' }}
-                  >
-                    {item.createdAt}
-                  </Text> */}
-                {/* </HStack> */}
               </VStack>
-            </BlurView>
-            {/* </LinearGradient> */}
+            </Box>
           </Box>
 
           <Box
@@ -125,7 +88,7 @@ export function ListItem({ item }: Props) {
             rounded={"full"}
             shadow={1}
             ml={2}
-            opacity={0.85}
+            // opacity={0.85}
           >
             <Text
               fontSize={12}
@@ -133,7 +96,7 @@ export function ListItem({ item }: Props) {
               color={"$light.textPrimary"}
               numberOfLines={1}
             >
-              {item.lastedReadChapter}
+              {item.lastedChapters && item.lastedChapters[0].chapterName}
             </Text>
           </Box>
         </ZStack>

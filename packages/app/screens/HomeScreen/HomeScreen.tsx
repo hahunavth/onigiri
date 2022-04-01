@@ -5,7 +5,13 @@ import { NextLink } from "app/components/NextLink";
 import { ListHeader } from "app/components/ListHeader";
 import { FlatlistBanner } from "app/components/Banner";
 import { ComicGridGap3 } from "../../components/Comics/ComicGridGap3";
-import { useApiHot, useApiTopMonth, useApiTopWeek } from "../../store/api";
+import {
+  useApiFindByGenresName,
+  useApiFindComic,
+  useApiHot,
+  useApiTopMonth,
+  useApiTopWeek
+} from "../../store/api";
 import { ComicGridGap2 } from "../../components/Comics/ComicGridGap2";
 import { ComicHorizontalList } from "app/components/Comics/ComicHorizontalList";
 import { navigate } from "../../navigators";
@@ -16,6 +22,7 @@ import FadeInView, {
 } from "../../components/AnimationWrapper/FadeInView";
 import useInteraction from "../../hooks/useInteraction";
 import I18n from "i18n-js";
+import { ComicHorizontalList2 } from "../../components/Comics/ComicHorizontalList2/ComicHorizontalList2";
 
 export const HomeScreen = () => {
   // console.log("rerender");
@@ -47,6 +54,19 @@ const HomeScreenContent = () => {
       () => <Categories />,
       () => (
         <ListHeader
+          name={I18n.t("home.history.title")}
+          subtitle={I18n.t("home.history.subtitle")}
+          color=""
+          onPressMore={() => {
+            navigate("main", {
+              screen: "main/library"
+            });
+          }}
+        />
+      ),
+      () => <ComicHorizontalList />,
+      () => (
+        <ListHeader
           name={I18n.t("home.hot.title")}
           subtitle={I18n.t("home.hot.subtitle")}
           color=""
@@ -67,20 +87,59 @@ const HomeScreenContent = () => {
         />
       ),
       () => <ComicList2 />,
-
+      // TODO: I18N
       () => (
         <ListHeader
-          name={I18n.t("home.history.title")}
-          subtitle={I18n.t("home.history.subtitle")}
+          name={"New comic"}
+          subtitle={"Todo: i18n"}
           color=""
-          onPressMore={() => {
-            navigate("main", {
-              screen: "main/library"
-            });
-          }}
+          onPressMore={() =>
+            navigate("home-session-detail-list", { type: "week" })
+          }
         />
       ),
-      () => <ComicHorizontalList />
+      () => <NewComicList />,
+      () => (
+        <ListHeader
+          name={"Completed comics"}
+          subtitle={"Todo: i18n"}
+          color=""
+          onPressMore={() =>
+            navigate("home-session-detail-list", {
+              type: "week"
+            })
+          }
+        />
+      ),
+      () => <CompletedComicList />,
+      () => (
+        <ListHeader
+          name={"Manga"}
+          subtitle={"Todo: i18n"}
+          color=""
+          onPressMore={() =>
+            navigate("home-session-detail-list", {
+              type: "find-comic-by-genres-name",
+              genresName: "manga-112"
+            })
+          }
+        />
+      ),
+      () => <MangaList />,
+      () => (
+        <ListHeader
+          name={"Tensei"}
+          subtitle={"Todo: i18n"}
+          color=""
+          onPressMore={() =>
+            navigate("home-session-detail-list", {
+              type: "find-comic-by-genres-name",
+              genresName: "chuyen-sinh-213"
+            })
+          }
+        />
+      ),
+      () => <TenseiList />
     ];
   }, []);
 
@@ -105,7 +164,8 @@ const HomeScreenContent = () => {
         //   backgroundColor: "$dark.backgroundSecondary"
         // }}
         bg={"warmGray.50"}
-        _dark={{ backgroundColor: "trueGray.900" }}
+        // @ts-ignore
+        _dark={{ bg: "trueGray.900" }}
         // TODO: WEB SPECIFIC STYLE
         // @ts-ignore
         _web={{ marginLeft: 200 }}
@@ -133,3 +193,41 @@ function ComicList2() {
     </>
   );
 }
+
+function NewComicList() {
+  const list = useApiFindComic({
+    status: { id: -1, item: "All" },
+    sortBy: { id: 15, item: "New Comic" },
+    forUser: { id: -1, item: "All" },
+    numChapter: { id: 1, item: "0" },
+    page: 1
+  });
+
+  return <ComicHorizontalList2 list={list.data?.data || []} />;
+}
+
+function CompletedComicList() {
+  const list = useApiFindComic({
+    status: { id: 2, item: "" },
+    sortBy: { id: 15, item: "New Comic" },
+    forUser: { id: -1, item: "All" },
+    numChapter: { id: 1, item: "0" },
+    page: 1
+  });
+
+  return <ComicHorizontalList2 list={list.data?.data || []} />;
+}
+
+const _genListByGenresName = (genresName: string) => {
+  return function () {
+    const result = useApiFindByGenresName({
+      genresName: genresName,
+      page: "1"
+    });
+
+    return <ComicHorizontalList2 list={result.data?.data || []} />;
+  };
+};
+
+const MangaList = _genListByGenresName("manga-112");
+const TenseiList = _genListByGenresName("chuyen-sinh-213");

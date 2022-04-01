@@ -56,9 +56,13 @@ export const comicApi = createApi({
       query: (param: FindOptionT) => {
         const getFindPath = () => {
           // Ex: http://www.nettruyenpro.com/tim-truyen-nang-cao?genres=&notgenres=&gender=-1&status=2&minchapter=1&sort=5
-          return `genres=${toIdListStr(
-            param.genres.map((g) => g.id) as number[]
-          )}&gender=${param.forUser?.id || -1}&status=${
+          return `${
+            param?.genres
+              ? `genres=${toIdListStr(
+                  param?.genres?.map((g) => g.id) as number[]
+                )}&`
+              : ""
+          }gender=${param.forUser?.id || -1}&status=${
             param.status?.id || -1
           }&minchapter=${param.numChapter?.id || -1}&sort=${
             param.sortBy?.id || 0
@@ -89,6 +93,15 @@ export const comicApi = createApi({
         return `/find-by-name?name=${name}`;
       }
     }),
+    findComicByGenresName: builder.query<
+      ApiResponse_T<resComicItem_T[]>,
+      { genresName: string; page: string }
+    >({
+      query: ({ genresName, page }) => {
+        console.log("🚀🚀🚀 ~api.ts`", `/findComicByGenresName=${genresName}`);
+        return `/findByGenresName?genresName=${genresName}&page=${page}`;
+      }
+    }),
     getComicComment: builder.query<ApiResponse_T<resCommentT[]>, string>({
       query: (comicPath) => {
         // NOTE: PATH WITHOUT /truyen-tranh
@@ -108,6 +121,8 @@ export const useApiFindComic = comicApi.endpoints.findComic.useQuery;
 export const useApiFindComicByName =
   comicApi.endpoints.findComicByName.useQuery;
 export const useApiFindByGenres = comicApi.endpoints.findByGenres.useQuery;
+export const useApiFindByGenresName =
+  comicApi.endpoints.findComicByGenresName.useQuery;
 //
 export const useApiLazyRecently =
   comicApi.endpoints.getRecentlyByPage.useLazyQuery;
@@ -119,6 +134,8 @@ export const useApiLazyFindComicByName =
   comicApi.endpoints.findComicByName.useLazyQuery;
 export const useApiLazyFindByGenres =
   comicApi.endpoints.findByGenres.useLazyQuery;
+export const useApiLazyFindByGenresName =
+  comicApi.endpoints.findComicByGenresName.useLazyQuery;
 
 //
 export const useApiTopMonth = comicApi.endpoints.getTopMonthByPage.useQuery;

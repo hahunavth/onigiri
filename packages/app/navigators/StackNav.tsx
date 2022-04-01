@@ -117,7 +117,8 @@ export type StackNavParamsList = {
   };
   "genres.badge-list": undefined;
   "home-session-detail-list": {
-    type: "recently" | "hot" | "week";
+    type: "recently" | "hot" | "week" | "find-comic-by-genres-name";
+    genresName?: string;
   };
   notification: undefined;
   "top-comic-screen": undefined;

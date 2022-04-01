@@ -1,5 +1,6 @@
-import { useApiFindByGenres } from './../store/api'
-import React from 'react'
+import { ApiResponse_T } from "./../types/api";
+import { useApiFindByGenres, useApiLazyFindByGenresName } from "./../store/api";
+import React from "react";
 import {
   useApiLazyRecently,
   useApiLazyHot,
@@ -7,30 +8,30 @@ import {
   useApiLazyFindByGenres,
   useApiLazyFindComic,
   useApiLazyFindComicByName
-} from 'app/store/api'
+} from "app/store/api";
 
 import type {
   UseQuery,
   UseLazyQuery,
   QueryHooks
-} from '@reduxjs/toolkit/dist/query/react/buildHooks'
-import type { QueryDefinition } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import type { resComicItem_T } from 'app/types'
-import { FindOptionT } from '../utils/findOption'
+} from "@reduxjs/toolkit/dist/query/react/buildHooks";
+import type { QueryDefinition } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
+import type { resComicItem_T } from "app/types";
+import { FindOptionT } from "../utils/findOption";
 
 type genFNReturnT<T> = {
-  page: string | number
-  maxPage: string | number
-  results: T[]
-  fetchNextPage: () => any
-}
+  page: string | number;
+  maxPage: string | number;
+  results: T[];
+  fetchNextPage: () => any;
+};
 
 type genCustomFNReturnT<T> = {
-  page: string | number
-  maxPage: string | number
-  results: T[]
-  fetchNextPage: () => any
-}
+  page: string | number;
+  maxPage: string | number;
+  results: T[];
+  fetchNextPage: () => any;
+};
 
 // const [trigger, result, promiseInfo] = useApiLazyFindByGenres({})
 // trigger({})
@@ -38,54 +39,54 @@ function genHookWithCustomParamFN<T, U>(
   useLazyHook: UseLazyQuery<any>
 ): (param: T) => genCustomFNReturnT<U> | null {
   return (param: T) => {
-    const shouldReset = React.useRef(true)
-    const maxPage = React.useRef(0)
-    const [results, setResults] = React.useState<U[]>([])
+    const shouldReset = React.useRef(true);
+    const maxPage = React.useRef(0);
+    const [results, setResults] = React.useState<U[]>([]);
     // @ts-ignore
-    const [trigger, result] = useLazyHook()
+    const [trigger, result] = useLazyHook();
     // @ts-ignore
-    const p = result?.data.pagination as any
+    const p = result?.data?.pagination as any;
     // @ts-ignore
-    const r = (result.data?.data || []) as unknown[]
+    const r = (result.data?.data || []) as unknown[];
     React.useEffect(() => {
       // @ts-ignore
       trigger({
         ...param,
-        page: '1'
-      })
-    }, [])
+        page: "1"
+      });
+    }, []);
 
     React.useEffect(() => {
-      if (!result.isSuccess) return
+      if (!result.isSuccess) return;
 
       if (shouldReset.current) {
-        shouldReset.current = false
-        p?.max && (maxPage.current = p?.max)
-        setResults(r as U[])
+        shouldReset.current = false;
+        p?.max && (maxPage.current = p?.max);
+        setResults(r as U[]);
       } else {
-        setResults([...results, ...(r as U[])])
+        setResults([...results, ...(r as U[])]);
       }
-    }, [result.data])
+    }, [result.data]);
 
     const fetchNextPage = React.useCallback(() => {
-      const page = p?.page
-      console.log('end', page)
+      const page = p?.page;
+      console.log("end", page);
       if (page && page < maxPage.current) {
         // @ts-ignore
         trigger({
           ...param,
           page: page + 1
-        })
+        });
       }
-    }, [result.data])
+    }, [result.data]);
 
     return {
-      page: p?.page || '',
+      page: p?.page || "",
       maxPage: maxPage.current,
       results,
       fetchNextPage
-    }
-  }
+    };
+  };
 }
 
 /**
@@ -97,61 +98,65 @@ const genHookFN = (
   useLazyHook: typeof useApiLazyRecently
 ): (() => genFNReturnT<resComicItem_T>) => {
   return () => {
-    const shouldReset = React.useRef(true)
-    const maxPage = React.useRef(0)
-    const [results, setResults] = React.useState<resComicItem_T[]>([])
-    const [trigger, result] = useLazyHook()
+    const shouldReset = React.useRef(true);
+    const maxPage = React.useRef(0);
+    const [results, setResults] = React.useState<resComicItem_T[]>([]);
+    const [trigger, result] = useLazyHook();
 
     React.useEffect(() => {
-      trigger('1')
-    }, [])
+      trigger("1");
+    }, []);
 
     React.useEffect(() => {
-      if (!result.isSuccess) return
+      if (!result.isSuccess) return;
 
       if (shouldReset.current) {
-        shouldReset.current = false
-        result.data.pagination?.max &&
-          (maxPage.current = result.data.pagination?.max)
-        setResults(result.data?.data || [])
+        shouldReset.current = false;
+        result.data?.pagination?.max &&
+          (maxPage.current = result.data.pagination?.max);
+        setResults(result.data?.data || []);
       } else {
-        setResults([...results, ...result.data?.data])
+        setResults([...results, ...result.data?.data]);
       }
-    }, [result.data])
+    }, [result.data]);
 
     const fetchNextPage = React.useCallback(() => {
-      const page = result.data?.pagination?.page
-      console.log('end', page)
+      const page = result.data?.pagination?.page;
+      console.log("end", page);
       if (page && page < maxPage.current) {
-        trigger((page + 1).toString())
+        trigger((page + 1).toString());
       }
-    }, [result.data])
+    }, [result.data]);
 
     return {
-      page: result.data?.pagination?.page || '',
+      page: result.data?.pagination?.page || "",
       maxPage: maxPage.current,
       results,
       fetchNextPage
-    }
-  }
-}
+    };
+  };
+};
 
 // NOTE: EXPORT
-export const useApiInfinityRecently = genHookFN(useApiLazyRecently)
-export const useApiInfinityHot = genHookFN(useApiLazyHot)
-export const useApiInfinityTopWeek = genHookFN(useApiLazyTopWeek)
+export const useApiInfinityRecently = genHookFN(useApiLazyRecently);
+export const useApiInfinityHot = genHookFN(useApiLazyHot);
+export const useApiInfinityTopWeek = genHookFN(useApiLazyTopWeek);
 //
 export const useApiInfinityFindByGenres = genHookWithCustomParamFN<
   { genres: string | number; page: string | number },
   resComicItem_T[]
->(useApiLazyFindByGenres)
+>(useApiLazyFindByGenres);
 export const useApiInfinityFindComic = genHookWithCustomParamFN<
   FindOptionT,
   resComicItem_T[]
->(useApiLazyFindComic)
+>(useApiLazyFindComic);
 // FIXME: DATA SHAPE
 export const useApiInfinityFindComicByName = genHookWithCustomParamFN<
   any,
   resComicItem_T[]
->(useApiLazyFindComicByName)
+>(useApiLazyFindComicByName);
+export const useApiInfinityFindComicByGenresName = genHookWithCustomParamFN<
+  { genresName: string },
+  resComicItem_T[]
+>(useApiLazyFindByGenresName);
 //

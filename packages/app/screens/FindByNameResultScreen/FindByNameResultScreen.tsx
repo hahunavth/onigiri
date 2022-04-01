@@ -3,7 +3,7 @@ import React from "react";
 import { InteractionManager } from "react-native";
 import { FindByNameResultScreenProps } from "../../navigators/StackNav";
 import { useApiFindComic, useApiFindComicByName } from "../../store/api";
-import { ComicVerticalList } from "../../components/Comics/ComicVerticalList/ComicVerticalList";
+import { ComicVerticalList } from "app/components/Comics/ComicVerticalList";
 import { Loading } from "../../components/EmptyPage/Loading";
 import useInteraction from "../../hooks/useInteraction";
 import { NotFound } from "../../components/EmptyPage";
