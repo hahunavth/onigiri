@@ -19,8 +19,8 @@ import { usePrefetch } from "app/store/api";
 import Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppSafeAreaInsets } from "app/provider/safe-area/use-safe-area";
-import { useColorModeStyle } from "../../hooks/useColorModeStyle";
-import { goBack, navigate } from "../../navigators";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
+import { goBack, navigate } from "app/navigators";
 import { ChapterContext } from "./ChapterContext";
 import { MaterialIcons } from "@expo/vector-icons";
 

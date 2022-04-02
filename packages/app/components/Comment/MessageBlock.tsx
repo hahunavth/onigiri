@@ -1,21 +1,21 @@
-import { View, Text, FlatList, Box } from 'native-base'
-import React from 'react'
-import { ListRenderItemInfo } from 'react-native'
-import { resCommentReplyT } from '../../types'
-import { Message } from './Message'
-import { MessageReply } from './MessageReply'
+import { View, Text, FlatList, Box } from "native-base";
+import React from "react";
+import { ListRenderItemInfo } from "react-native";
+import { resCommentReplyT } from "app/types";
+import { Message } from "./Message";
+import { MessageReply } from "./MessageReply";
 
-import { MessageBlockProps } from './types'
+import { MessageBlockProps } from "./types";
 
 export const MessageBlock = (props: MessageBlockProps) => {
-  const { message } = props
+  const { message } = props;
 
   const renderItem = React.useCallback(
     ({ index, item, separators }: ListRenderItemInfo<resCommentReplyT>) => {
-      return <MessageReply message={item} />
+      return <MessageReply message={item} />;
     },
     []
-  )
+  );
 
   return (
     <Box>
@@ -27,5 +27,5 @@ export const MessageBlock = (props: MessageBlockProps) => {
         keyExtractor={(item, id) => id.toString()}
       />
     </Box>
-  )
-}
+  );
+};

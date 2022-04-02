@@ -1,4 +1,8 @@
-import { historyAction, historySelector } from "app/store/historySlice";
+import {
+  historyAction,
+  HistoryComicT,
+  historySelector
+} from "app/store/historySlice";
 import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import { RecentTabProps } from "app/navigators/LibraryTopNavigator";
 import { resComicDetail_T } from "app/types";
@@ -6,7 +10,7 @@ import React from "react";
 import { View } from "native-base";
 
 import LibraryList from "./LibraryList";
-import ConfirmModal from "../../components/ConfirmModal";
+import ConfirmModal from "app/components/ConfirmModal";
 import { LibraryContext } from "./LibraryContext";
 
 export const RecentTab: React.FunctionComponent<RecentTabProps> = (props) => {
@@ -27,7 +31,7 @@ export const RecentTab: React.FunctionComponent<RecentTabProps> = (props) => {
         data={
           (history.readComics
             .map((path) => history.comics[path])
-            .filter((n) => n) as resComicDetail_T[]) || []
+            .filter((n) => n) || []) as HistoryComicT[]
         }
         addonFieldName={"Lasted read: "}
         addonFieldExtractor={(item) => {

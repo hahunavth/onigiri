@@ -1,1 +1,1 @@
-export * from './OfflineChapterScreen'
+export * from "./OfflineChapterScreen";

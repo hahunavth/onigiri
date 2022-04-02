@@ -5,10 +5,10 @@ import type { CommentProps } from "./types";
 import { Message } from "./Message";
 import { MessageBlock } from "./MessageBlock";
 import { FlatList, ScrollView } from "native-base";
-import { resCommentT } from "../../types";
+import { resCommentT } from "app/types";
 import { MessageInput } from "./MessageInput";
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import useInteraction from "../../hooks/useInteraction";
+import useInteraction from "app/hooks/useInteraction";
 import { Loading } from "../EmptyPage";
 
 export const CommentFL = ({ data }: CommentProps) => {

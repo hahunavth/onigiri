@@ -1,3 +1,3 @@
 export type ComicListByGenresProps = {
-  genres: string | number
-}
+  genres: string | number;
+};

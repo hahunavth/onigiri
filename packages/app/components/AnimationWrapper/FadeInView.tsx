@@ -9,8 +9,6 @@ import Animated, {
 import { ViewStyle } from "react-native";
 import { View } from "native-base";
 
-// const AnimatedLayout = Animated.createAnimatedComponent(Layout);
-
 type Props = {
   children: React.ReactNode;
   style?: ViewStyle;

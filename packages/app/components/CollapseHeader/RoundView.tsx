@@ -1,6 +1,6 @@
-import { resComicDetail_T } from 'app/types'
+import { resComicDetail_T } from "app/types";
 // import { Button, Icon, Layout } from "@ui-kitten/components";
-import React, { forwardRef, memo, useCallback, useState } from 'react'
+import React, { forwardRef, memo, useCallback, useState } from "react";
 import {
   FlatList,
   FlatListProps,
@@ -10,8 +10,8 @@ import {
   TouchableOpacity,
   ViewStyle,
   Text
-} from 'react-native'
-import { Button, View, Box } from 'native-base'
+} from "react-native";
+import { Button, View, Box } from "native-base";
 import Animated, {
   Easing,
   // FadeInDown,
@@ -20,13 +20,13 @@ import Animated, {
   useSharedValue,
   withDelay,
   withSpring
-} from 'react-native-reanimated'
-import { LinearGradient } from 'expo-linear-gradient'
+} from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
 
-import FadeInView from '../AnimationWrapper/FadeInView'
-import useInteraction from '../../hooks/useInteraction'
-import { navigate } from '../../navigators'
-import { RoundViewProps } from './types'
+import FadeInView from "../AnimationWrapper/FadeInView";
+import useInteraction from "app/hooks/useInteraction";
+import { navigate } from "app/navigators";
+import { RoundViewProps } from "./types";
 
 const RoundView = ({ children, style }: RoundViewProps) => {
   return (
@@ -44,7 +44,7 @@ const RoundView = ({ children, style }: RoundViewProps) => {
     >
       {children}
     </View>
-  )
-}
+  );
+};
 
-export default RoundView
+export default RoundView;

@@ -2,7 +2,7 @@ import { View, Text } from "native-base";
 import React from "react";
 import { ChapterList2 as CptList } from "../ChapterList";
 import store from "app/store/store";
-import { historyAction } from "../../store/historySlice";
+import { historyAction } from "app/store/historySlice";
 
 type Props = {};
 

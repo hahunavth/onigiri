@@ -1,1 +1,1 @@
-export * from './TestScreen'
+export * from "./TestScreen";

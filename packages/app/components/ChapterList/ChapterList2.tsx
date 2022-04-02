@@ -30,17 +30,17 @@ import {
   historySelector,
   selectLastedReadChapterPathList
 } from "app/store/historySlice";
-import { homeSelector } from "../../store/homeSlice";
-import useInteraction from "../../hooks/useInteraction";
+import { homeSelector } from "app/store/homeSlice";
+import useInteraction from "app/hooks/useInteraction";
 import usePrevious from "react-use/esm/usePrevious";
-import { chapterActions, selectChapterInfo } from "../../store/chapterSlice";
+import { chapterActions, selectChapterInfo } from "app/store/chapterSlice";
 import BottomSheet, {
   BottomSheetTextInput,
   BottomSheetFlatList,
   BottomSheetScrollView,
   BottomSheetSectionList
 } from "@gorhom/bottom-sheet";
-import { goBack, navigate } from "../../navigators";
+import { goBack, navigate } from "app/navigators";
 // import { ANFlatlist } from '../Typo'
 
 // type Props = Omit<

@@ -4,8 +4,8 @@
 
 import { FlatList } from "native-base";
 import React from "react";
-import { HistoryComicT, historySelector } from "../../../store/historySlice";
-import { useAppSelector } from "../../../store/hooks";
+import { HistoryComicT, historySelector } from "app/store/historySlice";
+import { useAppSelector } from "app/store/hooks";
 import { ListItem } from "./ListItem";
 
 type Props = {};

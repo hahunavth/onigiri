@@ -6,7 +6,7 @@ export const Download = () => {
   return (
     <VStack flex={1} justifyContent={"center"} alignItems={"center"}>
       <LottieView
-        source={require("../../assets/download.json")}
+        source={require("app/assets/download.json")}
         autoPlay
         loop={false}
         autoSize

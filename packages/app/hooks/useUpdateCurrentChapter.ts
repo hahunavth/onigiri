@@ -1,8 +1,8 @@
-import { resChapterDetail_T } from "./../types/api";
-import { homeActions, homeSelector } from "../store/homeSlice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { resChapterDetail_T } from "app/types/api";
+import { homeActions, homeSelector } from "app/store/homeSlice";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import useInteraction from "./useInteraction";
-import { historyAction } from "../store/historySlice";
+import { historyAction } from "app/store/historySlice";
 
 type Param = {
   chapterDetail: resChapterDetail_T | undefined;

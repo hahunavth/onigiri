@@ -114,21 +114,21 @@
  * REVIEW: USING TYPO
  */
 
-import { HStack, VStack, Text, View, Factory } from 'native-base'
-import { StyleSheet, TouchableNativeFeedback } from 'react-native'
-import { Entypo } from '@expo/vector-icons'
-import React from 'react'
-import i18n from 'i18n-js'
+import { HStack, VStack, Text, View, Factory } from "native-base";
+import { StyleSheet, TouchableNativeFeedback } from "react-native";
+import { Entypo } from "@expo/vector-icons";
+import React from "react";
+import i18n from "i18n-js";
 
-import type { comicListProps } from './types'
-import { TextMdP, TextSmI, TextXsP, TextXsS } from '../Typo'
+import type { comicListProps } from "./types";
+import { TextMdP, TextSmI, TextXsP, TextXsS } from "../Typo";
 
-const NBEntypo = Factory(Entypo)
+const NBEntypo = Factory(Entypo);
 export const ListHeader = ({
   name,
   onPressMore,
   subtitle,
-  color = ''
+  color = ""
 }: comicListProps): JSX.Element => {
   return (
     <HStack
@@ -144,12 +144,12 @@ export const ListHeader = ({
       {onPressMore && (
         <TouchableNativeFeedback
           onPress={() => {
-            onPressMore()
+            onPressMore();
           }}
           style={styles.btn}
         >
           <View flexDirection={`row`}>
-            <TextXsS style={styles.btnText}>{i18n.t('home.button')}</TextXsS>
+            <TextXsS style={styles.btnText}>{i18n.t("home.button")}</TextXsS>
             <NBEntypo
               name="chevron-right"
               size={10}
@@ -166,12 +166,12 @@ export const ListHeader = ({
         </TouchableNativeFeedback>
       )}
     </HStack>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   headerContainer: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingLeft: 10,
     borderRadius: 4,
     margin: 5
@@ -187,22 +187,22 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     margin: 10
   },
   btnText: {
-    marginTop: 'auto',
-    marginBottom: 'auto',
+    marginTop: "auto",
+    marginBottom: "auto",
     marginLeft: 12,
     opacity: 0.6
   },
   btnIcon: {
     fontSize: 22,
     marginLeft: -4,
-    marginTop: 'auto',
-    marginBottom: 'auto',
+    marginTop: "auto",
+    marginBottom: "auto",
     marginRight: 4,
     opacity: 0.6
   }
-})
+});

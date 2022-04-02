@@ -1,20 +1,20 @@
 import { View, Text, SectionList, FlatList } from "native-base";
-import { FindResultScreenProps } from "../../navigators/StackNav";
-import { API_URL, resComicItem_T } from "../../types";
+import { FindResultScreenProps } from "app/navigators/StackNav";
+import { API_URL, resComicItem_T } from "app/types";
 import axios from "axios";
-import { useApiFindComic, usePrefetch } from "../../store/api";
-import { ComicVerticalList } from "../../components/Comics/ComicVerticalList/ComicVerticalList";
-import { useColorModeStyle } from "../../hooks/useColorModeStyle";
-import { Loading } from "../../components/EmptyPage/Loading";
+import { useApiFindComic, usePrefetch } from "app/store/api";
+import { ComicVerticalList } from "app/components/Comics/ComicVerticalList/ComicVerticalList";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
+import { Loading } from "app/components/EmptyPage/Loading";
 import React from "react";
 import {
   InteractionManager,
   ListRenderItem,
   SectionListRenderItemInfo
 } from "react-native";
-import { selectDownloadedChapters } from "../../store/historySlice";
-import { ListFooter } from "../../components/Comics/ComicVerticalList/ListFooter";
-import { NotFound } from "../../components/EmptyPage/NotFound";
+import { selectDownloadedChapters } from "app/store/historySlice";
+import { ListFooter } from "app/components/Comics/ComicVerticalList/ListFooter";
+import { NotFound } from "app/components/EmptyPage/NotFound";
 
 /**
  * FIXME: INFINITY LIST UPDATE NEW PAGE SLOW

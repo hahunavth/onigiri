@@ -31,22 +31,22 @@ import type {
   resComicDetail_T,
   resChapterDetail_T
 } from "../types";
-import { SelectDownloadChapter } from "../screens/SelectDownloadChapterScreen/SelectDownloadChapter";
-import { HistoryComicT } from "../store/historySlice";
-import { FindOptionT } from "../utils/findOption";
-import Header from "../components/CollapseHeader/Header";
+import { SelectDownloadChapter } from "app/screens/SelectDownloadChapterScreen/SelectDownloadChapter";
+import { HistoryComicT } from "app/store/historySlice";
+import { FindOptionT } from "app/utils/findOption";
+import Header from "app/components/CollapseHeader/Header";
 import { Icon, Text, View } from "native-base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MotiView } from "moti";
-import { FindByNameResultScreen } from "../screens/FindByNameResultScreen";
+import { FindByNameResultScreen } from "app/screens/FindByNameResultScreen";
 
 import {
   createSharedElementStackNavigator,
   SharedElementAnimation
 } from "react-navigation-shared-element";
 import { StackNavParamsList } from "./StackNav";
-import { Loading } from "../components/EmptyPage";
+import { Loading } from "app/components/EmptyPage";
 
 /**
  * Using common params

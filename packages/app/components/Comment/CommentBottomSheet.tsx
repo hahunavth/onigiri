@@ -17,16 +17,16 @@ import Animated, {
   useAnimatedStyle
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import useUpdateCurrentChapter from "../../hooks/useUpdateCurrentChapter";
-import useInteraction from "../../hooks/useInteraction";
+import useUpdateCurrentChapter from "app/hooks/useUpdateCurrentChapter";
+import useInteraction from "app/hooks/useInteraction";
 import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { FontAwesome } from "@expo/vector-icons";
-import { CommentLoader } from "../../components/Comment";
-import { homeSelector } from "../../store/homeSlice";
+import { CommentLoader } from "app/components/Comment";
+import { homeSelector } from "app/store/homeSlice";
 import { CommentBottomSheetProps } from "./types";
 import { BottomSheetCustomFooter } from "./BottomSheetCustomFooter";
 import { CommentFLLoader } from "./CommentFLLoader";
-import { useAppSafeAreaInsets } from "../../provider/safe-area/use-safe-area";
+import { useAppSafeAreaInsets } from "app/provider/safe-area/use-safe-area";
 
 export const CommentBottomSheet = React.memo(
   React.forwardRef<BottomSheet, CommentBottomSheetProps>(

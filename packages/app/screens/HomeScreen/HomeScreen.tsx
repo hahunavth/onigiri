@@ -4,25 +4,24 @@ import React from "react";
 import { NextLink } from "app/components/NextLink";
 import { ListHeader } from "app/components/ListHeader";
 import { FlatlistBanner } from "app/components/Banner";
-import { ComicGridGap3 } from "../../components/Comics/ComicGridGap3";
+import { ComicGridGap3 } from "app/components/Comics/ComicGridGap3";
 import {
   useApiFindByGenresName,
   useApiFindComic,
   useApiHot,
   useApiTopMonth,
   useApiTopWeek
-} from "../../store/api";
-import { ComicGridGap2 } from "../../components/Comics/ComicGridGap2";
+} from "app/store/api";
+import { ComicGridGap2 } from "app/components/Comics/ComicGridGap2";
 import { ComicHorizontalList } from "app/components/Comics/ComicHorizontalList";
-import { navigate } from "../../navigators";
-import Categories from "../../components/Categories";
-import { Carousel } from "../../../next/src/components/Carousel";
+import { navigate } from "app/navigators";
+import Categories from "app/components/Categories";
 import FadeInView, {
   FadeInWrapper
-} from "../../components/AnimationWrapper/FadeInView";
-import useInteraction from "../../hooks/useInteraction";
+} from "app/components/AnimationWrapper/FadeInView";
+import useInteraction from "app/hooks/useInteraction";
 import I18n from "i18n-js";
-import { ComicHorizontalList2 } from "../../components/Comics/ComicHorizontalList2/ComicHorizontalList2";
+import { ComicHorizontalList2 } from "app/components/Comics/ComicHorizontalList2/ComicHorizontalList2";
 
 export const HomeScreen = () => {
   // console.log("rerender");

@@ -17,9 +17,9 @@ import {
   SORT_BY,
   toIdListStr,
   FindOptionT
-} from "../../utils/findOption";
-import { navigate } from "../../navigators";
-import { SelectOne } from "../../components/DropdownSelect";
+} from "app/utils/findOption";
+import { navigate } from "app/navigators";
+import { SelectOne } from "app/components/DropdownSelect";
 import { AntDesign } from "@expo/vector-icons";
 import i18n from "i18n-js";
 

@@ -22,10 +22,10 @@ import Animated, {
   withSpring
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import useInteraction from "../../hooks/useInteraction";
+import useInteraction from "app/hooks/useInteraction";
 import { Rating, AirbnbRating } from "react-native-ratings";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { navigate } from "../../navigators";
+import { navigate } from "app/navigators";
 import TFastImage from "app/components/Typo/TFastImage";
 
 export const PHOTO_SIZE = 120;

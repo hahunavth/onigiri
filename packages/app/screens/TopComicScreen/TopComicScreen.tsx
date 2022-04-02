@@ -10,7 +10,7 @@ import {
   HomeSessionDetailListWeek,
   HomeSessionDetailList
 } from "app/components/HomeSessionDetailList";
-import { useColorModeStyle } from "../../hooks/useColorModeStyle";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 
 type TopComicTopTabNavParamList = {
   recently: undefined;

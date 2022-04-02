@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react'
+import React, { useMemo } from "react";
 
 // import { CONTAINER_MAX_W_STYLE } from 'app/utils/constant'
-import { StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle } from "react-native";
 // import { ThemedBox } from "./Layout/ThemedBox";
-import { BlurView } from './BlurView'
-import { MotiView } from 'moti'
+import { BlurView } from "./BlurView";
+import { MotiView } from "moti";
 import {
   Center,
   Container,
@@ -15,66 +15,66 @@ import {
   Button,
   Switch,
   View
-} from 'native-base'
+} from "native-base";
 
-type Props = {}
+type Props = {};
 
 export const NavBar = (props: Props) => {
   const NavBarContainerStyle = useMemo(() => {
     return {
       // FIXME: position relative not working
       style: {
-        position: 'fixed',
+        position: "fixed",
         top: 0,
-        bg: '#0000005a'
+        bg: "#0000005a"
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const BlurViewStyle: StyleProp<ViewStyle> = useMemo(() => {
     return {
       flex: 1,
-      flexDirection: 'row',
-      backgroundColor: '#transparent'
-    }
-  }, [])
+      flexDirection: "row",
+      backgroundColor: "#transparent"
+    };
+  }, []);
 
   return (
     <>
       <Center
-        maxW={'container'}
-        justifyContent={''}
-        flexDirection={'row'}
-        position={'absolute'}
+        maxW={"container"}
+        justifyContent={""}
+        flexDirection={"row"}
+        position={"absolute"}
         top={0}
         zIndex={100000}
         flex={1}
         left={0}
         right={0}
         borderBottomWidth={1}
-        borderBottomColor={'gray.300'}
+        borderBottomColor={"gray.300"}
         // @ts-ignore
         _web={NavBarContainerStyle}
       >
         <BlurView intensity={90} tint="light" style={BlurViewStyle}>
           <Container
-            flexDirection={'row'}
-            justifyContent={''}
+            flexDirection={"row"}
+            justifyContent={""}
             flex={1}
-            mx={'auto'}
+            mx={"auto"}
             // w={CONTAINER_MAX_W_STYLE}
           >
             <Flex
               flex={1}
-              alignItems={'center'}
-              justifyContent={'space-between'}
+              alignItems={"center"}
+              justifyContent={"space-between"}
               direction="row"
             >
-              <HStack alignItems={'center'}>
+              <HStack alignItems={"center"}>
                 <Text
-                  color={'cyan.700'}
+                  color={"cyan.700"}
                   fontSize={42}
-                  fontFamily={'Quicksand'}
+                  fontFamily={"Quicksand"}
                   fontWeight={600}
                 >
                   Logo
@@ -88,7 +88,7 @@ export const NavBar = (props: Props) => {
                     // _dark={{ color: "black" }}
                     // _light={{ color: "black" }}
                   >
-                    <Text color={'cyan.800'}>Home</Text>
+                    <Text color={"cyan.800"}>Home</Text>
                   </Link>
                   <Link
                     pl={10}
@@ -97,17 +97,17 @@ export const NavBar = (props: Props) => {
                     // _dark={{ color: "black" }}
                     // _light={{ color: "black" }}
                   >
-                    <Text color={'cyan.800'}>Hot</Text>
+                    <Text color={"cyan.800"}>Hot</Text>
                   </Link>
                   <Link
                     pl={10}
                     isUnderlined={false}
                     fontSize={18}
-                    href={'comic-detail'}
+                    href={"comic-detail"}
                     // _dark={{ color: "black" }}
                     // _light={{ color: "black" }}
                   >
-                    <Text color={'cyan.800'}>Find</Text>
+                    <Text color={"cyan.800"}>Find</Text>
                   </Link>
                   <Link
                     href="setting"
@@ -117,13 +117,13 @@ export const NavBar = (props: Props) => {
                     // _dark={{ color: "black" }}
                     // _light={{ color: "black" }}
                   >
-                    <Text color={'cyan.800'}>Setting</Text>
+                    <Text color={"cyan.800"}>Setting</Text>
                   </Link>
                 </HStack>
               </HStack>
               <HStack space={2}>
                 <Button>Login</Button>
-                <Switch my={'auto'} />
+                <Switch my={"auto"} />
               </HStack>
             </Flex>
           </Container>
@@ -149,5 +149,5 @@ export const NavBar = (props: Props) => {
         style={{ width: 19, height: 20, backgroundColor: 'red' }}
       /> */}
     </>
-  )
-}
+  );
+};

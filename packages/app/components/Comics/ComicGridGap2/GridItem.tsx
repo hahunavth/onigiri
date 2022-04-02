@@ -1,8 +1,8 @@
 import { View, Text, Box, Center, VStack, Image, Skeleton } from "native-base";
 import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { navigate } from "../../../navigators";
-import { num2FormatString } from "../../../utils/stringFormat";
+import { navigate } from "app/navigators";
+import { num2FormatString } from "app/utils/stringFormat";
 import { TextXsP } from "../../Typo";
 import { GridItemProps } from "./types";
 import TFastImage from "app/components/Typo/TFastImage";

@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 import {
   ListRenderItemInfo,
   FlatList,
   TouchableNativeFeedback
-} from 'react-native'
+} from "react-native";
 import {
   Badge,
   Box,
@@ -16,17 +16,17 @@ import {
   Spacer,
   Text,
   VStack
-} from 'native-base'
-import { AntDesign } from '@expo/vector-icons'
-import { ChapterContext } from '../screens/ChapterScreen/ChapterContext'
-import { useAppSelector } from '../store/hooks'
-import { homeSelector } from '../store/homeSlice'
+} from "native-base";
+import { AntDesign } from "@expo/vector-icons";
+import { ChapterContext } from "app/screens/ChapterScreen/ChapterContext";
+import { useAppSelector } from "app/store/hooks";
+import { homeSelector } from "app/store/homeSlice";
 
 type ChapterFooterBtnProps = {
-  type?: 'next' | 'prev'
-  chapterName?: string
-  onPress?: () => any
-}
+  type?: "next" | "prev";
+  chapterName?: string;
+  onPress?: () => any;
+};
 
 export default function ChapterFooterBtn(props: ChapterFooterBtnProps) {
   const {
@@ -39,14 +39,14 @@ export default function ChapterFooterBtn(props: ChapterFooterBtnProps) {
     setCtxPath,
     setViewStatus,
     viewStatus
-  } = React.useContext(ChapterContext)
-  const { currentComic } = useAppSelector(homeSelector)
+  } = React.useContext(ChapterContext);
+  const { currentComic } = useAppSelector(homeSelector);
 
   const toCpt = React.useMemo(() => {
-    if (props.type === 'next')
-      return ctxId ? currentComic?.chapters[ctxId - 1]?.name : null
-    return ctxId ? currentComic?.chapters[ctxId + 1]?.name : null
-  }, [props.type])
+    if (props.type === "next")
+      return ctxId ? currentComic?.chapters[ctxId - 1]?.name : null;
+    return ctxId ? currentComic?.chapters[ctxId + 1]?.name : null;
+  }, [props.type]);
 
   return (
     <Pressable onPress={props.onPress} disabled={true}>
@@ -60,17 +60,17 @@ export default function ChapterFooterBtn(props: ChapterFooterBtnProps) {
             shadow="3"
             bg={
               !toCpt
-                ? 'gray.200'
+                ? "gray.200"
                 : isPressed
-                ? 'coolGray.200'
+                ? "coolGray.200"
                 : isHovered
-                ? 'coolGray.200'
-                : 'coolGray.100'
+                ? "coolGray.200"
+                : "coolGray.100"
             }
             _text={{
-              color: !toCpt ? 'gray.400' : 'gray.700'
+              color: !toCpt ? "gray.400" : "gray.700"
             }}
-            ml={props.type === 'next' ? 'auto' : undefined}
+            ml={props.type === "next" ? "auto" : undefined}
             p="5"
             rounded="8"
             // alignItems={'flex-end'}
@@ -82,9 +82,9 @@ export default function ChapterFooterBtn(props: ChapterFooterBtnProps) {
               ]
             }}
           >
-            {props.type === 'next' ? (
+            {props.type === "next" ? (
               <>
-                <HStack alignItems={'center'} justifyContent={'space-between'}>
+                <HStack alignItems={"center"} justifyContent={"space-between"}>
                   <VStack>
                     <Text
                       color="coolGray.800"
@@ -109,8 +109,8 @@ export default function ChapterFooterBtn(props: ChapterFooterBtnProps) {
             ) : (
               <>
                 <HStack
-                  alignItems={'center'}
-                  justifyContent={'space-between'}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
                   flexDirection="row-reverse"
                 >
                   <VStack>
@@ -136,8 +136,8 @@ export default function ChapterFooterBtn(props: ChapterFooterBtnProps) {
               </>
             )}
           </Box>
-        )
+        );
       }}
     </Pressable>
-  )
+  );
 }

@@ -1,1 +1,1 @@
-export * from './DiscoverScreen'
+export * from "./DiscoverScreen";

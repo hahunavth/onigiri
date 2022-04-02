@@ -27,13 +27,13 @@ import Animated, {
 import { LinearGradient } from "expo-linear-gradient";
 
 import FadeInView, { FadeInWrapper } from "../AnimationWrapper/FadeInView";
-import useInteraction from "../../hooks/useInteraction";
-import { navigate, navPush } from "../../navigators";
+import useInteraction from "app/hooks/useInteraction";
+import { navigate, navPush } from "app/navigators";
 import RoundView from "./RoundView";
 import CollapseRoundView from "./CollapseRoundView";
-import { useApiComicComment } from "../../store/api";
+import { useApiComicComment } from "app/store/api";
 import { Comment } from "../Comment";
-import { num2FormatString } from "../../utils/stringFormat";
+import { num2FormatString } from "app/utils/stringFormat";
 import { Layout, LightSpeedInLeft } from "react-native-reanimated";
 import { Loading } from "../EmptyPage/Loading";
 import { MotiView } from "moti";

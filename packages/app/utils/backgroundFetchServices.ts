@@ -62,8 +62,8 @@ export const fetchBackgroundTask = async () => {
       console.log("bg fetch result: ");
       await mmkvStorage
         .getItem("notifications-template")
-        .then((s) => (s ? JSON.parse(s) : {}))
-        .then((j) => console.log(j));
+        .then((s: string | undefined) => (s ? JSON.parse(s) : {}))
+        .then((j: object) => console.log(j));
     }
   }
   // await triggerBackgroundFetchNotification()

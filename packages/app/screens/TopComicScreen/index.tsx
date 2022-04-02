@@ -1,1 +1,1 @@
-export * from './TopComicScreen'
+export * from "./TopComicScreen";

@@ -6,15 +6,15 @@ import {
   FlatList,
   VStack,
   HStack
-} from 'native-base'
-import { ImageProps, Dimensions, InteractionManager } from 'react-native'
-import React from 'react'
-import { deleteAllImgs, getSingleImg } from 'app/utils/imgManager'
-import { useApiComicDetail } from '../../store/api'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { historySelector } from '../../store/historySlice'
+} from "native-base";
+import { ImageProps, Dimensions, InteractionManager } from "react-native";
+import React from "react";
+import { deleteAllImgs, getSingleImg } from "app/utils/imgManager";
+import { useApiComicDetail } from "app/store/api";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
+import { historySelector } from "app/store/historySlice";
 
-import { SelectableBadge } from '../../components/SelectableBadge'
+import { SelectableBadge } from "app/components/SelectableBadge";
 
 // type Props = {}
 
@@ -158,9 +158,9 @@ import { SelectableBadge } from '../../components/SelectableBadge'
 // })
 
 export type SelectChapterListItem = {
-  name: string | number
-  status: 't' | 'f' | 'd'
-}
+  name: string | number;
+  status: "t" | "f" | "d";
+};
 
 export function TestScreen() {
   // const [selectChapterList, setSelectChapterList] = React.useState<
@@ -186,25 +186,25 @@ export function TestScreen() {
 
   const [selectChapterList, setSelectChapterList] = React.useState<
     SelectChapterListItem[]
-  >([])
+  >([]);
 
   React.useEffect(() => {
     // InteractionManager.runAfterInteractions(() => {
     setSelectChapterList(
       Array(10000)
         .fill(1)
-        .map((v, i) => ({ name: 'Adventure' + i, status: 't' }))
-    )
+        .map((v, i) => ({ name: "Adventure" + i, status: "t" }))
+    );
     // })
-  }, [])
+  }, []);
 
-  const [process, setProcess] = React.useState(-1)
+  const [process, setProcess] = React.useState(-1);
 
-  const onPress = React.useCallback((id: number) => setProcess(id), [])
+  const onPress = React.useCallback((id: number) => setProcess(id), []);
 
   React.useEffect(() => {
     setImmediate(() => {
-      const id = process
+      const id = process;
       if (process !== -1)
         setSelectChapterList(
           // () => {
@@ -214,36 +214,36 @@ export function TestScreen() {
           (state) => {
             // console.log(id)
             return state.map((a, i) =>
-              i === id && a.status !== 'd'
-                ? { ...a, status: a.status === 't' ? 'f' : 't' }
+              i === id && a.status !== "d"
+                ? { ...a, status: a.status === "t" ? "f" : "t" }
                 : a
-            )
+            );
           }
-        )
-    })
-  }, [process])
+        );
+    });
+  }, [process]);
 
   React.useEffect(() => {
     function otherWorklet() {
-      'worklet';
-      console.log('Captured width is', process);
+      "worklet";
+      console.log("Captured width is", process);
     }
     otherWorklet();
-  }, [])
+  }, []);
 
   return (
-    <VStack flex={1} maxW={1000} bg={'$light.backgroundPrimary'}>
+    <VStack flex={1} maxW={1000} bg={"$light.backgroundPrimary"}>
       <HStack
         px={3}
         mb={2}
-        justifyContent={'space-between'}
-        bg={'$light.backgroundPrimary'}
-        _text={{ color: '$light.textBluePrimary' }}
+        justifyContent={"space-between"}
+        bg={"$light.backgroundPrimary"}
+        _text={{ color: "$light.textBluePrimary" }}
       >
-        <Text color={'$light.textBlueSecondary'}>
+        <Text color={"$light.textBlueSecondary"}>
           All: {selectChapterList.length} chapters
         </Text>
-        <Text color={'$light.textBlueSecondary'}>Sort</Text>
+        <Text color={"$light.textBlueSecondary"}>Sort</Text>
       </HStack>
       <FlatList
         data={selectChapterList}
@@ -259,8 +259,8 @@ export function TestScreen() {
         }
         columnWrapperStyle={{
           // flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-around'
+          flexDirection: "row",
+          justifyContent: "space-around"
         }}
         renderItem={({ item, index }) => {
           return (
@@ -270,20 +270,20 @@ export function TestScreen() {
               onPress={onPress}
               name={item.name}
               variant={
-                item.status === 'd'
-                  ? 'solid'
-                  : item.status === 't'
-                    ? 'subtle'
-                    : 'outline'
+                item.status === "d"
+                  ? "solid"
+                  : item.status === "t"
+                  ? "subtle"
+                  : "outline"
               }
             >
               Adventure
             </SelectableBadge>
-          )
+          );
         }}
         numColumns={3}
         keyExtractor={(item) => item.name.toString()}
       />
     </VStack>
-  )
+  );
 }

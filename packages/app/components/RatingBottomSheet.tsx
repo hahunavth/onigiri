@@ -9,7 +9,7 @@ import { View, Text, FlatList, HStack, Pressable, Button } from "native-base";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { goBack } from "app/navigators";
 import SheetHandle from "app/components/ChapterListBottomSheet/SheetHandle";
-import { TextLgP, TextMdP, TextXsS } from "../components/Typo";
+import { TextLgP, TextMdP, TextXsS } from "app/components/Typo";
 import { Rating, AirbnbRating } from "react-native-ratings";
 import { TextInput } from "react-native-gesture-handler";
 

@@ -1,14 +1,14 @@
-import React from 'react'
-import { Link } from 'expo-next-react-navigation'
-import { LinkProps } from './types'
+import React from "react";
+import { Link } from "expo-next-react-navigation";
+import { LinkProps } from "./types";
 
 export const NextLink = (props: LinkProps) => {
   return (
     // <TouchableNativeFeedback>
     <Link {...props} />
     // </TouchableNativeFeedback>
-  )
-}
+  );
+};
 
 // // REVIEW: OLD COMPONENT
 // import { View, TouchableNativeFeedbackProps, ViewProps } from "react-native";

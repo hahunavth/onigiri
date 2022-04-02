@@ -13,8 +13,8 @@ import {
 import { TouchableNativeFeedback } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { resComicItem_T } from "../../../types";
-import { HistoryComicT } from "../../../store/historySlice";
+import { resComicItem_T } from "app/types";
+import { HistoryComicT } from "app/store/historySlice";
 import { NextLink } from "../../NextLink";
 import { BlurView } from "expo-blur";
 

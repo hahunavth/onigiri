@@ -57,7 +57,7 @@ import type {
   resComicDetail_T,
   resComicItem_T
 } from "app/types";
-import useInteraction from "../../hooks/useInteraction";
+import useInteraction from "app/hooks/useInteraction";
 import usePrevious from "react-use/esm/usePrevious";
 import useRaf from "react-use/esm/useRaf";
 import { useThemedColor } from "../Typo";

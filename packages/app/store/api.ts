@@ -1,5 +1,5 @@
-import { resCommentT } from "./../types/api";
-import { FindOptionT, toIdListStr } from "../utils/findOption";
+import { resCommentT } from "app/types/api";
+import { FindOptionT, toIdListStr } from "app/utils/findOption";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type {
   ApiResponse_T,

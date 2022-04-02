@@ -22,7 +22,7 @@ import {
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useColorModeStyle } from "../../hooks/useColorModeStyle";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import {
   TouchableNativeFeedback,
   TouchableOpacity,
@@ -42,11 +42,11 @@ import Animated, {
   withDelay
 } from "react-native-reanimated";
 import { useAppSafeAreaInsets } from "app/provider/safe-area/use-safe-area";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import recentSlice, {
   recentAction,
   recentSelector
-} from "../../store/recentSlice";
+} from "app/store/recentSlice";
 import usePrevious from "react-use/esm/usePrevious";
 import i18n from "i18n-js";
 

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Image, View, Text, Box } from "native-base";
 import { Loading } from "./EmptyPage/Loading";
-import { useColorModeStyle } from "../hooks/useColorModeStyle";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import TFastImage from "./Typo/TFastImage";
 // import FastImage from "react-native-fast-image";
 

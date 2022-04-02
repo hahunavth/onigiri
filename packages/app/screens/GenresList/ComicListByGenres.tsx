@@ -1,9 +1,9 @@
 import { View, Text } from "native-base";
 import React from "react";
-import { useApiFindByGenres } from "../../store/api";
-import useInteraction from "../../hooks/useInteraction";
-import { Loading } from "../../components/EmptyPage/Loading";
-import { ComicVerticalList } from "../../components/Comics/ComicVerticalList";
+import { useApiFindByGenres } from "app/store/api";
+import useInteraction from "app/hooks/useInteraction";
+import { Loading } from "app/components/EmptyPage/Loading";
+import { ComicVerticalList } from "app/components/Comics/ComicVerticalList";
 import { ComicListByGenresProps } from "./type";
 import { GTTScreenProps } from "./GenresTopTabNav";
 

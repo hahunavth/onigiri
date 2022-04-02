@@ -1,1 +1,1 @@
-export * from './OfflineComicScreen'
+export * from "./OfflineComicScreen";

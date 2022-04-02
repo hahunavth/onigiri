@@ -1,11 +1,11 @@
 import { TouchableOpacity } from "react-native";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import {
   mergeNewChapterNotificationThunk,
   notificationAction,
   selectAlleNewChapterNotification
-} from "../../store/notificationSlice";
+} from "app/store/notificationSlice";
 import {
   Box,
   FlatList,
@@ -16,13 +16,13 @@ import {
   Text,
   Button
 } from "native-base";
-import useInteraction from "../../hooks/useInteraction";
-import { Loading } from "../../components/EmptyPage/Loading";
-import { navigate } from "../../navigators";
-import { NotFound } from "../../components/EmptyPage/NotFound";
-import { NoNotification } from "../../components/EmptyPage";
-import { fetchBackgroundTask } from "../../utils/backgroundFetchServices";
-// import { ANbHStack, ANbView } from '../../components/Typo/View'
+import useInteraction from "app/hooks/useInteraction";
+import { Loading } from "app/components/EmptyPage/Loading";
+import { navigate } from "app/navigators";
+import { NotFound } from "app/components/EmptyPage/NotFound";
+import { NoNotification } from "app/components/EmptyPage";
+import { fetchBackgroundTask } from "app/utils/backgroundFetchServices";
+// import { ANbHStack, ANbView } from 'app/components/Typo/View'
 import {
   Layout,
   LightSpeedInLeft,

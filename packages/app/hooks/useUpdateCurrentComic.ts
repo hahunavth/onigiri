@@ -1,6 +1,6 @@
 import { homeActions } from "app/store/homeSlice";
-import { useAppDispatch } from "../store/hooks";
-import { resComicDetail_T } from "./../types/api";
+import { useAppDispatch } from "app/store/hooks";
+import { resComicDetail_T } from "app/types/api";
 import useInteraction from "./useInteraction";
 
 /**

@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, Image, Box, Badge, HStack, VStack } from "native-base";
 import { TouchableOpacity, ImageStyle, StyleSheet } from "react-native";
-import { resComicItem_T } from "../../../types";
-import { navigate, navPush } from "../../../navigators";
-import { useColorModeStyle } from "../../../hooks/useColorModeStyle";
+import { resComicItem_T } from "app/types";
+import { navigate, navPush } from "app/navigators";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import { SharedElement } from "react-navigation-shared-element";
 // import usePrevious from 'react-use/esm/usePrevious'
 import { useNavigation, useRoute } from "@react-navigation/core";
@@ -12,7 +12,7 @@ import TFastImage from "app/components/Typo/TFastImage";
 type Props = {
   item: resComicItem_T;
   // for memo compare
-  id: number;
+  id?: number;
   // handlePress?: () => any
 };
 

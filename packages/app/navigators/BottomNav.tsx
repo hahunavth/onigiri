@@ -21,7 +21,7 @@ import {
 } from "app/screens";
 import React from "react";
 import i18n from "i18n-js";
-import { NextLink } from "../components/NextLink";
+import { NextLink } from "app/components/NextLink";
 import { navigate } from ".";
 import { TouchableOpacity } from "react-native-gesture-handler";
 

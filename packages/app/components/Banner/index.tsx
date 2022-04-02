@@ -15,9 +15,7 @@ import { useApiRecently } from "app/store/api";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { CustomPagination } from "./CustomPagination";
-import { LinearGradient } from "expo-linear-gradient";
 
-import { isNullOrUndefined } from "util";
 import Item from "./Item";
 import {
   HEIGHT,
@@ -33,11 +31,12 @@ export const FlatlistBanner = () => {
   const flatListRef = React.useRef<SwiperFlatList>(null);
 
   React.useEffect(() => {
-    const emit = Dimensions.addEventListener("change", () => {
+    const handleWindowSizeChange = () => {
       flatListRef.current?.goToFirstIndex();
-    });
+    };
+    Dimensions.addEventListener("change", handleWindowSizeChange);
     return () => {
-      emit.remove();
+      Dimensions.removeEventListener("change", handleWindowSizeChange);
     };
   }, []);
 

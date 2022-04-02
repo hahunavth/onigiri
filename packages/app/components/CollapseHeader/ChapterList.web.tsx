@@ -9,83 +9,79 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightAddon
-} from 'native-base'
-import React from 'react'
-import { resComicDetail_T } from '../../types'
-import ChapterItem from 'app/components/CollapseHeader/ChapterItem.web'
-import { SimpleLineIcons } from '@expo/vector-icons'
-import { ViewStyle, ImageStyle, TextStyle } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue
-} from 'react-native-reanimated'
+} from "native-base";
+import React from "react";
+import { resComicDetail_T } from "app/types";
+import ChapterItem from "app/components/CollapseHeader/ChapterItem.web";
+import { ViewStyle, ImageStyle, TextStyle } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Animated, { AnimatedStyleProp } from "react-native-reanimated";
 
 type Props = {
-  comic?: resComicDetail_T
-}
+  comic?: resComicDetail_T;
+};
 /**
  * diff .native file
  */
 const ChapterList = (props: Props) => {
-  const { comic } = props
+  const { comic } = props;
 
-  const [page, setPage] = React.useState(0)
+  const [page, setPage] = React.useState(0);
 
   const maxPage = React.useMemo(() => {
-    return (comic?.chapters.length || 0) / 20 - 1
-  }, [comic])
+    return (comic?.chapters.length || 0) / 20 - 1;
+  }, [comic]);
 
   const pageSize = React.useMemo(() => {
-    if ((comic?.chapters.length || 0) > 20 * (maxPage + 1)) return 20
+    if ((comic?.chapters.length || 0) > 20 * (maxPage + 1)) return 20;
 
-    return (comic?.chapters.length || 0) - 20 * maxPage
-  }, [maxPage, comic])
+    return (comic?.chapters.length || 0) - 20 * maxPage;
+  }, [maxPage, comic]);
 
   return (
     <View flex={1} mt={4}>
-      <Text fontSize={[16, 18, 20]} fontFamily={'Quicksand'} fontWeight={'500'}>
+      <Text fontSize={[16, 18, 20]} fontFamily={"Quicksand"} fontWeight={"500"}>
         ChapterList
       </Text>
 
       {/* Control block */}
-      <HStack justifyContent={'space-between'} my={2}>
+      <HStack justifyContent={"space-between"} my={2}>
         <HStack>
           <InputGroup
             w={{
-              base: '50%',
-              md: '255'
+              base: "50%",
+              md: "255"
             }}
           >
-            <InputLeftAddon children={'Page: '} />
+            <InputLeftAddon children={"Page: "} />
             <Input
               w={{
-                base: '50%',
-                md: '100%'
+                base: "50%",
+                md: "100%"
               }}
               placeholder="Page number"
               value={(page + 1).toString()}
             />
             <InputRightAddon
-              children={'of ' + Math.ceil(maxPage + 1).toString()}
+              children={"of " + Math.ceil(maxPage + 1).toString()}
             />
           </InputGroup>
         </HStack>
 
-        <HStack alignItems={'center'}>
+        <HStack alignItems={"center"}>
           <Pressable onPress={() => page > 0 && setPage((page) => page - 1)}>
             {({ isFocused, isHovered, isPressed }) =>
               isHovered ? (
                 <MaterialCommunityIcons
                   name="arrow-left-bold-circle"
                   size={36}
-                  color={page > 0 ? '#27516d' : 'gray'}
+                  color={page > 0 ? "#27516d" : "gray"}
                 />
               ) : (
                 <MaterialCommunityIcons
                   name="arrow-left-bold-circle-outline"
                   size={36}
-                  color={page > 0 ? '#27516d' : 'gray'}
+                  color={page > 0 ? "#27516d" : "gray"}
                 />
               )
             }
@@ -99,13 +95,13 @@ const ChapterList = (props: Props) => {
                 <MaterialCommunityIcons
                   name="arrow-right-bold-circle"
                   size={36}
-                  color={page < maxPage ? '#27516d' : 'gray'}
+                  color={page < maxPage ? "#27516d" : "gray"}
                 />
               ) : (
                 <MaterialCommunityIcons
                   name="arrow-right-bold-circle-outline"
                   size={36}
-                  color={page < maxPage ? '#27516d' : 'gray'}
+                  color={page < maxPage ? "#27516d" : "gray"}
                 />
               )
             }
@@ -114,7 +110,7 @@ const ChapterList = (props: Props) => {
       </HStack>
 
       {/* list */}
-      <VStack w={['full']}>
+      <VStack w={["full"]}>
         {comic?.chapters.map((cpt, id) => {
           // console.log(id)
           if (id >= 20 * page && id < 20 * (page + 1))
@@ -125,25 +121,25 @@ const ChapterList = (props: Props) => {
                 comicPath={comic?.path}
                 key={id}
               />
-            )
-          return null
+            );
+          return null;
         })}
       </VStack>
     </View>
-  )
-}
+  );
+};
 
 type HoverBtnProps = {
   children: (props: {
-    isHovered?: boolean
-    isFocused?: boolean
-    isPressed?: boolean
-    style?: Animated.AnimatedStyleProp<ViewStyle | ImageStyle | TextStyle>
-  }) => React.ReactNode
-}
+    isHovered?: boolean;
+    isFocused?: boolean;
+    isPressed?: boolean;
+    style?: AnimatedStyleProp<ViewStyle | ImageStyle | TextStyle>;
+  }) => React.ReactNode;
+};
 
 function HoverBtn(props: HoverBtnProps) {
-  const Child = props.children
+  const Child = props.children;
 
   // const offset = useSharedValue(0)
   // const animatedStyle = useAnimatedStyle(() => {
@@ -157,7 +153,7 @@ function HoverBtn(props: HoverBtnProps) {
       {/* {({ isHovered, isFocused, isPressed }) => <Child {...props} />} */}
       {props.children}
     </Pressable>
-  )
+  );
 }
 
-export default ChapterList
+export default ChapterList;

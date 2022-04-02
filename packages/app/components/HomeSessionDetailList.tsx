@@ -4,9 +4,9 @@ import {
   useApiInfinityHot,
   useApiInfinityRecently,
   useApiInfinityTopWeek
-} from "../hooks/useApiInfinityItem";
-import useInteraction from "../hooks/useInteraction";
-import { useApiLazyFindByGenresName } from "../store/api";
+} from "app/hooks/useApiInfinityItem";
+import useInteraction from "app/hooks/useInteraction";
+import { useApiLazyFindByGenresName } from "app/store/api";
 import { ComicVerticalList } from "./Comics/ComicVerticalList";
 
 type Props = {};

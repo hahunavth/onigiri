@@ -1,1 +1,1 @@
-export * from './ComicHorizontalList'
+export * from "./ComicHorizontalList";

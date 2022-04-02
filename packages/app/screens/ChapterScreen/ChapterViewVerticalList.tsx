@@ -22,13 +22,13 @@ import {
 // @ts-ignore
 import ReactNativeZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 
-import { ScaledImage } from "../../components/ScaledImage";
+import { ScaledImage } from "app/components/ScaledImage";
 import { AntDesign } from "@expo/vector-icons";
-import ChapterFooterBtn from "../../components/ChapterFooterBtn";
-import PinchWrapper from "../../components/PinchWrapper";
+import ChapterFooterBtn from "app/components/ChapterFooterBtn";
+import PinchWrapper from "app/components/PinchWrapper";
 import { ChapterContext } from "./ChapterContext";
-import { useAppSelector } from "../../store/hooks";
-import { homeSelector } from "../../store/homeSlice";
+import { useAppSelector } from "app/store/hooks";
+import { homeSelector } from "app/store/homeSlice";
 import { ChapterViewListProps } from "./type";
 import TFastImage from "app/components/Typo/TFastImage";
 

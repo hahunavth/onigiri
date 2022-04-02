@@ -10,11 +10,11 @@ import {
 import { ImageProps, Dimensions } from "react-native";
 import React from "react";
 import { deleteAllImgs, getSingleImg } from "app/utils/imgManager";
-import { useApiComicDetail } from "../../store/api";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { historySelector } from "../../store/historySlice";
+import { useApiComicDetail } from "app/store/api";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
+import { historySelector } from "app/store/historySlice";
 
-import { SelectableBadge } from "../../components/SelectableBadge";
+import { SelectableBadge } from "app/components/SelectableBadge";
 
 type Props = {};
 

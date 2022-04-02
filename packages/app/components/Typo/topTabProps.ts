@@ -1,8 +1,8 @@
 import {
   MaterialTopTabBarProps,
   MaterialTopTabNavigationOptions
-} from '@react-navigation/material-top-tabs'
-import { colors } from 'app/colors'
+} from "@react-navigation/material-top-tabs";
+import { colors } from "app/colors";
 
 /**
  * NOTE: THEMED TOP TAB
@@ -21,8 +21,8 @@ export const createTypoTopTabNavScreenOption = (
     tabBarLabelStyle: {},
     tabBarItemStyle: {
       margin: -5,
-      justifyContent: 'center',
-      alignItems: 'center'
+      justifyContent: "center",
+      alignItems: "center"
     },
 
     tabBarPressOpacity: 0.1,
@@ -32,11 +32,11 @@ export const createTypoTopTabNavScreenOption = (
       height: 38,
       borderWidth: 5,
       borderRadius: 12,
-      borderColor: 'transparent'
+      borderColor: "transparent"
     },
     tabBarActiveTintColor: bgPrimary,
     tabBarAllowFontScaling: false,
     tabBarInactiveTintColor: textPrimary,
-    tabBarPressColor: 'transparent'
-  }
-}
+    tabBarPressColor: "transparent"
+  };
+};

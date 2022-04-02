@@ -1,15 +1,15 @@
-import { StyleSheet, View, Text } from 'react-native'
-import React from 'react'
-import { Dropdown, MultiSelect as MS } from 'react-native-element-dropdown'
-import { TouchableOpacity } from 'react-native'
-import { AntDesign } from '@expo/vector-icons'
-import { SelectOptionT } from './types'
+import { StyleSheet, View, Text } from "react-native";
+import React from "react";
+import { Dropdown, MultiSelect as MS } from "react-native-element-dropdown";
+import { TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import { SelectOptionT } from "./types";
 
 type Props = {
-  data: SelectOptionT[]
-  selected: SelectOptionT[]
-  setSelected: (value: React.SetStateAction<SelectOptionT[]>) => void
-}
+  data: SelectOptionT[];
+  selected: SelectOptionT[];
+  setSelected: (value: React.SetStateAction<SelectOptionT[]>) => void;
+};
 
 export const MultiSelect = React.memo(
   ({ data, selected, setSelected }: Props) => {
@@ -24,16 +24,16 @@ export const MultiSelect = React.memo(
             size={20}
           />
         </View>
-      )
-    }, [])
+      );
+    }, []);
 
-    const handleChange = (item) => {
-      setSelected(item)
-    }
+    const handleChange = (item: SelectOptionT[]) => {
+      setSelected(item);
+    };
 
     const leftIcon = () => (
       <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
-    )
+    );
 
     return (
       <View style={styles.container}>
@@ -54,7 +54,7 @@ export const MultiSelect = React.memo(
           renderLeftIcon={leftIcon}
           renderItem={renderItem}
           renderSelectedItem={(item, unSelect) => (
-            <TouchableOpacity onPress={() => unSelect && unSelect()}>
+            <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
               <View style={styles.selectedStyle}>
                 <Text style={styles.textSelectedStyle}>{item.label}</Text>
                 <AntDesign color="black" name="delete" size={17} />
@@ -63,18 +63,18 @@ export const MultiSelect = React.memo(
           )}
         />
       </View>
-    )
+    );
   }
-)
+);
 
 const styles = StyleSheet.create({
   container: { padding: 16 },
   dropdown: {
     height: 50,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 12,
     padding: 12,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 1
@@ -103,17 +103,17 @@ const styles = StyleSheet.create({
   },
   item: {
     padding: 17,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   selectedStyle: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 14,
-    backgroundColor: 'white',
-    shadowColor: '#000',
+    backgroundColor: "white",
+    shadowColor: "#000",
     marginTop: 8,
     marginRight: 12,
     paddingHorizontal: 12,
@@ -131,4 +131,4 @@ const styles = StyleSheet.create({
     marginRight: 5,
     fontSize: 16
   }
-})
+});

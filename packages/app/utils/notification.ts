@@ -1,33 +1,33 @@
-import * as Notifications from 'expo-notifications'
+import * as Notifications from "expo-notifications";
 // NOTE: FOR IOS WE NEED EXPO-PERMISSION
 
 export const triggerNotifications = async () => {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: 'You’ve got mail! 📬',
-      body: 'Here is the notification body',
-      data: { data: 'goes here' },
+      title: "You’ve got mail! 📬",
+      body: "Here is the notification body",
+      data: { data: "goes here" },
       vibrate: [1, 0, 10],
       // sticky: true
       autoDismiss: true
     },
     trigger: { seconds: 2 }
-  })
-}
+  });
+};
 
 export const triggerBackgroundFetchNotification = async () => {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: '📬📬📬📬📬 - BackgroundFetch',
-      body: 'Task is runing',
-      data: { data: 'goes here' },
+      title: "📬📬📬📬📬 - BackgroundFetch",
+      body: "Task is runing",
+      data: { data: "goes here" },
       vibrate: [1, 0, 10],
       // sticky: true
       autoDismiss: true
     },
     trigger: { seconds: 2 }
-  })
-}
+  });
+};
 
 // Notifications.setNotificationChannelAsync('default', {
 //   name: 'default',
@@ -43,6 +43,6 @@ Notifications.setNotificationHandler({
       shouldShowAlert: true,
       shouldPlaySound: false,
       shouldSetBadge: true
-    }
+    };
   }
-})
+});

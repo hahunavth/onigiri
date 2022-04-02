@@ -1,10 +1,10 @@
 import { View, Text, Toast } from "native-base";
 import React from "react";
-import { GenresScreenProps } from "../../navigators/StackNav";
-import { useApiFindByGenres } from "../../store/api";
-import useInteraction from "../../hooks/useInteraction";
-import { Loading } from "../../components/EmptyPage/Loading";
-import { ComicVerticalList } from "../../components/Comics/ComicVerticalList";
+import { GenresScreenProps } from "app/navigators/StackNav";
+import { useApiFindByGenres } from "app/store/api";
+import useInteraction from "app/hooks/useInteraction";
+import { Loading } from "app/components/EmptyPage/Loading";
+import { ComicVerticalList } from "app/components/Comics/ComicVerticalList";
 import { GENRES_LIST } from "app/utils/findOption";
 
 export const Genres = (props: GenresScreenProps) => {

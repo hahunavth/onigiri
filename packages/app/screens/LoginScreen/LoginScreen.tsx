@@ -3,8 +3,8 @@ import React from "react";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import { Platform, StyleSheet } from "react-native";
-import { authActions, authSelector, UserInfo } from "../../store/authSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { authActions, authSelector, UserInfo } from "app/store/authSlice";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import { warmUpAsync, coolDownAsync } from "expo-web-browser";
 
 WebBrowser.maybeCompleteAuthSession();

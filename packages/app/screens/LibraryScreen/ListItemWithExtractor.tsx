@@ -11,10 +11,10 @@ import { HistoryComicT, historySelector } from "app/store/historySlice";
 import { useAppSelector } from "app/store/hooks";
 import { navigate } from "app/navigators";
 import { resComicDetail_T } from "app/types";
-import { useColorModeStyle } from "../../hooks/useColorModeStyle";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import { Box } from "native-base";
-import { colors } from "../../colors";
-import { TextSmS, TextXsS } from "../../components/Typo";
+import { colors } from "app/colors";
+import { TextSmS, TextXsS } from "app/components/Typo";
 
 type Param = {
   onPress?: (comic: HistoryComicT) => any;

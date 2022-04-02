@@ -1,10 +1,10 @@
-import { View, Text } from 'native-base'
-import React from 'react'
-import { Message } from './Message'
-import { MessageReplyProps } from './types'
+import { View, Text } from "native-base";
+import React from "react";
+import { Message } from "./Message";
+import { MessageReplyProps } from "./types";
 
 export const MessageReply = (props: MessageReplyProps) => {
-  const { abbr, content, datednf, id, username, avatarUrl } = props.message
+  const { abbr, content, datednf, id, username, avatarUrl } = props.message;
 
   return (
     <Message
@@ -18,5 +18,5 @@ export const MessageReply = (props: MessageReplyProps) => {
       }}
       style={{ marginLeft: 50 }}
     />
-  )
-}
+  );
+};

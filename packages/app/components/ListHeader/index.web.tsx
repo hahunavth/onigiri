@@ -1,16 +1,16 @@
-import { HStack, VStack, Text, View, Factory } from 'native-base'
-import { comicListProps } from './types'
-import { StyleSheet, TouchableNativeFeedback } from 'react-native'
-import { Entypo } from '@expo/vector-icons'
+import { HStack, VStack, Text, View, Factory } from "native-base";
+import { comicListProps } from "./types";
+import { StyleSheet, TouchableNativeFeedback } from "react-native";
+import { Entypo } from "@expo/vector-icons";
 
 export const ListHeader = ({
   name,
   onPressMore,
   subtitle,
-  color = '',
+  color = "",
   containerStyle
 }: comicListProps): JSX.Element => {
-  const NBEntypo = Factory(Entypo)
+  const NBEntypo = Factory(Entypo);
 
   return (
     <HStack
@@ -28,7 +28,7 @@ export const ListHeader = ({
           _dark={{ color: `$dark.text${color}Primary` }}
           fontWeight={`bold`}
           fontSize={20}
-          fontFamily={'Quicksand'}
+          fontFamily={"Quicksand"}
         >
           {name}
         </Text>
@@ -44,7 +44,7 @@ export const ListHeader = ({
       {onPressMore && (
         <TouchableNativeFeedback
           onPress={() => {
-            onPressMore()
+            onPressMore();
           }}
           style={styles.btn}
         >
@@ -73,12 +73,12 @@ export const ListHeader = ({
         </TouchableNativeFeedback>
       )}
     </HStack>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   headerContainer: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingLeft: 10,
     borderRadius: 4,
     height: 46
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     marginLeft: 4,
-    justifyContent: 'center'
+    justifyContent: "center"
   },
   title: {
     // fontSize: 16
@@ -99,26 +99,26 @@ const styles = StyleSheet.create({
     // color: ColorSchemeE['text-hint-color']
   },
   btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     margin: 10
   },
   btnText: {
     // fontSize: 10
     // width: HeaderHeight, height: HeaderHeight,
     // color: ColorSchemeE['text-hint-color']
-    marginTop: 'auto',
-    marginBottom: 'auto',
+    marginTop: "auto",
+    marginBottom: "auto",
     marginLeft: 12,
     opacity: 0.6
   },
   btnIcon: {
     fontSize: 22,
     marginLeft: -4,
-    marginTop: 'auto',
-    marginBottom: 'auto',
+    marginTop: "auto",
+    marginBottom: "auto",
     marginRight: 4,
     opacity: 0.6
     // color: ColorSchemeE['text-hint-color'],
   }
-})
+});

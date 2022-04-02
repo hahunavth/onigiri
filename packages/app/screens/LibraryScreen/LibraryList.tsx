@@ -13,9 +13,9 @@ import { useAppSelector } from "app/store/hooks";
 import { navigate } from "app/navigators";
 import { resComicDetail_T } from "app/types";
 import ListItemWithExtractor from "./ListItemWithExtractor";
-import { Empty } from "../../components/EmptyPage";
+import { Empty } from "app/components/EmptyPage";
 import { Center } from "native-base";
-import { TextMdP } from "../../components/Typo";
+import { TextMdP } from "app/components/Typo";
 
 type Props = {
   data: HistoryComicT[];
@@ -66,7 +66,7 @@ const LibraryList = ({
           {/* <Empty /> */}
           <Center flex={1} justifyContent={"center"}>
             <Image
-              source={require("../../../expo/assets/icons8-likee-ap-500.png")}
+              source={require("@hahunavth-packages/expo/assets/icons8-likee-ap-500.png")}
               style={{ width: 240, height: 240 }}
               resizeMode={"contain"}
               resizeMethod={"resize"}

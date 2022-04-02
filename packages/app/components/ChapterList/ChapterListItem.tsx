@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { Checkbox, HStack } from "native-base";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { dateString2Distance } from "../../utils/dateFormat";
+import { dateString2Distance } from "app/utils/dateFormat";
 // import QuicksandText, { QFontFamily } from "../Common/QuicksandText";
 
 export const PHOTO_SIZE = 40;

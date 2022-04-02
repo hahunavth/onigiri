@@ -1,10 +1,10 @@
-import React from 'react'
-import { View, Text, ViewStyle } from 'react-native'
-import { BlurView } from 'app/components/BlurView'
+import React from "react";
+import { View, Text, ViewStyle } from "react-native";
+import { BlurView } from "app/components/BlurView";
 
 interface BlurHeaderProps {
-    style?: ViewStyle; 
-  }
+  style?: ViewStyle;
+}
 
 export const BlurHeader = (props: BlurHeaderProps) => {
   return (
@@ -14,13 +14,13 @@ export const BlurHeader = (props: BlurHeaderProps) => {
         intensity={100}
         // blurType="dark"
         // blurAmount={50}
-        style={{ position: 'absolute', height: '100%', width: '100%' }}
+        style={{ position: "absolute", height: "100%", width: "100%" }}
       />
       <View style={{ flex: 1 }}>
         <Text>aaa</Text>
       </View>
     </View>
-  )
+  );
 
   // return (
   //   <View
@@ -44,4 +44,4 @@ export const BlurHeader = (props: BlurHeaderProps) => {
   //     </MyBlurView>
   //   </View>
   // );
-}
+};

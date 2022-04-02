@@ -4,7 +4,7 @@ import { Center, Heading, ScrollView, useTheme, VStack } from "native-base";
 import {
   LayoutChangeEvent,
   NativeScrollEvent,
-  NativeSyntheticEvent,
+  NativeSyntheticEvent
 } from "react-native";
 type Props = {};
 
@@ -40,7 +40,7 @@ export const ScrollTest = (props: Props) => {
           _contentContainerStyle={{
             px: "20px",
             mb: "4",
-            minW: "72",
+            minW: "72"
           }}
           // onScroll={onScroll}
         >

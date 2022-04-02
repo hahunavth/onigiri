@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 import {
   ListRenderItemInfo,
   FlatList,
   TouchableNativeFeedback
-} from 'react-native'
+} from "react-native";
 import {
   Badge,
   Box,
@@ -17,17 +17,17 @@ import {
   Spacer,
   Text,
   VStack
-} from 'native-base'
-import { ScaledImage } from '../../components/ScaledImage'
-import { AntDesign } from '@expo/vector-icons'
-import ChapterFooterBtn from '../../components/ChapterFooterBtn'
-import PinchWrapper from '../../components/PinchWrapper'
-import { ChapterContext } from './ChapterContext'
-import { useAppSelector } from '../../store/hooks'
-import { homeSelector } from '../../store/homeSlice'
-import ImageView from 'react-native-image-viewing'
-import Gallery from 'react-native-awesome-gallery'
-import { ChapterViewListProps } from './type'
+} from "native-base";
+import { ScaledImage } from "app/components/ScaledImage";
+import { AntDesign } from "@expo/vector-icons";
+import ChapterFooterBtn from "app/components/ChapterFooterBtn";
+import PinchWrapper from "app/components/PinchWrapper";
+import { ChapterContext } from "./ChapterContext";
+import { useAppSelector } from "app/store/hooks";
+import { homeSelector } from "app/store/homeSlice";
+import ImageView from "react-native-image-viewing";
+import Gallery from "react-native-awesome-gallery";
+import { ChapterViewListProps } from "./type";
 
 export const ChapterViewHorizontalList = React.forwardRef<
   FlatList,
@@ -40,9 +40,9 @@ export const ChapterViewHorizontalList = React.forwardRef<
     onEndReach,
     imgList,
     toggleFloatingVisible
-  } = props
-  console.log('object')
-  console.log(imgs?.length)
+  } = props;
+  console.log("object");
+  console.log(imgs?.length);
 
   return imgs?.length > 0 ? (
     <Gallery
@@ -51,7 +51,7 @@ export const ChapterViewHorizontalList = React.forwardRef<
       //   console.log(newIndex)
       // }}
       disableVerticalSwipe={false}
-      style={{ backgroundColor: '#eee' }}
+      style={{ backgroundColor: "#eee" }}
       onTap={toggleFloatingVisible}
       renderItem={({ item, index, setImageDimensions }) => {
         return (
@@ -59,14 +59,14 @@ export const ChapterViewHorizontalList = React.forwardRef<
             alt="a"
             source={{
               uri: item,
-              headers: { referer: 'https://www.nettruyenpro.com' }
+              headers: { referer: "https://www.nettruyenpro.com" }
             }}
-            w={'full'}
-            resizeMode={'contain'}
-            h={'full'}
+            w={"full"}
+            resizeMode={"contain"}
+            h={"full"}
           />
-        )
+        );
       }}
     />
-  ) : null
-})
+  ) : null;
+});

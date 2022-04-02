@@ -1,1 +1,1 @@
-export * from './SelectableBadge'
+export * from "./SelectableBadge";

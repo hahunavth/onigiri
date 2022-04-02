@@ -1,11 +1,11 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { SettingItem } from "../SettingItem";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import {
   chapterActions,
   selectCptSettingViewMode
-} from "../../../store/chapterSlice";
+} from "app/store/chapterSlice";
 
 type Props = {};
 

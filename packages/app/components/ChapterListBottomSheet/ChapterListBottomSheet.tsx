@@ -1,35 +1,12 @@
-import React, { useEffect, useRef, useContext } from "react";
-import {
-  ListRenderItemInfo,
-  Dimensions,
-  InteractionManager,
-  StyleSheet,
-  FlatList as FlatListT
-} from "react-native";
-import { View, Text, FlatList, HStack } from "native-base";
-import { ChapterScreenProps } from "app/navigators/StackNav";
-import { useApiChapter } from "app/store/api";
-import { useAppDispatch, useAppSelector } from "app/store/hooks";
-import Animated, {
-  Easing,
-  withTiming,
-  useSharedValue,
-  useAnimatedStyle
-} from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
-import useUpdateCurrentChapter from "../../hooks/useUpdateCurrentChapter";
-import useInteraction from "../../hooks/useInteraction";
+import React from "react";
+import { Dimensions, StyleSheet, FlatList as FlatListT } from "react-native";
+import { View } from "native-base";
 import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import { FontAwesome } from "@expo/vector-icons";
-import { CommentLoader } from "../Comment";
-import { homeSelector } from "../../store/homeSlice";
-import { useAppSafeAreaInsets } from "../../provider/safe-area/use-safe-area";
-import { goBack } from "../../navigators";
-import { NavigationHeader } from "../NavigationHeader";
+import { useAppSafeAreaInsets } from "app/provider/safe-area/use-safe-area";
+import { goBack } from "app/navigators";
 import InScreenHeader from "../NavigationHeader/InScreenHeader";
 import SheetHandle from "./SheetHandle";
 import ChapterList from "./ChapterList";
-import { Entypo } from "@expo/vector-icons";
 
 export const ChapterListBottomSheet = React.memo(
   React.forwardRef<BottomSheet, any>((props, bottomSheetRef) => {

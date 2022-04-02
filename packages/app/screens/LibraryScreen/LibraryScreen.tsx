@@ -1,6 +1,6 @@
 import { View, Text } from "native-base";
 import React from "react";
-import { LibraryTopNavigator } from "../../navigators/LibraryTopNavigator";
+import { LibraryTopNavigator } from "app/navigators/LibraryTopNavigator";
 import ChapterContextProvider from "../ChapterScreen/ChapterContext";
 import LibraryContextProvider from "./LibraryContext";
 

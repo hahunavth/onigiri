@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/material-top-tabs";
 import ComicListByGenres from "./ComicListByGenres";
 import { ComicListByGenresProps } from "./type";
-import { useThemedTopTabScreenOption } from "../../components/Typo";
+import { useThemedTopTabScreenOption } from "app/components/Typo";
 
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<GenresTopTabNavParamList>();

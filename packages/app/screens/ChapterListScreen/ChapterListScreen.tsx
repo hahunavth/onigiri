@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { ChapterListBottomSheet } from "../../components/ChapterListBottomSheet";
+import { ChapterListBottomSheet } from "app/components/ChapterListBottomSheet";
 
 type Props = {};
 

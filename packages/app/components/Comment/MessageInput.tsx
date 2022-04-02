@@ -1,7 +1,7 @@
-import { View, Text, Input, Box, Button } from 'native-base'
-import React from 'react'
-import { MessageInputProps } from './types'
-import { FontAwesome } from '@expo/vector-icons'
+import { View, Text, Input, Box, Button } from "native-base";
+import React from "react";
+import { MessageInputProps } from "./types";
+import { FontAwesome } from "@expo/vector-icons";
 
 export const MessageInput = (props: MessageInputProps) => {
   return (
@@ -28,5 +28,5 @@ export const MessageInput = (props: MessageInputProps) => {
         />
       </Box>
     </View>
-  )
-}
+  );
+};

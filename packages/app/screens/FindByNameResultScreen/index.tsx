@@ -1,1 +1,1 @@
-export * from './FindByNameResultScreen'
+export * from "./FindByNameResultScreen";

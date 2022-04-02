@@ -5,7 +5,7 @@ import { FlatGrid } from "react-native-super-grid";
 import { useBreakpointValue } from "native-base";
 
 import { TouchableNativeFeedback } from "react-native";
-import type { resComicItem_T } from "../../../types";
+import type { resComicItem_T } from "app/types";
 import { ListHeader } from "../../ListHeader";
 import { ComicItem } from "./ComicItem";
 

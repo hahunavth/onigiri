@@ -1,5 +1,5 @@
-import { ApiResponse_T } from "./../types/api";
-import { useApiFindByGenres, useApiLazyFindByGenresName } from "./../store/api";
+import { ApiResponse_T } from "app/types/api";
+import { useApiFindByGenres, useApiLazyFindByGenresName } from "app/store/api";
 import React from "react";
 import {
   useApiLazyRecently,
@@ -17,7 +17,7 @@ import type {
 } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import type { QueryDefinition } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
 import type { resComicItem_T } from "app/types";
-import { FindOptionT } from "../utils/findOption";
+import { FindOptionT } from "app/utils/findOption";
 
 type genFNReturnT<T> = {
   page: string | number;

@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { Comment } from "./Comment";
-import { useApiComicComment } from "../../store/api";
+import { useApiComicComment } from "app/store/api";
 import { Loading } from "../EmptyPage/Loading";
-import useInteraction from "../../hooks/useInteraction";
+import useInteraction from "app/hooks/useInteraction";
 import { CommentFL } from "./CommentFL";
 
 type Props = { path?: string };

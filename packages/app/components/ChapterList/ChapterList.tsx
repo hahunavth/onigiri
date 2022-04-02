@@ -3,19 +3,10 @@
  */
 
 import type { resComicDetailChapterItem_T } from "app/types";
-import React, {
-  forwardRef,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState
-} from "react";
+import React, { forwardRef, memo, useCallback, useState } from "react";
 import {
-  Dimensions,
   FlatList,
   FlatListProps,
-  InteractionManager,
   ListRenderItem,
   StyleSheet,
   TouchableOpacity,
@@ -24,12 +15,12 @@ import {
 import { Text } from "native-base";
 import Animated from "react-native-reanimated";
 import ChapterListItem from "./ChapterListItem";
-import { MotiScrollView } from "moti";
 import { useAppSelector } from "app/store/hooks";
 import { historySelector } from "app/store/historySlice";
-import { homeSelector } from "../../store/homeSlice";
-import useInteraction from "../../hooks/useInteraction";
-import usePrevious from "react-use/esm/usePrevious";
+import { homeSelector } from "app/store/homeSlice";
+import useInteraction from "app/hooks/useInteraction";
+// import { MotiScrollView } from "moti";
+// import usePrevious from "react-use/esm/usePrevious";
 // import { ANFlatlist } from '../Typo'
 
 // @ts-ignore

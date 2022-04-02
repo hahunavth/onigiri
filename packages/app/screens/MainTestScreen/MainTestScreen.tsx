@@ -5,7 +5,7 @@
 //   ListRenderItemInfo,
 //   TextInput
 // } from 'react-native'
-// import { ComicListVertical } from '../../components/ComicListVertical'
+// import { ComicListVertical } from 'app/components/ComicListVertical'
 // import { useApiInfinityRecently } from '../../hooks/useApiInfinityItem'
 // import { useApiLazyRecently, useApiRecently } from '../../store/api'
 // import { useAppDispatch, useAppSelector } from '../../store/hooks'
@@ -78,7 +78,7 @@ import {
   PanResponder,
   Platform
 } from "react-native";
-import { TextTest, TextXsS } from "../../components/Typo";
+import { TextTest, TextXsS } from "app/components/Typo";
 import i18n from "i18n-js";
 // NOTE: ADS
 import {
@@ -88,22 +88,22 @@ import {
   AdMobRewarded,
   setTestDeviceIDAsync
 } from "expo-ads-admob";
-import { useApiOriginRecently } from "../../store/apiOrigin";
-import { useAppSelector } from "../../store/hooks";
+import { useApiOriginRecently } from "app/store/apiOrigin";
+import { useAppSelector } from "app/store/hooks";
 import {
   notificationSelector,
   selectAlleNewChapterNotification
-} from "../../store/notificationSlice";
+} from "app/store/notificationSlice";
 import { useWindowDimensions } from "react-native";
 import RenderHtml from "react-native-render-html";
-import { fetchBackgroundTask } from "../../utils/backgroundFetchServices";
+import { fetchBackgroundTask } from "app/utils/backgroundFetchServices";
 
 // import AsyncStorage from '@react-native-async-storage/async-storage'
 // @ts-ignore
 import HTMLParser from "fast-html-parser";
-import { mmkvStorage } from "../../utils/mmkvStorage";
-import DynamicColumnGrid from "../../components/DynamicColumnGrid/DynamicColumnGrid";
-import { DayAndNight } from "../../components/EmptyPage";
+import { mmkvStorage } from "app/utils/mmkvStorage";
+import DynamicColumnGrid from "app/components/DynamicColumnGrid/DynamicColumnGrid";
+import { DayAndNight } from "app/components/EmptyPage";
 
 const source = {
   html: `

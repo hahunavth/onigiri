@@ -9,8 +9,8 @@ import {
   Image
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { navigate } from "../navigators";
-import { useColorModeStyle } from "../hooks/useColorModeStyle";
+import { navigate } from "app/navigators";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import i18n from "i18n-js";
 
 const Categories = () => {
@@ -30,7 +30,7 @@ const Categories = () => {
           color={textStyle.color}
         /> */}
         <Image
-          source={require("../../expo/assets/icons8-increase-100.png")}
+          source={require("@hahunavth-packages/expo/assets/icons8-increase-100.png")}
           style={{ width: 50, height: 50 }}
           resizeMode={"contain"}
           resizeMethod={"resize"}
@@ -47,7 +47,7 @@ const Categories = () => {
         />
          */}
         <Image
-          source={require("../../expo/assets/icons8-checklist-100.png")}
+          source={require("@hahunavth-packages/expo/assets/icons8-checklist-100.png")}
           style={{ width: 50, height: 50 }}
           resizeMode={"contain"}
           resizeMethod={"resize"}
@@ -63,7 +63,7 @@ const Categories = () => {
       >
         {/* <MaterialIcons name="more-horiz" size={24} color={textStyle.color} /> */}
         <Image
-          source={require("../../expo/assets/icons8-bookmark-500.png")}
+          source={require("@hahunavth-packages/expo/assets/icons8-bookmark-500.png")}
           style={{ width: 50, height: 50 }}
           resizeMode={"contain"}
           resizeMethod={"resize"}
@@ -77,7 +77,7 @@ const Categories = () => {
       >
         {/* <MaterialIcons name="more-horiz" size={24} color={textStyle.color} /> */}
         <Image
-          source={require("../../expo/assets/icons8-menu-vertical-100.png")}
+          source={require("@hahunavth-packages/expo/assets/icons8-menu-vertical-100.png")}
           style={{ width: 50, height: 50 }}
           resizeMode={"contain"}
           resizeMethod={"resize"}

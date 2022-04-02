@@ -1,8 +1,8 @@
-import { TouchableNativeFeedback } from 'react-native-gesture-handler'
-import React, { useEffect } from 'react'
-import { Link } from 'expo-next-react-navigation'
-import { LinkProps } from './types'
-import { View } from 'native-base'
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import React, { useEffect } from "react";
+import { Link } from "expo-next-react-navigation";
+import { LinkProps } from "./types";
+import { View } from "native-base";
 
 export const NextLink = (props: LinkProps) => {
   return (
@@ -15,8 +15,8 @@ export const NextLink = (props: LinkProps) => {
         />
       </TouchableNativeFeedback>
     </View>
-  )
-}
+  );
+};
 
 // import { TouchableNativeFeedback, View } from "react-native";
 // import React from "react";

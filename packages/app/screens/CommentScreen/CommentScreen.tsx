@@ -1,8 +1,8 @@
 import React from "react";
 import { CommentBottomSheet } from "app/components/Comment/CommentBottomSheet";
 import { View, Pressable } from "native-base";
-import { goBack } from "../../navigators";
-import { CommentScreenProps } from "../../navigators/StackNav";
+import { goBack } from "app/navigators";
+import { CommentScreenProps } from "app/navigators/StackNav";
 
 export const CommentScreen = (props: CommentScreenProps) => {
   const { path } = props.route.params;

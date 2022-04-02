@@ -7,7 +7,7 @@ import {
 } from "app/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { addMultipleImgs, deleteChapter } from "../utils/imgManager";
+import { addMultipleImgs, deleteChapter } from "app/utils/imgManager";
 import { createSelector } from "reselect";
 
 // ANCHOR: TYPE DEFINITION

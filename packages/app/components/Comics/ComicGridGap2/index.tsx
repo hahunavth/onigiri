@@ -6,7 +6,7 @@ import { FlatGrid } from "react-native-super-grid";
 import { GridItem } from "./GridItem";
 
 import type { ComicGridGap2Props } from "./types";
-import { resComicItem_T } from "../../../types";
+import { resComicItem_T } from "app/types";
 import { useBreakpointValue } from "native-base";
 export * from "./types";
 

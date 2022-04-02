@@ -1,10 +1,10 @@
-import { View, Text, Box, Pressable, Image } from 'native-base'
-import { ImageBackground, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { LinearGradient } from 'expo-linear-gradient'
+import { View, Text, Box, Pressable, Image } from "native-base";
+import { ImageBackground, TouchableOpacity } from "react-native";
+import React from "react";
+import { LinearGradient } from "expo-linear-gradient";
 
-import { GenresBadgeProps } from './types'
-import { navigate } from '../../navigators'
+import { GenresBadgeProps } from "./types";
+import { navigate } from "app/navigators";
 
 export const GenresBadge = ({ imageUrl, name }: GenresBadgeProps) => {
   return (
@@ -12,21 +12,21 @@ export const GenresBadge = ({ imageUrl, name }: GenresBadgeProps) => {
       style={{
         width: 150,
         height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         borderRadius: 12,
-        overflow: 'hidden'
+        overflow: "hidden"
       }}
-      onPress={() => navigate('genres', { genresName: name })}
+      onPress={() => navigate("genres", { genresName: name })}
     >
       <ImageBackground
         source={{
           uri: imageUrl
         }}
-        resizeMode={'cover'}
-        resizeMethod={'scale'}
+        resizeMode={"cover"}
+        resizeMethod={"scale"}
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           bottom: 0,
           right: 0,
@@ -35,11 +35,11 @@ export const GenresBadge = ({ imageUrl, name }: GenresBadgeProps) => {
       />
 
       <LinearGradient
-        colors={['#7a92a89d', '#65b8b8b7']}
+        colors={["#7a92a89d", "#65b8b8b7"]}
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 0.25 }}
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           bottom: 0,
           right: 0,
@@ -47,11 +47,11 @@ export const GenresBadge = ({ imageUrl, name }: GenresBadgeProps) => {
         }}
       ></LinearGradient>
 
-      <Text color={'white'} fontSize={16} fontWeight={600} textAlign={'center'}>
+      <Text color={"white"} fontSize={16} fontWeight={600} textAlign={"center"}>
         {name}
       </Text>
     </TouchableOpacity>
-  )
+  );
 
   // return (
   //   <Pressable w={100} h={100}>
@@ -66,4 +66,4 @@ export const GenresBadge = ({ imageUrl, name }: GenresBadgeProps) => {
   //     {({isFocused, isHovered, isPressed}) => <Text>{name}</Text>}
   //   </Pressable>
   // )
-}
+};

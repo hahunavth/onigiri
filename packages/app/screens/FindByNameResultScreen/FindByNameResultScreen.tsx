@@ -1,13 +1,13 @@
 import { View, Text } from "native-base";
 import React from "react";
 import { InteractionManager } from "react-native";
-import { FindByNameResultScreenProps } from "../../navigators/StackNav";
-import { useApiFindComic, useApiFindComicByName } from "../../store/api";
+import { FindByNameResultScreenProps } from "app/navigators/StackNav";
+import { useApiFindComic, useApiFindComicByName } from "app/store/api";
 import { ComicVerticalList } from "app/components/Comics/ComicVerticalList";
-import { Loading } from "../../components/EmptyPage/Loading";
-import useInteraction from "../../hooks/useInteraction";
-import { NotFound } from "../../components/EmptyPage";
-import { ComicListHeaderWrapper } from "../../components/NavigationHeader";
+import { Loading } from "app/components/EmptyPage/Loading";
+import useInteraction from "app/hooks/useInteraction";
+import { NotFound } from "app/components/EmptyPage";
+import { ComicListHeaderWrapper } from "app/components/NavigationHeader";
 
 export const FindByNameResultScreen = (props: FindByNameResultScreenProps) => {
   const { name } = props.route.params;

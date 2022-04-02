@@ -1,13 +1,13 @@
-import React from 'react'
-import { Text, Modal, ScrollView, Button } from 'native-base'
-import i18n from 'i18n-js'
+import React from "react";
+import { Text, Modal, ScrollView, Button } from "native-base";
+import i18n from "i18n-js";
 
 type ConfirmModalProps = {
-  modalVisible: boolean
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>
-  message?: string
-  onSubmit?: () => any
-}
+  modalVisible: boolean;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  message?: string;
+  onSubmit?: () => any;
+};
 
 const ConfirmModal = ({
   modalVisible,
@@ -17,13 +17,13 @@ const ConfirmModal = ({
 }: ConfirmModalProps) => {
   return (
     <>
-      <Modal isOpen={modalVisible} onClose={setModalVisible} size={'sm'}>
+      <Modal isOpen={modalVisible} onClose={setModalVisible} size={"sm"}>
         <Modal.Content maxH="212">
           <Modal.CloseButton />
           <Modal.Header>Confirm</Modal.Header>
           <Modal.Body>
             <ScrollView>
-              <Text>{message || 'Do you want to delete?'}</Text>
+              <Text>{message || "Do you want to delete?"}</Text>
             </ScrollView>
           </Modal.Body>
           <Modal.Footer>
@@ -32,15 +32,15 @@ const ConfirmModal = ({
                 variant="ghost"
                 colorScheme="blueGray"
                 onPress={() => {
-                  setModalVisible(false)
+                  setModalVisible(false);
                 }}
               >
-                {i18n.t('button.cancel')}
+                {i18n.t("button.cancel")}
               </Button>
               <Button
                 onPress={() => {
-                  setModalVisible(false)
-                  onSubmit && onSubmit()
+                  setModalVisible(false);
+                  onSubmit && onSubmit();
                 }}
               >
                 OK
@@ -50,7 +50,7 @@ const ConfirmModal = ({
         </Modal.Content>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default ConfirmModal
+export default ConfirmModal;

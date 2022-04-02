@@ -10,7 +10,7 @@ import {
   CollapsibleSubHeaderAnimator
 } from "react-navigation-collapsible";
 
-import { resComicItem_T } from "../../types";
+import { resComicItem_T } from "app/types";
 import { ComicListItem } from "app/components/Comics/ComicVerticalList/ComicListItem";
 import { Loading } from "../EmptyPage/Loading";
 import { View } from "native-base";

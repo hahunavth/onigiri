@@ -18,13 +18,13 @@ import { ComicDetailScreenProps } from "app/navigators/StackNav";
 import { usePrefetch } from "app/store/api";
 import Animated from "react-native-reanimated";
 import { navigate } from "app/navigators/index";
-import { useColorModeStyle } from "../../hooks/useColorModeStyle";
-import { resComicDetailChapterItem_T } from "../../types";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
+import { resComicDetailChapterItem_T } from "app/types";
 import { ChapterContext } from "./ChapterContext";
-import { chapterActions, selectCptId } from "../../store/chapterSlice";
+import { chapterActions, selectCptId } from "app/store/chapterSlice";
 import { Entypo } from "@expo/vector-icons";
 import { Toast } from "native-base";
-import useInteraction from "../../hooks/useInteraction";
+import useInteraction from "app/hooks/useInteraction";
 
 interface Props {
   style?: ViewStyle;

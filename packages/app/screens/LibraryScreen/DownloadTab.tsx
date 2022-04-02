@@ -3,11 +3,11 @@ import React from "react";
 
 import { HistoryComicT, historySelector } from "app/store/historySlice";
 import { useAppDispatch, useAppSelector } from "app/store/hooks";
-import { NextLink } from "../../components/NextLink";
+import { NextLink } from "app/components/NextLink";
 import LibraryList from "./LibraryList";
-import { navigate } from "../../navigators";
+import { navigate } from "app/navigators";
 import { LibraryContext } from "./LibraryContext";
-import { Download } from "../../components/EmptyPage";
+import { Download } from "app/components/EmptyPage";
 
 interface Props {}
 

@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { mmkvStorage } from "../../utils/mmkvStorage";
+import { mmkvStorage } from "app/utils/mmkvStorage";
 
 type ChapterScreenContextProps = {
   children: React.ReactNode;

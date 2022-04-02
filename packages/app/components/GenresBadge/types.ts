@@ -1,4 +1,4 @@
 export type GenresBadgeProps = {
-  name: string
-  imageUrl?: string
-}
+  name: string;
+  imageUrl?: string;
+};

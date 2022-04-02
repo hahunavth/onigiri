@@ -1,6 +1,6 @@
-import { resComicDetail_T } from 'app/types'
+import { resComicDetail_T } from "app/types";
 // import { Button, Icon, Layout } from "@ui-kitten/components";
-import React, { forwardRef, memo, useCallback, useState } from 'react'
+import React, { forwardRef, memo, useCallback, useState } from "react";
 import {
   FlatList,
   FlatListProps,
@@ -10,8 +10,8 @@ import {
   TouchableOpacity,
   ViewStyle,
   Text
-} from 'react-native'
-import { Button, View, Box } from 'native-base'
+} from "react-native";
+import { Button, View, Box } from "native-base";
 import Animated, {
   Easing,
   // FadeInDown,
@@ -20,28 +20,28 @@ import Animated, {
   useSharedValue,
   withDelay,
   withSpring
-} from 'react-native-reanimated'
-import { LinearGradient } from 'expo-linear-gradient'
+} from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
 
-import FadeInView from '../AnimationWrapper/FadeInView'
-import useInteraction from '../../hooks/useInteraction'
-import { navigate } from '../../navigators'
-import { useThemedColor } from '../Typo'
-import Icon from 'native-base/src/theme/components/icon'
+import FadeInView from "../AnimationWrapper/FadeInView";
+import useInteraction from "app/hooks/useInteraction";
+import { navigate } from "app/navigators";
+import { useThemedColor } from "../Typo";
+import Icon from "native-base/src/theme/components/icon";
 
 const CollapseRoundView = ({
   children,
   detail
 }: {
-  children?: React.ReactNode
-  detail?: string
+  children?: React.ReactNode;
+  detail?: string;
 }) => {
   const { backgroundPrimary, backgroundSecondary, textPrimary, textSecondary } =
-    useThemedColor()
+    useThemedColor();
 
-  const [collapse, setCollapse] = useState(true)
+  const [collapse, setCollapse] = useState(true);
 
-  const offset = useSharedValue(100)
+  const offset = useSharedValue(100);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -50,8 +50,8 @@ const CollapseRoundView = ({
         duration: 500,
         easing: Easing.out(Easing.exp)
       })
-    }
-  })
+    };
+  });
 
   return (
     <Animated.View
@@ -67,7 +67,7 @@ const CollapseRoundView = ({
       ]}
     >
       <LinearGradient
-        colors={['transparent', collapse ? textSecondary : 'transparent']}
+        colors={["transparent", collapse ? textSecondary : "transparent"]}
         start={{ x: 0, y: 0.85 }}
         style={{
           padding: 12,
@@ -101,18 +101,18 @@ const CollapseRoundView = ({
       <TouchableOpacity
         style={{
           // flex: 1,
-          position: 'absolute',
+          position: "absolute",
           bottom: -16,
           // right: 0,
-          backgroundColor: '#5f37227e',
+          backgroundColor: "#5f37227e",
           borderRadius: 100,
-          alignSelf: 'center',
+          alignSelf: "center",
           width: 36,
           height: 36,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
           borderWidth: 1,
-          borderColor: '#5f3722'
+          borderColor: "#5f3722"
 
           // shadowColor: "#000000",
           // shadowOffset: {
@@ -125,9 +125,9 @@ const CollapseRoundView = ({
           // elevation: 5,
         }}
         onPress={() => {
-          setCollapse(!collapse)
+          setCollapse(!collapse);
           // offset.value = Math.random();
-          offset.value = offset.value === 100 ? 200 : 100
+          offset.value = offset.value === 100 ? 200 : 100;
         }}
       >
         {/* <Icon
@@ -139,7 +139,7 @@ const CollapseRoundView = ({
         /> */}
       </TouchableOpacity>
     </Animated.View>
-  )
-}
+  );
+};
 
-export default CollapseRoundView
+export default CollapseRoundView;

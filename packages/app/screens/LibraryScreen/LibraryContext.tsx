@@ -1,23 +1,23 @@
-import React from 'react'
-import ConfirmModal from '../../components/ConfirmModal'
-import useInteraction from '../../hooks/useInteraction'
+import React from "react";
+import ConfirmModal from "app/components/ConfirmModal";
+import useInteraction from "app/hooks/useInteraction";
 
 type Props = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 type LibraryContextT = {
-  modalVisible?: boolean
-  pressedComicPath?: string
-  onSubmit?: () => ((path: string) => any) | undefined
+  modalVisible?: boolean;
+  pressedComicPath?: string;
+  onSubmit?: () => ((path: string) => any) | undefined;
   showModal?: (
     visible: boolean,
     path: string,
     onSubmit: () => ((path: string) => any) | undefined
-  ) => any
-}
+  ) => any;
+};
 
-export const LibraryContext = React.createContext<LibraryContextT>({})
+export const LibraryContext = React.createContext<LibraryContextT>({});
 /**
  * TODO: CONTINUE
  */
@@ -25,21 +25,21 @@ const LibraryContextProvider = (props: Props) => {
   /**
    * Use modal state
    */
-  const [modalVisible, setModalVisible] = React.useState(false)
-  const [pressedComicPath, setPressedComicPath] = React.useState('')
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [pressedComicPath, setPressedComicPath] = React.useState("");
   // USE () => FN to ignore lazy initial
   const [onSubmit, setOnSubmit] = React.useState<
     () => ((path: string) => any) | undefined
-  >(() => undefined)
+  >(() => undefined);
 
   const showModal = React.useCallback((visible, path, onSubmit) => {
     // console.log('show modal ', visible, path, onSubmit)
-    setModalVisible(visible)
-    setPressedComicPath(path)
-    setOnSubmit(onSubmit)
-  }, [])
+    setModalVisible(visible);
+    setPressedComicPath(path);
+    setOnSubmit(onSubmit);
+  }, []);
 
-  const { loading } = useInteraction()
+  const { loading } = useInteraction();
 
   return (
     <LibraryContext.Provider
@@ -56,7 +56,7 @@ const LibraryContextProvider = (props: Props) => {
         />
       )}
     </LibraryContext.Provider>
-  )
-}
+  );
+};
 
-export default LibraryContextProvider
+export default LibraryContextProvider;

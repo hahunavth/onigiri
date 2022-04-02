@@ -26,23 +26,23 @@ import Animated, {
   useAnimatedStyle
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import useUpdateCurrentChapter from "../../hooks/useUpdateCurrentChapter";
-import useInteraction from "../../hooks/useInteraction";
+import useUpdateCurrentChapter from "app/hooks/useUpdateCurrentChapter";
+import useInteraction from "app/hooks/useInteraction";
 import ChapterViewVerticalList from "./ChapterViewVerticalList";
 import ChapterContextProvider, { ChapterContext } from "./ChapterContext";
 import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { FontAwesome } from "@expo/vector-icons";
-import { CommentBottomSheet, CommentLoader } from "../../components/Comment";
-import { homeSelector } from "../../store/homeSlice";
+import { CommentBottomSheet, CommentLoader } from "app/components/Comment";
+import { homeSelector } from "app/store/homeSlice";
 import { ChapterViewHorizontalList } from "./ChapterViewHorizontalList";
 import ChapterSetting from "../ChapterSettingScreen/ChapterSettingScreen";
-import { navigate } from "../../navigators";
+import { navigate } from "app/navigators";
 import {
   chapterActions,
   chapterSelector,
   selectChapterInfo
-} from "../../store/chapterSlice";
-import { resComicDetailChapterItem_T } from "../../types";
+} from "app/store/chapterSlice";
+import { resComicDetailChapterItem_T } from "app/types";
 
 export function ChapterScreen(props: ChapterScreenProps) {
   return (

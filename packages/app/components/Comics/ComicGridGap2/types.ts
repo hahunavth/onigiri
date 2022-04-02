@@ -1,4 +1,4 @@
-import { resComicItem_T } from "../../../types";
+import { resComicItem_T } from "app/types";
 
 export type GridItemProps = {
   loading?: boolean;

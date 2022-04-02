@@ -4,11 +4,11 @@
 
 import { Center, FlatList, View } from "native-base";
 import React from "react";
-import useInteraction from "../../../hooks/useInteraction";
-import { HistoryComicT, historySelector } from "../../../store/historySlice";
-import { useAppSelector } from "../../../store/hooks";
-import { resComicItem_T } from "../../../types";
-import { Loading } from "../../EmptyPage";
+import useInteraction from "app/hooks/useInteraction";
+import { HistoryComicT, historySelector } from "app/store/historySlice";
+import { useAppSelector } from "app/store/hooks";
+import { resComicItem_T } from "app/types";
+import { Loading } from "app/components/EmptyPage";
 import { ListItem2 } from "./ComicListItem2";
 
 type Props = {

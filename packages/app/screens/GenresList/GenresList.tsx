@@ -1,9 +1,9 @@
-import { View, Text } from 'native-base'
-import React from 'react'
-import GenresTopTabNav from './GenresTopTabNav'
+import { View, Text } from "native-base";
+import React from "react";
+import GenresTopTabNav from "./GenresTopTabNav";
 
-type Props = {}
+type Props = {};
 
 export const GenresList = (props: Props) => {
-  return <GenresTopTabNav />
-}
+  return <GenresTopTabNav />;
+};

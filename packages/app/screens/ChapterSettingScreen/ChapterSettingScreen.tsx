@@ -7,8 +7,8 @@ import BottomSheet, {
   BottomSheetView
 } from "@gorhom/bottom-sheet";
 import { CustomBackdrop } from "../ChapterScreen/CustomBackdrop";
-import { goBack, navigate } from "../../navigators";
-import { TextLgP } from "../../components/Typo";
+import { goBack, navigate } from "app/navigators";
+import { TextLgP } from "app/components/Typo";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ListDirection } from "./Options/ListDirection";
 import { Theme } from "./Options/Theme";

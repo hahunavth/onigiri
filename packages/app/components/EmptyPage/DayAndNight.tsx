@@ -2,7 +2,7 @@ import { View, Text, VStack } from "native-base";
 import React, { useEffect, useState } from "react";
 import LottieView from "lottie-react-native";
 // import { Animated } from "react-native";
-import { goBack } from "../../navigators";
+import { goBack } from "app/navigators";
 import Animated, {
   useSharedValue,
   useAnimatedProps,

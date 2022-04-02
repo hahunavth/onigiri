@@ -5,9 +5,9 @@ import { ComicListItem } from "./ComicListItem";
 import { Loading } from "../../EmptyPage/Loading";
 import { ListFooter } from "./ListFooter";
 
-import type { resComicItem_T } from "../../../types";
-import useInteraction from "../../../hooks/useInteraction";
-import { navigate } from "../../../navigators";
+import type { resComicItem_T } from "app/types";
+import useInteraction from "app/hooks/useInteraction";
+import { navigate } from "app/navigators";
 import { TNFlatlist } from "../../Typo";
 
 type Props = {

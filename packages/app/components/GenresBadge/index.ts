@@ -1,1 +1,1 @@
-export * from './GenresBadge'
+export * from "./GenresBadge";

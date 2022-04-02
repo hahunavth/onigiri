@@ -5,7 +5,8 @@ import {
   ListRenderItemInfo,
   StyleSheet,
   Dimensions,
-  LayoutAnimation
+  LayoutAnimation,
+  ScaledSize
 } from "react-native";
 import { Text, View } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
@@ -33,13 +34,15 @@ const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
   });
 
   React.useEffect(() => {
-    const e = Dimensions.addEventListener("change", ({ window }) => {
+    const handle = ({ window }: { window: ScaledSize; screen: ScaledSize }) => {
       const { width, height } = window;
       LayoutAnimation.easeInEaseOut();
       setSize(getBannerSize(width, height));
-    });
+    };
+
+    Dimensions.addEventListener("change", handle);
     return () => {
-      e.remove();
+      Dimensions.removeEventListener("change", handle);
     };
   }, []);
 

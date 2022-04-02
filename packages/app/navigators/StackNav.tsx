@@ -32,29 +32,29 @@ import type {
   resComicDetail_T,
   resChapterDetail_T
 } from "../types";
-import { SelectDownloadChapter } from "../screens/SelectDownloadChapterScreen/SelectDownloadChapter";
-import { HistoryComicT } from "../store/historySlice";
-import { FindOptionT } from "../utils/findOption";
-import Header from "../components/CollapseHeader/Header";
+import { SelectDownloadChapter } from "app/screens/SelectDownloadChapterScreen/SelectDownloadChapter";
+import { HistoryComicT } from "app/store/historySlice";
+import { FindOptionT } from "app/utils/findOption";
+import Header from "app/components/CollapseHeader/Header";
 import { Icon, Text, View } from "native-base";
 import { TouchableOpacity, Platform } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MotiView } from "moti";
-import { FindByNameResultScreen } from "../screens/FindByNameResultScreen";
+import { FindByNameResultScreen } from "app/screens/FindByNameResultScreen";
 
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { SharedNav, SharedNavParamList } from "./SharedNav";
-import NotificationScreen from "../screens/NotificationScreen/NotificationScreen";
-import { NotificationHeaderRefreshBtn } from "../screens/NotificationScreen/NotificationHeaderRefreshBtn";
+import NotificationScreen from "app/screens/NotificationScreen/NotificationScreen";
+import { NotificationHeaderRefreshBtn } from "app/screens/NotificationScreen/NotificationHeaderRefreshBtn";
 import i18n from "i18n-js";
-import ChapterSetting from "../screens/ChapterSettingScreen/ChapterSettingScreen";
-import { CommentScreen } from "../screens/CommentScreen";
-import { ChapterListScreen } from "../screens/ChapterListScreen";
-import { DayAndNightProps } from "../components/EmptyPage";
-import { SwitchThemeScreen } from "../screens/SwitchThemeScreen";
-import { RatingScreen } from "../screens/RatingScreen";
-import { ComicRatingScreen } from "../screens/ComicRatingScreen";
+import ChapterSetting from "app/screens/ChapterSettingScreen/ChapterSettingScreen";
+import { CommentScreen } from "app/screens/CommentScreen";
+import { ChapterListScreen } from "app/screens/ChapterListScreen";
+import { DayAndNightProps } from "app/components/EmptyPage";
+import { SwitchThemeScreen } from "app/screens/SwitchThemeScreen";
+import { RatingScreen } from "app/screens/RatingScreen";
+import { ComicRatingScreen } from "app/screens/ComicRatingScreen";
 
 /**
  * Using common params

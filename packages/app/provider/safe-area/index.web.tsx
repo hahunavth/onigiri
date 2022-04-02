@@ -10,5 +10,5 @@
 export const SafeAreaAppProvider = ({
   children
 }: {
-  children: React.ReactElement
-}) => <>{children}</>
+  children: React.ReactElement;
+}) => <>{children}</>;

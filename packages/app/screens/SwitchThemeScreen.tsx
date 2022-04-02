@@ -1,7 +1,7 @@
 import { View, Text } from "native-base";
 import React from "react";
-import { DayAndNight } from "../components/EmptyPage";
-import { DayAndNightScreenProps } from "../navigators/StackNav";
+import { DayAndNight } from "app/components/EmptyPage";
+import { DayAndNightScreenProps } from "app/navigators/StackNav";
 
 export const SwitchThemeScreen = (props: DayAndNightScreenProps) => {
   return (

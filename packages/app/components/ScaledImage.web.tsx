@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Image, View, Text, Box } from "native-base";
 import { Loading } from "./EmptyPage/Loading";
-import { useColorModeStyle } from "../hooks/useColorModeStyle";
+import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import { default as NextImage } from "next/image";
 
 // import { Image as ImageElement } from 'native-base'

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 // TYPES
 interface PropsCheckerProps<T> {
@@ -10,7 +10,7 @@ interface PropsCheckerProps<T> {
 interface Props {
   [key: string]: unknown;
 }
-type ComparaisonTypes = 'SIMPLE' | 'SHALLOW' | 'DEEP';
+type ComparaisonTypes = "SIMPLE" | "SHALLOW" | "DEEP";
 
 // COMPARAISON FUNCTIONS
 function simpleCheck(a: unknown, b: unknown) {
@@ -18,17 +18,17 @@ function simpleCheck(a: unknown, b: unknown) {
 }
 function shallowCheck(a: unknown, b: unknown, verbose?: boolean) {
   if (typeof a !== typeof b) {
-    verbose && console.log('Not the same type');
+    verbose && console.log("Not the same type");
     return false;
   }
-  if (typeof a !== 'object') {
+  if (typeof a !== "object") {
     return simpleCheck(a, b);
   }
   const A = a as Props;
   const B = b as Props;
   const keys = Object.keys(A);
   if (!deepCheck(A, B, verbose)) {
-    verbose && console.log('Objects keys changed');
+    verbose && console.log("Objects keys changed");
     return false;
   }
   for (const k in keys) {
@@ -49,16 +49,16 @@ function deepCheck(a: unknown, b: unknown, verbose?: boolean) {
 }
 function compFNSelection(compType: ComparaisonTypes) {
   switch (compType) {
-    case 'SIMPLE':
+    case "SIMPLE":
       return (a: unknown, b: unknown, _verbose?: boolean) => simpleCheck(a, b);
-    case 'SHALLOW':
+    case "SHALLOW":
       return (a: unknown, b: unknown, verbose?: boolean) =>
         shallowCheck(a, b, verbose);
-    case 'DEEP':
+    case "DEEP":
       return (a: unknown, b: unknown, verbose?: boolean) =>
         deepCheck(a, b, verbose);
     default:
-      console.log('Comparaison type unvailable. Test will always return false');
+      console.log("Comparaison type unvailable. Test will always return false");
       return () => false;
   }
 }
@@ -69,29 +69,27 @@ function compFNSelection(compType: ComparaisonTypes) {
  * @param WrappedComponent The component to analyse
  * @param compType The possible comparaison type (Be carefull with "DEEP". It may get errors in case of circular references)
  */
-export function PropsChecker<T extends Props>(
-  props: PropsCheckerProps<T>,
-) {
-  const { children, childrenProps, compType = 'SIMPLE', verbose } = props;
+export function PropsChecker<T extends Props>(props: PropsCheckerProps<T>) {
+  const { children, childrenProps, compType = "SIMPLE", verbose } = props;
   const oldPropsRef = React.useRef<T>();
   React.useEffect(() => {
     const oldProps = oldPropsRef.current;
     if (oldProps === undefined) {
-      console.log('First render : ');
-      Object.keys(childrenProps).forEach(k =>
-        console.log(`${k} : ${childrenProps[k]}`),
+      console.log("First render : ");
+      Object.keys(childrenProps).forEach((k) =>
+        console.log(`${k} : ${childrenProps[k]}`)
       );
     } else {
       const changedProps = Object.keys(childrenProps)
-        .filter(k =>
-          compFNSelection(compType)(oldProps[k], childrenProps[k], verbose),
+        .filter((k) =>
+          compFNSelection(compType)(oldProps[k], childrenProps[k], verbose)
         )
-        .map(k => `${k} : [OLD] ${oldProps[k]}, [NEW] ${childrenProps[k]}`);
+        .map((k) => `${k} : [OLD] ${oldProps[k]}, [NEW] ${childrenProps[k]}`);
       if (changedProps.length > 0) {
-        console.log('Changed props : ');
+        console.log("Changed props : ");
         changedProps.forEach(console.log);
       } else {
-        console.log('No props changed');
+        console.log("No props changed");
       }
     }
     oldPropsRef.current = childrenProps;

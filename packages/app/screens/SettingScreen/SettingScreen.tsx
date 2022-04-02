@@ -27,11 +27,11 @@ import {
 } from "react-native";
 // import { Picker } from '@react-native-picker/picker'
 import { AntDesign } from "@expo/vector-icons";
-import { TextMdP, TextSmI, TextSmP, TextSmS } from "../../components/Typo";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { settingAction, settingSelector } from "../../store/settingSlice";
+import { TextMdP, TextSmI, TextSmP, TextSmS } from "app/components/Typo";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
+import { settingAction, settingSelector } from "app/store/settingSlice";
 import i18n from "i18n-js";
-import { navigate } from "../../navigators";
+import { navigate } from "app/navigators";
 
 /**
  * Specifics child
