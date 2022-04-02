@@ -145,7 +145,7 @@ Sentry.init({
   ],
   debug: true,
   // To set a uniform sample rate
-  tracesSampleRate: 0.2,
+  // tracesSampleRate: 0.2,
   //
   // enableAutoSessionTracking: true,
   // Sessions close after app is 10 seconds in the background.
@@ -230,7 +230,7 @@ function App() {
       nextAppState === "active"
     ) {
       console.log("App has come to the foreground!");
-      // store.dispatch(mergeNewChapterNotificationThunk());
+      store.dispatch(mergeNewChapterNotificationThunk());
     }
 
     appState.current = nextAppState;

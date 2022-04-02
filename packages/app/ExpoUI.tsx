@@ -100,9 +100,9 @@ export default function UI() {
 
   // React.useEffect(() => {}, [language])
 
-  React.useEffect(() => {
-    dispatch(mergeNewChapterNotificationThunk());
-  }, []);
+  // React.useEffect(() => {
+  //   dispatch(mergeNewChapterNotificationThunk());
+  // }, []);
 
   const colorModeManager: StorageManager = {
     get: async () => {

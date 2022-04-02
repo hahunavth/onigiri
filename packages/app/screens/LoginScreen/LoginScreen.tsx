@@ -2,9 +2,10 @@ import { View, Text, Button, Image } from "native-base";
 import React from "react";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { authActions, authSelector, UserInfo } from "../../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { warmUpAsync, coolDownAsync } from "expo-web-browser";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -16,19 +17,31 @@ export const LoginScreen = () => {
   const dispatch = useAppDispatch();
 
   const [req, res, promptAsync] = Google.useAuthRequest({
+    scopes: ["profile", "email"],
+    //#endregion
     expoClientId: __DEV__
       ? process.env.OAUTH_TOKEN_WEB_DEV
       : process.env.OAUTH_TOKEN_WEB_STG,
     // iosClientId: "GOOGLE_GUID.apps.googleusercontent.com",
-
     androidClientId: __DEV__
       ? process.env.OAUTH_TOKEN_AND_DEV
       : process.env.OAUTH_TOKEN_AND_STG
-
     // webClientId: __DEV__
     //   ? process.env.OAUTH_TOKEN_WEB_DEV
     //   : process.env.OAUTH_TOKEN_WEB_STG
   });
+
+  React.useEffect(() => {
+    if (Platform.OS === "android") {
+      warmUpAsync();
+    }
+
+    return () => {
+      if (Platform.OS === "android") {
+        coolDownAsync();
+      }
+    };
+  }, []);
 
   async function getUserData(t?: string) {
     let userInfoResponse = await fetch(

@@ -61,7 +61,9 @@ export function ListItem2({ item }: Props) {
             <Box
               // intensity={100}
               // tint={colorMode === "dark" ? "dark" : "light"}
-              bg={colorMode === "light" ? "white" : "dark.900"}
+              // bg={colorMode === "light" ? "white" : "dark.900"}
+              _dark={{ bg: "#321" }}
+              bg={"white"}
               style={{ flex: 1 }}
             >
               <VStack justifyContent={"center"} alignItems={"center"} flex={1}>
@@ -84,6 +86,7 @@ export function ListItem2({ item }: Props) {
             top={1}
             right={1}
             bg={"$light.backgroundPrimary"}
+            _dark={{ bg: "#dcd" }}
             px={2}
             rounded={"full"}
             shadow={1}

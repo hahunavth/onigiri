@@ -11,7 +11,7 @@ process.env.FAST_IMAGE = "true";
 
 // the secrets created with eas secret:create will
 // be merged with process.env during eas builds
-const VERSION = "0.0.3";
+const VERSION = "0.0.4";
 const SENTRY_DSN = process.env.SENTRY_DSN;
 const STAGE = process.env.STAGE;
 const SCHEME = process.env.SCHEME ?? "com.hahunavth.onigiri";
@@ -55,7 +55,8 @@ export default {
   name: config.name,
   description: "Onigiri- Comic reader",
   slug: "onigiri",
-  scheme: "onigiri",
+  // scheme: "onigiri",
+  scheme: config.scheme,
   owner: "hahunavth",
   icon: config.icon,
   version: VERSION,

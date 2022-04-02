@@ -139,7 +139,35 @@ const HomeScreenContent = () => {
           }
         />
       ),
-      () => <TenseiList />
+      () => <TenseiList />,
+      () => (
+        <ListHeader
+          name={"Manhwa"}
+          subtitle={"Todo: i18n"}
+          color=""
+          onPressMore={() =>
+            navigate("home-session-detail-list", {
+              type: "find-comic-by-genres-name",
+              genresName: "manhwa-1140"
+            })
+          }
+        />
+      ),
+      () => <ManhwaList />,
+      () => (
+        <ListHeader
+          name={"Manhua"}
+          subtitle={"Todo: i18n"}
+          color=""
+          onPressMore={() =>
+            navigate("home-session-detail-list", {
+              type: "find-comic-by-genres-name",
+              genresName: "manhua"
+            })
+          }
+        />
+      ),
+      () => <ManhuaList />
     ];
   }, []);
 
@@ -231,3 +259,5 @@ const _genListByGenresName = (genresName: string) => {
 
 const MangaList = _genListByGenresName("manga-112");
 const TenseiList = _genListByGenresName("chuyen-sinh-213");
+const ManhwaList = _genListByGenresName("manhwa-1140");
+const ManhuaList = _genListByGenresName("manhua");

@@ -9,6 +9,9 @@
   - Set .env: MMKV=false
 
 ## 
+```code
 expo fetch:android:hashes
 expo credentials:manager -p android
 expo start --dev-client 
+```
+
