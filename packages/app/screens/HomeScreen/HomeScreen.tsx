@@ -1,10 +1,5 @@
 import { View, Text, ScrollView, FlatList } from "native-base";
-import {
-  VirtualizedList,
-  ListRenderItemInfo,
-  Alert,
-  BackHandler
-} from "react-native";
+import { ListRenderItemInfo, Alert, BackHandler } from "react-native";
 import React from "react";
 import { NextLink } from "app/components/NextLink";
 import { ListHeader } from "app/components/ListHeader";

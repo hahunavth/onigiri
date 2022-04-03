@@ -18,11 +18,11 @@ import {
 import * as SplashScreen from "expo-splash-screen";
 import AppLoading from "expo-app-loading";
 
-// NOTE: SPLASH
+// NOTE: SPLASH, run in App.tsx
 // Instruct SplashScreen not to hide yet, we want to do this manually
-SplashScreen.preventAutoHideAsync().catch(() => {
-  /* reloading the app might trigger some race conditions, ignore them */
-});
+// SplashScreen.preventAutoHideAsync().catch(() => {
+//   /* reloading the app might trigger some race conditions, ignore them */
+// });
 
 type AnimatedAppLoaderProps = {
   children: React.ReactNode;
@@ -31,7 +31,7 @@ type AnimatedAppLoaderProps = {
   onFinish: () => any;
 };
 
-export function AnimatedAppLoader({
+export default function AnimatedAppLoader({
   children,
   isSplashReady,
   startAsync,
