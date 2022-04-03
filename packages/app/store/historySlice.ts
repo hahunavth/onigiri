@@ -101,8 +101,11 @@ const historySlice = createSlice({
           // findResult.chapters.unshift(
           //   ...action.payload.chapters.slice(0, pushNum)
           // );
-          findResult.chapters = action.payload.chapters;
-          state.comics[action.payload.path] = findResult;
+          // findResult.chapters = action.payload.chapters;
+          state.comics[action.payload.path] = {
+            ...findResult,
+            chapters: action.payload.chapters
+          };
         }
       }
     },

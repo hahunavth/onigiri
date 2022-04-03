@@ -89,6 +89,8 @@ import {
 import * as Device from "expo-device";
 import { mergeNewChapterNotificationThunk } from "app/store/notificationSlice";
 
+import * as Updates from "expo-updates";
+
 // NOTE: BARE WORKFLOW DONT HAVE ACCESS TO THIS MODULE
 // import Constants from 'expo-constants'
 
@@ -98,6 +100,8 @@ LogBox.ignoreLogs([
   `Picker has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-picker/picker' instead of 'react-native'. See https://github.com/react-native-picker/react-native-picker`,
   "Bridge was already shutdown."
 ]);
+
+// NOTE: SPLASH
 
 // import { InteractionManager } from 'react-native'
 // import {

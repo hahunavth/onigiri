@@ -5,6 +5,7 @@
   - Goggle login
   - Add new home sessions
   - Lazy top tab
+  - Nested Persists
 
 ## 0.0.3
 ### Added

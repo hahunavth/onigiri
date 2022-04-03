@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useLayoutEffect,
   useRef,
   useContext,
   useImperativeHandle
@@ -85,7 +86,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
 
   const flatListRef = React.useRef<FlatListT>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(chapterActions.setCurrentChapter(_id));
     return () => {
       dispatch(chapterActions.setCurrentChapter(-1));

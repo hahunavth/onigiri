@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "onigiri",
+    "slug": "onigiri",
+    "version": "1.0.0",
+    "sdkVersion": "44.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ]
+  }
+}

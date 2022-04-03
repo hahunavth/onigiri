@@ -61,6 +61,15 @@ const _getStorage = Platform.select({
 });
 const storage = _getStorage ? _getStorage() : null;
 
+/**
+ * NOTE: USE NESTED PERSIST IO IGNORE persist chapter.current
+ */
+const chapterPersistConfig = {
+  key: "chapter",
+  storage: storage,
+  blacklist: ["current"]
+};
+
 const reducer = combineReducers({
   home: homeSlice,
   auth: authSlice,
@@ -68,7 +77,7 @@ const reducer = combineReducers({
   history: historyReducer,
   recent: recentReducer,
   notification: notificationReducer,
-  chapter: chapterSlice,
+  chapter: persistReducer(chapterPersistConfig, chapterSlice),
   [comicApi.reducerPath]: comicApi.reducer,
   [originApi.reducerPath]: originApi.reducer
 });
@@ -76,7 +85,7 @@ const reducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage: storage,
-  blacklist: [comicApi.reducerPath, "home", originApi.reducerPath]
+  blacklist: [comicApi.reducerPath, "home", originApi.reducerPath, "chapter"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
