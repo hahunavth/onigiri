@@ -16,6 +16,7 @@ import ListItemWithExtractor from "./ListItemWithExtractor";
 import { Empty } from "app/components/EmptyPage";
 import { Center } from "native-base";
 import { TextMdP } from "app/components/Typo";
+import { notificationSelector } from "../../store/notificationSlice";
 
 type Props = {
   data: HistoryComicT[];
@@ -35,13 +36,17 @@ const LibraryList = ({
   customLoadingComponent
 }: Props) => {
   // const styles = useStyleSheet(themedStyle);
+  const __n = useAppSelector(notificationSelector);
 
   const renderItem = React.useCallback(
     ListItemWithExtractor({
       addonFieldExtractor,
       addonFieldName,
       onPress,
-      onLongPress
+      onLongPress,
+      getNewNotification: (s) => {
+        return !!__n.newChapter[s];
+      }
     }),
     [addonFieldExtractor, addonFieldName]
   );

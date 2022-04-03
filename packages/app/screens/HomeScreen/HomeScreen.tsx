@@ -1,5 +1,10 @@
 import { View, Text, ScrollView, FlatList } from "native-base";
-import { VirtualizedList, ListRenderItemInfo } from "react-native";
+import {
+  VirtualizedList,
+  ListRenderItemInfo,
+  Alert,
+  BackHandler
+} from "react-native";
 import React from "react";
 import { NextLink } from "app/components/NextLink";
 import { ListHeader } from "app/components/ListHeader";
@@ -22,6 +27,8 @@ import FadeInView, {
 import useInteraction from "app/hooks/useInteraction";
 import I18n from "i18n-js";
 import { ComicHorizontalList2 } from "app/components/Comics/ComicHorizontalList2/ComicHorizontalList2";
+import i18n from "i18n-js";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const HomeScreen = () => {
   // console.log("rerender");
@@ -181,6 +188,29 @@ const HomeScreenContent = () => {
   const keyExtractor = React.useCallback((item, id) => {
     return id.toString();
   }, []);
+
+  useFocusEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to go exit?", [
+        {
+          text: i18n.t("button.cancel"),
+          onPress: () => null,
+          style: "cancel"
+        },
+        {
+          text: "YES",
+          onPress: () => BackHandler.exitApp(),
+          style: "destructive"
+        }
+      ]);
+      return true;
+    };
+
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  });
 
   return (
     <>

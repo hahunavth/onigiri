@@ -135,6 +135,14 @@ export const useBackgroundPushNotificationInfo = () => {
     checkStatusAsync();
   };
 
+  React.useEffect(() => {
+    (async () => {
+      if (!isRegistered && status === 3) {
+        toggleFetchTask && toggleFetchTask();
+      }
+    })();
+  }, [isRegistered, status, toggleFetchTask]);
+
   return {
     isRegistered,
     status,

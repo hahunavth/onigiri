@@ -22,7 +22,9 @@ import {
   LogBox,
   UIManager,
   AppState,
-  AppStateStatus
+  AppStateStatus,
+  useWindowDimensions,
+  ActivityIndicator
 } from "react-native";
 import { useEffect } from "react";
 
@@ -90,6 +92,8 @@ import * as Device from "expo-device";
 import { mergeNewChapterNotificationThunk } from "app/store/notificationSlice";
 
 import * as Updates from "expo-updates";
+import { useCallback, useMemo, useState } from "react";
+import { Animated, Button, StyleSheet, Text, View } from "react-native";
 
 // NOTE: BARE WORKFLOW DONT HAVE ACCESS TO THIS MODULE
 // import Constants from 'expo-constants'
@@ -102,6 +106,10 @@ LogBox.ignoreLogs([
 ]);
 
 // NOTE: SPLASH
+// Instruct SplashScreen not to hide yet, we want to do this manually
+SplashScreen.preventAutoHideAsync().catch(() => {
+  /* reloading the app might trigger some race conditions, ignore them */
+});
 
 // import { InteractionManager } from 'react-native'
 // import {
@@ -305,29 +313,8 @@ function App() {
   //   return null
   // }
 
-  const backAction = () => {
-    Alert.alert("Hold on!", "Are you sure you want to go exit?", [
-      {
-        text: i18n.t("button.cancel"),
-        onPress: () => null,
-        style: "cancel"
-      },
-      {
-        text: "YES",
-        onPress: () => BackHandler.exitApp(),
-        style: "destructive"
-      }
-    ]);
-    return true;
-  };
-
   useEffect(() => {
     i18n.locale = store.getState().setting.language;
-
-    BackHandler.addEventListener("hardwareBackPress", backAction);
-
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   const { checkStatusAsync, isRegistered, status, toggleFetchTask } =
@@ -408,17 +395,18 @@ function App() {
 
   return (
     <Provider store={store}>
-      {!isReady && !fontsLoaded && !isNavReady ? (
-        <>
-          {/* <StatusBar animated={true} translucent={true} style={'auto'} /> */}
+      {
+        // !isReady && !fontsLoaded && !isNavReady ? (
+        //   <>
+        //     {/* <StatusBar animated={true} translucent={true} style={'auto'} /> */}
 
-          <AppLoading
-            startAsync={Preload}
-            onFinish={() => setIsReady(true)}
-            onError={console.warn}
-          />
-        </>
-      ) : (
+        //     <AppLoading
+        //       startAsync={Preload}
+        //       onFinish={() => setIsReady(true)}
+        //       onError={console.warn}
+        //     />
+        //   </>
+        // ) :
         <NavigationContainer
           ref={navigationRef}
           onReady={() => {
@@ -430,11 +418,20 @@ function App() {
         >
           <PersistGate persistor={persistor}>
             <SafeAreaProvider>
-              <UI />
+              <AnimatedAppLoader
+                isSplashReady={isReady && fontsLoaded && isNavReady}
+                startAsync={Preload}
+                onFinish={() => setIsReady(true)}
+                // image={{
+                //   uri: "https://user-images.githubusercontent.com/7416971/78830030-f2c9f100-7a04-11ea-81e1-e742854bb48d.png"
+                // }}
+              >
+                <UI />
+              </AnimatedAppLoader>
             </SafeAreaProvider>
           </PersistGate>
         </NavigationContainer>
-      )}
+      }
     </Provider>
   );
 }
@@ -453,3 +450,182 @@ export default Sentry.wrap(App);
  *  expo-task-manager setup for ios
  *
  */
+
+/**
+ * STUB: SPLASH
+ */
+// import AppLoading from "expo-app-loading";
+// import { Asset } from "expo-asset";
+// import Constants from "expo-constants";
+// import * as SplashScreen from "expo-splash-screen";
+// import * as Updates from "expo-updates";
+// import { useCallback, useEffect, useMemo, useState } from "react";
+// import {
+//   Animated,
+//   Button,
+//   Platform,
+//   StyleSheet,
+//   Text,
+//   View
+// } from "react-native";
+
+// // Instruct SplashScreen not to hide yet, we want to do this manually
+// SplashScreen.preventAutoHideAsync().catch(() => {
+//   /* reloading the app might trigger some race conditions, ignore them */
+// });
+
+// export default function App() {
+//   return (
+//     <AnimatedAppLoader
+//       image={{
+//         uri: "https://user-images.githubusercontent.com/7416971/78830030-f2c9f100-7a04-11ea-81e1-e742854bb48d.png"
+//       }}
+//     >
+//       <MainScreen />
+//     </AnimatedAppLoader>
+//   );
+// }
+
+type AnimatedAppLoaderProps = {
+  children: React.ReactNode;
+  isSplashReady: boolean;
+  startAsync: () => any;
+  onFinish: () => any;
+};
+
+function AnimatedAppLoader({
+  children,
+  isSplashReady,
+  startAsync,
+  onFinish
+}: AnimatedAppLoaderProps) {
+  if (!isSplashReady) {
+    return (
+      <AppLoading
+        // Instruct SplashScreen not to hide yet, we want to do this manually
+        autoHideSplash={false}
+        startAsync={startAsync}
+        onError={console.warn}
+        onFinish={onFinish}
+      />
+    );
+  }
+
+  return (
+    <AnimatedSplashScreen image={require("./assets/splash.yellow.png")}>
+      {children}
+    </AnimatedSplashScreen>
+  );
+}
+
+function AnimatedSplashScreen({ children, image }: any) {
+  const animation = useMemo(() => new Animated.Value(1), []);
+  const [isAppReady, setAppReady] = useState(false);
+  const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
+
+  useEffect(() => {
+    if (isAppReady) {
+      Animated.timing(animation, {
+        toValue: 0,
+        duration: 400,
+        delay: 3000,
+        useNativeDriver: true
+      }).start(() => setAnimationComplete(true));
+    }
+  }, [isAppReady]);
+
+  const onImageLoaded = useCallback(async () => {
+    try {
+      await SplashScreen.hideAsync();
+      // Load stuff
+      await Promise.all([]);
+    } catch (e) {
+      // handle errors
+    } finally {
+      setAppReady(true);
+    }
+  }, []);
+
+  return (
+    <View style={{ flex: 1 }}>
+      {isAppReady && children}
+      {!isSplashAnimationComplete && (
+        <Animated.View
+          pointerEvents="none"
+          style={[
+            StyleSheet.absoluteFill,
+            {
+              backgroundColor: "white",
+              opacity: animation
+            }
+          ]}
+        >
+          <Animated.Image
+            style={{
+              width: "100%",
+              height: "100%",
+              resizeMode: "cover",
+              transform: [
+                {
+                  scale: animation
+                }
+              ]
+            }}
+            source={image}
+            onLoadEnd={onImageLoaded}
+            fadeDuration={0}
+          />
+          <AnimatedSplashText />
+        </Animated.View>
+      )}
+    </View>
+  );
+}
+
+function AnimatedSplashText() {
+  const animation = useMemo(() => new Animated.Value(0), []);
+  const { height, width } = useWindowDimensions();
+
+  const trans = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [100, 0]
+  });
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: 1,
+      duration: 300,
+      delay: 500,
+      useNativeDriver: true
+    }).start();
+  }, []);
+
+  return (
+    <Animated.View
+      style={{
+        opacity: animation,
+        transform: [{ translateY: trans }],
+        justifyContent: "center",
+        alignItems: "center",
+        position: "absolute",
+        width,
+        height: 100,
+        bottom: 100,
+        flexDirection: "row"
+      }}
+    >
+      <ActivityIndicator
+        color={"#8d6868"}
+        style={{ marginTop: 2, marginRight: 8, marginLeft: -20 }}
+      />
+      <Text
+        style={{
+          fontSize: 18,
+          fontWeight: "600",
+          textAlign: "center"
+        }}
+      >
+        Onigiri
+      </Text>
+    </Animated.View>
+  );
+}

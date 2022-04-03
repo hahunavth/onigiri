@@ -5,7 +5,7 @@ import {
   StyleSheet,
   ListRenderItemInfo
 } from "react-native";
-import { View, Text } from "native-base";
+import { View, Text, HStack } from "native-base";
 import React from "react";
 import { HistoryComicT, historySelector } from "app/store/historySlice";
 import { useAppSelector } from "app/store/hooks";
@@ -21,13 +21,20 @@ type Param = {
   onLongPress?: (comic: HistoryComicT) => any;
   addonFieldName?: string;
   addonFieldExtractor?: (comic: HistoryComicT) => string;
+  getNewNotification?: (s: string) => boolean;
 };
 /**
  * NOTE: Function return renderItem component for listView
  * u can customize addonField
  */
 const ListWithExtractor = (param: Param) => {
-  const { addonFieldExtractor, addonFieldName, onPress, onLongPress } = param;
+  const {
+    addonFieldExtractor,
+    addonFieldName,
+    onPress,
+    onLongPress,
+    getNewNotification
+  } = param;
   // Return render item function
   return (props: ListRenderItemInfo<resComicDetail_T>) => {
     // Return Function component
@@ -52,6 +59,34 @@ const ListWithExtractor = (param: Param) => {
           // borderColor={colors.$light.textButton}
           // _dark={{ borderColor: colors.$dark.textDisable }}
         >
+          {getNewNotification && getNewNotification(item.path) && (
+            <View
+              // w={3}
+              // h={3}
+              bg={"#8d6868"}
+              rounded="full"
+              // pl={4}
+              px={1}
+              py={0}
+              position="absolute"
+              right={3}
+              top={3}
+              justifyContent="center"
+              alignItems={"center"}
+              shadow={"2"}
+            >
+              <Text
+                fontSize={10}
+                mt={-0.3}
+                color={"white"}
+                _dark={{ color: "dark.900" }}
+                fontWeight={"600"}
+              >
+                New
+              </Text>
+            </View>
+          )}
+
           <Image
             source={{ uri: item.posterUrl }}
             style={styles.poster as ImageStyle}
@@ -59,14 +94,17 @@ const ListWithExtractor = (param: Param) => {
 
           <View style={styles.infoContainer}>
             <Box _text={textStyle}>
-              <Text
-                style={[
-                  styles.titleText,
-                  { color: textStyle.color, fontWeight: "bold" }
-                ]}
-              >
-                {item.title}
-              </Text>
+              <HStack justifyContent={"space-between"} w={"full"}>
+                <Text
+                  style={[
+                    styles.titleText,
+                    { color: textStyle.color, fontWeight: "bold" }
+                  ]}
+                  pr={8}
+                >
+                  {item.title}
+                </Text>
+              </HStack>
               <TextSmS
                 // style={styles.detailText}
                 numberOfLines={1}
