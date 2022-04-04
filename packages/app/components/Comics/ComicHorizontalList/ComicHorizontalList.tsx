@@ -16,11 +16,16 @@ export function ComicHorizontalList(props: Props) {
     return readComics.map((path) => comics[path]).filter((comic) => !!comic);
   }, [comics]) as HistoryComicT[];
 
+  const renderItem = React.useCallback(
+    ({ item }) => <ListItem item={item} />,
+    []
+  );
+
   return (
     <>
       <FlatList
         data={renderedList}
-        renderItem={({ item }) => <ListItem item={item} />}
+        renderItem={renderItem}
         keyExtractor={(item) => item?.path + ""}
         horizontal={true}
       />

@@ -94,10 +94,11 @@ export function ListItem2({ item }: Props) {
             // opacity={0.85}
           >
             <Text
-              fontSize={12}
+              fontSize={10}
               fontWeight={600}
               color={"$light.textPrimary"}
               numberOfLines={1}
+              mt={-0.5}
             >
               {item.lastedChapters && item.lastedChapters[0].chapterName}
             </Text>

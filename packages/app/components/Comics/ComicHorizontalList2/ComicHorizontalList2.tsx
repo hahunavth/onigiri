@@ -28,6 +28,11 @@ export const ComicHorizontalList2 = React.memo(function ComicHorizontalList2({
 }: Props) {
   const { loading } = useInteraction();
 
+  const renderItem = React.useCallback(
+    ({ item }) => <ListItem2 item={item} />,
+    []
+  );
+
   return (
     <>
       {loading || !list.length ? (
@@ -42,8 +47,7 @@ export const ComicHorizontalList2 = React.memo(function ComicHorizontalList2({
         </Center>
       ) : (
         <FlatList
-          // data={renderedList}
-          renderItem={({ item }) => <ListItem2 item={item} />}
+          renderItem={renderItem}
           keyExtractor={(item) => item?.path + ""}
           horizontal={true}
           style={{ flex: 1 }}

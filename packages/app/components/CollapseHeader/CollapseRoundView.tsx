@@ -19,7 +19,8 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withSpring
+  withSpring,
+  FadeInUp
 } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -56,6 +57,7 @@ const CollapseRoundView = ({
   return (
     <Animated.View
       // level={'1'}
+      // entering={FadeInUp.delay(100 + 100)}
       style={[
         {
           borderRadius: 10,

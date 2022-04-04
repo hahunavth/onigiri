@@ -52,26 +52,32 @@ const ConnectionList = forwardRef<
 
   // Memo
   const keyExtractor = useCallback(
-    (_: resComicDetailChapterItem_T, index) => _.path,
-    []
+    (_: resComicDetailChapterItem_T, index) => {
+      const len = props.data?.length || 0;
+      const key = len ? (sortNewer ? index : len - 1 - index) : -100 - index;
+      console.log(key);
+      return key;
+    },
+    [sortNewer, props.data]
   );
 
   const renderItem = useCallback<ListRenderItem<resComicDetailChapterItem_T>>(
-    ({ item, index }) => (
-      <ChapterListItem
-        readCptObj={history.readCpt}
-        chapter={item}
-        id={
-          props.data?.length
-            ? sortNewer
-              ? index
-              : props.data?.length - 1 - index
-            : -1
-        }
-        offline={props.offline}
-        comicPath={currentComic?.path}
-      />
-    ),
+    ({ item, index }) => {
+      const key = props.data?.length
+        ? sortNewer
+          ? index
+          : props.data?.length - 1 - index
+        : -1;
+      return (
+        <ChapterListItem
+          readCptObj={history.readCpt}
+          chapter={item}
+          id={key}
+          offline={props.offline}
+          comicPath={currentComic?.path}
+        />
+      );
+    },
     [props.offline, sortNewer, props.data]
   );
 

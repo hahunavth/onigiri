@@ -1,5 +1,7 @@
 import { mergeNewChapterNotificationThunk } from "app/store/notificationSlice";
 import { mmkvStorage } from "./mmkvStorage";
+import * as Notifications from "expo-notifications";
+
 /**
  *
  * NOTE: SPECIFIC EXPO
@@ -34,36 +36,69 @@ export const fetchBackgroundTask = async () => {
   );
 
   async function bg() {
-    // instead of notificationSlice/fetchNewChapterNotificationAsync
-    const state: RootState = await mmkvStorage
-      .getItem("persist:root")
-      .then((s: string) => (s ? JSON.parse(s) : undefined));
-    if (state) {
-      const notifications: NotificationStoreT["newChapter"] = {};
-      const comicPushList: resComicDetail_T[] = [];
+    try {
+      // instead of notificationSlice/fetchNewChapterNotificationAsync
+      const state: RootState = await mmkvStorage
+        .getItem("persist:root")
+        .then((s: string) => (s ? JSON.parse(s) : undefined));
+      if (state) {
+        const notifications: NotificationStoreT["newChapter"] = {};
+        const comicPushList: resComicDetail_T[] = [];
 
-      await fetchBackgroundInfo(state, notifications, comicPushList, true);
+        await fetchBackgroundInfo(state, notifications, comicPushList, true);
 
-      const memoNotification = await mmkvStorage
-        .getItem("notifications-template")
-        .then((s: string | undefined) => (s ? JSON.parse(s || "") : {}));
+        const memoNotification = await mmkvStorage
+          .getItem("notifications-template")
+          .then((s: string | undefined) => (s ? JSON.parse(s || "") : {}));
 
-      /**
-       * REVIEW: MERGE WITH OLD OBJECT
-       */
-      await mmkvStorage.setItem(
-        "notifications-template",
-        JSON.stringify({ ...memoNotification, ...notifications })
-      );
-      await mmkvStorage.setItem(
-        "comicPushList-template",
-        JSON.stringify(comicPushList)
-      );
-      console.log("bg fetch result: ");
-      await mmkvStorage
-        .getItem("notifications-template")
-        .then((s: string | undefined) => (s ? JSON.parse(s) : {}))
-        .then((j: object) => console.log(j));
+        /**
+         * REVIEW: MERGE WITH OLD OBJECT
+         */
+        await mmkvStorage.setItem(
+          "notifications-template",
+          JSON.stringify({ ...memoNotification, ...notifications })
+        );
+        await mmkvStorage.setItem(
+          "comicPushList-template",
+          JSON.stringify(comicPushList)
+        );
+
+        console.log("bg fetch result: ");
+
+        await mmkvStorage
+          .getItem("notifications-template")
+          .then((s: string | undefined) => (s ? JSON.parse(s) : {}))
+          .then((j: object) => console.log(j));
+      }
+
+      const j = await mmkvStorage
+        .getItem("comicPushList-template")
+        .then((s: string | undefined) => (s ? JSON.parse(s) : {}));
+
+      // await Notifications.scheduleNotificationAsync({
+      //   content: {
+      //     title: "📬📬📬📬📬 - BackgroundFetch - Success",
+      //     body: `Len: ${j?.length}, Success: `,
+      //     data: { data: "goes here" }
+      //   },
+      //   trigger: { seconds: 2 }
+      // });
+    } catch (e: any) {
+      const j = await mmkvStorage
+        .getItem("comicPushList-template")
+        .then((s: string | undefined) => (s ? JSON.parse(s) : {}));
+
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "📬📬📬📬📬 - BackgroundFetch - Error",
+          body: `Len: ${j?.length}, Error: ${e?.message}`,
+          data: { data: "goes here" }
+        },
+        trigger: { seconds: 2 }
+      });
+      console.log("ERR");
+    } finally {
+      console.log("END");
     }
   }
   // await triggerBackgroundFetchNotification()
@@ -91,7 +126,7 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, fetchBackgroundTask);
 export async function registerBackgroundFetchAsync() {
   return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
     // minimumInterval: 60, // 15 minutes
-    minimumInterval: 60,
+    minimumInterval: 60 * 2,
     stopOnTerminate: false, // android only,
     startOnBoot: true // android only
   });

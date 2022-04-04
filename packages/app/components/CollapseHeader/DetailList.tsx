@@ -58,13 +58,16 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
       // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       if (index === 0) {
         return (
+          // <Animated.View
           // entering={FadeInDown.delay(300 * index + 50)}
           // exiting={FadeInDown.delay(300 * index + 50)}
           // layout={Layout.springify()}
           // FIXME: RN REANIMATED LAYOUT ANIMATION CAUSE CRASH HERE
+          // >
           <SideInDownView delay={index * 100 + 200}>
             <CollapseRoundView detail={item?.detail}></CollapseRoundView>
           </SideInDownView>
+          // </Animated.View>
         );
       }
       if (index === 1)

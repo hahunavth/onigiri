@@ -128,10 +128,11 @@ export function ListItem({ item }: Props) {
             opacity={0.85}
           >
             <Text
-              fontSize={12}
+              fontSize={10}
               fontWeight={600}
               color={"$light.textPrimary"}
               numberOfLines={1}
+              mt={-0.5}
             >
               {item.lastedReadChapter}
             </Text>

@@ -10,8 +10,8 @@ type Param = {
 export default function useInteraction(param?: Param) {
   const [loading, setLoading] = React.useState(true);
   let result: any = null;
-  React.useLayoutEffect(() => {
-    // NOTE: DEPRECATED
+  React.useEffect(() => {
+    // NOTE: DEPRECATED4
     const interaction = InteractionManager.runAfterInteractions(() => {
       param && param.callback && param.callback(param?.dependencyList);
       setLoading(false);

@@ -41,7 +41,7 @@ Feel free to create new issue: https://github.com/hahunavth/comic-net-native/iss
 - [x] Find comic
 - [ ] ~~Blur bottom bar~~
 - [x] Save chapter
-- [x] Setting screen
+- [x] Setting screen1
 - [x] Login
 - [x] Subscribe comic
 - [ ] Comment (1/2)

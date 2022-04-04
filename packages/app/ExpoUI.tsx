@@ -94,15 +94,7 @@ declare module "native-base" {
 }
 
 export default function UI() {
-  // STUB: background-fetch
-  const dispatch = useAppDispatch();
   const { language } = useAppSelector(settingSelector);
-
-  // React.useEffect(() => {}, [language])
-
-  // React.useEffect(() => {
-  //   dispatch(mergeNewChapterNotificationThunk());
-  // }, []);
 
   const colorModeManager: StorageManager = {
     get: async () => {

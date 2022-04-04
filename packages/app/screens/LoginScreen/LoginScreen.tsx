@@ -1,4 +1,4 @@
-import { View, Text, Button, Image, VStack, HStack } from "native-base";
+import { View, Text, Button, Image, VStack, HStack, Box } from "native-base";
 import React from "react";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
@@ -10,6 +10,12 @@ import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import { warmUpAsync, coolDownAsync } from "expo-web-browser";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { TextMdP, TextSmI } from "../../components/Typo";
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  SlideInDown
+} from "react-native-reanimated";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -133,6 +139,93 @@ export const LoginScreen = () => {
   }
 
   return (
+    <VStack flex={1}>
+      <Box
+        h={"2/5"}
+        bg="$light.backgroundSecondary"
+        justifyContent={"center"}
+        alignItems={"center"}
+        borderBottomRadius={24}
+        // shadow={"1"}
+        // zIndex={1}
+      >
+        <Image
+          source={require("@hahunavth-packages/expo/assets/favicon.png")}
+          w={75}
+          h={75}
+          mb={50}
+          alt={"logo"}
+        />
+      </Box>
+
+      <Animated.View
+        style={styles.container}
+        entering={SlideInDown.springify()}
+      >
+        {/* <View
+        // style={styles.container}
+        > */}
+        <View
+          // bg={"red"}
+          style={{ backgroundColor: "white" }}
+          m={5}
+          px={12}
+          h={"1/2"}
+          borderRadius={12}
+          justifyContent={"center"}
+          alignItems={"center"}
+          shadow={"1"}
+          // zIndex={100}
+        >
+          <TextMdP mb={8}>Welcome to Onigiri</TextMdP>
+          <TextSmI mb={8} textAlign={"center"}>
+            Discover amazing think near around you
+          </TextSmI>
+          {showUserInfo()}
+          {isLogin ? (
+            <Button onPress={() => dispatch(authActions.logout(null))}>
+              Logout
+            </Button>
+          ) : (
+            <VStack space={2}>
+              <Button
+                onPress={handlePressAsync}
+                disabled={!freq}
+                colorScheme={"blue"}
+                w={220}
+              >
+                <HStack space={2}>
+                  <Entypo name="facebook" size={24} color="white" />
+                  <Text color={"white"}>Login with Facebook</Text>
+                </HStack>
+              </Button>
+              <Button
+                // @ts-ignore
+                onPress={
+                  accessToken
+                    ? getUserData
+                    : () => {
+                        promptAsync({ useProxy: false, showInRecents: true });
+                      }
+                }
+                w={220}
+                colorScheme={"red"}
+              >
+                {/* {accessToken ? "Get User Data" : "Login with Google"} */}
+                <HStack space={2}>
+                  <AntDesign name="google" size={24} color="white" />
+                  <Text color={"white"}>Login with Facebook</Text>
+                </HStack>
+              </Button>
+            </VStack>
+          )}
+          {/* </View> */}
+        </View>
+      </Animated.View>
+    </VStack>
+  );
+
+  return (
     <View style={styles.container}>
       {showUserInfo()}
       {isLogin ? (
@@ -179,9 +272,14 @@ export const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
   },
   userInfo: {
     alignItems: "center",
