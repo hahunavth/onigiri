@@ -45,10 +45,9 @@ SplashScreen.preventAutoHideAsync().catch(() => {
   /* reloading the app might trigger some race conditions, ignore them */
 });
 
+enableScreens(true);
 setupSentry();
 setupFlipper();
-
-enableScreens(true);
 
 // Configure layout animation
 if (Platform.OS === "android") {
@@ -61,7 +60,6 @@ if (Platform.OS === "android") {
  * App
  */
 function App() {
-  useAppState();
   useFlipper(navigationRef);
   useI18n();
 
@@ -75,6 +73,8 @@ function App() {
       }
     })();
   }, [isRegistered, status, toggleFetchTask]);
+
+  useAppState();
 
   React.useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {});

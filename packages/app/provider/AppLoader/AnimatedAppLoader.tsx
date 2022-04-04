@@ -31,6 +31,11 @@ type AnimatedAppLoaderProps = {
   onFinish: () => any;
 };
 
+/**
+ * Splash screen
+ *
+ * - Animated Splash and remove after animation
+ */
 export default function AnimatedAppLoader({
   children,
   isSplashReady,

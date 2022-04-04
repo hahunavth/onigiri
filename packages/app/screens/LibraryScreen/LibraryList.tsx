@@ -1,22 +1,12 @@
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  ImageStyle,
-  StyleSheet
-} from "react-native";
+import { FlatList, Image } from "react-native";
 import React from "react";
-import { HistoryComicT, historySelector } from "app/store/historySlice";
+import { HistoryComicT } from "app/store/historySlice";
 import { useAppSelector } from "app/store/hooks";
-import { navigate } from "app/navigators";
-import { resComicDetail_T } from "app/types";
 import ListItemWithExtractor from "./ListItemWithExtractor";
-import { Empty } from "app/components/EmptyPage";
 import { Center } from "native-base";
 import { TextMdP } from "app/components/Typo";
 import { notificationSelector } from "../../store/notificationSlice";
+import useInteraction from "../../hooks/useInteraction";
 
 type Props = {
   data: HistoryComicT[];
@@ -53,9 +43,11 @@ const LibraryList = ({
 
   const CustomLoading = customLoadingComponent;
 
+  const { loading } = useInteraction();
+
   return (
     <>
-      {data.length ? (
+      {data.length && !loading ? (
         <FlatList
           style={{ flex: 1 }}
           data={data}

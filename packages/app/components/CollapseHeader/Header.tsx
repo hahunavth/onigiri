@@ -1,14 +1,10 @@
-import React, { FC, memo, useMemo, useEffect } from "react";
+import React, { FC, memo, useMemo } from "react";
 import {
   Dimensions,
-  Image,
   ImageBackground,
   ImageProps,
   StyleSheet,
-  ViewProps,
-  useWindowDimensions,
-  Platform,
-  Pressable
+  ViewProps
 } from "react-native";
 import { View, Factory, Text, HStack } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,14 +12,11 @@ import { AntDesign } from "@expo/vector-icons";
 import { SharedElement } from "react-navigation-shared-element";
 import Animated, {
   useSharedValue,
-  useDerivedValue,
   useAnimatedStyle,
-  withTiming,
-  withSpring
+  withTiming
 } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 import useInteraction from "app/hooks/useInteraction";
-import { Rating, AirbnbRating } from "react-native-ratings";
+import { AirbnbRating } from "react-native-ratings";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { navigate } from "app/navigators";
 import TFastImage from "app/components/Typo/TFastImage";
@@ -107,12 +100,6 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
     }
   });
 
-  // React.useEffect(() => {
-  //     requestAnimationFrame(() => {
-  //       offset.value = 1
-  //     })
-  // })
-
   return (
     <View style={containerStyle}>
       <AnimatedImageBackground
@@ -128,7 +115,9 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
         style={[opacityStyle1]}
       >
         <View style={styles.textContainer}>
-          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.name} fontWeight={"600"}>
+            {name}
+          </Text>
           {rating ? (
             <HStack space={2}>
               <TouchableOpacity onPress={() => navigate("comic-rating")}>
@@ -139,18 +128,6 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
                   w={112}
                   mt={2}
                 >
-                  {/* <Rating
-                  type="custom"
-                  showRating={false}
-                  jumpValue={0}
-                  readonly
-                  // ratingColor="#3498db"
-                  ratingBackgroundColor="black"
-                  tintColor={"white"}
-                  imageSize={20}
-                  startingValue={rating}
-                  // style={{ paddingVertical: 10 }}
-                /> */}
                   <AirbnbRating
                     count={5}
                     reviews={[

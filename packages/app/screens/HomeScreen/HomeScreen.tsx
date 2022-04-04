@@ -1,7 +1,6 @@
-import { View, Text, ScrollView, FlatList } from "native-base";
+import { FlatList } from "native-base";
 import { ListRenderItemInfo, Alert, BackHandler } from "react-native";
 import React from "react";
-import { NextLink } from "app/components/NextLink";
 import { ListHeader } from "app/components/ListHeader";
 import { FlatlistBanner } from "app/components/Banner";
 import { ComicGridGap3 } from "app/components/Comics/ComicGridGap3";
@@ -9,17 +8,13 @@ import {
   useApiFindByGenresName,
   useApiFindComic,
   useApiHot,
-  useApiTopMonth,
   useApiTopWeek
 } from "app/store/api";
 import { ComicGridGap2 } from "app/components/Comics/ComicGridGap2";
 import { ComicHorizontalList } from "app/components/Comics/ComicHorizontalList";
 import { navigate } from "app/navigators";
 import Categories from "app/components/Categories";
-import FadeInView, {
-  FadeInWrapper
-} from "app/components/AnimationWrapper/FadeInView";
-import useInteraction from "app/hooks/useInteraction";
+
 import I18n from "i18n-js";
 import { ComicHorizontalList2 } from "app/components/Comics/ComicHorizontalList2/ComicHorizontalList2";
 import i18n from "i18n-js";
@@ -224,7 +219,7 @@ const HomeScreenContent = () => {
         data={data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        initialNumToRender={1}
+        initialNumToRender={10}
         // bgColor={"white"}
       ></FlatList>
     </>
@@ -270,7 +265,7 @@ function CompletedComicList() {
   return <ComicHorizontalList2 list={list.data?.data || []} />;
 }
 
-const _genListByGenresName = (genresName: string) => {
+const createListByGenresName = (genresName: string) => {
   return function () {
     const result = useApiFindByGenresName({
       genresName: genresName,
@@ -281,7 +276,7 @@ const _genListByGenresName = (genresName: string) => {
   };
 };
 
-const MangaList = _genListByGenresName("manga-112");
-const TenseiList = _genListByGenresName("chuyen-sinh-213");
-const ManhwaList = _genListByGenresName("manhwa-1140");
-const ManhuaList = _genListByGenresName("manhua");
+const MangaList = createListByGenresName("manga-112");
+const TenseiList = createListByGenresName("chuyen-sinh-213");
+const ManhwaList = createListByGenresName("manhwa-1140");
+const ManhuaList = createListByGenresName("manhua");

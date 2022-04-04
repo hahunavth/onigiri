@@ -1,7 +1,9 @@
 import { View, Text, Button, Image } from "native-base";
 import React from "react";
 import * as Google from "expo-auth-session/providers/google";
+import * as Facebook from "expo-auth-session/providers/facebook";
 import * as WebBrowser from "expo-web-browser";
+import { ResponseType } from "expo-auth-session";
 import { Platform, StyleSheet } from "react-native";
 import { authActions, authSelector, UserInfo } from "app/store/authSlice";
 import { useAppDispatch, useAppSelector } from "app/store/hooks";

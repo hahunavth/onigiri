@@ -88,7 +88,10 @@ import {
   AdMobRewarded,
   setTestDeviceIDAsync
 } from "expo-ads-admob";
-import { useApiOriginRecently } from "app/store/apiOrigin";
+import {
+  useApiOriginComicDetail,
+  useApiOriginRecently
+} from "app/store/apiOrigin";
 import { useAppSelector } from "app/store/hooks";
 import {
   notificationSelector,
@@ -396,29 +399,34 @@ export function MainTestScreen() {
       // return this.props.onZoomEnd()
     }
   });
-  const result = useAppSelector((state) =>
-    selectAlleNewChapterNotification(state)
-  );
-  const { data, isSuccess } = useApiOriginRecently("1");
+  // const result = useAppSelector((state) =>
+  //   selectAlleNewChapterNotification(state)
+  // );
+  // const { data, isSuccess } = useApiOriginRecently("1");
 
-  React.useEffect(() => {
-    const root = HTMLParser.parse(data);
-    console.log(data);
-    console.log(root.querySelector(".row > .item"));
-  }, [data]);
+  // React.useEffect(() => {
+  //   const root = HTMLParser.parse(data);
+  //   console.log(data);
+  //   console.log(root.querySelector(".row > .item"));
+  // }, [data]);
 
+  // React.useEffect(() => {
+  //   console.log(isSuccess);
+  // }, [isSuccess]);
+
+  // const [str, setStr] = React.useState("");
+
+  // React.useEffect(() => {
+  //   mmkvStorage
+  //     .getItem("notifications-template")
+  //     .then((s: string) => (s ? setStr(s) : null));
+  //   // fetchBackgroundTask()
+  // }, []);
+
+  const { data, isError, isSuccess, error } = useApiOriginComicDetail("");
   React.useEffect(() => {
-    console.log(isSuccess);
+    console.log(isSuccess, data, isError, error);
   }, [isSuccess]);
-
-  const [str, setStr] = React.useState("");
-
-  React.useEffect(() => {
-    mmkvStorage
-      .getItem("notifications-template")
-      .then((s: string) => (s ? setStr(s) : null));
-    // fetchBackgroundTask()
-  }, []);
 
   return (
     <ScrollView>
@@ -428,7 +436,7 @@ export function MainTestScreen() {
       <Text> {result && result[0]?.notification.createdAt}</Text>
       <Text> {result && result[0]?.notification.createdAt}</Text>
       <Text> {result && result[0]?.notification.updatedAt}</Text> */}
-      <Text> Async storage{str}</Text>
+      {/* <Text> Async storage{str}</Text> */}
       {/* <Text>
         Notification :
         {result &&
@@ -482,7 +490,7 @@ export function MainTestScreen() {
       </Animated.ScrollView> */}
 
       {/* <RenderHtml contentWidth={width} source={source} /> */}
-
+      <Text>{data}</Text>
       <DynamicColumnGrid />
       <DayAndNight type="day-to-night" />
     </ScrollView>

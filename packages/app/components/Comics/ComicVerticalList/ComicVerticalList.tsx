@@ -52,7 +52,7 @@ export const ComicVerticalList = ({
 
   const { loading } = useInteraction();
 
-  return loading ? (
+  return loading && list ? (
     <Loading animation={true} />
   ) : (
     <View style={{ flex: 1 }}>

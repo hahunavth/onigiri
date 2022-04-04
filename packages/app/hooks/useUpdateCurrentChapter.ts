@@ -14,7 +14,7 @@ type Param = {
 
 export default function useUpdateCurrentChapter(param: Param) {
   const { chapterDetail, isFetching, id } = param;
-  const home = useAppSelector(homeSelector);
+  const { currentComic } = useAppSelector(homeSelector);
   const dispatch = useAppDispatch();
   const { loading } = useInteraction({
     dependencyList: [isFetching, chapterDetail],
@@ -26,16 +26,15 @@ export default function useUpdateCurrentChapter(param: Param) {
             id: id !== undefined ? id : -1
           })
         );
-        if (home.currentComic) {
-          // console.log('setcomic')
-          dispatch(historyAction.pushReadComic(home.currentComic));
+        if (currentComic) {
+          dispatch(historyAction.pushReadComic(currentComic));
           dispatch(
             historyAction.pushChapter({
-              comicPath: home.currentComic?.path,
+              comicPath: currentComic?.path,
               chapterPath: chapterDetail.path
             })
           );
-          console.log(home.currentComic?.path, chapterDetail?.path);
+          console.log(currentComic?.path, chapterDetail?.path);
 
           // NOTE: SPLASH ANIMATION ON RENDER
         }

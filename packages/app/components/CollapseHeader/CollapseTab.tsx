@@ -72,7 +72,8 @@ const CollapseTab = (props: CollapseTabProps) => {
 
   const [loading, setLoading] = React.useState(true);
 
-  React.useEffect(() => {
+  // REVIEW: USE LAYOUT EFFECT
+  React.useLayoutEffect(() => {
     const emit = setTimeout(() => {
       setLoading(false);
     }, 100);

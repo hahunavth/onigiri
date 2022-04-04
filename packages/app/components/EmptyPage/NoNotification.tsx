@@ -1,13 +1,17 @@
 import { View, Text, VStack } from "native-base";
 import React from "react";
 import LottieView from "lottie-react-native";
+import Animated, { FadeInDown, FadeIn } from "react-native-reanimated";
 
 type Props = {};
+
+const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
 export const NoNotification = (props: Props) => {
   return (
     <VStack flex={1} justifyContent={"center"} alignItems={"center"}>
-      <LottieView
+      <AnimatedLottieView
+        entering={FadeIn.delay(80)}
         // ref={animation => {
         //   this.animation = animation;
         // }}
@@ -23,9 +27,12 @@ export const NoNotification = (props: Props) => {
         loop
         style={{ marginBottom: 60 }}
       />
-      <Text pt={91} fontSize={18} fontWeight={"600"} color={"blueGray.500"}>
-        No Notification
-      </Text>
+      {/* REVIEW: RNR LAYOUT ANIMATION */}
+      <Animated.View entering={FadeInDown.delay(100).springify()}>
+        <Text pt={80} fontSize={18} fontWeight={"600"} color={"blueGray.500"}>
+          No Notifications
+        </Text>
+      </Animated.View>
     </VStack>
   );
 };

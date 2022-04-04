@@ -57,6 +57,7 @@
     "app": "*",
     "axios": "^0.25.0",
     "babel-plugin-inline-dotenv": "^1.6.0",
+    "cheerio-without-node-native": "^1.0.0-rc.2",
     "date-fns": "^2.28.0",
     "dripsy": "^3.0.0",
     "esbuild": "^0.14.27",

@@ -1,22 +1,8 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useContext,
-  useImperativeHandle
-} from "react";
-import {
-  ListRenderItemInfo,
-  Dimensions,
-  InteractionManager,
-  StyleSheet,
-  FlatList as FlatListT,
-  Platform,
-  LayoutAnimation
-} from "react-native";
-import { View, Text, FlatList, HStack } from "native-base";
+import React, { useLayoutEffect } from "react";
+import { Dimensions, StyleSheet, FlatList as FlatListT } from "react-native";
+import { View, Text } from "native-base";
 import { ChapterScreenProps } from "app/navigators/StackNav";
-import { comicApi, useApiChapter, usePrefetch } from "app/store/api";
+import { comicApi } from "app/store/api";
 import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import ChapterBar from "./ChapterBar";
 import ChapterHeader from "./ChapterHeader";
@@ -30,13 +16,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import useUpdateCurrentChapter from "app/hooks/useUpdateCurrentChapter";
 import useInteraction from "app/hooks/useInteraction";
 import ChapterViewVerticalList from "./ChapterViewVerticalList";
-import ChapterContextProvider, { ChapterContext } from "./ChapterContext";
-import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import { FontAwesome } from "@expo/vector-icons";
-import { CommentBottomSheet, CommentLoader } from "app/components/Comment";
 import { homeSelector } from "app/store/homeSlice";
 import { ChapterViewHorizontalList } from "./ChapterViewHorizontalList";
-import ChapterSetting from "../ChapterSettingScreen/ChapterSettingScreen";
 import { navigate } from "app/navigators";
 import {
   chapterActions,
@@ -47,9 +28,9 @@ import { resComicDetailChapterItem_T } from "app/types";
 
 export function ChapterScreen(props: ChapterScreenProps) {
   return (
-    <ChapterContextProvider>
-      <ChapterScreenNode {...props} />
-    </ChapterContextProvider>
+    // <ChapterContextProvider>
+    <ChapterScreenNode {...props} />
+    // </ChapterContextProvider>
   );
 }
 
@@ -154,31 +135,14 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   // VAr
   // const { data, isFetching } = useApiChapter(path || "_path");
   const [lazy, data, p] = comicApi.endpoints.getChapterByPath.useLazyQuery();
-  const prefetch = usePrefetch("getChapterByPath");
+  // const prefetch = usePrefetch("getChapterByPath");
   // const data?.data?.data = data?.data;
-
+  console.log("renderer chapree screen");
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([]);
 
-  React.useEffect(() => {
-    // setImmediate(async () => {
-    // console.log(p.lastArg);
-    // const t = setTimeout(() => {
-    // lazy(path || "_path");
-    // }, 50);
-
-    // });
-    // offset.value = 100;
+  React.useLayoutEffect(() => {
     splashOffset.value = 0;
-
-    // return () => {
-    //   clearTimeout(t);
-    // };
   }, [id, path]);
-
-  // React.useEffect(() => {
-  //   imgs?.length &&
-  //     flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
-  // }, [data]);
 
   const { loading: loading2 } = useInteraction({
     callback: () => {
@@ -187,45 +151,9 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     dependencyList: [id, path]
   });
   // TODO: USE LAYOUT EFFECT
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     setImgs(data?.data?.data?.images.map((uri) => ({ uri, h: 0 })) || []);
   }, [data]);
-
-  // UPDATE IMAGE LIST
-  // useEffect(() => {
-  //   // NOTE: Do not using if here
-  //   // useEffect run when change path (navigate to new chapter)
-  //   // if (!imgs.length) {
-  //     setImgs(data?.data?.data?.images.map((uri) => ({ uri, h: 0 })) || [])
-  //     setIsLoading(false)
-  //   // }
-  // }, [path])
-
-  // NOTE: Start animation when change chapter
-  // React.useEffect(() => {
-  // reset
-  // setImgs([]);
-  // }, [path]);
-
-  // useImperativeHandle(flatListRef, () => {
-  //   return {
-  //     scrollToEnd: () => {
-  //       try {
-  //         imgs?.length &&
-  //           flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
-  //       } catch (e) {
-  //         console.log(e);
-  //       }
-  //     }
-  //   };
-  // });
-
-  // useInteraction({
-  //   callback: () => {
-  //     setImgs(data?.data?.data?.images.map((uri) => ({ uri, h: 0 })) || []);
-  //   },
-  //   dependencyList: [path, data?.data?.data]
-  // });
 
   // DISPATCH ACTION
   const { loading } = useUpdateCurrentChapter({
@@ -239,24 +167,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     }
   });
 
-  // ref
-  // const bottomSheetRef = useRef<BottomSheet>(null);
-  // const settingRef = useRef<BottomSheet>(null);
-  // MEMO
-  // const toggleSetting = React.useCallback(() => {
-  //   settingRef.current?.expand();
-  // }, [settingRef]);
   const handleScroll = React.useCallback((e) => {
-    // NOTE: V1: Chapter bar show related with scroll
-    // const currentOffset = e.nativeEvent.contentOffset.y
-    // const newScrollValue = offset.value + currentOffset - oldOffset
-    // if (newScrollValue > 100) {
-    //   offset.value = 100
-    //   headerVisible = false
-    // } else if (newScrollValue < 0) offset.value = 0
-    // else offset.value = newScrollValue
-    // oldOffset = currentOffset
-
     // NOTE: V2: Chapter bar when scroll end or tap
     const currentOffset = e.nativeEvent.contentOffset.y;
     const scrollLen = currentOffset - oldOffset;
@@ -274,16 +185,6 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     if (offset.value > 0) offset.value = 0;
     else offset.value = 64;
   }, [offset]);
-
-  // const expandSheet = React.useCallback(() => {
-  //   bottomSheetRef.current?.snapToIndex(0);
-  // }, []);
-
-  // useEffect(() => {
-  //   bottomSheetRef.current?.close();
-  // }, [ctxId]);
-
-  // return <ComicViewHorizontaList />
 
   return (
     <>

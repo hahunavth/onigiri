@@ -47,10 +47,10 @@ const ListWithExtractor = (param: Param) => {
     if (!item) return null;
     return (
       <TouchableOpacity
-        onLongPress={() => onLongPress && onLongPress(item)}
+        onLongPress={() => onLongPress && onLongPress(item as HistoryComicT)}
         onPress={() =>
           onPress
-            ? onPress(item)
+            ? onPress(item as HistoryComicT)
             : navigate("comic-detail", { preloadItem: item, path: item.path })
         }
       >
@@ -121,7 +121,7 @@ const ListWithExtractor = (param: Param) => {
                 <View style={styles.bottomContainer}>
                   <TextSmS style={styles.detailText}>{addonFieldName}</TextSmS>
                   <TextSmS style={styles.bottomText} numberOfLines={1}>
-                    {addonFieldExtractor(item)}
+                    {addonFieldExtractor(item as HistoryComicT)}
                   </TextSmS>
                 </View>
               )}

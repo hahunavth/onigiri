@@ -28,6 +28,8 @@ import {
   LightSpeedInLeft,
   LightSpeedInRight
 } from "react-native-reanimated";
+import { dateString2Distance } from "../../utils/dateFormat";
+import { TextMdP, TextSmI } from "../../components/Typo";
 
 const NotificationScreen = () => {
   const dispatch = useAppDispatch();
@@ -73,11 +75,21 @@ const NotificationScreen = () => {
               h={60}
               rounded={6}
             />
-            <VStack space={1}>
-              <Text numberOfLines={1}>{item.comicDetail?.title}</Text>
-              <Text numberOfLines={1}>
+            <VStack space={0.6}>
+              <TextMdP numberOfLines={1}>{item.comicDetail?.title}</TextMdP>
+              <TextSmI numberOfLines={1}>
                 Lasted: {item.notification?.chapterName}
-              </Text>
+              </TextSmI>
+              <TextSmI numberOfLines={1}>
+                Count: {item.notification?.count}
+              </TextSmI>
+              <TextSmI numberOfLines={1}>
+                {dateString2Distance(
+                  new Date(
+                    Number.parseInt(item.notification?.createdAt) || ""
+                  )?.toISOString()
+                )}
+              </TextSmI>
             </VStack>
           </HStack>
         </TouchableOpacity>
