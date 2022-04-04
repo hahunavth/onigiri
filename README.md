@@ -2,6 +2,8 @@
 A React Native / Expo app for cross-platform manga reading
 
 ![eas workflow](https://github.com/hahunavth/comic-net-native/actions/workflows/eas.yml/badge.svg)
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
 
 [View the Expo app](https://expo.dev/@hahunavth/onigiri?release-channel=production)
 
@@ -40,7 +42,7 @@ Feel free to create new issue: https://github.com/hahunavth/comic-net-native/iss
 - [ ] ~~Blur bottom bar~~
 - [x] Save chapter
 - [x] Setting screen
-- [ ] Login
+- [x] Login
 - [x] Subscribe comic
 - [ ] Comment (1/2)
 - [x] Leech and save on db
@@ -49,5 +51,5 @@ Feel free to create new issue: https://github.com/hahunavth/comic-net-native/iss
 - [ ] Rotate responsive
 - [x] I18n
 - [ ] Dark theme
-- [ ] nextjs
+- [ ] NextJs
 - [ ] Admob (Need config for ios)

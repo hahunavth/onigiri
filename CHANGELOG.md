@@ -6,6 +6,8 @@
   - Add new home sessions
   - Lazy top tab
   - Nested Persists
+### Change
+  - NoNotifications layout animation
 
 ## 0.0.3
 ### Added
