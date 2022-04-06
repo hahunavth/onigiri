@@ -62,6 +62,7 @@ const ConnectionItem: FC<Props> = ({
     return [styles.name, visited ? { color: "purple" } : null];
   }, [visited]);
   // const visited = useMemo(() => readCptObj && readCptObj[path], [path]);
+  console.log(path);
 
   return (
     <TouchableNativeFeedback
@@ -135,4 +136,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export default memo(ConnectionItem);
+export default memo(
+  ConnectionItem
+  // , (prev, next) => {
+  // return prev.chapter === next.chapter;
+  // }
+);

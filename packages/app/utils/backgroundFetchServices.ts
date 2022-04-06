@@ -185,3 +185,61 @@ export const useBackgroundPushNotificationInfo = () => {
     toggleFetchTask
   };
 };
+
+// NOTE: NOTIFICATION
+const example = {
+  "/truyen-tranh/dai-vuong-tha-mang-26499": {
+    chapterName: "Chapter 456",
+    chapterPath: "/truyen-tranh/dai-vuong-tha-mang/chap-456/841038",
+    count: 1,
+    createdAt: "1649227071097",
+    editedAt: "1649227071097",
+    length: 457,
+    updatedAt: "2022-04-06T00:37:50.663Z"
+  },
+  "/truyen-tranh/toan-cau-cao-vo-28636": {
+    chapterName: "Chapter 146",
+    chapterPath: "/truyen-tranh/toan-cau-cao-vo/chap-146/840991",
+    count: 1,
+    createdAt: "1649227068726",
+    editedAt: "1649227068726",
+    length: 146,
+    updatedAt: "2022-04-05T15:37:47.267Z"
+  },
+  "/truyen-tranh/tren-nguoi-ta-co-mot-con-rong-23212": {
+    chapterName: "Chapter 497",
+    chapterPath: "/truyen-tranh/tren-nguoi-ta-co-mot-con-rong/chap-497/840775",
+    count: 1,
+    createdAt: "1649227083385",
+    editedAt: "1649227083385",
+    length: 497,
+    updatedAt: "2022-04-05T10:38:03.385Z"
+  },
+  "/truyen-tranh/tu-la-vo-than-35627": {
+    chapterName: "Chapter 515",
+    chapterPath: "/truyen-tranh/tu-la-vo-than/chap-515/840943",
+    count: 2,
+    createdAt: "1649227073389",
+    editedAt: "1649227073389",
+    length: 515,
+    updatedAt: "2022-04-05T11:37:53.353Z"
+  },
+  "/truyen-tranh/tu-tien-tro-ve-tai-vuon-truong-25383": {
+    chapterName: "Chapter 325",
+    chapterPath: "/truyen-tranh/tu-tien-tro-ve-tai-vuon-truong/chap-325/841113",
+    count: 1,
+    createdAt: "1649227076482",
+    editedAt: "1649227076482",
+    length: 325,
+    updatedAt: "2022-04-06T04:37:56.428Z"
+  },
+  "/truyen-tranh/vo-luyen-dinh-phong-17696": {
+    chapterName: "Chapter 2109",
+    chapterPath: "/truyen-tranh/vo-luyen-dinh-phong/chap-2109/841034",
+    count: 3,
+    createdAt: "1649227028156",
+    editedAt: "1649227028156",
+    length: 2109,
+    updatedAt: "2022-04-05T23:37:07.776Z"
+  }
+};

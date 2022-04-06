@@ -250,8 +250,8 @@ export const CollapseHeader = (props: Props) => {
     [
       suggestionsRef,
       suggestionsScrollHandler,
-      sharedProps,
-      downloadedChapterList
+      downloadedChapterList,
+      sharedProps
     ]
   );
 

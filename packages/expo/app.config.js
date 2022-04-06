@@ -61,7 +61,7 @@ export default {
   icon: config.icon,
   version: VERSION,
   // NOTE: eas update
-  runtimeVersion: VERSION,
+  // runtimeVersion: VERSION,
   splash: {
     image: config.image,
     resizeMode: "cover",
@@ -95,9 +95,9 @@ export default {
   assetBundlePatterns: ["**/*"],
   // orientation: 'portrait',
   updates: {
-    fallbackToCacheTimeout: 0,
+    fallbackToCacheTimeout: 0
     // NOTE: eas update ( Not work with expo publish )
-    url: "https://u.expo.dev/11ff3e77-ae95-4a1e-8869-cf81503a9b5e"
+    // url: "https://u.expo.dev/11ff3e77-ae95-4a1e-8869-cf81503a9b5e"
   },
   hooks: {
     postPublish: [

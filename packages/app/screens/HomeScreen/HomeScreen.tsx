@@ -28,145 +28,143 @@ export const HomeScreen = () => {
   // return <FadeInView>{!loading && <HomeScreenContent />}</FadeInView>;
 };
 
-const HomeScreenContent = () => {
-  const data = React.useMemo(() => {
-    return [
-      () => (
-        <ListHeader
-          name={I18n.t("home.recently.title")}
-          subtitle={I18n.t("home.recently.subtitle")}
-          onPressMore={() => {
-            navigate("home-session-detail-list", { type: "recently" });
-          }}
-        />
-      ),
-      () => <FlatlistBanner />,
-      () => (
-        <ListHeader
-          name={I18n.t("home.categories.title")}
-          subtitle={I18n.t("home.categories.subtitle")}
-        />
-      ),
-      () => <Categories />,
-      () => (
-        <ListHeader
-          name={I18n.t("home.history.title")}
-          subtitle={I18n.t("home.history.subtitle")}
-          color=""
-          onPressMore={() => {
-            navigate("main", {
-              screen: "main/library"
-            });
-          }}
-        />
-      ),
-      () => <ComicHorizontalList />,
-      () => (
-        <ListHeader
-          name={I18n.t("home.hot.title")}
-          subtitle={I18n.t("home.hot.subtitle")}
-          color=""
-          onPressMore={() => {
-            navigate("home-session-detail-list", { type: "hot" });
-          }}
-        />
-      ),
-      () => <ComicList1 />,
-      () => (
-        <ListHeader
-          name={I18n.t("home.topWeek.title")}
-          subtitle={I18n.t("home.topWeek.subtitle")}
-          color=""
-          onPressMore={() =>
-            navigate("home-session-detail-list", { type: "week" })
-          }
-        />
-      ),
-      () => <ComicList2 />,
-      // TODO: I18N
-      () => (
-        <ListHeader
-          name={"New comic"}
-          subtitle={"Todo: i18n"}
-          color=""
-          onPressMore={() =>
-            navigate("home-session-detail-list", { type: "week" })
-          }
-        />
-      ),
-      () => <NewComicList />,
-      () => (
-        <ListHeader
-          name={"Completed comics"}
-          subtitle={"Todo: i18n"}
-          color=""
-          onPressMore={() =>
-            navigate("home-session-detail-list", {
-              type: "week"
-            })
-          }
-        />
-      ),
-      () => <CompletedComicList />,
-      () => (
-        <ListHeader
-          name={"Manga"}
-          subtitle={"Todo: i18n"}
-          color=""
-          onPressMore={() =>
-            navigate("home-session-detail-list", {
-              type: "find-comic-by-genres-name",
-              genresName: "manga-112"
-            })
-          }
-        />
-      ),
-      () => <MangaList />,
-      () => (
-        <ListHeader
-          name={"Tensei"}
-          subtitle={"Todo: i18n"}
-          color=""
-          onPressMore={() =>
-            navigate("home-session-detail-list", {
-              type: "find-comic-by-genres-name",
-              genresName: "chuyen-sinh-213"
-            })
-          }
-        />
-      ),
-      () => <TenseiList />,
-      () => (
-        <ListHeader
-          name={"Manhwa"}
-          subtitle={"Todo: i18n"}
-          color=""
-          onPressMore={() =>
-            navigate("home-session-detail-list", {
-              type: "find-comic-by-genres-name",
-              genresName: "manhwa-1140"
-            })
-          }
-        />
-      ),
-      () => <ManhwaList />,
-      () => (
-        <ListHeader
-          name={"Manhua"}
-          subtitle={"Todo: i18n"}
-          color=""
-          onPressMore={() =>
-            navigate("home-session-detail-list", {
-              type: "find-comic-by-genres-name",
-              genresName: "manhua"
-            })
-          }
-        />
-      ),
-      () => <ManhuaList />
-    ];
-  }, []);
+const data = [
+  () => (
+    <ListHeader
+      name={I18n.t("home.recently.title")}
+      subtitle={I18n.t("home.recently.subtitle")}
+      onPressMore={() => {
+        navigate("home-session-detail-list", { type: "recently" });
+      }}
+    />
+  ),
+  () => <FlatlistBanner />,
+  () => (
+    <ListHeader
+      name={I18n.t("home.categories.title")}
+      subtitle={I18n.t("home.categories.subtitle")}
+    />
+  ),
+  () => <Categories />,
+  () => (
+    <ListHeader
+      name={I18n.t("home.history.title")}
+      subtitle={I18n.t("home.history.subtitle")}
+      color=""
+      onPressMore={() => {
+        navigate("main", {
+          screen: "main/library"
+        });
+      }}
+    />
+  ),
+  () => <ComicHorizontalList />,
+  () => (
+    <ListHeader
+      name={I18n.t("home.hot.title")}
+      subtitle={I18n.t("home.hot.subtitle")}
+      color=""
+      onPressMore={() => {
+        navigate("home-session-detail-list", { type: "hot" });
+      }}
+    />
+  ),
+  () => <ComicList1 />,
+  () => (
+    <ListHeader
+      name={I18n.t("home.topWeek.title")}
+      subtitle={I18n.t("home.topWeek.subtitle")}
+      color=""
+      onPressMore={() => navigate("home-session-detail-list", { type: "week" })}
+    />
+  ),
+  () => <ComicList2 />,
+  // TODO: I18N
+  () => (
+    <ListHeader
+      name={"New comic"}
+      subtitle={"Todo: i18n"}
+      color=""
+      onPressMore={() => navigate("home-session-detail-list", { type: "week" })}
+    />
+  ),
+  () => <NewComicList />,
+  () => (
+    <ListHeader
+      name={"Completed comics"}
+      subtitle={"Todo: i18n"}
+      color=""
+      onPressMore={() =>
+        navigate("home-session-detail-list", {
+          type: "week"
+        })
+      }
+    />
+  ),
+  () => <CompletedComicList />,
+  () => (
+    <ListHeader
+      name={"Manga"}
+      subtitle={"Todo: i18n"}
+      color=""
+      onPressMore={() =>
+        navigate("home-session-detail-list", {
+          type: "find-comic-by-genres-name",
+          genresName: "manga-112"
+        })
+      }
+    />
+  ),
+  () => <MangaList />,
+  () => (
+    <ListHeader
+      name={"Tensei"}
+      subtitle={"Todo: i18n"}
+      color=""
+      onPressMore={() =>
+        navigate("home-session-detail-list", {
+          type: "find-comic-by-genres-name",
+          genresName: "chuyen-sinh-213"
+        })
+      }
+    />
+  ),
+  () => <TenseiList />,
+  () => (
+    <ListHeader
+      name={"Manhwa"}
+      subtitle={"Todo: i18n"}
+      color=""
+      onPressMore={() =>
+        navigate("home-session-detail-list", {
+          type: "find-comic-by-genres-name",
+          genresName: "manhwa-1140"
+        })
+      }
+    />
+  ),
+  () => <ManhwaList />,
+  () => (
+    <ListHeader
+      name={"Manhua"}
+      subtitle={"Todo: i18n"}
+      color=""
+      onPressMore={() =>
+        navigate("home-session-detail-list", {
+          type: "find-comic-by-genres-name",
+          genresName: "manhua"
+        })
+      }
+    />
+  ),
+  () => <ManhuaList />
+];
 
+/**
+ * Home screen
+ * @returns
+ */
+const HomeScreenContent = () => {
   const renderItem = React.useCallback(
     ({ item }: ListRenderItemInfo<() => React.ReactElement>) => {
       const Element = item;
@@ -206,7 +204,6 @@ const HomeScreenContent = () => {
     <>
       <FlatList
         // bg={"warmGray.100"}
-        // // @ts-ignore
         // _dark={{
         //   backgroundColor: "$dark.backgroundSecondary"
         // }}
@@ -215,21 +212,19 @@ const HomeScreenContent = () => {
         _dark={{ bg: "trueGray.900" }}
         // TODO: WEB SPECIFIC STYLE
         // @ts-ignore
-        _web={{ marginLeft: 200 }}
         data={data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         initialNumToRender={10}
-        // bgColor={"white"}
-      ></FlatList>
+      />
     </>
   );
 };
 
-function ComicList1() {
+const ComicList1 = React.memo(function () {
   const list = useApiHot("1");
   return <ComicGridGap3 list={list.data?.data || []} />;
-}
+});
 
 function ComicList2() {
   const list = useApiTopWeek("1");
@@ -266,14 +261,14 @@ function CompletedComicList() {
 }
 
 const createListByGenresName = (genresName: string) => {
-  return function () {
+  return React.memo(function () {
     const result = useApiFindByGenresName({
       genresName: genresName,
       page: "1"
     });
 
     return <ComicHorizontalList2 list={result.data?.data || []} />;
-  };
+  });
 };
 
 const MangaList = createListByGenresName("manga-112");

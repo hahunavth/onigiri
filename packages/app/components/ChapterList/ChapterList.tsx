@@ -19,6 +19,7 @@ import { useAppSelector } from "app/store/hooks";
 import { historySelector } from "app/store/historySlice";
 import { homeSelector } from "app/store/homeSlice";
 import useInteraction from "app/hooks/useInteraction";
+import { Loading } from "../EmptyPage";
 // import { MotiScrollView } from "moti";
 // import usePrevious from "react-use/esm/usePrevious";
 // import { ANFlatlist } from '../Typo'
@@ -55,7 +56,7 @@ const ConnectionList = forwardRef<
     (_: resComicDetailChapterItem_T, index) => {
       const len = props.data?.length || 0;
       const key = len ? (sortNewer ? index : len - 1 - index) : -100 - index;
-      console.log(key);
+      // console.log(key);
       return key;
     },
     [sortNewer, props.data]
@@ -115,7 +116,9 @@ const ConnectionList = forwardRef<
 
   return (
     <View style={styles.container}>
-      {loading ? null : (
+      {loading && !props.data ? (
+        <Loading />
+      ) : (
         <AnimatedFlatList
           // @ts-ignore
           ref={ref}

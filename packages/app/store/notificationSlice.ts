@@ -251,9 +251,11 @@ const genFetchNotificationDataFN =
   };
 
 const mapSeries = async (iterable: any[], action: (a: any) => Promise<any>) => {
-  for (const x of iterable) {
+  for await (const x of iterable) {
     await action(x);
   }
+
+  // await Promise.all(iterable.map((_) => action(_)));
 };
 
 export const fetchBackgroundInfo = async (
@@ -268,7 +270,7 @@ export const fetchBackgroundInfo = async (
     .getItem("fetch-notification-lock")
     .then((s: string | undefined) => (s ? JSON.parse(s) : {}));
   // console.log(Date.now());
-  const hourInMilliseconds = 60 * 60 * 1000;
+  const hourInMilliseconds = 60 * 30 * 1000;
   if (lock?.locked === true && lock?.time - Date.now() < hourInMilliseconds) {
     // NOTE: RETURN IF DATE
     console.log("Break: task is running");
