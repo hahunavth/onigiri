@@ -1,5 +1,10 @@
 # ChangeLog
 
+## 0.0.5 (2022-4-6)
+### Added
+  - expo-screen-orientation
+  - expo-sharing
+
 ## 0.0.4 (2022-4-2)
 ### Added
   - Goggle login

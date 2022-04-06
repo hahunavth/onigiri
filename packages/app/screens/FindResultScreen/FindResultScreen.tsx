@@ -21,24 +21,10 @@ import { NotFound } from "app/components/EmptyPage/NotFound";
  */
 export const FindResultScreen = (props: FindResultScreenProps) => {
   const { findOption, path } = props.route.params;
-
-  // const result = axios
-  //   .get(
-  //     `http://www.nettruyengo.com${path}`
-  //     // {
-  //     //   headers: { referer: 'http://www.nettruyenpro.com' }
-  //     // }
-  //   )
-  //   // .then((res) => res.json())
-  //   .then((data) => console.log(data.data))
-  // console.log(`http://www.nettruyenpro.com${path}`)
-  // const colorStyled = useColorModeStyle('', 'Secondary')
-
   const [page, setPage] = React.useState(1);
   const [seed, setSeed] = React.useState(0);
   const [max, setMax] = React.useState(1);
   const [list, setList] = React.useState<resComicItem_T[]>([]);
-  const [err, setErr] = React.useState<any>(null);
   const [refreshing, setRefreshing] = React.useState(false);
 
   const { isSuccess, isLoading, data, requestId, refetch } = useApiFindComic({

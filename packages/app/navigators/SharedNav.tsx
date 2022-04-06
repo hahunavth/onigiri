@@ -1,52 +1,17 @@
 import React from "react";
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps
-} from "@react-navigation/native-stack";
-import { NavigatorScreenParams, useNavigation } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Easing } from "react-native";
-import {
-  NavigationHeader,
-  SearchNavigationHeader
-} from "app/components/NavigationHeader";
-import {
-  ChapterScreen,
-  ComicDetailScreen,
-  ComicListScreen,
-  FindResultScreen,
-  LoginScreen,
-  SignupScreen,
-  TestScreen,
-  TopComicScreen,
-  OfflineChapterScreen,
-  OfflineComicScreen,
-  GenresList,
-  Genres,
-  HomeSessionDetailListScreen
-} from "app/screens";
+import { NavigationHeader } from "app/components/NavigationHeader";
+import { FindResultScreen, ComicDetailScreen } from "app/screens";
 
-import BottomNav, { BottomNavParamsList } from "./BottomNav";
-import type {
-  resComicItem_T,
-  resComicDetail_T,
-  resChapterDetail_T
-} from "../types";
-import { SelectDownloadChapter } from "app/screens/SelectDownloadChapterScreen/SelectDownloadChapter";
-import { HistoryComicT } from "app/store/historySlice";
-import { FindOptionT } from "app/utils/findOption";
-import Header from "app/components/CollapseHeader/Header";
-import { Icon, Text, View } from "native-base";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MotiView } from "moti";
-import { FindByNameResultScreen } from "app/screens/FindByNameResultScreen";
 
 import {
   createSharedElementStackNavigator,
   SharedElementAnimation
 } from "react-navigation-shared-element";
 import { StackNavParamsList } from "./StackNav";
-import { Loading } from "app/components/EmptyPage";
 
 /**
  * Using common params

@@ -263,7 +263,7 @@ function CompletedComicList() {
 const createListByGenresName = (genresName: string) => {
   return React.memo(function () {
     const result = useApiFindByGenresName({
-      genresName: genresName,
+      genresName,
       page: "1"
     });
 

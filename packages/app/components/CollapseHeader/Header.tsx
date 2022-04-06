@@ -1,6 +1,5 @@
 import React, { FC, memo, useMemo } from "react";
 import {
-  Dimensions,
   ImageBackground,
   ImageProps,
   StyleSheet,
@@ -13,7 +12,8 @@ import { SharedElement } from "react-navigation-shared-element";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withTiming
+  withTiming,
+  FadeInDown
 } from "react-native-reanimated";
 import useInteraction from "app/hooks/useInteraction";
 import { AirbnbRating } from "react-native-ratings";
@@ -44,15 +44,10 @@ const FLG = Factory(LinearGradient);
 const AnimatedImageBackground =
   Animated.createAnimatedComponent(ImageBackground);
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
-// const AnimatedLinearGradient = Animated.createAnimatedComponent(FLG)
-
-const { height } = Dimensions.get("screen");
 
 const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
-  // REVIEW: Save Style
   const containerStyle = useMemo(() => [styles.container, style], []);
 
-  // REVIEW: Save Image source for next render
   const photoSource = useMemo<ImageProps["source"]>(() => ({ uri: photo }), []);
   // const photoSource = { uri: photo };
   const offset = useSharedValue(0);
@@ -74,7 +69,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
     // }
 
     return {
-      // opacity: withTiming(offset.value),
+      opacity: withTiming(offset.value * 0.5 + 0.5),
       flex: 1,
       // justifyContent: "flex-end",
       // alignItems: "flex-start",
@@ -112,7 +107,8 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
         colors={["#000000d8", "#00000042", "#77777747"]}
         start={{ x: 0, y: 1.1 }}
         end={{ x: 0, y: 0 }}
-        style={[opacityStyle1]}
+        style={opacityStyle1}
+        // entering={FadeInDown}
       >
         <View style={styles.textContainer}>
           <Text style={styles.name} fontWeight={"600"}>
@@ -130,19 +126,19 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
                 >
                   <AirbnbRating
                     count={5}
-                    reviews={[
-                      "Terrible",
-                      "Bad",
-                      "Meh",
-                      "OK",
-                      "Good",
-                      "Hmm...",
-                      "Very Good",
-                      "Wow",
-                      "Amazing",
-                      "Unbelievable",
-                      "Jesus"
-                    ]}
+                    // reviews={[
+                    //   "Terrible",
+                    //   "Bad",
+                    //   "Meh",
+                    //   "OK",
+                    //   "Good",
+                    //   "Hmm...",
+                    //   "Very Good",
+                    //   "Wow",
+                    //   "Amazing",
+                    //   "Unbelievable",
+                    //   "Jesus"
+                    // ]}
                     showRating={false}
                     defaultRating={rating}
                     isDisabled
@@ -178,18 +174,15 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
               uri: photo,
               priority: TFastImage?.priority?.high
             }}
-            // w={'full'}
-            // h={'full'}
             resizeMode={TFastImage?.resizeMode?.cover}
             style={{
               width: 130,
               height: 180,
               borderRadius: 10,
-              borderWidth: 3,
+              borderWidth: 1,
               borderColor: "#333",
               opacity: 1
             }}
-            // rounded={'sm'}
           />
         </SharedElement>
       </AnimatedLinearGradient>
@@ -201,25 +194,18 @@ const styles = StyleSheet.create({
   textContainer: { marginLeft: 8, justifyContent: "flex-end", flex: 1 },
   name: {
     fontSize: 20,
-    // fontFamily: QFontFamily.Quicksand_700Bold,
     color: "white"
   },
   bio: { fontSize: 15, marginTop: 4, color: "#ccc" },
   photo: {
-    // height: PHOTO_SIZE,
-    // width: width,
     position: "absolute",
     top: 0,
     bottom: 0,
     left: 0,
     right: 0
-    // borderRadius: PHOTO_SIZE / 2,
   },
   container: {
     flexDirection: "row",
-    // backgroundColor: "white",
-    // alignItems: "flex-end",
-    // padding: 24,
     height: 280
   }
 });

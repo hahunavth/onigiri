@@ -86,7 +86,7 @@ export const CollapseHeader = (props: Props) => {
   //   (path) => path === props.comic?.path
   // )
 
-  const prev = usePrevious(props);
+  // const prev = usePrevious(props);
   // console.log('CollapseHeader', props === prev)
 
   // Get safe area
@@ -355,7 +355,7 @@ export const CollapseHeader = (props: Props) => {
           />
         </Animated.View>
         {/* // )} */}
-        {loading ? null : (
+        {loading || !props.comic ? null : (
           <>
             <Animated.View style={opacityStyle2}>
               <CollapseTab

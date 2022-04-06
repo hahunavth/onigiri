@@ -1,5 +1,6 @@
 {
   "name": "onigiri",
+  "author": "hahunavth",
   "private": true,
   "license": "MIT",
   "devDependencies": {
