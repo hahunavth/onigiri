@@ -1,5 +1,10 @@
+/**
+ * NOTE: SPECIFIC NATIVE
+ *
+ * NOTE: FOR IOS WE NEED EXPO-PERMISSION
+ *
+ */
 import * as Notifications from "expo-notifications";
-// NOTE: FOR IOS WE NEED EXPO-PERMISSION
 
 export const triggerNotifications = async () => {
   await Notifications.scheduleNotificationAsync({
@@ -28,6 +33,8 @@ export const triggerBackgroundFetchNotification = async () => {
     trigger: { seconds: 2 }
   });
 };
+
+export { Notifications };
 
 // Notifications.setNotificationChannelAsync('default', {
 //   name: 'default',

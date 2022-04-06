@@ -5,11 +5,12 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { resComicDetail_T } from "../types";
 import { RootState } from "./store";
-// import * as Notifications from 'expo-notifications'
 import { Platform } from "react-native";
-
+/**
+ * NOTE: Get Notifications object
+ */
 const _getNotifications = Platform.select({
-  native: () => require("expo-notifications")
+  native: () => require("app/utils/notification").Notifications
 });
 
 const Notifications = _getNotifications ? _getNotifications() : null;
@@ -163,7 +164,7 @@ const genFetchNotificationDataFN =
 
     await axios
       .get(`https://hahunavth-express-api.herokuapp.com/api/v1${cPath}`)
-      .then(({ data }) => {
+      .then(async ({ data }) => {
         const result = data as resComicDetail_T;
         console.log(result?.path);
         const id = result?.chapters?.findIndex(
@@ -223,7 +224,7 @@ const genFetchNotificationDataFN =
           if (result) {
             comicPushList.unshift(result);
             if (Platform.OS !== "web" && Notifications) {
-              Notifications.scheduleNotificationAsync({
+              await Notifications.scheduleNotificationAsync({
                 content: {
                   title: `${result?.title}`,
                   body: `${id} new chapters`,
@@ -248,6 +249,17 @@ const genFetchNotificationDataFN =
     // } catch (e) {
     //   console.log(e);
     // }
+    // await Notifications.scheduleNotificationAsync({
+    //   content: {
+    //     title: `title`,
+    //     body: ` new chapters`,
+    //     autoDismiss: true,
+    //     subtitle: `""`
+    //   },
+    //   //
+    //   trigger: { seconds: 2 }
+    // });
+    // await triggerNotifications();
   };
 
 const mapSeries = async (iterable: any[], action: (a: any) => Promise<any>) => {
@@ -264,88 +276,96 @@ export const fetchBackgroundInfo = async (
   comicPushList: resComicDetail_T[],
   isBackground: boolean = false
 ) => {
-  // try {
-  // Lock
-  const lock = await mmkvStorage
-    .getItem("fetch-notification-lock")
-    .then((s: string | undefined) => (s ? JSON.parse(s) : {}));
-  // console.log(Date.now());
-  const hourInMilliseconds = 60 * 30 * 1000;
-  if (lock?.locked === true && lock?.time - Date.now() < hourInMilliseconds) {
-    // NOTE: RETURN IF DATE
-    console.log("Break: task is running");
-    return;
-  } else {
+  try {
+    // Lock
+    const lock = await mmkvStorage
+      .getItem("fetch-notification-lock")
+      .then((s: string | undefined) => (s ? JSON.parse(s) : {}));
+    // console.log(Date.now());
+    const hourInMilliseconds = 60 * 10 * 1000;
+    if (lock?.locked === true && lock?.time - Date.now() < hourInMilliseconds) {
+      // NOTE: RETURN IF DATE
+      console.log("Break: task is running");
+      return;
+    } else {
+      await mmkvStorage.setItem(
+        "fetch-notification-lock",
+        JSON.stringify({
+          locked: true,
+          time: Date.now()
+        })
+      );
+    }
+
+    // TODO: USE isBackground in if
+    if (!isBackground && typeof state.history !== "string") {
+      const memoNotification = await mmkvStorage
+        .getItem("notifications-template")
+        .then((s: string) => (s ? JSON.parse(s || "") : {}));
+      await mapSeries(
+        Object.keys(state.history.comics),
+        genFetchNotificationDataFN(
+          state.history.comics,
+          memoNotification,
+          state.notification,
+          notifications,
+          comicPushList,
+          false
+        )
+      );
+    } else if (
+      typeof state.history === "string" &&
+      typeof state.notification === "string"
+    ) {
+      console.log(typeof state.history);
+      const comics = JSON.parse(state.history).comics || {};
+      /**
+       * FIXED: GET NOTIFICATION OBJECT FROM ASYNC STORAGE INSTEAD OF STORE
+       * I only want to get comics list in the store!
+       */
+      const stateNotification = JSON.parse(state.notification) || {};
+
+      const memoNotification = await mmkvStorage
+        .getItem("notifications-template")
+        .then((s: string | undefined) => (s ? JSON.parse(s || "") : {}));
+      console.log(
+        "🚀 ~ file: notificationSlice.ts ~ line 254 ~ memoNotification",
+        memoNotification
+      );
+      await mapSeries(
+        Object.keys(comics),
+        genFetchNotificationDataFN(
+          comics,
+          memoNotification,
+          stateNotification,
+          notifications,
+          comicPushList,
+          true
+        )
+      );
+    } else {
+      throw new Error("Unknown type of state");
+    }
+  } catch (e) {
+    console.log(e);
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "📬📬📬📬📬 - BackgroundFetch - fetchBackgroundInfo",
+        // body: `Len: ${j?.length}, Error: ${e?.message}`,
+        data: { data: "goes here" }
+      },
+      trigger: { seconds: 2 }
+    });
+  } finally {
+    // END:
     await mmkvStorage.setItem(
       "fetch-notification-lock",
       JSON.stringify({
-        locked: true,
+        locked: false,
         time: Date.now()
       })
     );
   }
-
-  // TODO: USE isBackground in if
-  if (!isBackground && typeof state.history !== "string") {
-    const memoNotification = await mmkvStorage
-      .getItem("notifications-template")
-      .then((s: string) => (s ? JSON.parse(s || "") : {}));
-    await mapSeries(
-      Object.keys(state.history.comics),
-      genFetchNotificationDataFN(
-        state.history.comics,
-        memoNotification,
-        state.notification,
-        notifications,
-        comicPushList,
-        false
-      )
-    );
-  } else if (
-    typeof state.history === "string" &&
-    typeof state.notification === "string"
-  ) {
-    console.log(typeof state.history);
-    const comics = JSON.parse(state.history).comics || {};
-    /**
-     * FIXED: GET NOTIFICATION OBJECT FROM ASYNC STORAGE INSTEAD OF STORE
-     * I only want to get comics list in the store!
-     */
-    const stateNotification = JSON.parse(state.notification) || {};
-
-    const memoNotification = await mmkvStorage
-      .getItem("notifications-template")
-      .then((s: string | undefined) => (s ? JSON.parse(s || "") : {}));
-    console.log(
-      "🚀 ~ file: notificationSlice.ts ~ line 254 ~ memoNotification",
-      memoNotification
-    );
-    await mapSeries(
-      Object.keys(comics),
-      genFetchNotificationDataFN(
-        comics,
-        memoNotification,
-        stateNotification,
-        notifications,
-        comicPushList,
-        true
-      )
-    );
-  } else {
-    throw new Error("Unknown type of state");
-  }
-  // } catch (e) {
-  //   console.log(e);
-  // } finally {
-  // END:
-  await mmkvStorage.setItem(
-    "fetch-notification-lock",
-    JSON.stringify({
-      locked: false,
-      time: Date.now()
-    })
-  );
-  // }
 };
 
 /**
@@ -371,6 +391,7 @@ export const fetchNewChapterNotificationThunk = createAsyncThunk(
     await fetchBackgroundInfo(state, notifications, comicPushList);
 
     comicPushList.forEach((c) => dispatch(historyAction.pushComic(c)));
+    // await triggerNotifications();
     return notifications;
     // } catch (e) {
     //   console.log(e);
