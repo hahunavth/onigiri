@@ -1,7 +1,8 @@
 import {
   historyAction,
   HistoryComicT,
-  historySelector
+  historySelector,
+  selectReadComics
 } from "app/store/historySlice";
 import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import { RecentTabProps } from "app/navigators/LibraryTopNavigator";
@@ -14,7 +15,8 @@ import ConfirmModal from "app/components/ConfirmModal";
 import { LibraryContext } from "./LibraryContext";
 
 export const RecentTab: React.FunctionComponent<RecentTabProps> = (props) => {
-  const history = useAppSelector(historySelector);
+  // const history = useAppSelector(historySelector);
+  const data = useAppSelector(selectReadComics);
   const dispatch = useAppDispatch();
 
   const { showModal } = React.useContext(LibraryContext);
@@ -28,11 +30,7 @@ export const RecentTab: React.FunctionComponent<RecentTabProps> = (props) => {
       _dark={{ bg: "warmGray.900" }}
     >
       <LibraryList
-        data={
-          (history.readComics
-            .map((path) => history.comics[path])
-            .filter((n) => n) || []) as HistoryComicT[]
-        }
+        data={data}
         addonFieldName={"Lasted read: "}
         addonFieldExtractor={(item) => {
           return item.lastedReadChapter || "";

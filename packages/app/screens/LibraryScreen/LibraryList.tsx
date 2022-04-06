@@ -7,6 +7,7 @@ import { Center } from "native-base";
 import { TextMdP } from "app/components/Typo";
 import { notificationSelector } from "../../store/notificationSlice";
 import useInteraction from "../../hooks/useInteraction";
+import { Loading } from "../../components/EmptyPage";
 
 type Props = {
   data: HistoryComicT[];
@@ -58,12 +59,14 @@ const LibraryList = ({
         <>
           <CustomLoading />
         </>
+      ) : loading ? (
+        <Loading />
       ) : (
         <>
           {/* <Empty /> */}
           <Center flex={1} justifyContent={"center"}>
             <Image
-              source={require("@hahunavth-packages/expo/assets/icons8-likee-ap-500.png")}
+              source={require("@onigiri/expo/assets/icons8-likee-ap-500.png")}
               style={{ width: 240, height: 240 }}
               resizeMode={"contain"}
               resizeMethod={"resize"}

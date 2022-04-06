@@ -17,8 +17,8 @@
     "packages/next"
   ],
   "scripts": {
-    "dev:expo": "yarn workspace @hahunavth-packages/expo dev",
-    "dev:next": "yarn workspace @hahunavth-packages/next dev",
+    "dev:expo": "yarn workspace @onigiri/expo dev",
+    "dev:next": "yarn workspace @onigiri/next dev",
     "build": "cd packages/next && yarn build",
     "deploy": "vercel --prod --no-clipboard",
     "postinstall": "patch-package"

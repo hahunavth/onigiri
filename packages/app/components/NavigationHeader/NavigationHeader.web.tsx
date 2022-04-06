@@ -18,6 +18,7 @@ export type NavigationHeaderProps = {
   headerRight?: (props: any) => React.ReactNode;
   headerLeft?: (props: any) => React.ReactNode;
   style?: ViewStyle;
+  topEdge?: boolean;
 };
 
 const FSafeAreaView = Factory(SafeAreaView);
@@ -29,7 +30,8 @@ export const NavigationHeader = React.memo(function ({
   title,
   headerLeft,
   headerRight,
-  style
+  style,
+  topEdge = true
 }: NavigationHeaderProps) {
   const HeaderRight = headerRight && headerRight(null);
   const HeaderLeft = React.useMemo(() => headerLeft && headerLeft(null), []);
@@ -39,10 +41,13 @@ export const NavigationHeader = React.memo(function ({
       _light={{ backgroundColor: "$light.backgroundSecondary" }}
       _dark={{ backgroundColor: "$dark.backgroundYellowPrimary" }}
       justifyContent={"center"}
-      height={16}
       pl={2}
       pr={2}
+      // height={16}
       style={style}
+      height={topEdge ? 16 : 12}
+      edges={topEdge ? undefined : []}
+      // edges={["bottom"]}
     >
       <View>
         {/* Left */}

@@ -1,7 +1,8 @@
 import {
   historyAction,
   HistoryComicT,
-  historySelector
+  historySelector,
+  selectSubscribeComics
 } from "app/store/historySlice";
 import { useAppDispatch, useAppSelector } from "app/store/hooks";
 // import { Layout } from "@ui-kitten/components";
@@ -14,7 +15,8 @@ import { LibraryContext } from "./LibraryContext";
 interface Props {}
 
 export const SubscribeTab = (props: Props) => {
-  const history = useAppSelector(historySelector);
+  // const history = useAppSelector(historySelector);
+  const data = useAppSelector(selectSubscribeComics);
   const dispatch = useAppDispatch();
   const { showModal } = React.useContext(LibraryContext);
 
@@ -45,11 +47,7 @@ export const SubscribeTab = (props: Props) => {
         keyExtractor={(item, index) => index.toString()}
       /> */}
       <LibraryList
-        data={
-          (history.subscribeComics
-            .map((path) => history.comics[path])
-            .filter((a) => a) as HistoryComicT[]) || []
-        }
+        data={data}
         onLongPress={(comic) => {
           showModal &&
             showModal(true, comic.path, () => (path) => {

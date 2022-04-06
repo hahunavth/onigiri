@@ -13,14 +13,20 @@ const InScreenHeader = (props: NavigationHeaderProps) => {
   return (
     <WebNavigationHeader
       {...props}
-      headerLeft={() => (
-        // <MaterialCommunityIcons
-        //   name="arrow-left-bold-circle"
-        //   size={36}
-        //   color={"gray"}
-        // />
-        <Entypo name="chevron-down" size={24} color="black" />
-      )}
+      // headerLeft={() => (
+      //   // <MaterialCommunityIcons
+      //   //   name="arrow-left-bold-circle"
+      //   //   size={36}
+      //   //   color={"gray"}
+      //   // />
+
+      //   <Entypo
+      //     name="chevron-down"
+      //     size={24}
+      //     color="black"
+      //     style={{ paddingTop: 8, flex: 1 }}
+      //   />
+      // )}
     />
   );
 };

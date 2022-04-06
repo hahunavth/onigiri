@@ -113,9 +113,6 @@ function App() {
                 isSplashReady={isSplashReady}
                 startAsync={startAsync}
                 onFinish={handleFinish}
-                // image={{
-                //   uri: "https://user-images.githubusercontent.com/7416971/78830030-f2c9f100-7a04-11ea-81e1-e742854bb48d.png"
-                // }}
               >
                 <UI />
               </AnimatedAppLoader>

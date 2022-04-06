@@ -13,10 +13,13 @@ import {
   Button,
   StyleSheet,
   Text,
-  View
+  View,
+  Dimensions,
+  Easing
 } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import AppLoading from "expo-app-loading";
+import { StatusBar } from "native-base";
 
 // NOTE: SPLASH, run in App.tsx
 // Instruct SplashScreen not to hide yet, we want to do this manually
@@ -44,29 +47,40 @@ export default function AnimatedAppLoader({
 }: AnimatedAppLoaderProps) {
   if (!isSplashReady) {
     return (
-      <AppLoading
-        // Instruct SplashScreen not to hide yet, we want to do this manually
-        autoHideSplash={false}
-        startAsync={startAsync}
-        onError={console.warn}
-        onFinish={onFinish}
-      />
+      <>
+        <StatusBar translucent showHideTransition={"none"} />
+        <AppLoading
+          // Instruct SplashScreen not to hide yet, we want to do this manually
+          autoHideSplash={false}
+          startAsync={startAsync}
+          onError={console.warn}
+          onFinish={onFinish}
+        />
+      </>
     );
   }
 
   return (
     <AnimatedSplashScreen
-      image={require("@hahunavth-packages/expo/assets/splash.yellow.png")}
+      image={require("@onigiri/expo/assets/splash.yellow.png")}
     >
       {children}
     </AnimatedSplashScreen>
   );
 }
 
+const { width } = Dimensions.get("window");
+
 function AnimatedSplashScreen({ children, image }: any) {
   const animation = useMemo(() => new Animated.Value(1), []);
   const [isAppReady, setAppReady] = useState(false);
   const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
+
+  const transY = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [-width, 0]
+    // easing: Easing.exp
+  });
 
   useEffect(() => {
     if (isAppReady) {
@@ -112,7 +126,8 @@ function AnimatedSplashScreen({ children, image }: any) {
               resizeMode: "cover",
               transform: [
                 {
-                  scale: animation
+                  // scale: animation
+                  translateX: transY
                 }
               ]
             }}

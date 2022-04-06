@@ -4,6 +4,14 @@
 ### Added
   - expo-screen-orientation
   - expo-sharing
+### Change
+  - Splash screen translate X to exit
+  - Change @ package name
+### Fixed
+  - chapter/chapter-list header height
+  - Fix toggle lag in setting
+### Fixme
+  - Loading icon in Notification screen
 
 ## 0.0.4 (2022-4-2)
 ### Added

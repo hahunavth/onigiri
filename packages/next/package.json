@@ -1,5 +1,5 @@
 {
-  "name": "@hahunavth-packages/next",
+  "name": "@onigiri/next",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

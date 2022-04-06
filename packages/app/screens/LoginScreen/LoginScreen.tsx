@@ -150,7 +150,7 @@ export const LoginScreen = () => {
         // zIndex={1}
       >
         <Image
-          source={require("@hahunavth-packages/expo/assets/favicon.png")}
+          source={require("@onigiri/expo/assets/favicon.png")}
           w={75}
           h={75}
           mb={50}

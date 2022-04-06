@@ -65,6 +65,7 @@ export const ChapterListBottomSheet = React.memo(
             title="Chapter list"
             onLeftPress={() => goBack()}
             style={{ marginTop: -24, borderRadius: 16 }}
+            topEdge={false}
           />
           {/* <HStack justifyContent={"space-between"} mx={4}>
             <Text fontSize={18} fontWeight={"bold"}>

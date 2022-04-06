@@ -466,6 +466,24 @@ export const selectDownloadedChapters = createSelector(
   (state: RootState) => state.history.downloadCpt,
   (state) => state
 );
+export const selectReadComics = createSelector(
+  [
+    (state: RootState) => state.history.readComics,
+    (state: RootState) => state.history.comics
+  ],
+  (readComics, comics) =>
+    readComics.map((cPath) => comics[cPath]).filter(Boolean) as HistoryComicT[]
+);
+export const selectSubscribeComics = createSelector(
+  [
+    (state: RootState) => state.history.subscribeComics,
+    (state: RootState) => state.history.comics
+  ],
+  (subscribeComics, comics) =>
+    subscribeComics
+      .map((cPath) => comics[cPath])
+      .filter(Boolean) as HistoryComicT[]
+);
 export const selectReadChapters = createSelector(
   (state: RootState) => state.history.readCpt,
   (state) => state

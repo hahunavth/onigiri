@@ -1,4 +1,4 @@
-import { View, Text, Select, CheckIcon, Button } from "native-base";
+import { View, Text, Select, CheckIcon, Button, ScrollView } from "native-base";
 import React from "react";
 // NOTE: This lib does not have type declaration
 // @ts-ignore
@@ -56,6 +56,7 @@ export const DiscoverScreen = () => {
   }
   function onMultiChange() {
     return (item: any) =>
+      // @ts-ignore
       setSelectedGenres(xorBy(selectedGenres, [item], "id"));
   }
 

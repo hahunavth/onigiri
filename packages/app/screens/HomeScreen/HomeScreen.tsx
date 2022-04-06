@@ -19,6 +19,7 @@ import I18n from "i18n-js";
 import { ComicHorizontalList2 } from "app/components/Comics/ComicHorizontalList2/ComicHorizontalList2";
 import i18n from "i18n-js";
 import { useFocusEffect } from "@react-navigation/native";
+import { TryAgain } from "../../components/EmptyPage";
 
 export const HomeScreen = () => {
   // console.log("rerender");
@@ -262,12 +263,31 @@ function CompletedComicList() {
 
 const createListByGenresName = (genresName: string) => {
   return React.memo(function () {
-    const result = useApiFindByGenresName({
-      genresName,
-      page: "1"
-    });
+    const { data, refetch, isError, error } = useApiFindByGenresName(
+      {
+        genresName,
+        page: "1"
+      },
+      {}
+    );
 
-    return <ComicHorizontalList2 list={result.data?.data || []} />;
+    return (
+      <>
+        {!isError ? (
+          <ComicHorizontalList2 list={data?.data || []} />
+        ) : (
+          <TryAgain
+            // TODO: SHOW ERROR MSG
+            // msg={error}
+            containerStyle={{
+              justifyContent: "center",
+              alignItems: "center",
+              height: 180
+            }}
+          />
+        )}
+      </>
+    );
   });
 };
 

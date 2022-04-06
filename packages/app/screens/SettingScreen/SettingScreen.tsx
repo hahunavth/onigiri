@@ -42,21 +42,36 @@ const ToggleThemeOption = ({ data }: { data: DataT }) => {
     colorMode === "light" ? true : false
   );
 
+  const toggle = React.useCallback(() => {
+    // setColorMode(isLight ? 'dark' : 'light')
+    // navigate("day-and-night", {
+    //   type: colorMode === "light" ? "day-to-night" : "day-to-night"
+    // });
+    setTimeout(() => {
+      toggleColorMode();
+    }, 100);
+    setIsLight(!isLight);
+    navigate("day-and-night", { type: "day-to-night" });
+  }, []);
+
+  return <ToggleOption data={data} toggle={toggle} value={isLight} />;
+};
+
+const ToggleNewCptNotiOption = ({ data }: { data: DataT }) => {
+  const dispatch = useAppDispatch();
+  const { newChapterNotification } = useAppSelector(settingSelector);
+
+  const toggle = React.useCallback(
+    () => dispatch(settingAction.toggleNewCptNotification(undefined)),
+    []
+  );
+
+  console.log(!!newChapterNotification);
   return (
     <ToggleOption
       data={data}
-      toggle={() => {
-        // setColorMode(isLight ? 'dark' : 'light')
-        // navigate("day-and-night", {
-        //   type: colorMode === "light" ? "day-to-night" : "day-to-night"
-        // });
-        setTimeout(() => {
-          toggleColorMode();
-        }, 100);
-        setIsLight(!isLight);
-        navigate("day-and-night", { type: "day-to-night" });
-      }}
-      value={isLight}
+      toggle={toggle}
+      value={!!newChapterNotification}
     />
   );
 };
@@ -98,6 +113,8 @@ type SectionT = {
  * - Remove data
  */
 export const SettingScreen = (props: Props) => {
+  const setting = useAppSelector(settingSelector);
+
   const renderItem = React.useCallback(
     ({
       item,
@@ -123,7 +140,7 @@ export const SettingScreen = (props: Props) => {
       }
       // return null
     },
-    []
+    [setting.language, setting.theme]
   );
 
   const renderSectionHeader = React.useCallback(
@@ -140,7 +157,7 @@ export const SettingScreen = (props: Props) => {
         </TextSmS>
       </Box>
     ),
-    []
+    [setting.language, setting.theme]
   );
 
   const sections: SectionT[] = [
@@ -176,7 +193,9 @@ export const SettingScreen = (props: Props) => {
       data: [
         {
           name: i18n.t("setting.pushNotification.items.0"),
-          type: "boolean"
+          type: "component",
+          default: false,
+          component: ToggleNewCptNotiOption
         }
       ]
     },
@@ -221,7 +240,6 @@ export const SettingScreen = (props: Props) => {
     <View flex={1} bg={"warmGray.50"} _dark={{ bg: "warmGray.900" }}>
       <SectionList
         flex={1}
-        // bg={'red.100'}
         sections={sections}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
@@ -322,12 +340,11 @@ const ToggleOption = ({
 }) => {
   // const [isOn, setIsOn] = React.useState((data.default as boolean) || false)
 
-  const handleChange = React.useCallback(
-    (value) => {
-      toggle ? toggle() : console.log("Not found toggle");
-    },
-    [toggle, value]
-  );
+  const handleChange = React.useCallback(() => {
+    toggle ? toggle() : console.log("Not found toggle");
+  }, [toggle]);
+
+  console.log(value + "t");
 
   return (
     <HStack

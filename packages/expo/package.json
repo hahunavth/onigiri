@@ -1,6 +1,6 @@
 {
   "main": "index.js",
-  "name": "@hahunavth-packages/expo",
+  "name": "@onigiri/expo",
   "scripts": {
     "dev": "yarn start:dev-client",
     "start": "expo start --dev-client",
@@ -87,7 +87,6 @@
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "expo-task-manager": "~10.1.0",
-    "expo-updates": "~0.11.6",
     "expo-vector-icons": "^10.0.1",
     "expo-web-browser": "~10.1.0",
     "fast-html-parser": "^1.0.1",
