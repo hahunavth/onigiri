@@ -125,8 +125,8 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, fetchBackgroundTask);
 // Note: This does NOT need to be in the global scope and CAN be used in your React components!
 export async function registerBackgroundFetchAsync() {
   return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-    // minimumInterval: 60, // 15 minutes
-    minimumInterval: 60 * 2,
+    // minimumInterval: 60 * 15, // 15 minutes
+    minimumInterval: __DEV__ ? 60 * 60 * 24 * 30 : 60 * 10,
     stopOnTerminate: false, // android only,
     startOnBoot: true // android only
   });

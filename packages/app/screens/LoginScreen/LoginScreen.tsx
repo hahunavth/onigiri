@@ -1,16 +1,22 @@
-import { View, Text, Button, Image, VStack, HStack, Box } from "native-base";
 import React from "react";
+import { Platform, StyleSheet } from "react-native";
+import { View, Text, Button, Image, VStack, HStack, Box } from "native-base";
+
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as WebBrowser from "expo-web-browser";
-import { ResponseType } from "expo-auth-session";
-import { Platform, StyleSheet } from "react-native";
+import {
+  ResponseType,
+  makeRedirectUri,
+  DiscoveryDocument
+} from "expo-auth-session";
+
 import { authActions, authSelector, UserInfo } from "app/store/authSlice";
 import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import { warmUpAsync, coolDownAsync } from "expo-web-browser";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import { TextMdP, TextSmI } from "../../components/Typo";
+import { TextMdP, TextSmI } from "app/components/Typo";
 import Animated, {
   FadeIn,
   FadeInDown,
@@ -19,6 +25,11 @@ import Animated, {
 
 WebBrowser.maybeCompleteAuthSession();
 
+const discovery: DiscoveryDocument = {
+  authorizationEndpoint: "https://www.facebook.com/v6.0/dialog/oauth",
+  tokenEndpoint: "https://graph.facebook.com/v6.0/oauth/access_token"
+};
+
 export const LoginScreen = () => {
   // console.log(process.env.STAGE);
   const [accessToken, setAccessToken] = React.useState("");
@@ -26,13 +37,24 @@ export const LoginScreen = () => {
   const { userInfo, isLogin, loginAt } = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
 
-  const [freq, fres, fpromptAsync] = Facebook.useAuthRequest({
-    expoClientId: "536659734721926",
-    clientId: "536659734721926",
-    responseType: ResponseType.Token
-    // redirectUri: "https://auth.expo.io/@hahunavth/onigiri"
-  });
-
+  const [freq, fres, fpromptAsync] = Facebook.useAuthRequest(
+    {
+      expoClientId: "536659734721926",
+      clientId: "536659734721926",
+      responseType: ResponseType.Token,
+      // redirectUri: "https://auth.expo.iauthorizeo/@hahunavth/onigiri"
+      redirectUri: makeRedirectUri({
+        preferLocalhost: true,
+        native: "fb536659734721926://authorize",
+        useProxy: true
+      })
+      // extraParams: {
+      //   display: Platform.select({ web: "popup" })!
+      // }
+    }
+    // discovery
+  );
+  // console.log(process.env.OAUTH_TOKEN_WEB_DEV + "dev");
   const [req, res, promptAsync] = Google.useAuthRequest({
     scopes: ["profile", "email"],
     //#endregion
@@ -42,10 +64,10 @@ export const LoginScreen = () => {
     // iosClientId: "GOOGLE_GUID.apps.googleusercontent.com",
     androidClientId: __DEV__
       ? process.env.OAUTH_TOKEN_AND_DEV
-      : process.env.OAUTH_TOKEN_AND_STG
-    // webClientId: __DEV__
-    //   ? process.env.OAUTH_TOKEN_WEB_DEV
-    //   : process.env.OAUTH_TOKEN_WEB_STG
+      : process.env.OAUTH_TOKEN_AND_STG,
+    webClientId: __DEV__
+      ? process.env.OAUTH_TOKEN_WEB_DEV
+      : process.env.OAUTH_TOKEN_WEB_STG
   });
 
   // if (freq) {

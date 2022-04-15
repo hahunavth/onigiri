@@ -14,6 +14,7 @@ const onigiriSentryReleaseName = () => {
 // const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
 
 export default function setupSentry() {
+  console.log(process.env.SENTRY_DSN);
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     enableNative: false,

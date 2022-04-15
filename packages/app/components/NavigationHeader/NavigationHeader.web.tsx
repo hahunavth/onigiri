@@ -43,22 +43,14 @@ export const NavigationHeader = React.memo(function ({
       justifyContent={"center"}
       pl={2}
       pr={2}
-      // height={16}
       style={style}
-      height={topEdge ? 16 : 12}
+      height={topEdge ? 70 : 16}
       edges={topEdge ? undefined : []}
-      // edges={["bottom"]}
     >
       <View>
         {/* Left */}
         <TouchableNativeFeedback onPress={() => goBack()}>
-          <View
-            // style={[styles.left, styles.buttonContainer]}
-            position={"absolute"}
-            left={0}
-            padding={1}
-            top={-6}
-          >
+          <View position={"absolute"} left={0} padding={1} top={-6}>
             <Text _light={{ color: "$light.textYellowPrimary" }}>
               {leftLabel || HeaderLeft}
             </Text>
@@ -72,7 +64,7 @@ export const NavigationHeader = React.memo(function ({
           // style={[styles.Right, styles.buttonContainer]}
           style={{ position: "absolute", right: 0 }}
           padding={1}
-          top={-6}
+          top={-3}
         >
           <Text _light={{ color: "$light.textSecondary" }}>
             {rightLabel || HeaderRight}

@@ -181,7 +181,7 @@ const SearchNavigationHeaderChild = React.memo(() => {
         style={explainHeightAnimatedStyles}
       >
         {/* Only 16 px */}
-        <View maxH={16} pl={2} pr={2} mt={1} pb={1} justifyContent={"center"}>
+        <View maxH={32} pl={2} pr={2} mt={1} pb={1} justifyContent={"center"}>
           {/*  Right icon */}
           <View
             style={{

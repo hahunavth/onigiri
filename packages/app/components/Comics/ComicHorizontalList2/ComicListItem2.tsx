@@ -23,11 +23,6 @@ type Props = {
 };
 
 export function ListItem2({ item }: Props) {
-  const [bgLight, bgDark] = useToken("colors", [
-    "$light.backgroundPrimary",
-    "$light.backgroundSecondary"
-  ]);
-
   const { colorMode } = useColorMode();
 
   return (
@@ -38,15 +33,15 @@ export function ListItem2({ item }: Props) {
         path: item.path
       }}
     >
-      <Box rounded={"sm"} w={120} h={200} p={1}>
-        <ZStack w={110} h={190} rounded={"sm"}>
+      <Box rounded={"sm"} w={140} h={230} p={1}>
+        <VStack w={130} h={220} rounded={"sm"}>
           <Image
             source={{
               uri: item.posterUrl
             }}
             alt="Alternate Text"
-            w={110}
-            h={190}
+            w={130}
+            h={220 - 66}
             rounded="sm"
           />
           <Box
@@ -54,28 +49,35 @@ export function ListItem2({ item }: Props) {
             bottom={0}
             left={0}
             right={0}
-            height={44}
+            height={66}
             roundedBottom="sm"
             overflow={"hidden"}
           >
             <Box
-              // intensity={100}
-              // tint={colorMode === "dark" ? "dark" : "light"}
-              // bg={colorMode === "light" ? "white" : "dark.900"}
-              _dark={{ bg: "#321" }}
-              bg={"white"}
+              // _dark={{ bg: "#321" }}
+              // bg={"white"}
               style={{ flex: 1 }}
             >
-              <VStack justifyContent={"center"} alignItems={"center"} flex={1}>
+              <VStack justifyContent={"center"} flex={1}>
                 <Text
                   color={"$light.textPrimary"}
                   _dark={{ color: "$dark.textPrimary" }}
                   fontWeight="600"
-                  numberOfLines={2}
-                  textAlign="center"
-                  fontSize={13}
+                  numberOfLines={1}
+                  // textAlign="center"
+                  fontSize={12}
                 >
                   {item.name}
+                </Text>
+                <Text
+                  color={"$light.textSecondary"}
+                  _dark={{ color: "$dark.textPrimary" }}
+                  numberOfLines={1}
+                  fontSize={9}
+                  mt={1}
+                  fontWeight={500}
+                >
+                  by {item?.author}
                 </Text>
               </VStack>
             </Box>
@@ -103,7 +105,7 @@ export function ListItem2({ item }: Props) {
               {item.lastedChapters && item.lastedChapters[0].chapterName}
             </Text>
           </Box>
-        </ZStack>
+        </VStack>
       </Box>
     </NextLink>
   );
