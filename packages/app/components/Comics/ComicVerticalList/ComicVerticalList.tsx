@@ -46,7 +46,6 @@ export const ComicVerticalList = ({
     // FIXME: Find why have same key
     // (item, index) => item.path + index.toString(),
     (item, index) => index.toString(),
-
     []
   );
 
@@ -56,37 +55,8 @@ export const ComicVerticalList = ({
     <Loading animation={true} />
   ) : (
     <View style={{ flex: 1 }}>
-      {/* <SectionList
-        sections={[{ data: list }]}
-        style={{ flex: 1 }}
-        // data={list}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.path}
-        initialNumToRender={30}
-        maxToRenderPerBatch={6}
-        contentContainerStyle={{ flexGrow: 1 }}
-        stickySectionHeadersEnabled={true}
-        // ListFooterComponent={<ListFooter />}
-        stickyHeaderIndices={[1, 5]}
-        ItemSeparatorComponent={() => <Text>Sperate</Text>}
-      /> */}
-      {/* <VirtualizedList
-        style={{ flex: 1 }}
-        data={list}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.path}
-        initialNumToRender={30}
-        maxToRenderPerBatch={6}
-        contentContainerStyle={{ flexGrow: 1 }}
-        // ListFooterComponentStyle={{ flex: 1, justifyContent: 'flex-end' }}
-        // ListFooterComponent={<ListFooter />}
-        stickyHeaderIndices={[1, 5]}
-        getItemCount={() => 36}
-        getItem={(data) => data}
-        // invertStickyHeaders
-      /> */}
       <TNFlatlist
-        style={{ flex: 1 }}
+        style={{ flex: 1, backgroundColor: "#FAFAFA" }}
         data={list}
         renderItem={renderItem}
         keyExtractor={keyExtractor}

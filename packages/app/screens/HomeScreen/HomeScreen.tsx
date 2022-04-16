@@ -20,6 +20,7 @@ import { ComicHorizontalList2 } from "app/components/Comics/ComicHorizontalList2
 import i18n from "i18n-js";
 import { useFocusEffect } from "@react-navigation/native";
 import { TryAgain } from "../../components/EmptyPage";
+import useInteraction from "../../hooks/useInteraction";
 
 export const HomeScreen = () => {
   // console.log("rerender");
@@ -204,13 +205,10 @@ const HomeScreenContent = () => {
   return (
     <>
       <FlatList
-        // bg={"warmGray.100"}
-        // _dark={{
-        //   backgroundColor: "$dark.backgroundSecondary"
-        // }}
-        bg={"warmGray.50"}
+        // bg={"warmGray.50"}
+        bg={"white"}
         // @ts-ignore
-        _dark={{ bg: "trueGray.900" }}
+        // _dark={{ bg: "trueGray.900" }}
         // TODO: WEB SPECIFIC STYLE
         // @ts-ignore
         data={data}
@@ -271,9 +269,11 @@ const createListByGenresName = (genresName: string) => {
       {}
     );
 
+    const { loading } = useInteraction();
+
     return (
       <>
-        {!isError ? (
+        {!isError || !loading || !data?.data ? (
           <ComicHorizontalList2 list={data?.data || []} />
         ) : (
           <TryAgain

@@ -6,7 +6,10 @@ import {
   View
 } from "native-base";
 import { Easing, Platform } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  createBottomTabNavigator,
+  BottomTabBarProps
+} from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -46,48 +49,50 @@ export default function BottomNav() {
   );
   const [text, background] = useToken("colors", [textT, backgroundT]);
 
+  const webTaskBar = React.useMemo(() => {
+    return Platform.OS === "web"
+      ? ({ descriptors, insets, navigation, state }: BottomTabBarProps) => {
+          // console.log(descriptors);
+
+          const selectedIndex = state.index;
+          // @ts-ignore
+          const onSelect = (id: number) => navigate(state.routeNames[id]);
+
+          return (
+            <View
+              _web={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                width: 200,
+                bg: "$light.backgroundSecondary"
+              }}
+            >
+              {state.routes.map(({ name, path }, id) => (
+                <TouchableOpacity onPress={() => onSelect(id)}>
+                  <Text
+                    fontSize={20}
+                    color={
+                      id === selectedIndex
+                        ? "$light.textPrimary"
+                        : "$light.textDisable"
+                    }
+                  >
+                    {name}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          );
+        }
+      : undefined;
+  }, [Platform.OS]);
+
   return (
     <Navigator
       // initialRouteName={__DEV__ ? 'main/test' : 'main/home'}
-      tabBar={
-        Platform.OS === "web"
-          ? ({ descriptors, insets, navigation, state }) => {
-              console.log(descriptors);
-
-              const selectedIndex = state.index;
-              // @ts-ignore
-              const onSelect = (id: number) => navigate(state.routeNames[id]);
-
-              return (
-                <View
-                  _web={{
-                    position: "absolute",
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    width: 200,
-                    bg: "$light.backgroundSecondary"
-                  }}
-                >
-                  {state.routes.map(({ name, path }, id) => (
-                    <TouchableOpacity onPress={() => onSelect(id)}>
-                      <Text
-                        fontSize={20}
-                        color={
-                          id === selectedIndex
-                            ? "$light.textPrimary"
-                            : "$light.textDisable"
-                        }
-                      >
-                        {name}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              );
-            }
-          : undefined
-      }
+      tabBar={webTaskBar}
       screenOptions={{
         headerShown: false,
         // header: BottomTabNavigationHeader,
@@ -100,36 +105,10 @@ export default function BottomNav() {
             animation: "timing",
             config: { duration: 700, easing: Easing.out(Easing.exp) }
           }
-          // hide: {
-          //   animation: 'timing';
-          //   config: {
-
-          //   }
-          // }
-        }
-        // tabBarVisibilityAnimationConfig
-        //  TODO: WEB, SPECIFIC
-        // tabBarItemStyle: {
-        //   flex: undefined,
-        //   height: 100,
-        //   flexDirection: 'column',
-        //   width: 200
-        // },
-        // // tabbarSty
-        // tabBarStyle:
-        //   Platform.OS === 'web'
-        //     ? {
-        //         position: 'absolute',
-        //         top: 0,
-        //         left: 0,
-        //         width: 500,
-        //         flexDirection: 'column',
-        //         flex: 1,
-        //         height: '100vh'
-        //       }
-        //     : null
+        },
+        lazy: true
+        // unmountOnBlur: true
       }}
-
       // detachInactiveScreens={false}
     >
       <Screen

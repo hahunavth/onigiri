@@ -69,14 +69,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
     // }
 
     return {
-      opacity: withTiming(offset.value * 0.5 + 0.5),
-      flex: 1,
-      // justifyContent: "flex-end",
-      // alignItems: "flex-start",
-      flexDirection: "row",
-      // backgroundColor: "white",
-      alignItems: "flex-end",
-      padding: 12
+      opacity: withTiming(offset.value * 0.5 + 0.5)
     };
   });
   const opacityStyle2 = useAnimatedStyle(() => {
@@ -103,11 +96,23 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
         source={photoSource}
         fadeDuration={500}
       />
-      <AnimatedLinearGradient
+      {/* 
+      REVIEW
+      NOTE: USING AnimatedLinearGradient cause slow rendering shared element transition
+      */}
+      <LinearGradient
         colors={["#000000d8", "#00000042", "#77777747"]}
         start={{ x: 0, y: 1.1 }}
         end={{ x: 0, y: 0 }}
-        style={opacityStyle1}
+        style={[
+          // opacityStyle1,
+          {
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "flex-end",
+            padding: 12
+          }
+        ]}
         // entering={FadeInDown}
       >
         <View style={styles.textContainer}>
@@ -126,19 +131,6 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
                 >
                   <AirbnbRating
                     count={5}
-                    // reviews={[
-                    //   "Terrible",
-                    //   "Bad",
-                    //   "Meh",
-                    //   "OK",
-                    //   "Good",
-                    //   "Hmm...",
-                    //   "Very Good",
-                    //   "Wow",
-                    //   "Amazing",
-                    //   "Unbelievable",
-                    //   "Jesus"
-                    // ]}
                     showRating={false}
                     defaultRating={rating}
                     isDisabled
@@ -175,17 +167,10 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
               priority: TFastImage?.priority?.high
             }}
             resizeMode={TFastImage?.resizeMode?.cover}
-            style={{
-              width: 130,
-              height: 180,
-              borderRadius: 10,
-              borderWidth: 1,
-              borderColor: "#333",
-              opacity: 1
-            }}
+            style={styles.image}
           />
         </SharedElement>
-      </AnimatedLinearGradient>
+      </LinearGradient>
     </View>
   );
 };
@@ -207,6 +192,14 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     height: 280
+  },
+  image: {
+    width: 130,
+    height: 180,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#333",
+    opacity: 1
   }
 });
 

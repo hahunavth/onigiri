@@ -132,7 +132,7 @@ export const ListHeader = ({
 }: comicListProps): JSX.Element => {
   return (
     <HStack
-      shadow={1}
+      // shadow={1}
       style={styles.headerContainer}
       _light={{ bg: `$light.background${color}Primary` }}
       _dark={{ bg: `$dark.backgroundPrimary` }}

@@ -21,8 +21,6 @@ export const ComicListItem = React.memo(
     item
   }: // handlePress
   Props) {
-    // const prev = usePrevious(item)
-    // console.log(item.path, item === prev)
     const { name } = useRoute();
     const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle("", "Primary");
     const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle(
@@ -48,7 +46,7 @@ export const ComicListItem = React.memo(
     if (!item) return null;
 
     return (
-      <TouchableOpacity onPress={handlePress}>
+      <TouchableOpacity onPress={handlePress} style={{ margin: 6 }}>
         <View
           style={styles.itemContainer}
           {...bs1}
@@ -103,7 +101,7 @@ export const ComicListItem = React.memo(
                       bg={"gray.100"}
                       mt={1}
                       px={1}
-                      borderRadius={4}
+                      borderRadius={10}
                     >
                       {name}
                     </Text>
@@ -115,6 +113,8 @@ export const ComicListItem = React.memo(
                 style={styles.detailText}
                 color={ts2.color}
                 opacity={0.8}
+                fontWeight={"500"}
+                fontSize={9}
               >
                 Lasted:{" "}
                 {item?.lastedChapters && item?.lastedChapters[0]?.chapterName}
@@ -159,7 +159,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     paddingVertical: 6,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    borderRadius: 10
   },
   poster: {
     width: 100,

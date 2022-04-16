@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { goBack } from "app/navigators/index";
+import { Shadow } from "react-native-shadow-2";
 
 export type NavigationHeaderProps = {
   onRightPress?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
@@ -43,10 +44,21 @@ export const NavigationHeader = React.memo(function ({
       justifyContent={"center"}
       pl={2}
       pr={2}
+      mb={0.75}
+      shadow={1}
+      // w={"full"}
       style={style}
-      height={topEdge ? 70 : 16}
+      height={topEdge ? 74 : 16}
       edges={topEdge ? undefined : []}
     >
+      {/* <Shadow
+        size={[350, 50]}
+        //   distance={15}
+        startColor={"#eb9066d8"}
+        finalColor={"#ff00ff10"}
+        //   offset={[3, 4]}
+        //   size={[  100, 100 ]}
+      > */}
       <View>
         {/* Left */}
         <TouchableNativeFeedback onPress={() => goBack()}>
@@ -74,11 +86,16 @@ export const NavigationHeader = React.memo(function ({
         {/* Right */}
 
         <Center>
-          <Text _light={{ color: "$light.textPrimary" }} fontWeight="bold">
+          <Text
+            _light={{ color: "$light.textPrimary" }}
+            fontWeight="bold"
+            fontSize={15}
+          >
             {title}
           </Text>
         </Center>
       </View>
+      {/* </Shadow> */}
     </FSafeAreaView>
   );
 });

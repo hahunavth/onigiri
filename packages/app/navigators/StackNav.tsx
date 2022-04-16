@@ -240,6 +240,7 @@ export function StackNav() {
         headerRight: Platform.OS === "web" ? undefined : renderRight,
         headerShadowVisible: true,
         headerLargeTitleShadowVisible: true
+        // headerTransparent: true,
       }}
     >
       <Screen

@@ -30,6 +30,7 @@ import { useAppSelector } from "app/store/hooks";
 import { homeSelector } from "app/store/homeSlice";
 import { ChapterViewListProps } from "./type";
 import TFastImage from "app/components/Typo/TFastImage";
+import { MediumBanner } from "../../components/AdMob";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -132,6 +133,7 @@ const ChapterViewVerticalList = React.forwardRef<
           ListHeaderComponent={() => {
             return <View w={"full"} h={75}></View>;
           }}
+          ListFooterComponent={() => <MediumBanner size={"mediumRectangle"} />}
           // ListFooterComponent={() => {
           //   return (
           //     <ScrollView my={24}>

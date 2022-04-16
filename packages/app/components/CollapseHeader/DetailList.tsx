@@ -38,6 +38,7 @@ import { Layout, LightSpeedInLeft } from "react-native-reanimated";
 import { Loading } from "../EmptyPage/Loading";
 import { MotiView } from "moti";
 import { SideInDownView } from "../AnimationWrapper/SideInDownView";
+import { MediumBanner } from "../AdMob";
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -57,6 +58,9 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
     ({ item, index }) => {
       // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       if (index === 0) {
+        return <MediumBanner size={"largeBanner"} />;
+      }
+      if (index === 1) {
         return (
           // <Animated.View
           // entering={FadeInDown.delay(300 * index + 50)}
@@ -70,7 +74,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
           // </Animated.View>
         );
       }
-      if (index === 1)
+      if (index === 2)
         return (
           // FIXME: RN REANIMATED LAYOUT ANIMATION CAUSE CRASH HERE
           <SideInDownView delay={index * 100 + 200}>
@@ -201,7 +205,7 @@ const Details = forwardRef<FlatList, Props>((props, ref) => {
           {...props}
           // For layout animation
           // @ts-ignore
-          data={props.data?.length ? new Array(3).fill(props.data[0]) : []}
+          data={props.data?.length ? new Array(4).fill(props.data[0]) : []}
         />
       )}
     </Animated.View>

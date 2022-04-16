@@ -30,7 +30,7 @@ export const FlatlistBanner = () => {
   const [list, setList] = useState<resComicItem_T[]>([]);
   const flatListRef = React.useRef<SwiperFlatList>(null);
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     const handleWindowSizeChange = () => {
       flatListRef.current?.goToFirstIndex();
     };
