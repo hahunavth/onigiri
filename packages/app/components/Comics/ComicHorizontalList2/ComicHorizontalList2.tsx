@@ -2,7 +2,7 @@
  * Show read history list
  */
 
-import { Center, FlatList, View } from "native-base";
+import { Center, FlatList, Text, View } from "native-base";
 import React from "react";
 import useInteraction from "app/hooks/useInteraction";
 import { HistoryComicT, historySelector } from "app/store/historySlice";
@@ -10,6 +10,8 @@ import { useAppSelector } from "app/store/hooks";
 import { resComicItem_T } from "app/types";
 import { Loading } from "app/components/EmptyPage";
 import { ListItem2 } from "./ComicListItem2";
+import { MaterialIcons } from "@expo/vector-icons";
+import { TouchableNativeFeedback } from "react-native";
 
 type Props = {
   list: resComicItem_T[];
@@ -33,6 +35,27 @@ export const ComicHorizontalList2 = React.memo(function ComicHorizontalList2({
     []
   );
 
+  const listFooter = React.useCallback(
+    () => (
+      <View
+        w={100}
+        h={"full"}
+        bg={"$light.backgroundSecondary"}
+        _dark={{
+          bg: "$dark.backgroundSecondary"
+        }}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <TouchableNativeFeedback>
+          <MaterialIcons name="navigate-next" size={32} color="black" />
+        </TouchableNativeFeedback>
+        {/* <Text>More</Text> */}
+      </View>
+    ),
+    []
+  );
+
   return (
     <>
       {loading || !list.length ? (
@@ -47,11 +70,12 @@ export const ComicHorizontalList2 = React.memo(function ComicHorizontalList2({
         </Center>
       ) : (
         <FlatList
+          style={{ flex: 1 }}
           renderItem={renderItem}
+          ListFooterComponent={listFooter}
           keyExtractor={(item) => item?.path + ""}
           horizontal={true}
-          style={{ flex: 1 }}
-          data={list.slice(24)}
+          data={list}
           onEndReachedThreshold={500}
           onEndReached={onEndReach}
           initialNumToRender={30}
@@ -78,7 +102,8 @@ export const ComicHorizontalList2 = React.memo(function ComicHorizontalList2({
 //  import { Loading } from "app/components/EmptyPage";
 //  import { ListItem2 } from "./ComicListItem2";
 //  import {
-//    RecyclerListView,
+//  import { TouchableNativeFeedback } from 'react-native';
+// RecyclerListView,
 //    DataProvider,
 //    LayoutProvider
 //  } from "recyclerlistview";

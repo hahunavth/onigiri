@@ -1,10 +1,10 @@
 import React from "react";
-import { CollapseHeader } from "app/components/CollapseHeader";
+// import { CollapseHeader } from "app/components/CollapseHeader";
 import MemoCollapseHeader from "app/components/CollapseHeader/CollapseHeader";
 import { ComicDetailScreenProps } from "app/navigators/StackNav";
 import { useApiComicDetail } from "app/store/api";
 import useUpdateCurrentComic from "app/hooks/useUpdateCurrentComic";
-import usePrevious from "react-use/esm/usePrevious";
+// import usePrevious from "react-use/esm/usePrevious";
 import { useAppDispatch } from "app/store/hooks";
 import { notificationAction } from "app/store/notificationSlice";
 
@@ -28,7 +28,3 @@ export const ComicDetailScreen = (props: ComicDetailScreenProps) => {
     </>
   );
 };
-
-/**
- * FIX: Rerender when navigate in tabbar?
- */

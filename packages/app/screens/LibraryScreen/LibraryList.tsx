@@ -46,14 +46,17 @@ const LibraryList = ({
 
   const { loading } = useInteraction();
 
+  const keyExtractor = React.useCallback((item, index) => index.toString(), []);
+
   return (
     <>
-      {data.length && !loading ? (
+      {data && !loading ? (
         <FlatList
           style={{ flex: 1 }}
           data={data}
           renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={keyExtractor}
+          initialNumToRender={10}
         />
       ) : CustomLoading ? (
         <>

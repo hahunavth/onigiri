@@ -125,7 +125,9 @@ export default function BottomNav() {
         component={LibraryScreen}
         options={{
           title: i18n.t("library.name"),
-          tabBarIcon: LibraryIcon
+          tabBarIcon: LibraryIcon,
+          lazy: true,
+          unmountOnBlur: true
         }}
       ></Screen>
 

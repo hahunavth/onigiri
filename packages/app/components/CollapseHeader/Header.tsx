@@ -56,22 +56,22 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
   //   return offset.value * height
   // })
 
-  const opacityStyle1 = useAnimatedStyle(() => {
-    // // STUB: FIX: Type error, viewRef.current._component.setNativeProps is not a function in animated linear gradient
-    // if (Platform.OS === 'web') {
-    //   return {
-    //     flex: 1,
-    //     flexDirection: 'row',
-    //     alignItems: 'flex-end',
-    //     padding: 12,
-    //     opacity: 0.5
-    //   }
-    // }
+  // const opacityStyle1 = useAnimatedStyle(() => {
+  //   // // STUB: FIX: Type error, viewRef.current._component.setNativeProps is not a function in animated linear gradient
+  //   // if (Platform.OS === 'web') {
+  //   //   return {
+  //   //     flex: 1,
+  //   //     flexDirection: 'row',
+  //   //     alignItems: 'flex-end',
+  //   //     padding: 12,
+  //   //     opacity: 0.5
+  //   //   }
+  //   // }
 
-    return {
-      opacity: withTiming(offset.value * 0.5 + 0.5)
-    };
-  });
+  //   return {
+  //     opacity: withTiming(offset.value * 0.5 + 0.5)
+  //   };
+  // });
   const opacityStyle2 = useAnimatedStyle(() => {
     return {
       opacity: withTiming(offset.value)
@@ -88,6 +88,17 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
     }
   });
 
+  const lgProps = React.useMemo(
+    () => ({
+      colors: ["#000000d8", "#00000042", "#77777747"],
+      start: { x: 0, y: 1.1 },
+      end: { x: 0, y: 0 }
+    }),
+    []
+  );
+
+  console.log("render Header: ", photo);
+
   return (
     <View style={containerStyle}>
       <AnimatedImageBackground
@@ -101,18 +112,11 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
       NOTE: USING AnimatedLinearGradient cause slow rendering shared element transition
       */}
       <LinearGradient
-        colors={["#000000d8", "#00000042", "#77777747"]}
-        start={{ x: 0, y: 1.1 }}
-        end={{ x: 0, y: 0 }}
-        style={[
+        {...lgProps}
+        style={
           // opacityStyle1,
-          {
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "flex-end",
-            padding: 12
-          }
-        ]}
+          styles.lg
+        }
         // entering={FadeInDown}
       >
         <View style={styles.textContainer}>
@@ -200,6 +204,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#333",
     opacity: 1
+  },
+  lg: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    padding: 12
   }
 });
 

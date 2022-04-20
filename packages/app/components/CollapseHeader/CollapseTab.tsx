@@ -1,60 +1,10 @@
 // Lib
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
-  FlatList,
-  FlatListProps,
-  StyleProp,
-  StyleSheet,
-  ToastAndroid,
-  TouchableOpacity,
-  useWindowDimensions,
-  ViewProps,
-  ViewStyle,
-  InteractionManager
-} from "react-native";
-import { Button, View, Text, Badge } from "native-base";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
-import Animated, {
-  interpolate,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  interpolateColor,
-  withTiming
-} from "react-native-reanimated";
-import {
   createMaterialTopTabNavigator,
-  MaterialTopTabBarProps,
-  MaterialTopTabNavigationOptions
+  MaterialTopTabBarProps
 } from "@react-navigation/material-top-tabs";
 
-// App
-import { useAppDispatch, useAppSelector } from "app/store/hooks";
-import { goBack, navigate } from "app/navigators";
-import {
-  historySelector,
-  selectDownloadedChapters,
-  selectThisComicIsSubscribed,
-  toggleSubscribeComicThunk
-} from "app/store/historySlice";
-import { useColorModeStyle } from "app/hooks/useColorModeStyle";
-// Local
-import Header, { HeaderConfig, Visibility } from "./Header";
-import HeaderOverlay from "./HeaderOverlay";
-import { ScrollPair } from "./ScrollPair";
-import useScrollSync from "./useScrollSync";
-import TabBar from "./TabBar";
-import DetailList from "./DetailList";
-// Type
-import type {
-  resComicDetailChapterItem_T,
-  resComicDetail_T,
-  resComicItem_T
-} from "app/types";
-import useInteraction from "app/hooks/useInteraction";
-import usePrevious from "react-use/esm/usePrevious";
-import ComicDetailBottomBar, { styles } from "./ComicDetailBottomBar";
 import { useThemedTopTabScreenOption } from "../Typo";
 
 const Tab = createMaterialTopTabNavigator();

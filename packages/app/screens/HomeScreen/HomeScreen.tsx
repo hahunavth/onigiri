@@ -244,7 +244,7 @@ function NewComicList() {
     page: 1
   });
 
-  return <ComicHorizontalList2 list={list.data?.data || []} />;
+  return <ComicHorizontalList2 list={list.data?.data?.slice(0, 6) || []} />;
 }
 
 function CompletedComicList() {
@@ -256,7 +256,7 @@ function CompletedComicList() {
     page: 1
   });
 
-  return <ComicHorizontalList2 list={list.data?.data || []} />;
+  return <ComicHorizontalList2 list={list.data?.data?.slice(0, 6) || []} />;
 }
 
 const createListByGenresName = (genresName: string) => {
@@ -274,7 +274,7 @@ const createListByGenresName = (genresName: string) => {
     return (
       <>
         {!isError || !loading || !data?.data ? (
-          <ComicHorizontalList2 list={data?.data || []} />
+          <ComicHorizontalList2 list={data?.data?.slice(0, 6) || []} />
         ) : (
           <TryAgain
             // TODO: SHOW ERROR MSG

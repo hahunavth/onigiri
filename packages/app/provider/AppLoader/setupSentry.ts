@@ -24,7 +24,7 @@ export default function setupSentry() {
         tracingOrigins: ["localhost", "my-site-url.com", /^\//]
       })
     ],
-    debug: true,
+    // debug: true,
     // To set a uniform sample rate
     tracesSampleRate: 0.2,
     //

@@ -155,7 +155,6 @@ export const ComicListItem = React.memo(
 
 const styles = StyleSheet.create({
   itemContainer: {
-    // borderColor: ColorSchemeE["border-basic-color-3"],
     flex: 1,
     flexDirection: "row",
     paddingVertical: 6,

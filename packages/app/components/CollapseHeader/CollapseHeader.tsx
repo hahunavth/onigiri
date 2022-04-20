@@ -324,6 +324,8 @@ export const CollapseHeader = (props: Props) => {
     }
   });
 
+  console.log("render: ", headerDiff);
+
   return (
     <View style={styles.wrapperContainer}>
       <View style={styles.container}>

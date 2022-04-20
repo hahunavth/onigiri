@@ -7,13 +7,11 @@ import {
 } from "react-native";
 import { View, Text, HStack } from "native-base";
 import React from "react";
-import { HistoryComicT, historySelector } from "app/store/historySlice";
-import { useAppSelector } from "app/store/hooks";
+import { HistoryComicT } from "app/store/historySlice";
 import { navigate } from "app/navigators";
 import { resComicDetail_T } from "app/types";
 import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import { Box } from "native-base";
-import { colors } from "app/colors";
 import { TextSmS, TextXsS } from "app/components/Typo";
 
 type Param = {
