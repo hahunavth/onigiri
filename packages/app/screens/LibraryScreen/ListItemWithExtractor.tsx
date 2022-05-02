@@ -1,10 +1,10 @@
 import {
-  TouchableOpacity,
   Image,
   ImageStyle,
   StyleSheet,
   ListRenderItemInfo
 } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { View, Text, HStack } from "native-base";
 import React from "react";
 import { HistoryComicT } from "app/store/historySlice";
@@ -49,6 +49,9 @@ const ListWithExtractor = (param: Param) => {
     if (!item) return null;
     return (
       <TouchableOpacity
+        // hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        // pressRetentionOffset={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        // delayPressIn={10}
         onLongPress={() => onLongPress && onLongPress(item as HistoryComicT)}
         onPress={() =>
           onPress

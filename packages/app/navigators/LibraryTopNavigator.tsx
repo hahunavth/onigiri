@@ -10,6 +10,8 @@ import { StyleSheet } from "react-native";
 import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import i18n from "i18n-js";
 import { useThemedTopTabScreenOption } from "app/components/Typo";
+import { useIsFocused } from "../hooks/useIsFocused";
+import { Loading } from "../components/EmptyPage";
 
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<LibraryTopNavigatorParamList>();
@@ -21,31 +23,46 @@ type LibraryTopNavigatorParamList = {
 };
 
 export const LibraryTopNavigator = () => {
+  const { isFocused } = useIsFocused();
+
   const screenOptions = useThemedTopTabScreenOption();
+
+  const Recent = React.useCallback(
+    () => (isFocused ? <RecentTab /> : <Loading />),
+    [isFocused]
+  );
+  const Subscribes = React.useCallback(
+    () => (isFocused ? <SubscribeTab /> : <Loading />),
+    [isFocused]
+  );
+  const Downloads = React.useCallback(
+    () => (isFocused ? <DownloadTab /> : <Loading />),
+    [isFocused]
+  );
 
   return (
     <Navigator
       backBehavior="none"
       screenOptions={screenOptions}
       showPageIndicator
-      // defaultScreenOptions={{
-      //   lazy: true
-      // }}
+      defaultScreenOptions={{
+        lazy: true
+      }}
     >
       <Screen
         name="recent"
         options={{ title: i18n.t("library.recent.name") }}
-        component={RecentTab}
+        component={Recent}
       ></Screen>
       <Screen
         name="subscribes"
         options={{ title: i18n.t("library.subscribes.name") }}
-        component={SubscribeTab}
+        component={Subscribes}
       ></Screen>
       <Screen
         name="downloads"
         options={{ title: i18n.t("library.downloads.name") }}
-        component={DownloadTab}
+        component={Downloads}
       ></Screen>
     </Navigator>
   );

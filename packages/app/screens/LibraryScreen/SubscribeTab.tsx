@@ -14,14 +14,13 @@ import LibraryList from "./LibraryList";
 import { LibraryContext } from "./LibraryContext";
 import { useIsFocused } from "../../hooks/useIsFocused";
 import { Loading } from "../../components/EmptyPage";
+import { createTwoButtonAlert } from "../../utils/alert";
 interface Props {}
 
 export const SubscribeTab = (props: Props) => {
   // const history = useAppSelector(historySelector);
-  const { isFocused } = useIsFocused();
-  const data = useAppSelector((state) =>
-    selectSubscribeComics(state, isFocused)
-  );
+  // const { isFocused } = useIsFocused();
+  const data = useAppSelector((state) => selectSubscribeComics(state, true));
   const dispatch = useAppDispatch();
   const { showModal } = React.useContext(LibraryContext);
 
@@ -51,19 +50,31 @@ export const SubscribeTab = (props: Props) => {
         }}
         keyExtractor={(item, index) => index.toString()}
       /> */}
-      {isFocused ? (
-        <LibraryList
-          data={data}
-          onLongPress={(comic) => {
-            showModal &&
-              showModal(true, comic.path, () => (path) => {
-                dispatch(historyAction.unSubscribeComic(comic.path));
-              });
-          }}
-        />
-      ) : (
+      {/* {isFocused ? ( */}
+      <LibraryList
+        data={data}
+        onLongPress={(comic) => {
+          // showModal &&
+          //   showModal(true, comic.path, () => (path) => {
+          //     dispatch(historyAction.unSubscribeComic(comic.path));
+          //   });
+          createTwoButtonAlert({
+            title: "Delete subscribed?",
+            message: "Are you sure you want to delete this comic?",
+            onCancel: () => {},
+            onOk: () => {
+              dispatch(
+                historyAction.unSubscribeComic({
+                  path: comic.path
+                })
+              );
+            }
+          });
+        }}
+      />
+      {/* ) : (
         <Loading />
-      )}
+      )} */}
     </View>
   );
 };

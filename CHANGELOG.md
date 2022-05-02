@@ -5,6 +5,16 @@
   - Handle background notification click
   - Test createSelectorCreator
   - React navigation deep linking
+  - Yarn v1
+  - package.json
+    ```bash
+      {
+        //...
+        "installConfig": {
+          "hoistingLimits": "workspaces"
+        }
+      }
+    ```
 ### Change
   - LibraryList only render when screen is focused
   - LibraryListItem

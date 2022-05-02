@@ -3,7 +3,8 @@
     "production": {
       "releaseChannel": "production",
       "env": {
-        "STAGE": "production"
+        "STAGE": "production",
+        "YARN_ENABLE_IMMUTABLE_INSTALLS": "false"
       }
     },
     "preview": {
@@ -13,7 +14,8 @@
         "buildType": "apk"
       },
       "env": {
-        "STAGE": "staging"
+        "STAGE": "staging",
+        "YARN_ENABLE_IMMUTABLE_INSTALLS": "false"
       }
     },
     "development": {
@@ -21,7 +23,8 @@
       "distribution": "internal",
       "env": {
         "STAGE": "development",
-        "MMKV": "false"
+        "MMKV": "false",
+        "YARN_ENABLE_IMMUTABLE_INSTALLS": "false"
       }
     }
   },

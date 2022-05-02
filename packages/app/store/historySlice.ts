@@ -13,7 +13,7 @@ import {
   createSelectorCreator,
   defaultMemoize
 } from "reselect";
-import isEqual from "lodash.isequal";
+// import isEqual from "lodash.isequal";
 
 // ANCHOR: TYPE DEFINITION
 type TimestampT = {
@@ -488,7 +488,7 @@ export const selectDownloadedChapters = createSelector(
 export const selectReadComics = createSelector(
   [
     (state: any, isFocused?: boolean) => {
-      console.log("is focused: " + isFocused);
+      // console.log("is focused: " + isFocused);
       return isFocused;
     },
     (state: RootState) => state.history.readComics,
