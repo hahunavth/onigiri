@@ -40,7 +40,11 @@ const ListWithExtractor = (param: Param) => {
   };
 
   function ListItem({ item, index }: ListRenderItemInfo<resComicDetail_T>) {
-    const { boxStyle, textStyle } = useColorModeStyle("", "Primary");
+    const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle("", "Primary");
+    const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle(
+      "",
+      "Secondary"
+    );
 
     if (!item) return null;
     return (
@@ -54,8 +58,8 @@ const ListWithExtractor = (param: Param) => {
       >
         <View
           style={styles.itemContainer}
-          // borderColor={colors.$light.textButton}
-          // _dark={{ borderColor: colors.$dark.textDisable }}
+          {...bs1}
+          borderColor={bs2.backgroundColor}
         >
           {getNewNotification && getNewNotification(item.path) && (
             <View
@@ -91,12 +95,12 @@ const ListWithExtractor = (param: Param) => {
           />
 
           <View style={styles.infoContainer}>
-            <Box _text={textStyle}>
+            <Box _text={ts1}>
               <HStack justifyContent={"space-between"} w={"full"}>
                 <Text
                   style={[
                     styles.titleText,
-                    { color: textStyle.color, fontWeight: "bold" }
+                    { color: ts1.color, fontWeight: "bold" }
                   ]}
                   pr={8}
                 >
@@ -142,8 +146,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     paddingVertical: 6,
-    borderBottomWidth: 1
-    // color: colors.$light.textInfo
+    borderBottomWidth: 1,
+    borderRadius: 10,
+    marginHorizontal: 8,
+    marginTop: 8
   },
   poster: {
     width: 100,

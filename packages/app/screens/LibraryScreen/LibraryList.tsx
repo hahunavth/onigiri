@@ -8,6 +8,7 @@ import { TextMdP } from "app/components/Typo";
 import { notificationSelector } from "../../store/notificationSlice";
 import useInteraction from "../../hooks/useInteraction";
 import { Loading } from "../../components/EmptyPage";
+import { FooterSpace } from "../../components/Typo/FooterSpace";
 
 type Props = {
   data: HistoryComicT[];
@@ -57,6 +58,7 @@ const LibraryList = ({
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           initialNumToRender={10}
+          ListFooterComponent={FooterSpace}
         />
       ) : CustomLoading ? (
         <>

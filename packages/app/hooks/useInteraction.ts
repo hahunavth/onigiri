@@ -11,7 +11,7 @@ export default function useInteraction(param?: Param) {
   const [loading, setLoading] = React.useState(true);
   let result: any = null;
   React.useEffect(() => {
-    // NOTE: DEPRECATED4
+    // NOTE: DEPRECATED
     const interaction = InteractionManager.runAfterInteractions(() => {
       param && param.callback && param.callback(param?.dependencyList);
       setLoading(false);

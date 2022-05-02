@@ -60,7 +60,7 @@ const _getStorage = Platform.select({
   web: () => require("app/utils/ssrStorage").default
 });
 const storage = _getStorage ? _getStorage() : null;
-
+// console.log(storage);
 /**
  * NOTE: USE NESTED PERSIST IO IGNORE persist chapter.current
  */

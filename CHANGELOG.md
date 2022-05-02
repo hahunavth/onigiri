@@ -4,8 +4,10 @@
 ### Added
   - Handle background notification click
   - Test createSelectorCreator
+  - React navigation deep linking
 ### Change
   - LibraryList only render when screen is focused
+  - LibraryListItem
 
 ## 0.0.5 (2022-4-6)
 ### Added

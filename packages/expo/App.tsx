@@ -29,6 +29,10 @@ import useAppState from "app/provider/AppLoader/useAppState";
 import useI18n from "app/provider/AppLoader/useI18n";
 import AnimatedAppLoader from "app/provider/AppLoader/AnimatedAppLoader";
 
+import * as Linking from "expo-linking";
+
+const prefix = Linking.createURL("/");
+
 // NOTE: BARE WORKFLOW DONT HAVE ACCESS TO THIS MODULE
 // import Constants from 'expo-constants'
 
@@ -60,6 +64,10 @@ if (Platform.OS === "android") {
  * App
  */
 function App() {
+  const linking = {
+    prefixes: [prefix]
+  };
+
   useFlipper(navigationRef);
   useI18n();
 
@@ -99,6 +107,7 @@ function App() {
         //   </>
         // ) :
         <NavigationContainer
+          linking={linking}
           ref={navigationRef}
           onReady={() => {
             // Sentry

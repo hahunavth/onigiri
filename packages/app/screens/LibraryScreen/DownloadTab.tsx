@@ -17,7 +17,6 @@ import { useIsFocused } from "../../hooks/useIsFocused";
 interface Props {}
 
 export const DownloadTab = (props: Props) => {
-  const dispatch = useAppDispatch();
   const { isFocused } = useIsFocused();
   const data = useAppSelector((state) =>
     selectDownloadedComics(state, isFocused)
