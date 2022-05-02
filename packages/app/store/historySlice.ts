@@ -8,7 +8,12 @@ import {
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { addMultipleImgs, deleteChapter } from "app/utils/imgManager";
-import { createSelector } from "reselect";
+import {
+  createSelector,
+  createSelectorCreator,
+  defaultMemoize
+} from "reselect";
+import isEqual from "lodash.isequal";
 
 // ANCHOR: TYPE DEFINITION
 type TimestampT = {
@@ -466,24 +471,73 @@ export const selectDownloadedChapters = createSelector(
   (state: RootState) => state.history.downloadCpt,
   (state) => state
 );
+// REVIEW: TEST NEW SELECTOR CREATOR
+// const createFocusedSelector = createSelectorCreator(
+//   defaultMemoize,
+//   isEqual
+//   // (s1, s2) => {
+//   //   // console.log("Compare result: isFocused" + isFocused);
+//   //   // console.log("Compare result: state" + state);
+//   //   // console.log("Compare result: n" + n);
+//   //   if (s2 == false) {
+//   //   return false;
+//   //   }
+//   //   return isEqual(s1, s2);
+//   // }
+// );
 export const selectReadComics = createSelector(
   [
+    (state: any, isFocused?: boolean) => {
+      console.log("is focused: " + isFocused);
+      return isFocused;
+    },
     (state: RootState) => state.history.readComics,
     (state: RootState) => state.history.comics
   ],
-  (readComics, comics) =>
-    readComics.map((cPath) => comics[cPath]).filter(Boolean) as HistoryComicT[]
+  (isFocused, readComics, comics) =>
+    !isFocused
+      ? []
+      : (readComics
+          .map((cPath) => comics[cPath])
+          .filter(Boolean) as HistoryComicT[]),
+  {
+    // New in 4.1: Pass options through to the built-in `defaultMemoize` function
+    memoizeOptions: {
+      equalityCheck: (a, b) => {
+        // console.log(a);
+        return a === b;
+      },
+      maxSize: 10
+      // resultEqualityCheck: shallowEqual
+    }
+  }
 );
 export const selectSubscribeComics = createSelector(
   [
+    (state: any, isFocused?: boolean) => isFocused,
     (state: RootState) => state.history.subscribeComics,
     (state: RootState) => state.history.comics
   ],
-  (subscribeComics, comics) =>
-    subscribeComics
-      .map((cPath) => comics[cPath])
-      .filter(Boolean) as HistoryComicT[]
+  (isFocused, subscribeComics, comics) =>
+    !isFocused
+      ? []
+      : (subscribeComics
+          .map((cPath) => comics[cPath])
+          .filter(Boolean) as HistoryComicT[])
 );
+export const selectDownloadedComics = createSelector(
+  [
+    (state: any, isFocused?: boolean) => isFocused,
+    (state: RootState) => state.history.downloadComics,
+    (state: RootState) => state.history.comics
+  ],
+  (isFocused, downloadComics, comics) =>
+    // !isFocused
+    //   ? []
+    //   :
+    (downloadComics?.map((str) => comics[str]) || []) as HistoryComicT[]
+);
+
 export const selectReadChapters = createSelector(
   (state: RootState) => state.history.readCpt,
   (state) => state

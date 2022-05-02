@@ -5,7 +5,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { resComicDetail_T } from "../types";
 import { RootState } from "./store";
-import { Platform } from "react-native";
+import { AppState, Platform } from "react-native";
 /**
  * NOTE: Get Notifications object
  */
@@ -224,23 +224,17 @@ const genFetchNotificationDataFN =
           if (result) {
             comicPushList.unshift(result);
             if (Platform.OS !== "web" && Notifications) {
+              const navigateData: resComicDetail_T = result;
+
               await Notifications.scheduleNotificationAsync({
                 content: {
                   title: `${result?.title}`,
                   body: `${id} new chapters`,
-                  // data: { data: 'ABCD' },
                   autoDismiss: true,
-                  // attachments: [
-                  //   {
-                  //     url: result.posterUrl
-                  //   }
-                  // ],
-                  subtitle: `${result?.chapters[0]?.path}`
-                  // badge: 2,
-                  // launchImageName: result.posterUrl
+                  subtitle: `${AppState.currentState}}`,
+                  data: navigateData
                 },
-                //
-                trigger: { seconds: 2 }
+                trigger: { seconds: 1 }
               });
             }
           }

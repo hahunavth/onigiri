@@ -1,5 +1,12 @@
 # ChangeLog
 
+## 0.0.6 (2022-5-2)
+### Added
+  - Handle background notification click
+  - Test createSelectorCreator
+### Change
+  - LibraryList only render when screen is focused
+
 ## 0.0.5 (2022-4-6)
 ### Added
   - expo-screen-orientation

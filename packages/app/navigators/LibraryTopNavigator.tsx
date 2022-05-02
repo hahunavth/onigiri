@@ -28,6 +28,9 @@ export const LibraryTopNavigator = () => {
       backBehavior="none"
       screenOptions={screenOptions}
       showPageIndicator
+      // defaultScreenOptions={{
+      //   lazy: true
+      // }}
     >
       <Screen
         name="recent"

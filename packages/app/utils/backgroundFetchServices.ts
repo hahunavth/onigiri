@@ -7,7 +7,7 @@ import * as Notifications from "expo-notifications";
  * NOTE: SPECIFIC EXPO
  *
  */
-
+import { AppState } from "react-native";
 import { resComicDetail_T } from "app/types";
 import {
   fetchBackgroundInfo,
@@ -19,7 +19,7 @@ import * as BackgroundFetch from "expo-background-fetch";
 import * as TaskManager from "expo-task-manager";
 import React from "react";
 import store from "app/store/store";
-import { triggerBackgroundFetchNotification } from "./notification";
+import { navigate, navigationRef } from "../navigators";
 
 export const BACKGROUND_FETCH_TASK = "background-fetch";
 
@@ -109,9 +109,12 @@ export const fetchBackgroundTask = async () => {
   //   await bg();
   // }
 
-  await bg();
-  // .then(() => store.dispatch(mergeNewChapterNotificationThunk()));
-  //
+  if (AppState.currentState === "active") {
+    await store.dispatch(fetchNewChapterNotificationThunk());
+  } else {
+    await bg();
+  }
+
   console.log("background fetch done!");
   // Be sure to return the successful result type!
   return BackgroundFetch.BackgroundFetchResult.NewData;
@@ -126,7 +129,7 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, fetchBackgroundTask);
 export async function registerBackgroundFetchAsync() {
   return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
     // minimumInterval: 60 * 15, // 15 minutes
-    minimumInterval: __DEV__ ? 60 * 60 * 24 * 30 : 60 * 10,
+    minimumInterval: __DEV__ ? 60 * 60 * 24 * 30 : 60 * 60,
     stopOnTerminate: false, // android only,
     startOnBoot: true // android only
   });
@@ -149,6 +152,11 @@ export const useBackgroundPushNotificationInfo = () => {
 
   React.useEffect(() => {
     checkStatusAsync();
+
+    // HANDLE WHEN CLICK NOTIFICATION
+    Notifications.addNotificationResponseReceivedListener((response) => {
+      navigate("comic-detail", response);
+    });
   }, []);
 
   const checkStatusAsync = async () => {

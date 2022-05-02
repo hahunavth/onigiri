@@ -13,9 +13,9 @@ type Props = {};
 export const LibraryScreen = (props: Props) => {
   return (
     // <View flex={1}>
-    <LibraryContextProvider>
-      <LibraryTopNavigator />
-    </LibraryContextProvider>
+    // <LibraryContextProvider>
+    <LibraryTopNavigator />
+    // </LibraryContextProvider>
     // </View>
   );
 };

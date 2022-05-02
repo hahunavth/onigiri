@@ -12,11 +12,16 @@ import { FlatList } from "react-native-gesture-handler";
 import { View } from "native-base";
 import LibraryList from "./LibraryList";
 import { LibraryContext } from "./LibraryContext";
+import { useIsFocused } from "../../hooks/useIsFocused";
+import { Loading } from "../../components/EmptyPage";
 interface Props {}
 
 export const SubscribeTab = (props: Props) => {
   // const history = useAppSelector(historySelector);
-  const data = useAppSelector(selectSubscribeComics);
+  const { isFocused } = useIsFocused();
+  const data = useAppSelector((state) =>
+    selectSubscribeComics(state, isFocused)
+  );
   const dispatch = useAppDispatch();
   const { showModal } = React.useContext(LibraryContext);
 
@@ -46,15 +51,19 @@ export const SubscribeTab = (props: Props) => {
         }}
         keyExtractor={(item, index) => index.toString()}
       /> */}
-      <LibraryList
-        data={data}
-        onLongPress={(comic) => {
-          showModal &&
-            showModal(true, comic.path, () => (path) => {
-              dispatch(historyAction.unSubscribeComic(comic.path));
-            });
-        }}
-      />
+      {isFocused ? (
+        <LibraryList
+          data={data}
+          onLongPress={(comic) => {
+            showModal &&
+              showModal(true, comic.path, () => (path) => {
+                dispatch(historyAction.unSubscribeComic(comic.path));
+              });
+          }}
+        />
+      ) : (
+        <Loading />
+      )}
     </View>
   );
 };
