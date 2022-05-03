@@ -214,7 +214,7 @@ const HomeScreenContent = () => {
         data={data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        initialNumToRender={10}
+        initialNumToRender={12}
       />
     </>
   );

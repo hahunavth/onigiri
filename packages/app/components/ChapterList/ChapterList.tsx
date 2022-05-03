@@ -26,6 +26,7 @@ import { Loading } from "../EmptyPage";
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
+  // @ts-ignore
   Animated.createAnimatedComponent(FlatList);
 
 type Props = Omit<
@@ -45,6 +46,7 @@ const ConnectionList = forwardRef<
   Props & {
     // This props for downloaded offline comic
     offline?: boolean;
+    isFocused: boolean;
   }
 >((props, ref) => {
   const history = useAppSelector(historySelector);
@@ -53,7 +55,7 @@ const ConnectionList = forwardRef<
 
   // Memo
   const keyExtractor = useCallback(
-    (_: resComicDetailChapterItem_T, index) => {
+    (_: resComicDetailChapterItem_T, index: number) => {
       const len = props.data?.length || 0;
       const key = len ? (sortNewer ? index : len - 1 - index) : -100 - index;
       // console.log(key);
@@ -96,7 +98,7 @@ const ConnectionList = forwardRef<
     dependencyList: [props.data]
   });
 
-  const ListHeaderComponent = () => {
+  const ListHeaderComponent = useCallback(() => {
     return (
       <ListHeader
         lastedChapter={(props.data && props.data[0].name) || ""}
@@ -104,7 +106,7 @@ const ConnectionList = forwardRef<
         onSortTypeChange={setSortNewer}
       />
     );
-  };
+  }, []);
 
   const getItemLayout = React.useCallback((data, index) => {
     return {
@@ -114,9 +116,14 @@ const ConnectionList = forwardRef<
     };
   }, []);
 
+  console.log(
+    "🚀 ~ file: ChapterList.tsx ~ line 135 ~ props.isFocused",
+    props.isFocused
+  );
+
   return (
     <View style={styles.container}>
-      {loading && !props.data ? (
+      {loading || !props.isFocused || !props.data ? (
         <Loading />
       ) : (
         <AnimatedFlatList
@@ -213,4 +220,5 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
 export const ChapterList = memo(ConnectionList);

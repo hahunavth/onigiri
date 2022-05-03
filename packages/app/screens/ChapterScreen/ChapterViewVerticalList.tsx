@@ -1,5 +1,10 @@
 import React from "react";
-import { ListRenderItemInfo, FlatList, Dimensions } from "react-native";
+import {
+  ListRenderItemInfo,
+  FlatList,
+  Dimensions,
+  useWindowDimensions
+} from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets
@@ -40,6 +45,7 @@ const ChapterViewVerticalList = React.forwardRef<
 >((props, ref) => {
   // console.log(props.imgs)
   const { setImgs, handleScroll, imgs } = props;
+  const { height, width } = useWindowDimensions();
   const { top } = useSafeAreaInsets();
   const { ctxId, changeChapter } = React.useContext(ChapterContext);
   const { currentComic } = useAppSelector(homeSelector);
@@ -53,11 +59,12 @@ const ChapterViewVerticalList = React.forwardRef<
         <ScaledImage
           source={{
             uri:
-              "https://hahunavth-express-api.herokuapp.com/api/v1/cors/" +
+              // "https://hahunavth-express-api.herokuapp.com/api/v1/cors/" +
               item.uri
           }}
           id={index}
           h={item.h}
+          w={width}
           setImgs={setImgs}
         />
       );

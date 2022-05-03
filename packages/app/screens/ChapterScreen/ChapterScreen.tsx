@@ -25,6 +25,7 @@ import {
   selectChapterInfo
 } from "app/store/chapterSlice";
 import { resComicDetailChapterItem_T } from "app/types";
+import TFastImage from "app/components/Typo/TFastImage";
 
 export function ChapterScreen(props: ChapterScreenProps) {
   return (
@@ -137,7 +138,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   const [lazy, data, p] = comicApi.endpoints.getChapterByPath.useLazyQuery();
   // const prefetch = usePrefetch("getChapterByPath");
   // const data?.data?.data = data?.data;
-  console.log("renderer chapree screen");
+  console.log("renderer chapter screen");
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([]);
 
   React.useLayoutEffect(() => {
@@ -152,7 +153,23 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   });
   // TODO: USE LAYOUT EFFECT
   React.useLayoutEffect(() => {
-    setImgs(data?.data?.data?.images.map((uri) => ({ uri, h: 0 })) || []);
+    // clear cache before fetch new chapter
+    (async () => {
+      console.log("async");
+      await TFastImage?.clearDiskCache();
+      await TFastImage?.clearMemoryCache();
+
+      // NOTE: PRELOAD IMAGE CAUSE CRASH
+      // if (data?.data?.data) {
+      // await TFastImage.preload(
+      //   data?.data?.data.images.slice(5).map((url: string) => url)
+      // );
+      // }
+
+      setImgs(
+        data?.data?.data?.images.map((uri: string) => ({ uri, h: 0 })) || []
+      );
+    })();
   }, [data]);
 
   // DISPATCH ACTION
@@ -162,7 +179,11 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     isFetching: false,
     callback: () => {
       imgs?.length &&
-        flatListRef.current?.scrollToIndex({ animated: false, index: 0 });
+        flatListRef.current?.scrollToIndex({
+          animated: false,
+          index: 0,
+          viewPosition: 0
+        });
       splashOffset.value = 2;
     }
   });

@@ -62,6 +62,7 @@ import usePrevious from "react-use/esm/usePrevious";
 import ComicDetailBottomBar, { styles } from "./ComicDetailBottomBar";
 import CollapseTab from "./CollapseTab";
 import CollapseTop from "./CollapseTop";
+import { useIsFocused } from "@react-navigation/native";
 
 type Props = {
   comic?: resComicDetail_T;
@@ -213,6 +214,8 @@ export const CollapseHeader = (props: Props) => {
   //   return props.comic ? [props.comic] : []
   // }, [props.comic])
 
+  const isFocused = useIsFocused();
+
   // NOTE: Render List
   const renderFriends = useCallback(
     () => (
@@ -237,6 +240,7 @@ export const CollapseHeader = (props: Props) => {
   const renderSuggestions = useCallback(
     () => (
       <ChapterList
+        isFocused={isFocused}
         ref={suggestionsRef}
         data={downloadedChapterList}
         onScroll={suggestionsScrollHandler}

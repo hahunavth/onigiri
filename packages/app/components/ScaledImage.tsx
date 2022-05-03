@@ -1,4 +1,3 @@
-//import liraries
 import React, { Component, useEffect, useState, useMemo } from "react";
 import {
   Image as ImageElement,
@@ -12,12 +11,6 @@ import { Image, View, Text, Box } from "native-base";
 import { Loading } from "./EmptyPage/Loading";
 import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import TFastImage from "./Typo/TFastImage";
-// import FastImage from "react-native-fast-image";
-
-// import { Image as ImageElement } from 'native-base'
-
-// const screen = Dimensions.get('window')
-const window = Dimensions.get("screen");
 
 type ScaledImageProps = {
   source: {
@@ -25,27 +18,23 @@ type ScaledImageProps = {
   };
   setImgs?: React.Dispatch<React.SetStateAction<{ uri: string; h: number }[]>>;
   h: number;
+  w: number;
   id?: number;
 };
 
-const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
-  // const [size, setSize] = useState({ width: 1, height: 1 })
-  // const [dimensions, setDimensions] = useState({ window, screen })
-  // const [loading, setLoading] = useState(true)
+const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
   const [data, setData] = useState("");
-
-  // if (source.uri === '')
-  // console.log('empty')
 
   useEffect(() => {
     let isMounted = true;
     if (!h) {
       // console.log('getSize' + id, ' h ', h)
       ImageElement.getSizeWithHeaders(
-        source.uri.replace(
-          "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
-          ""
-        ),
+        source.uri,
+        // .replace(
+        //   "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
+        //   ""
+        // )
         {
           referer: "https://www.nettruyenpro.com"
         },
@@ -56,9 +45,7 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
               setImgs((imgs) => {
                 return (
                   imgs?.map((item, index) =>
-                    index === id
-                      ? { ...item, h: (height / width) * window.width }
-                      : item
+                    index === id ? { ...item, h: (height / width) * w } : item
                   ) || []
                 );
               });
@@ -141,9 +128,9 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
   //   }
   // }, [h, window.width])
 
-  const imageSrc = React.useMemo(() => {
-    return { uri: data };
-  }, [data]);
+  // const imageSrc = React.useMemo(() => {
+  //   return { uri: data };
+  // }, [data]);
 
   const { boxStyle, textStyle } = useColorModeStyle("", "Primary");
   const { boxStyle: boxStyle2, textStyle: textStyle2 } = useColorModeStyle(
@@ -156,7 +143,7 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
       <Box
         justifyContent={"center"}
         alignItems={"center"}
-        height={window.width}
+        height={w}
         bg={boxStyle.backgroundColor}
         _text={textStyle}
       >
@@ -168,7 +155,7 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
           borderRadius={"full"}
           h={60}
           w={60}
-          borderWidth={10}
+          borderWidth={6}
           borderColor={boxStyle2.backgroundColor}
         >
           {id}
@@ -196,7 +183,7 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
 
   return (
     <>
-      <Image
+      {/* <Image
         source={{
           uri: source.uri.replace(
             "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
@@ -210,10 +197,10 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
         w={window.width}
         h={h}
         fadeDuration={0}
-        alt={"image"}
-        defaultSource={1}
-      />
-      {/* <TFastImage
+        alt={source.uri}
+        // defaultSource={1}
+      /> */}
+      <TFastImage
         source={{
           uri: source.uri.replace(
             "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
@@ -225,14 +212,12 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
           },
           priority: TFastImage?.priority?.high
         }}
-        // w={window.width}
-        // h={h}
-        style={{ height: h }}
+        style={{ height: h, width: w }}
         fadeDuration={0}
         alt={"image"}
-        defaultSource={1}
+        // defaultSource={1}
         resizeMode={TFastImage?.resizeMode?.cover}
-      /> */}
+      />
     </>
   );
 };

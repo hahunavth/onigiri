@@ -18,6 +18,8 @@
 ### Change
   - LibraryList only render when screen is focused
   - LibraryListItem
+  - Chapter screen fast image and clear cache when switch chapter
+  - ComicDetail chapter list useFocusEffect
 
 ## 0.0.5 (2022-4-6)
 ### Added
