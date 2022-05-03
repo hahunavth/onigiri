@@ -28,12 +28,18 @@ type ScaledImageProps = {
   id?: number;
 };
 
-const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
-  const [ratio, setRatio] = useState(0);
+const ScaledImagex = ({
+  source,
+  h: ratio,
+  id,
+  setImgs,
+  w
+}: ScaledImageProps) => {
+  // const [ratio, setRatio] = useState(0);
 
   useLayoutEffect(() => {
     let isMounted = true;
-    if (!h) {
+    if (!ratio) {
       // console.log('getSize' + id, ' h ', h)
       ImageElement.getSizeWithHeaders(
         source.uri,
@@ -50,12 +56,14 @@ const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
             setImgs &&
               setImgs((imgs) => {
                 return (
-                  imgs?.map((item, index) =>
-                    index === id ? { ...item, h: (height / width) * w } : item
+                  imgs?.map(
+                    (item, index) =>
+                      index === id ? { ...item, h: height / width } : item
+                    // index === id ? { ...item, h: (height / width) * w } : item
                   ) || []
                 );
               });
-            setRatio(height / width);
+            // setRatio(height / width);
           }
         }
       );
@@ -65,24 +73,24 @@ const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
     };
   }, [source]);
 
-  useLayoutEffect(() => {
-    let mount = true;
+  // useLayoutEffect(() => {
+  //   let mount = true;
 
-    if (h && mount) {
-      setImgs &&
-        setImgs((imgs) => {
-          return (
-            imgs?.map((item, index) =>
-              index === id ? { ...item, h: ratio * w } : item
-            ) || []
-          );
-        });
-    }
+  //   if (h && mount) {
+  //     setImgs &&
+  //       setImgs((imgs) => {
+  //         return (
+  //           imgs?.map((item, index) =>
+  //             index === id ? { ...item, h: ratio * w } : item
+  //           ) || []
+  //         );
+  //       });
+  //   }
 
-    return () => {
-      mount = false;
-    };
-  }, [w]);
+  //   return () => {
+  //     mount = false;
+  //   };
+  // }, [w]);
 
   // useEffect(() => {
   //   const onChange = ({
@@ -164,7 +172,7 @@ const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
     "Secondary"
   );
 
-  if (!h) {
+  if (!ratio) {
     return (
       <Box
         justifyContent={"center"}
@@ -209,7 +217,7 @@ const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
 
   return (
     <>
-      {/* <Image
+      <Image
         source={{
           uri: source.uri.replace(
             "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
@@ -220,13 +228,13 @@ const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
             referer: "https://www.nettruyenpro.com"
           }
         }}
-        w={window.width}
-        h={h}
+        w={w}
+        h={ratio * w}
         fadeDuration={0}
         alt={source.uri}
         // defaultSource={1}
-      /> */}
-      <TFastImage
+      />
+      {/* <TFastImage
         source={{
           uri: source.uri.replace(
             "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
@@ -236,14 +244,16 @@ const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
           headers: {
             referer: "https://www.nettruyenpro.com"
           },
-          priority: TFastImage?.priority?.high
+          priority: TFastImage?.priority?.high,
+          cache: TFastImage?.cacheControl.web
         }}
         style={{ height: h, width: w }}
         fadeDuration={0}
         alt={"image"}
-        // defaultSource={1}
+        defaultSource={1}
         resizeMode={TFastImage?.resizeMode?.cover}
-      />
+        // tintColor={"#9324c3"}
+      /> */}
     </>
   );
 };

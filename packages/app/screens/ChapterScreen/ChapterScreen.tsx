@@ -27,6 +27,9 @@ import {
 import { resComicDetailChapterItem_T } from "app/types";
 import TFastImage from "app/components/Typo/TFastImage";
 
+const OFFSET_MAX = 64;
+const ZERO = 0;
+
 export function ChapterScreen(props: ChapterScreenProps) {
   return (
     // <ChapterContextProvider>
@@ -77,7 +80,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
 
   // const {} = props.navigation.
   // ANCHOR: ANIMATION
-  const offset = useSharedValue(0);
+  const offset = useSharedValue(ZERO);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -142,7 +145,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([]);
 
   React.useLayoutEffect(() => {
-    splashOffset.value = 0;
+    splashOffset.value = ZERO;
   }, [id, path]);
 
   const { loading: loading2 } = useInteraction({
@@ -193,18 +196,18 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     const currentOffset = e.nativeEvent.contentOffset.y;
     const scrollLen = currentOffset - oldOffset;
     if (scrollLen > 6 && currentOffset > 32) {
-      offset.value = 64;
+      offset.value = OFFSET_MAX;
       // bottomSheetRef.current?.close()
     } else if (scrollLen < -10) {
-      offset.value = 0;
+      offset.value = ZERO;
       // bottomSheetRef.current?.snapToIndex(0)
     }
     oldOffset = currentOffset;
   }, []);
 
   const toggleFloatingVisible = React.useCallback(() => {
-    if (offset.value > 0) offset.value = 0;
-    else offset.value = 64;
+    if (offset.value > 0) offset.value = ZERO;
+    else offset.value = OFFSET_MAX;
   }, [offset]);
 
   return (

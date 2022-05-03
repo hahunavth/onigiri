@@ -53,6 +53,10 @@ const ChapterViewVerticalList = React.forwardRef<
   // const { ctxId, changeChapter } = React.useContext(ChapterContext);
   // const { currentComic } = useAppSelector(homeSelector);
 
+  // useEffect(() => {
+  //   TFastImage?.preload(imgs);
+  // }, []);
+
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setW(width);
@@ -138,74 +142,18 @@ const ChapterViewVerticalList = React.forwardRef<
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           onScroll={handleScroll}
-          initialNumToRender={4}
-          maxToRenderPerBatch={5}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          windowSize={10}
           removeClippedSubviews={true}
           // FIXME: SCROLL OVER FOOTER -> OPEN
           onEndReachedThreshold={1.1}
           onEndReached={(e) => props.onEndReach && props.onEndReach(e)}
-          nestedScrollEnabled
+          // nestedScrollEnabled
           ListHeaderComponent={() => {
             return <View w={"full"} h={75}></View>;
           }}
           ListFooterComponent={() => <MediumBanner size={"mediumRectangle"} />}
-          // ListFooterComponent={() => {
-          //   return (
-          //     <ScrollView my={24}>
-          //       <Center>
-          //         <Text fontSize={24}>END</Text>
-          //         <Text>Chapter 0</Text>
-          //       </Center>
-          //       <Divider my={12} />
-          //       <ChapterFooterBtn
-          //         onPress={() => {
-          //           const length = currentComic?.chapters.length || -1;
-          //           const list = currentComic?.chapters || [];
-          //           const id = ctxId || -1;
-          //           console.log(length, id);
-          //           if (
-          //             id < length - 1 &&
-          //             id > 0 &&
-          //             list[id + 1] &&
-          //             changeChapter
-          //           ) {
-          //             changeChapter({
-          //               ctxId: id + 1,
-          //               ctxName: list[id + 1].name,
-          //               ctxPath: list[id + 1].path
-          //             });
-          //           }
-          //         }}
-          //       />
-          //       <ChapterFooterBtn
-          //         type="next"
-          //         onPress={() => {
-          //           const length = currentComic?.chapters.length || -1;
-          //           const list = currentComic?.chapters || [];
-          //           const id = ctxId || -1;
-          //           console.log(length, id);
-          //           if (
-          //             id < length &&
-          //             id >= 0 &&
-          //             list[id - 1] &&
-          //             changeChapter
-          //           ) {
-          //             changeChapter({
-          //               ctxId: id - 1,
-          //               ctxName: list[id - 1].name,
-          //               ctxPath: list[id - 1].path
-          //             });
-          //           }
-          //         }}
-          //       />
-          //       <Divider my={12} />
-          //       <Center>
-          //         <Text fontSize={24}>COMMENT</Text>
-          //         <Text>Open comment BottomSheet</Text>
-          //       </Center>
-          //     </ScrollView>
-          //   );
-          // }}
         />
       </View>
     </ReactNativeZoomableView>
