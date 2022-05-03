@@ -1,6 +1,13 @@
 import { FlatList } from "native-base";
-import { ListRenderItemInfo, Alert, BackHandler } from "react-native";
-import React from "react";
+import {
+  ListRenderItemInfo,
+  Alert,
+  BackHandler,
+  Dimensions,
+  LayoutAnimation,
+  InteractionManager
+} from "react-native";
+import React, { useEffect } from "react";
 import { ListHeader } from "app/components/ListHeader";
 import { FlatlistBanner } from "app/components/Banner";
 import { ComicGridGap3 } from "app/components/Comics/ComicGridGap3";
@@ -19,15 +26,44 @@ import I18n from "i18n-js";
 import { ComicHorizontalList2 } from "app/components/Comics/ComicHorizontalList2/ComicHorizontalList2";
 import i18n from "i18n-js";
 import { useFocusEffect } from "@react-navigation/native";
-import { TryAgain } from "../../components/EmptyPage";
+import { Loading, TryAgain } from "../../components/EmptyPage";
 import useInteraction from "../../hooks/useInteraction";
+import FadeInView from "../../components/AnimationWrapper/FadeInView";
 
 export const HomeScreen = () => {
-  // console.log("rerender");
-  // const { loading } = useInteraction();
+  const [isNewOrientation, setIsNewOrientation] = React.useState(false);
+
+  useEffect(() => {
+    Dimensions.addEventListener("change", () => {
+      setIsNewOrientation(true);
+    });
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (isNewOrientation) {
+        InteractionManager.runAfterInteractions(() => {
+          LayoutAnimation.configureNext({
+            duration: 500,
+            update: { type: "easeInEaseOut" }
+            // create: { type: "easeInEaseOut" }
+            // delete: { type: "easeInEaseOut" }
+          });
+          setIsNewOrientation(false);
+        });
+      }
+    }, [isNewOrientation])
+  );
+
+  const { loading } = useInteraction();
+
   // return <>{!loading && <HomeScreenContent />}</>;
-  return <HomeScreenContent />;
-  // return <FadeInView>{!loading && <HomeScreenContent />}</FadeInView>;
+  // return <HomeScreenContent />;
+  return (
+    <FadeInView>
+      {!loading && !isNewOrientation ? <HomeScreenContent /> : <Loading />}
+    </FadeInView>
+  );
 };
 
 const data = [
@@ -214,11 +250,20 @@ const HomeScreenContent = () => {
         data={data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        initialNumToRender={12}
+        // initialNumToRender={12}
+        initialNumToRender={0}
+        maxToRenderPerBatch={2}
+        updateCellsBatchingPeriod={1000}
+        // decelerationRate="fast"
+        removeClippedSubviews={true}
+        // disableVirtualization={true}
+        windowSize={12}
       />
     </>
   );
 };
+
+// end
 
 const ComicList1 = React.memo(function () {
   const list = useApiHot("1");

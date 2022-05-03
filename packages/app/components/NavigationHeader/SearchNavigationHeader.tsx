@@ -57,7 +57,7 @@ const AnimatedIonIcons = Animated.createAnimatedComponent(Ionicons);
 const AnimatedFSafeAreaView = Animated.createAnimatedComponent(FSafeAreaView);
 const AnimatedButton = Animated.createAnimatedComponent(Button);
 
-export const SearchNavigationHeader: React.FC<NativeStackHeaderProps> = (
+export const MainNavigationHeader: React.FC<NativeStackHeaderProps> = (
   props: NativeStackHeaderProps
 ) => {
   /**

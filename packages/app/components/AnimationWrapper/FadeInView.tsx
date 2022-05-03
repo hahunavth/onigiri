@@ -15,7 +15,7 @@ type Props = {
 };
 
 const FadeInView = (props: Props) => {
-  const fadeAnim = useSharedValue(0); // Initial value for opacity: 0
+  const fadeAnim = useSharedValue(0.5); // Initial value for opacity: 0
 
   const fadeStyle = useAnimatedStyle(() => {
     return {
@@ -30,7 +30,7 @@ const FadeInView = (props: Props) => {
   useFocusEffect(() => {
     fadeAnim.value = 1;
     return () => {
-      fadeAnim.value = 0;
+      fadeAnim.value = 0.5;
     };
   });
 

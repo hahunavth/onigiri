@@ -10,7 +10,8 @@ import {
   ListRenderItem,
   StyleSheet,
   TouchableOpacity,
-  View
+  View,
+  ListRenderItemInfo
 } from "react-native";
 import { Text } from "native-base";
 import Animated from "react-native-reanimated";
@@ -20,9 +21,6 @@ import { historySelector } from "app/store/historySlice";
 import { homeSelector } from "app/store/homeSlice";
 import useInteraction from "app/hooks/useInteraction";
 import { Loading } from "../EmptyPage";
-// import { MotiScrollView } from "moti";
-// import usePrevious from "react-use/esm/usePrevious";
-// import { ANFlatlist } from '../Typo'
 
 // @ts-ignore
 export const AnimatedFlatList: typeof FlatList =
@@ -54,12 +52,19 @@ const ConnectionList = forwardRef<
   const { currentComic } = useAppSelector(homeSelector);
 
   // Memo
-  const keyExtractor = useCallback(
-    (_: resComicDetailChapterItem_T, index: number) => {
+  const keyExtractor = useCallback<
+    (
+      item: resComicDetailChapterItem_T & {
+        visited?: boolean | undefined;
+      },
+      index: number
+    ) => string
+  >(
+    (_, index) => {
       const len = props.data?.length || 0;
       const key = len ? (sortNewer ? index : len - 1 - index) : -100 - index;
       // console.log(key);
-      return key;
+      return key.toString();
     },
     [sortNewer, props.data]
   );
@@ -147,7 +152,6 @@ const listHeaderStyle = StyleSheet.create({
   text: {
     fontSize: 10,
     paddingRight: 10
-    // fontFamily: QFontFamily.Quicksand_600SemiBold
   },
   activate: {
     color: "#704217"

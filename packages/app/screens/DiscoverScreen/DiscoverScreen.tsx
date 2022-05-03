@@ -1,6 +1,5 @@
 import { View, Text, Select, CheckIcon, Button, ScrollView } from "native-base";
 import React from "react";
-// NOTE: This lib does not have type declaration
 // @ts-ignore
 import SelectBox from "react-native-multi-selectbox";
 import { xorBy } from "lodash";
@@ -11,12 +10,12 @@ import { Picker } from "@react-native-picker/picker";
 import {
   FOR_USER,
   GENRES_LIST,
-  OptionT,
   NUM_CHAPTER,
   STATUS,
   SORT_BY,
   toIdListStr,
-  FindOptionT
+  FindOptionT,
+  OptionT
 } from "app/utils/findOption";
 import { navigate } from "app/navigators";
 import { SelectOne } from "app/components/DropdownSelect";
@@ -40,7 +39,7 @@ export const DiscoverScreen = () => {
 
   const [selectedGenres, setSelectedGenres] = React.useState([]);
 
-  console.log("rerender2");
+  // console.log("rerender2");
 
   function onForUserChange() {
     return (val: any) => setSelectedForUser(val);
@@ -63,7 +62,7 @@ export const DiscoverScreen = () => {
   const getFindPath = () => {
     // Ex: http://www.nettruyenpro.com/tim-truyen-nang-cao?genres=&notgenres=&gender=-1&status=2&minchapter=1&sort=5
     return `/tim-truyen-nang-cao?genres=${toIdListStr(
-      selectedGenres.map((g) => g.id)
+      selectedGenres.map((g: any) => g.id)
     )}&gender=${selectedForUser?.id || -1}&status=${
       selectedStatus?.id || -1
     }&minchapter=${selectedNumChapter?.id || -1}&sort=${
@@ -82,7 +81,13 @@ export const DiscoverScreen = () => {
   // const [selectedLanguage, setSelectedLanguage] = React.useState()
 
   return (
-    <View flex={1} p={2} bg={"warmGray.50"} _dark={{ bg: "warmGray.900" }}>
+    <View
+      flex={1}
+      p={2}
+      bg={"warmGray.50"}
+      _dark={{ bg: "warmGray.900" }}
+      onLayout={(e) => {}}
+    >
       <SelectBoxMultiple
         label={i18n.t("discover.genres.title")}
         options={GENRES_LIST}

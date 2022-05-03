@@ -1,4 +1,10 @@
-import React, { Component, useEffect, useState, useMemo } from "react";
+import React, {
+  Component,
+  useEffect,
+  useState,
+  useMemo,
+  useLayoutEffect
+} from "react";
 import {
   Image as ImageElement,
   StyleSheet,
@@ -23,9 +29,9 @@ type ScaledImageProps = {
 };
 
 const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
-  const [data, setData] = useState("");
+  const [ratio, setRatio] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let isMounted = true;
     if (!h) {
       // console.log('getSize' + id, ' h ', h)
@@ -49,6 +55,7 @@ const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
                   ) || []
                 );
               });
+            setRatio(height / width);
           }
         }
       );
@@ -57,6 +64,25 @@ const ScaledImagex = ({ source, h, id, setImgs, w }: ScaledImageProps) => {
       isMounted = false;
     };
   }, [source]);
+
+  useLayoutEffect(() => {
+    let mount = true;
+
+    if (h && mount) {
+      setImgs &&
+        setImgs((imgs) => {
+          return (
+            imgs?.map((item, index) =>
+              index === id ? { ...item, h: ratio * w } : item
+            ) || []
+          );
+        });
+    }
+
+    return () => {
+      mount = false;
+    };
+  }, [w]);
 
   // useEffect(() => {
   //   const onChange = ({

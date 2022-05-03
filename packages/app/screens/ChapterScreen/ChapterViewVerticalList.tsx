@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ListRenderItemInfo,
   FlatList,
   Dimensions,
-  useWindowDimensions
+  useWindowDimensions,
+  LayoutAnimation
 } from "react-native";
 import {
   SafeAreaView,
@@ -37,7 +38,7 @@ import { ChapterViewListProps } from "./type";
 import TFastImage from "app/components/Typo/TFastImage";
 import { MediumBanner } from "../../components/AdMob";
 
-const { width, height } = Dimensions.get("screen");
+// const { width, height } = Dimensions.get("screen");
 
 const ChapterViewVerticalList = React.forwardRef<
   FlatList,
@@ -46,9 +47,16 @@ const ChapterViewVerticalList = React.forwardRef<
   // console.log(props.imgs)
   const { setImgs, handleScroll, imgs } = props;
   const { height, width } = useWindowDimensions();
+  const [w, setW] = React.useState(0);
   const { top } = useSafeAreaInsets();
-  const { ctxId, changeChapter } = React.useContext(ChapterContext);
-  const { currentComic } = useAppSelector(homeSelector);
+  console.log(width);
+  // const { ctxId, changeChapter } = React.useContext(ChapterContext);
+  // const { currentComic } = useAppSelector(homeSelector);
+
+  useEffect(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setW(width);
+  }, [width]);
 
   const renderItem = React.useCallback(
     ({ item, index }: ListRenderItemInfo<{ uri: string; h: number }>) => {
@@ -64,12 +72,12 @@ const ChapterViewVerticalList = React.forwardRef<
           }}
           id={index}
           h={item.h}
-          w={width}
+          w={w}
           setImgs={setImgs}
         />
       );
     },
-    []
+    [w]
   );
   const keyExtractor = React.useCallback((item, id) => item.uri, []);
 
@@ -83,7 +91,7 @@ const ChapterViewVerticalList = React.forwardRef<
   return (
     // <PinchWrapper>
     <ReactNativeZoomableView
-      style={{ width, height }}
+      style={{ width: w }}
       maxZoom={1.4}
       minZoom={1}
       // zoomStep={0.5}

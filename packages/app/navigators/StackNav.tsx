@@ -7,7 +7,7 @@ import { NavigatorScreenParams, useNavigation } from "@react-navigation/native";
 import { TransitionPresets } from "@react-navigation/stack";
 import {
   NavigationHeader,
-  SearchNavigationHeader
+  MainNavigationHeader
 } from "app/components/NavigationHeader";
 import {
   ChapterScreen,
@@ -240,6 +240,8 @@ export function StackNav() {
         headerRight: Platform.OS === "web" ? undefined : renderRight,
         headerShadowVisible: true,
         headerLargeTitleShadowVisible: true
+
+        // orientation: "portrait_up"
         // headerTransparent: true,
       }}
     >
@@ -251,7 +253,7 @@ export function StackNav() {
           header:
             Platform.OS === "web"
               ? undefined
-              : (props) => <SearchNavigationHeader {...(props as any)} />
+              : (props) => <MainNavigationHeader {...(props as any)} />
         }}
         component={BottomNav}
       ></Screen>
