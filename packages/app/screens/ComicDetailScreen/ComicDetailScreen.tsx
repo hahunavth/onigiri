@@ -7,8 +7,12 @@ import useUpdateCurrentComic from "app/hooks/useUpdateCurrentComic";
 // import usePrevious from "react-use/esm/usePrevious";
 import { useAppDispatch } from "app/store/hooks";
 import { notificationAction } from "app/store/notificationSlice";
+import * as Sentry from "sentry-expo";
 
 export const ComicDetailScreen = (props: ComicDetailScreenProps) => {
+  // REVIEW: CAN CAUSE WEB ERROR
+  Sentry.Native.useProfiler("ComicDetailScreen");
+
   const { path, preloadItem } = props.route.params;
   const { data } = useApiComicDetail(path || "", {});
   // const prev = usePrevious(props.route)

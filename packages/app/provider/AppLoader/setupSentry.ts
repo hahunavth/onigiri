@@ -1,5 +1,6 @@
 import { Platform } from "react-native";
-import * as Sentry from "@sentry/react-native";
+// import * as Sentry from "@sentry/react-native";
+import * as Sentry from "sentry-expo";
 import * as Device from "expo-device";
 
 const onigiriSentryReleaseName = () => {
@@ -11,16 +12,24 @@ const onigiriSentryReleaseName = () => {
 
 // FIXME: CAUSE ERROR
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
-const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
+const routingInstrumentation =
+  new Sentry.Native.ReactNavigationInstrumentation();
 
 export { routingInstrumentation };
 export default function setupSentry() {
   console.log(process.env.SENTRY_DSN);
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
-    enableNative: false,
+    // enableNative: false,
+    enabled: true,
+    enableAutoPerformanceTracking: true,
+    enableNativeCrashHandling: true, // This only works if enableNative is true
+    enableAutoSessionTracking: true,
+    enableNativeNagger: true,
+    enableNdkScopeSync: true,
+    enableInExpoDevelopment: true,
     integrations: [
-      new Sentry.ReactNativeTracing({
+      new Sentry.Native.ReactNativeTracing({
         routingInstrumentation,
         idleTimeout: 5000,
         tracingOrigins: ["localhost", /^\//, /^https:\/\//]
@@ -33,7 +42,7 @@ export default function setupSentry() {
     //
     // enableAutoSessionTracking: true,
     // Sessions close after app is 10 seconds in the background.
-    // sessionTrackingIntervalMillis: 5000,
+    sessionTrackingIntervalMillis: 10000,
     // NOTE: eigen config
     release: onigiriSentryReleaseName(),
     dist: Device.osVersion || undefined,

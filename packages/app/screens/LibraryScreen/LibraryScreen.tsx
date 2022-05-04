@@ -13,7 +13,7 @@ type Props = {};
  * NOTE: unmount on blur and lazy in bottom nav
  */
 export const LibraryScreen = (props: Props) => {
-  Sentry.useProfiler("HomeScreen");
+  Sentry.useProfiler("LibraryScreen");
 
   return (
     // <View flex={1}>

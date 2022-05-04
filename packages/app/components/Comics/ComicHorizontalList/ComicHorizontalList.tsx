@@ -13,7 +13,10 @@ type Props = {};
 export function ComicHorizontalList(props: Props) {
   const { comics, readComics } = useAppSelector(historySelector);
   const renderedList = React.useMemo(() => {
-    return readComics.map((path) => comics[path]).filter((comic) => !!comic);
+    return readComics
+      .map((path) => comics[path])
+      .filter((comic) => !!comic)
+      .slice(0, 8);
   }, [comics]) as HistoryComicT[];
 
   const renderItem = React.useCallback(

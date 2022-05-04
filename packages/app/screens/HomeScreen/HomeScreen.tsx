@@ -253,8 +253,8 @@ const HomeScreenContent = () => {
         data={data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        // initialNumToRender={12}
-        initialNumToRender={0}
+        initialNumToRender={12}
+        // initialNumToRender={0} // cause low performance
         maxToRenderPerBatch={2}
         updateCellsBatchingPeriod={1000}
         // decelerationRate="fast"

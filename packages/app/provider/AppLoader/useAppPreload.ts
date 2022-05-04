@@ -42,8 +42,6 @@ export default function useAppPreload() {
   const handleFinish = React.useCallback(() => setIsReady(true), []);
 
   const handleNavReady = React.useCallback(() => {
-    // Sentry
-    routingInstrumentation.registerNavigationContainer(navigationRef);
     // Splash
     setIsNavReady(true);
   }, []);

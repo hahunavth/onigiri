@@ -26,11 +26,14 @@ import {
 } from "app/store/chapterSlice";
 import { resComicDetailChapterItem_T } from "app/types";
 import TFastImage from "app/components/Typo/TFastImage";
+import * as Sentry from "@sentry/react-native";
 
 const OFFSET_MAX = 64;
 const ZERO = 0;
 
 export function ChapterScreen(props: ChapterScreenProps) {
+  Sentry.useProfiler("ChapterScreen");
+
   return (
     // <ChapterContextProvider>
     <ChapterScreenNode {...props} />
