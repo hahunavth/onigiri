@@ -11,8 +11,9 @@ const onigiriSentryReleaseName = () => {
 
 // FIXME: CAUSE ERROR
 // Construct a new instrumentation instance. This is needed to communicate between the integration and React
-// const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
+const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
 
+export { routingInstrumentation };
 export default function setupSentry() {
   console.log(process.env.SENTRY_DSN);
   Sentry.init({
@@ -20,22 +21,24 @@ export default function setupSentry() {
     enableNative: false,
     integrations: [
       new Sentry.ReactNativeTracing({
-        // routingInstrumentation,
-        tracingOrigins: ["localhost", "my-site-url.com", /^\//]
+        routingInstrumentation,
+        idleTimeout: 5000,
+        tracingOrigins: ["localhost", /^\//, /^https:\/\//]
       })
     ],
-    // debug: true,
+    debug: true,
     // To set a uniform sample rate
-    tracesSampleRate: 0.2,
+    tracesSampleRate: 1,
+    sampleRate: 1,
     //
-    enableAutoSessionTracking: true,
+    // enableAutoSessionTracking: true,
     // Sessions close after app is 10 seconds in the background.
-    sessionTrackingIntervalMillis: 10000,
+    // sessionTrackingIntervalMillis: 5000,
     // NOTE: eigen config
     release: onigiriSentryReleaseName(),
     dist: Device.osVersion || undefined,
     autoSessionTracking: true,
-    enableOutOfMemoryTracking: false
+    enableOutOfMemoryTracking: true
     // beforeSend(event) {
     //   // exclude all events that have no stack trace
     //   if (event.stacktrace?.frames?.length) {

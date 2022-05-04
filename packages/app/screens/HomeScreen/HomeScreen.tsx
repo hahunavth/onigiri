@@ -29,8 +29,11 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Loading, TryAgain } from "../../components/EmptyPage";
 import useInteraction from "../../hooks/useInteraction";
 import FadeInView from "../../components/AnimationWrapper/FadeInView";
+import * as Sentry from "@sentry/react-native";
 
 export const HomeScreen = () => {
+  Sentry.useProfiler("HomeScreen");
+
   const [isNewOrientation, setIsNewOrientation] = React.useState(false);
 
   useEffect(() => {

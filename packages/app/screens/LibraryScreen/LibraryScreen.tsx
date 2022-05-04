@@ -4,6 +4,7 @@ import { LibraryTopNavigator } from "app/navigators/LibraryTopNavigator";
 import ChapterContextProvider from "../ChapterScreen/ChapterContext";
 import LibraryContextProvider from "./LibraryContext";
 import { useIsFocused } from "../../hooks/useIsFocused";
+import * as Sentry from "@sentry/react-native";
 
 type Props = {};
 
@@ -12,6 +13,8 @@ type Props = {};
  * NOTE: unmount on blur and lazy in bottom nav
  */
 export const LibraryScreen = (props: Props) => {
+  Sentry.useProfiler("HomeScreen");
+
   return (
     // <View flex={1}>
     // <LibraryContextProvider>

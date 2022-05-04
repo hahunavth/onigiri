@@ -22,7 +22,9 @@ import NetInfo from "@react-native-community/netinfo";
 import { useBackgroundPushNotificationInfo } from "app/utils/backgroundFetchServices";
 import * as Sentry from "@sentry/react-native";
 
-import setupSentry from "app/provider/AppLoader/setupSentry";
+import setupSentry, {
+  routingInstrumentation
+} from "app/provider/AppLoader/setupSentry";
 import setupFlipper from "app/provider/AppLoader/setupFlipper";
 import useAppPreload from "app/provider/AppLoader/useAppPreload";
 import useAppState from "app/provider/AppLoader/useAppState";
@@ -64,6 +66,8 @@ if (Platform.OS === "android") {
  * App
  */
 function App() {
+  const navRef = React.useRef();
+
   const linking = {
     prefixes: [prefix]
   };
@@ -108,10 +112,11 @@ function App() {
         // ) :
         <NavigationContainer
           linking={linking}
-          ref={navigationRef}
+          ref={(ref) => {
+            navigationRef.current = ref;
+            navRef.current = ref;
+          }}
           onReady={() => {
-            // Sentry
-            // routingInstrumentation.registerNavigationContainer(navigationRef);
             // Splash
             handleNavReady();
           }}
