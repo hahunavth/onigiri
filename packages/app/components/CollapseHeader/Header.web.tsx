@@ -232,7 +232,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio }) => {
               {photo ? (
                 <Image
                   onLoadingComplete={() => {
-                    console.log("end");
+                    // console.log("end");
                     offset.value = 1;
                   }}
                   // source={photoSource}

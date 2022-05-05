@@ -33,115 +33,124 @@ const ListWithExtractor = (param: Param) => {
     onLongPress,
     getNewNotification
   } = param;
+
+  const ListItem = React.memo(
+    ({ item, index }: ListRenderItemInfo<resComicDetail_T>) => {
+      console.log(item.path);
+      const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle(
+        "",
+        "Primary"
+      );
+      const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle(
+        "",
+        "Secondary"
+      );
+
+      if (!item) return null;
+      return (
+        <TouchableOpacity
+          // hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          // pressRetentionOffset={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          // delayPressIn={10}
+          onLongPress={() => onLongPress && onLongPress(item as HistoryComicT)}
+          onPress={() =>
+            onPress
+              ? onPress(item as HistoryComicT)
+              : navigate("comic-detail", { preloadItem: item, path: item.path })
+          }
+        >
+          <View
+            style={styles.itemContainer}
+            {...bs1}
+            borderColor={bs2.backgroundColor}
+          >
+            {getNewNotification && getNewNotification(item.path) && (
+              <View
+                // w={3}
+                // h={3}
+                bg={"#8d6868"}
+                rounded="full"
+                // pl={4}
+                px={1}
+                py={0}
+                position="absolute"
+                right={3}
+                top={3}
+                justifyContent="center"
+                alignItems={"center"}
+                shadow={"2"}
+              >
+                <Text
+                  fontSize={10}
+                  mt={-0.3}
+                  color={"white"}
+                  _dark={{ color: "dark.900" }}
+                  fontWeight={"600"}
+                >
+                  New
+                </Text>
+              </View>
+            )}
+
+            <Image
+              source={{ uri: item.posterUrl }}
+              style={styles.poster as ImageStyle}
+            />
+
+            <View style={styles.infoContainer}>
+              <Box _text={ts1}>
+                <HStack justifyContent={"space-between"} w={"full"}>
+                  <Text
+                    style={[
+                      styles.titleText,
+                      { color: ts1.color, fontWeight: "bold" }
+                    ]}
+                    pr={8}
+                  >
+                    {item.title}
+                  </Text>
+                </HStack>
+                <TextSmS
+                  // style={styles.detailText}
+                  numberOfLines={1}
+                >
+                  Author: {item.author}
+                </TextSmS>
+                <TextSmS style={styles.detailText} numberOfLines={1}>
+                  Status: {item.status}
+                </TextSmS>
+              </Box>
+
+              <View>
+                {!!addonFieldExtractor && (
+                  <View style={styles.bottomContainer}>
+                    <TextSmS style={styles.detailText}>
+                      {addonFieldName}
+                    </TextSmS>
+                    <TextSmS style={styles.bottomText} numberOfLines={1}>
+                      {addonFieldExtractor(item as HistoryComicT)}
+                    </TextSmS>
+                  </View>
+                )}
+                <View style={styles.bottomContainer}>
+                  <TextSmS style={styles.detailText}>Lasted chapter:</TextSmS>
+                  <TextSmS style={styles.bottomText} numberOfLines={1}>
+                    {item.chapters[0].name}
+                  </TextSmS>
+                </View>
+              </View>
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+  );
+
   // Return render item function
   return (props: ListRenderItemInfo<resComicDetail_T>) => {
     // Return Function component
     return <ListItem {...props} />;
   };
-
-  function ListItem({ item, index }: ListRenderItemInfo<resComicDetail_T>) {
-    const { boxStyle: bs1, textStyle: ts1 } = useColorModeStyle("", "Primary");
-    const { boxStyle: bs2, textStyle: ts2 } = useColorModeStyle(
-      "",
-      "Secondary"
-    );
-
-    if (!item) return null;
-    return (
-      <TouchableOpacity
-        // hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        // pressRetentionOffset={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        // delayPressIn={10}
-        onLongPress={() => onLongPress && onLongPress(item as HistoryComicT)}
-        onPress={() =>
-          onPress
-            ? onPress(item as HistoryComicT)
-            : navigate("comic-detail", { preloadItem: item, path: item.path })
-        }
-      >
-        <View
-          style={styles.itemContainer}
-          {...bs1}
-          borderColor={bs2.backgroundColor}
-        >
-          {getNewNotification && getNewNotification(item.path) && (
-            <View
-              // w={3}
-              // h={3}
-              bg={"#8d6868"}
-              rounded="full"
-              // pl={4}
-              px={1}
-              py={0}
-              position="absolute"
-              right={3}
-              top={3}
-              justifyContent="center"
-              alignItems={"center"}
-              shadow={"2"}
-            >
-              <Text
-                fontSize={10}
-                mt={-0.3}
-                color={"white"}
-                _dark={{ color: "dark.900" }}
-                fontWeight={"600"}
-              >
-                New
-              </Text>
-            </View>
-          )}
-
-          <Image
-            source={{ uri: item.posterUrl }}
-            style={styles.poster as ImageStyle}
-          />
-
-          <View style={styles.infoContainer}>
-            <Box _text={ts1}>
-              <HStack justifyContent={"space-between"} w={"full"}>
-                <Text
-                  style={[
-                    styles.titleText,
-                    { color: ts1.color, fontWeight: "bold" }
-                  ]}
-                  pr={8}
-                >
-                  {item.title}
-                </Text>
-              </HStack>
-              <TextSmS
-                // style={styles.detailText}
-                numberOfLines={1}
-              >
-                Author: {item.author}
-              </TextSmS>
-              <TextSmS style={styles.detailText} numberOfLines={1}>
-                Status: {item.status}
-              </TextSmS>
-            </Box>
-
-            <View>
-              {!!addonFieldExtractor && (
-                <View style={styles.bottomContainer}>
-                  <TextSmS style={styles.detailText}>{addonFieldName}</TextSmS>
-                  <TextSmS style={styles.bottomText} numberOfLines={1}>
-                    {addonFieldExtractor(item as HistoryComicT)}
-                  </TextSmS>
-                </View>
-              )}
-              <View style={styles.bottomContainer}>
-                <TextSmS style={styles.detailText}>Lasted chapter:</TextSmS>
-                <TextSmS style={styles.bottomText} numberOfLines={1}>
-                  {item.chapters[0].name}
-                </TextSmS>
-              </View>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  }
 };
 
 const styles = StyleSheet.create({

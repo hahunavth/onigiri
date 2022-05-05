@@ -105,8 +105,8 @@ export default function BottomNav() {
             animation: "timing",
             config: { duration: 700, easing: Easing.out(Easing.exp) }
           }
-        },
-        lazy: true
+        }
+        // lazy: true
         // unmountOnBlur: true
       }}
       // detachInactiveScreens={false}

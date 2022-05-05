@@ -97,7 +97,7 @@ const Header: FC<Props2> = ({ style, name, photo, bio, rating }) => {
     []
   );
 
-  console.log("render Header: ", photo);
+  // console.log("render Header: ", photo);
 
   return (
     <View style={containerStyle}>

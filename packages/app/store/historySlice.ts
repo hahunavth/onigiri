@@ -494,20 +494,22 @@ export const selectReadComics = createSelector(
     (state: RootState) => state.history.readComics,
     (state: RootState) => state.history.comics
   ],
-  (isFocused, readComics, comics) =>
-    !isFocused
+  (isFocused, readComics, comics) => {
+    console.log("is focused: " + isFocused);
+    return !isFocused
       ? []
       : (readComics
           .map((cPath) => comics[cPath])
-          .filter(Boolean) as HistoryComicT[]),
+          .filter(Boolean) as HistoryComicT[]);
+  },
   {
     // New in 4.1: Pass options through to the built-in `defaultMemoize` function
     memoizeOptions: {
       equalityCheck: (a, b) => {
-        // console.log(a);
+        console.log("Compare result: " + (a === b));
         return a === b;
-      },
-      maxSize: 10
+      }
+      // maxSize: 10
       // resultEqualityCheck: shallowEqual
     }
   }

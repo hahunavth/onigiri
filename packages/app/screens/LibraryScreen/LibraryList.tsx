@@ -47,7 +47,7 @@ const LibraryList = ({
 
   const { loading } = useInteraction();
 
-  const keyExtractor = React.useCallback((item, index) => index.toString(), []);
+  const keyExtractor = React.useCallback((item, index) => item.path, []);
 
   return (
     <>
@@ -59,6 +59,9 @@ const LibraryList = ({
           keyExtractor={keyExtractor}
           initialNumToRender={10}
           ListFooterComponent={FooterSpace}
+          // initialNumToRender={1}
+          // updateCellsBatchingPeriod={1000}
+          // maxToRenderPerBatch={1}
         />
       ) : CustomLoading ? (
         <>

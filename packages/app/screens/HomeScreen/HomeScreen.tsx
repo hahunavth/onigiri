@@ -34,37 +34,44 @@ import * as Sentry from "@sentry/react-native";
 export const HomeScreen = () => {
   Sentry.useProfiler("HomeScreen");
 
-  const [isNewOrientation, setIsNewOrientation] = React.useState(false);
+  // const [isNewOrientation, setIsNewOrientation] = React.useState(false);
 
-  useEffect(() => {
-    Dimensions.addEventListener("change", () => {
-      setIsNewOrientation(true);
-    });
-  }, []);
+  // useEffect(() => {
+  //   Dimensions.addEventListener("change", () => {
+  //     setIsNewOrientation(true);
+  //   });
+  // }, []);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      if (isNewOrientation) {
-        InteractionManager.runAfterInteractions(() => {
-          LayoutAnimation.configureNext({
-            duration: 500,
-            update: { type: "easeInEaseOut" }
-            // create: { type: "easeInEaseOut" }
-            // delete: { type: "easeInEaseOut" }
-          });
-          setIsNewOrientation(false);
-        });
-      }
-    }, [isNewOrientation])
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     if (isNewOrientation) {
+  //       InteractionManager.runAfterInteractions(() => {
+  //         LayoutAnimation.configureNext({
+  //           duration: 500,
+  //           update: { type: "easeInEaseOut" }
+  //           // create: { type: "easeInEaseOut" }
+  //           // delete: { type: "easeInEaseOut" }
+  //         });
+  //         setIsNewOrientation(false);
+  //       });
+  //     }
+  //   }, [isNewOrientation])
+  // );
 
   const { loading } = useInteraction();
 
   // return <>{!loading && <HomeScreenContent />}</>;
-  // return <HomeScreenContent />;
+  return <HomeScreenContent />;
   return (
     <FadeInView>
-      {!loading && !isNewOrientation ? <HomeScreenContent /> : <Loading />}
+      {
+        // !loading ? (
+        //  && !isNewOrientation
+        <HomeScreenContent />
+        // ) : (
+        //   <Loading />
+        // )
+      }
     </FadeInView>
   );
 };
@@ -129,76 +136,76 @@ const data = [
       onPressMore={() => navigate("home-session-detail-list", { type: "week" })}
     />
   ),
-  () => <NewComicList />,
-  () => (
-    <ListHeader
-      name={"Completed comics"}
-      subtitle={"Todo: i18n"}
-      color=""
-      onPressMore={() =>
-        navigate("home-session-detail-list", {
-          type: "week"
-        })
-      }
-    />
-  ),
-  () => <CompletedComicList />,
-  () => (
-    <ListHeader
-      name={"Manga"}
-      subtitle={"Todo: i18n"}
-      color=""
-      onPressMore={() =>
-        navigate("home-session-detail-list", {
-          type: "find-comic-by-genres-name",
-          genresName: "manga-112"
-        })
-      }
-    />
-  ),
-  () => <MangaList />,
-  () => (
-    <ListHeader
-      name={"Tensei"}
-      subtitle={"Todo: i18n"}
-      color=""
-      onPressMore={() =>
-        navigate("home-session-detail-list", {
-          type: "find-comic-by-genres-name",
-          genresName: "chuyen-sinh-213"
-        })
-      }
-    />
-  ),
-  () => <TenseiList />,
-  () => (
-    <ListHeader
-      name={"Manhwa"}
-      subtitle={"Todo: i18n"}
-      color=""
-      onPressMore={() =>
-        navigate("home-session-detail-list", {
-          type: "find-comic-by-genres-name",
-          genresName: "manhwa-1140"
-        })
-      }
-    />
-  ),
-  () => <ManhwaList />,
-  () => (
-    <ListHeader
-      name={"Manhua"}
-      subtitle={"Todo: i18n"}
-      color=""
-      onPressMore={() =>
-        navigate("home-session-detail-list", {
-          type: "find-comic-by-genres-name",
-          genresName: "manhua"
-        })
-      }
-    />
-  ),
-  () => <ManhuaList />
+  () => <NewComicList />
+  // () => (
+  //   <ListHeader
+  //     name={"Completed comics"}
+  //     subtitle={"Todo: i18n"}
+  //     color=""
+  //     onPressMore={() =>
+  //       navigate("home-session-detail-list", {
+  //         type: "week"
+  //       })
+  //     }
+  //   />
+  // ),
+  // () => <CompletedComicList />,
+  // () => (
+  //   <ListHeader
+  //     name={"Manga"}
+  //     subtitle={"Todo: i18n"}
+  //     color=""
+  //     onPressMore={() =>
+  //       navigate("home-session-detail-list", {
+  //         type: "find-comic-by-genres-name",
+  //         genresName: "manga-112"
+  //       })
+  //     }
+  //   />
+  // ),
+  // () => <MangaList />,
+  // () => (
+  //   <ListHeader
+  //     name={"Tensei"}
+  //     subtitle={"Todo: i18n"}
+  //     color=""
+  //     onPressMore={() =>
+  //       navigate("home-session-detail-list", {
+  //         type: "find-comic-by-genres-name",
+  //         genresName: "chuyen-sinh-213"
+  //       })
+  //     }
+  //   />
+  // ),
+  // () => <TenseiList />,
+  // () => (
+  //   <ListHeader
+  //     name={"Manhwa"}
+  //     subtitle={"Todo: i18n"}
+  //     color=""
+  //     onPressMore={() =>
+  //       navigate("home-session-detail-list", {
+  //         type: "find-comic-by-genres-name",
+  //         genresName: "manhwa-1140"
+  //       })
+  //     }
+  //   />
+  // ),
+  // () => <ManhwaList />,
+  // () => (
+  //   <ListHeader
+  //     name={"Manhua"}
+  //     subtitle={"Todo: i18n"}
+  //     color=""
+  //     onPressMore={() =>
+  //       navigate("home-session-detail-list", {
+  //         type: "find-comic-by-genres-name",
+  //         genresName: "manhua"
+  //       })
+  //     }
+  //   />
+  // ),
+  // () => <ManhuaList />
 ];
 
 /**

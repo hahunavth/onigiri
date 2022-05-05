@@ -12,6 +12,7 @@ import i18n from "i18n-js";
 import { useThemedTopTabScreenOption } from "app/components/Typo";
 import { useIsFocused } from "../hooks/useIsFocused";
 import { Loading } from "../components/EmptyPage";
+import useInteraction from "../hooks/useInteraction";
 
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<LibraryTopNavigatorParamList>();
@@ -25,6 +26,8 @@ type LibraryTopNavigatorParamList = {
 export const LibraryTopNavigator = () => {
   const screenOptions = useThemedTopTabScreenOption();
 
+  const { loading } = useInteraction();
+
   // const { isFocused } = useIsFocused();
   // const Recent = React.useCallback(
   //   () => (isFocused ? <RecentTab /> : <Loading />),
@@ -35,9 +38,13 @@ export const LibraryTopNavigator = () => {
   //   [isFocused]
   // );
   // const Downloads = React.useCallback(
-  //   () => (isFocused ? <SubscribeTab /> : <Loading />),
+  //   () => (isFocused ? <DownloadTab /> : <Loading />),
   //   [isFocused]
   // );
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <Navigator
@@ -61,7 +68,7 @@ export const LibraryTopNavigator = () => {
       <Screen
         name="downloads"
         options={{ title: i18n.t("library.downloads.name") }}
-        component={SubscribeTab}
+        component={DownloadTab}
       ></Screen>
     </Navigator>
   );

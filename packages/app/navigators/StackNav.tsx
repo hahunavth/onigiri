@@ -227,9 +227,14 @@ export function StackNav() {
         animationEnabled: true,
         // NOTE: Configure for native stack
         // header: NavigationHeader
-        animation: "fade_from_bottom",
+        //
+        // animation: "fade_from_bottom",
+        // animationTypeForReplace: "pop",
+        // statusBarAnimation: "slide",
+        //
+        animation: "slide_from_right",
         animationTypeForReplace: "pop",
-        statusBarAnimation: "slide",
+        // statusBarAnimation: "slide",
         // NOTE: For shaered element stack
         // animationEnabled: true,
         // animationTypeForReplace: 'push',

@@ -28,7 +28,7 @@ export const ComicHorizontalList2 = React.memo(function ComicHorizontalList2({
   list,
   onEndReach
 }: Props) {
-  const { loading } = useInteraction();
+  // const { loading } = useInteraction();
 
   const renderItem = React.useCallback(
     ({ item }) => <ListItem2 item={item} />,
@@ -58,33 +58,36 @@ export const ComicHorizontalList2 = React.memo(function ComicHorizontalList2({
 
   return (
     <>
-      {loading || !list.length ? (
-        <Center
-          h={200}
-          w={"full"}
-          justifyContent="center"
-          alignItems={"center"}
-          flex={1}
-        >
-          <Loading />
-        </Center>
-      ) : (
-        <FlatList
-          style={{ flex: 1 }}
-          renderItem={renderItem}
-          ListFooterComponent={listFooter}
-          keyExtractor={(item) => item?.path + ""}
-          horizontal={true}
-          data={list}
-          onEndReachedThreshold={500}
-          onEndReached={onEndReach}
-          initialNumToRender={30}
-          maxToRenderPerBatch={8}
-          updateCellsBatchingPeriod={120}
-          removeClippedSubviews
-          alwaysBounceHorizontal={true}
-        />
-      )}
+      {
+        // loading ||
+        !list.length ? (
+          <Center
+            h={200}
+            w={"full"}
+            justifyContent="center"
+            alignItems={"center"}
+            flex={1}
+          >
+            <Loading />
+          </Center>
+        ) : (
+          <FlatList
+            style={{ flex: 1 }}
+            renderItem={renderItem}
+            ListFooterComponent={listFooter}
+            keyExtractor={(item) => item?.path + ""}
+            horizontal={true}
+            data={list}
+            onEndReachedThreshold={500}
+            onEndReached={onEndReach}
+            initialNumToRender={30}
+            maxToRenderPerBatch={8}
+            updateCellsBatchingPeriod={120}
+            removeClippedSubviews
+            alwaysBounceHorizontal={true}
+          />
+        )
+      }
     </>
   );
 });
