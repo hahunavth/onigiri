@@ -239,10 +239,10 @@ export function StackNav() {
         header: Platform.OS === "web" ? undefined : renderHeader,
         headerRight: Platform.OS === "web" ? undefined : renderRight,
         headerShadowVisible: true,
-        headerLargeTitleShadowVisible: true
-
+        headerLargeTitleShadowVisible: true,
         // orientation: "portrait_up"
         // headerTransparent: true,
+        detachInactiveScreens: true
       }}
     >
       <Screen

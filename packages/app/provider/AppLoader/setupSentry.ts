@@ -48,6 +48,7 @@ export default function setupSentry() {
     dist: Device.osVersion || undefined,
     autoSessionTracking: true,
     enableOutOfMemoryTracking: true
+
     // beforeSend(event) {
     //   // exclude all events that have no stack trace
     //   if (event.stacktrace?.frames?.length) {

@@ -23,22 +23,21 @@ type LibraryTopNavigatorParamList = {
 };
 
 export const LibraryTopNavigator = () => {
-  const { isFocused } = useIsFocused();
-
   const screenOptions = useThemedTopTabScreenOption();
 
-  const Recent = React.useCallback(
-    () => (isFocused ? <RecentTab /> : <Loading />),
-    [isFocused]
-  );
-  const Subscribes = React.useCallback(
-    () => (isFocused ? <SubscribeTab /> : <Loading />),
-    [isFocused]
-  );
-  const Downloads = React.useCallback(
-    () => (isFocused ? <DownloadTab /> : <Loading />),
-    [isFocused]
-  );
+  // const { isFocused } = useIsFocused();
+  // const Recent = React.useCallback(
+  //   () => (isFocused ? <RecentTab /> : <Loading />),
+  //   [isFocused]
+  // );
+  // const Subscribes = React.useCallback(
+  //   () => (isFocused ? <SubscribeTab /> : <Loading />),
+  //   [isFocused]
+  // );
+  // const Downloads = React.useCallback(
+  //   () => (isFocused ? <SubscribeTab /> : <Loading />),
+  //   [isFocused]
+  // );
 
   return (
     <Navigator
@@ -52,17 +51,17 @@ export const LibraryTopNavigator = () => {
       <Screen
         name="recent"
         options={{ title: i18n.t("library.recent.name") }}
-        component={Recent}
+        component={RecentTab}
       ></Screen>
       <Screen
         name="subscribes"
         options={{ title: i18n.t("library.subscribes.name") }}
-        component={Subscribes}
+        component={SubscribeTab}
       ></Screen>
       <Screen
         name="downloads"
         options={{ title: i18n.t("library.downloads.name") }}
-        component={Downloads}
+        component={SubscribeTab}
       ></Screen>
     </Navigator>
   );

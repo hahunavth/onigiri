@@ -1,3 +1,4 @@
+import { StackNavParamsList } from "./../navigators/StackNav";
 import { mmkvStorage } from "./../utils/mmkvStorage";
 import { createSelector } from "reselect";
 import { historyAction, HistoryComicT } from "app/store/historySlice";
@@ -224,7 +225,10 @@ const genFetchNotificationDataFN =
           if (result) {
             comicPushList.unshift(result);
             if (Platform.OS !== "web" && Notifications) {
-              const navigateData: resComicDetail_T = result;
+              const navigateData: StackNavParamsList["comic-detail"] = {
+                path: result.path,
+                preloadItem: result
+              };
 
               await Notifications.scheduleNotificationAsync({
                 content: {

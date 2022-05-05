@@ -14,7 +14,11 @@ type Props = {};
  */
 export const LibraryScreen = (props: Props) => {
   Sentry.useProfiler("LibraryScreen");
-
+  try {
+    throw Error("test error");
+  } catch (e) {
+    console.warn(e.message);
+  }
   return (
     // <View flex={1}>
     // <LibraryContextProvider>

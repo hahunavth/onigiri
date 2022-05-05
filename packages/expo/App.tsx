@@ -1,4 +1,5 @@
 import React from "react";
+import { enableFreeze } from "react-native-screens";
 import { enableScreens } from "react-native-screens";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -52,6 +53,7 @@ SplashScreen.preventAutoHideAsync().catch(() => {
   /* reloading the app might trigger some race conditions, ignore them */
 });
 
+enableFreeze();
 enableScreens(true);
 setupSentry();
 setupFlipper();

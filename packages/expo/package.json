@@ -101,6 +101,7 @@
     "react": "17.0.1",
     "react-devtools-core": "^4.23.0",
     "react-dom": "17.0.1",
+    "react-freeze": "^1.0.0",
     "react-native": "0.64.3",
     "react-native-awesome-gallery": "^0.2.6",
     "react-native-bidirectional-infinite-scroll": "^0.3.3",
