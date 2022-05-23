@@ -26,13 +26,13 @@ import {
 } from "app/store/chapterSlice";
 import { resComicDetailChapterItem_T } from "app/types";
 import TFastImage from "app/components/Typo/TFastImage";
-import * as Sentry from "@sentry/react-native";
+// import * as Sentry from "@sentry/react-native";
 
 const OFFSET_MAX = 64;
 const ZERO = 0;
 
 export function ChapterScreen(props: ChapterScreenProps) {
-  Sentry.useProfiler("ChapterScreen");
+  // Sentry.useProfiler("ChapterScreen");
 
   return (
     // <ChapterContextProvider>
@@ -161,7 +161,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   React.useLayoutEffect(() => {
     // clear cache before fetch new chapter
     (async () => {
-      console.log("async");
+      // console.log("async");
       await TFastImage?.clearDiskCache();
       await TFastImage?.clearMemoryCache();
 

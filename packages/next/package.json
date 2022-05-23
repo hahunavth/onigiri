@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo/next-adapter": "^3.1.20",
     "@next/bundle-analyzer": "^11.1.2",
+    "@sentry/nextjs": "^6.19.7",
     "app": "*",
     "native-base": "^3.3.4",
     "next": "^12.1.0",

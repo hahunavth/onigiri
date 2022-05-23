@@ -1,7 +1,13 @@
 import { Platform } from "react-native";
 // import * as Sentry from "@sentry/react-native";
-import * as Sentry from "sentry-expo";
 import * as Device from "expo-device";
+
+import * as Sentry from "sentry-expo";
+// const loadSentry = Platform.select({
+//   native: () => require("sentry-expo"),
+//   web: () => require("@sentry/nextjs")
+// });
+// const Sentry = loadSentry && loadSentry();
 
 const onigiriSentryReleaseName = () => {
   const prefix = Platform.OS === "ios" ? "ios" : "android";

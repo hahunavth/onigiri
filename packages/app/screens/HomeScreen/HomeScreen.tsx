@@ -1,4 +1,4 @@
-import { FlatList } from "native-base";
+import { FlatList, ScrollView } from "native-base";
 import {
   ListRenderItemInfo,
   Alert,
@@ -29,11 +29,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Loading, TryAgain } from "../../components/EmptyPage";
 import useInteraction from "../../hooks/useInteraction";
 import FadeInView from "../../components/AnimationWrapper/FadeInView";
-import * as Sentry from "@sentry/react-native";
 
 export const HomeScreen = () => {
-  Sentry.useProfiler("HomeScreen");
-
   // const [isNewOrientation, setIsNewOrientation] = React.useState(false);
 
   // useEffect(() => {
@@ -247,6 +244,85 @@ const HomeScreenContent = () => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   });
+
+  return (
+    <ScrollView>
+      <ListHeader
+        name={I18n.t("home.recently.title")}
+        subtitle={I18n.t("home.recently.subtitle")}
+        onPressMore={() => {
+          navigate("home-session-detail-list", { type: "recently" });
+        }}
+      />
+      <FlatlistBanner />
+      <ListHeader
+        name={I18n.t("home.categories.title")}
+        subtitle={I18n.t("home.categories.subtitle")}
+      />
+      <Categories />
+      <ListHeader
+        name={I18n.t("home.history.title")}
+        subtitle={I18n.t("home.history.subtitle")}
+        color=""
+        onPressMore={() => {
+          navigate("main", {
+            screen: "main/library"
+          });
+        }}
+      />
+      <ComicHorizontalList />
+      <ListHeader
+        name={I18n.t("home.hot.title")}
+        subtitle={I18n.t("home.hot.subtitle")}
+        color=""
+        onPressMore={() => {
+          navigate("home-session-detail-list", { type: "hot" });
+        }}
+      />
+      <ComicList1 />
+      <ListHeader
+        name={I18n.t("home.topWeek.title")}
+        subtitle={I18n.t("home.topWeek.subtitle")}
+        color=""
+        onPressMore={() =>
+          navigate("home-session-detail-list", { type: "week" })
+        }
+      />
+      <ComicList2 />
+      <ListHeader
+        name={"New comic"}
+        subtitle={"Todo: i18n"}
+        color=""
+        onPressMore={() =>
+          navigate("home-session-detail-list", { type: "week" })
+        }
+      />
+      <NewComicList />
+      <ListHeader
+        name={"Completed comics"}
+        subtitle={"Todo: i18n"}
+        color=""
+        onPressMore={() =>
+          navigate("home-session-detail-list", {
+            type: "week"
+          })
+        }
+      />
+      <CompletedComicList />
+      <ListHeader
+        name={"Manga"}
+        subtitle={"Todo: i18n"}
+        color=""
+        onPressMore={() =>
+          navigate("home-session-detail-list", {
+            type: "find-comic-by-genres-name",
+            genresName: "manga-112"
+          })
+        }
+      />
+      <MangaList />
+    </ScrollView>
+  );
 
   return (
     <>

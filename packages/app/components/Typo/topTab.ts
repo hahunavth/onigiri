@@ -28,5 +28,8 @@ export function useThemedTopTabScreenOption(): MaterialTopTabNavigationOptions {
     tabBarAllowFontScaling: false,
     tabBarInactiveTintColor: textPrimary,
     tabBarPressColor: "transparent"
+    // tabBarScrollEnabled: false,
+    // swipeEnabled: false,
+    // lazy: false
   };
 }

@@ -14,8 +14,16 @@ import { useIsFocused } from "../hooks/useIsFocused";
 import { Loading } from "../components/EmptyPage";
 import useInteraction from "../hooks/useInteraction";
 
+import {
+  createBottomTabNavigator,
+  BottomTabBarProps
+} from "@react-navigation/bottom-tabs";
+
 const { Navigator, Screen } =
   createMaterialTopTabNavigator<LibraryTopNavigatorParamList>();
+
+// const { Navigator, Screen } =
+//   createBottomTabNavigator<LibraryTopNavigatorParamList>();
 
 type LibraryTopNavigatorParamList = {
   recent: undefined;
@@ -27,20 +35,6 @@ export const LibraryTopNavigator = () => {
   const screenOptions = useThemedTopTabScreenOption();
 
   const { loading } = useInteraction();
-
-  // const { isFocused } = useIsFocused();
-  // const Recent = React.useCallback(
-  //   () => (isFocused ? <RecentTab /> : <Loading />),
-  //   [isFocused]
-  // );
-  // const Subscribes = React.useCallback(
-  //   () => (isFocused ? <SubscribeTab /> : <Loading />),
-  //   [isFocused]
-  // );
-  // const Downloads = React.useCallback(
-  //   () => (isFocused ? <DownloadTab /> : <Loading />),
-  //   [isFocused]
-  // );
 
   if (loading) {
     return null;

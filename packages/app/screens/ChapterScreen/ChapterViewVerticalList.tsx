@@ -67,6 +67,7 @@ const ChapterViewVerticalList = React.forwardRef<
       // console.log(
       //   'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' + item.uri
       // )
+
       return (
         <ScaledImage
           source={{

@@ -16,8 +16,6 @@ import {
 } from "@expo/vector-icons";
 
 import * as SplashScreen from "expo-splash-screen";
-import { routingInstrumentation } from "./setupSentry";
-import { navigationRef } from "../../navigators";
 
 export default function useAppPreload() {
   const [isReady, setIsReady] = React.useState(false);

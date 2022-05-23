@@ -27,6 +27,7 @@ import i18n from "i18n-js";
 import { NextLink } from "app/components/NextLink";
 import { navigate } from ".";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 export type BottomNavParamsList = {
   "main/home": undefined;
@@ -40,6 +41,8 @@ export type BottomNavParamsList = {
  * ANCHOR: RETURN NAVIGATION
  */
 const { Navigator, Screen } = createBottomTabNavigator<BottomNavParamsList>();
+// const { Navigator, Screen } =
+//   createMaterialTopTabNavigator<BottomNavParamsList>();
 
 export default function BottomNav() {
   const textT = useColorModeValue("$light.textPrimary", "$dark.textPrimary");
@@ -105,11 +108,46 @@ export default function BottomNav() {
             animation: "timing",
             config: { duration: 700, easing: Easing.out(Easing.exp) }
           }
-        }
-        // lazy: true
-        // unmountOnBlur: true
+        },
+        lazy: false,
+        unmountOnBlur: false
       }}
-      // detachInactiveScreens={false}
+      detachInactiveScreens={false}
+
+      // NOTE: TOP TAB NAVIGATION
+      // screenOptions={{
+      //   tabBarContentContainerStyle: {},
+      //   tabBarIconStyle: {},
+      //   tabBarItemStyle: {
+      //     padding: 0,
+      //     margin: 0
+      //   },
+      //   tabBarLabelStyle: {},
+      //   tabBarIndicatorStyle: {
+      //     padding: 0,
+      //     borderRadius: 12,
+      //     top: 0,
+
+      //     shadowColor: "#000",
+      //     shadowOffset: {
+      //       width: 0,
+      //       height: 12
+      //     },
+      //     shadowOpacity: 0.58,
+      //     shadowRadius: 16.0,
+
+      //     elevation: 2
+      //   },
+      //   tabBarIndicatorContainerStyle: {},
+      //   tabBarStyle: {},
+      //   tabBarActiveTintColor: "#16c",
+      //   tabBarInactiveTintColor: "gray",
+      //   tabBarShowLabel: false,
+      //   tabBarScrollEnabled: false,
+      //   swipeEnabled: false
+      // }}
+      // tabBarPosition="bottom"
+      // showPageIndicator={true}
     >
       <Screen
         name="main/home"
@@ -128,6 +166,9 @@ export default function BottomNav() {
           tabBarIcon: LibraryIcon,
           lazy: true,
           unmountOnBlur: true
+          // NOTE: TOP TAB NAVIGATION
+          // lazyPlaceholder: () => null,
+          // lazyPreloadDistance: 1000
         }}
       ></Screen>
 
@@ -136,7 +177,6 @@ export default function BottomNav() {
         component={DiscoverScreen}
         options={{
           title: i18n.t("discover.name"),
-
           tabBarIcon: DiscoverIcon
         }}
       ></Screen>
@@ -146,7 +186,6 @@ export default function BottomNav() {
         component={SettingScreen}
         options={{
           title: i18n.t("setting.name"),
-
           tabBarIcon: SettingIcon
         }}
       ></Screen>

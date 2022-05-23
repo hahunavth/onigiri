@@ -198,22 +198,22 @@ const ScaledImagex = ({
     );
   }
 
-  // return (
-  //   <FastImage
-  //     source={{
-  //       uri: source.uri.replace(
-  //         "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
-  //         ""
-  //       ),
-  //       headers: {
-  //         referer: "https://www.nettruyenpro.com",
-  //         priority: FastImage.priority.normal
-  //       }
-  //     }}
-  //     style={{ width: window.width, height: h }}
-  //     resizeMode={FastImage.resizeMode.contain}
-  //   />
-  // );
+  return (
+    <TFastImage
+      source={{
+        uri: source.uri.replace(
+          "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
+          ""
+        ),
+        headers: {
+          referer: "https://www.nettruyenpro.com",
+          priority: TFastImage.priority.high
+        }
+      }}
+      style={{ width: w, height: ratio * w }}
+      resizeMode={TFastImage.resizeMode.contain}
+    />
+  );
 
   return (
     <>
@@ -259,4 +259,10 @@ const ScaledImagex = ({
 };
 
 //make this component available to the app
-export const ScaledImage = React.memo(ScaledImagex);
+export const ScaledImage = React.memo(ScaledImagex, (prev, next) => {
+  return (
+    prev.h === next.h &&
+    prev.w === next.w &&
+    prev.source.uri === next.source.uri
+  );
+});

@@ -56,6 +56,12 @@ import { SwitchThemeScreen } from "app/screens/SwitchThemeScreen";
 import { RatingScreen } from "app/screens/RatingScreen";
 import { ComicRatingScreen } from "app/screens/ComicRatingScreen";
 
+import {
+  createStackNavigator,
+  TransitionSpecs,
+  CardStyleInterpolators
+} from "@react-navigation/stack";
+
 /**
  * Using common params
  * Routing expo with react navigation and next.js with same params
@@ -189,9 +195,14 @@ export type ComicRatingScreenProps = NativeStackScreenProps<
 /**
  * Export navigation
  */
-// FIXME: NOT SUPPORT FOR WEB
-const createNavigator: typeof createNativeStackNavigator = Platform.select({
-  native: require("@react-navigation/native-stack").createNativeStackNavigator,
+// const createNavigator: typeof createNativeStackNavigator = Platform.select({
+//   native: require("@react-navigation/native-stack").createNativeStackNavigator,
+//   web: require("react-navigation-shared-element")
+//     .createSharedElementStackNavigator
+// });
+
+const createNavigator: typeof createStackNavigator = Platform.select({
+  native: require("@react-navigation/stack").createStackNavigator,
   web: require("react-navigation-shared-element")
     .createSharedElementStackNavigator
 });
@@ -228,18 +239,27 @@ export function StackNav() {
         // NOTE: Configure for native stack
         // header: NavigationHeader
         //
-        // animation: "fade_from_bottom",
-        // animationTypeForReplace: "pop",
+        // animation: "slide_from_bottom",
+        // animationTypeForReplace: "push",
         // statusBarAnimation: "slide",
         //
-        animation: "slide_from_right",
-        animationTypeForReplace: "pop",
+        // animation: "slide_from_right",
+        // animationTypeForReplace: "pop",
         // statusBarAnimation: "slide",
         // NOTE: For shaered element stack
         // animationEnabled: true,
         // animationTypeForReplace: 'push',
         // gestureEnabled: false,
         // transitionSpec: {}
+        // NOTE: stack navigation
+        animationTypeForReplace: "push",
+        gestureDirection: "horizontal",
+        transitionSpec: {
+          open: TransitionSpecs.RevealFromBottomAndroidSpec,
+          close: TransitionSpecs.RevealFromBottomAndroidSpec
+        },
+        cardStyleInterpolator:
+          CardStyleInterpolators.forRevealFromBottomAndroid,
         // FIXME: NOT SUPPORTED FOR WEB
         header: Platform.OS === "web" ? undefined : renderHeader,
         headerRight: Platform.OS === "web" ? undefined : renderRight,

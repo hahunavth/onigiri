@@ -55,7 +55,9 @@ SplashScreen.preventAutoHideAsync().catch(() => {
 
 enableFreeze();
 enableScreens(true);
-setupSentry();
+if (Platform.OS === "android" || Platform.OS === "ios") {
+  setupSentry();
+}
 setupFlipper();
 
 // Configure layout animation
