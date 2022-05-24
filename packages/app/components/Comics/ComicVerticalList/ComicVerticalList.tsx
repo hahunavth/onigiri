@@ -49,11 +49,13 @@ export const ComicVerticalList = ({
     []
   );
 
-  const { loading } = useInteraction();
+  // const { loading } = useInteraction();
 
-  return loading && list ? (
-    <Loading animation={true} />
-  ) : (
+  // return !list ? (
+  //   // loading &&
+  //   <Loading animation={true} />
+  // ) :
+  return (
     <View style={{ flex: 1 }}>
       <TNFlatlist
         style={{ flex: 1, backgroundColor: "#FAFAFA" }}
@@ -67,11 +69,11 @@ export const ComicVerticalList = ({
         // SOLUTION1: decrease initialNumToRender
         // SOLUTION2: use Interaction manager
         // TODO: USE SOLUTION2
-        initialNumToRender={30}
+        initialNumToRender={8}
         maxToRenderPerBatch={8}
-        updateCellsBatchingPeriod={120}
+        // updateCellsBatchingPeriod={120}
         // alwaysBounceHorizontal
-        removeClippedSubviews
+        // removeClippedSubviews
         // directionalLockEnabled
         // disableVirtualization
 

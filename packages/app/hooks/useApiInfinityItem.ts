@@ -1,3 +1,4 @@
+import { InteractionManager } from "react-native";
 import { ApiResponse_T } from "app/types/api";
 import { useApiFindByGenres, useApiLazyFindByGenresName } from "app/store/api";
 import React from "react";
@@ -104,7 +105,12 @@ const genHookFN = (
     const [trigger, result] = useLazyHook();
 
     React.useEffect(() => {
-      trigger("1");
+      const emit = InteractionManager.runAfterInteractions(() => {
+        trigger("1");
+      });
+      return () => {
+        emit.cancel();
+      };
     }, []);
 
     React.useEffect(() => {

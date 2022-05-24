@@ -53,9 +53,18 @@ const ChapterViewVerticalList = React.forwardRef<
   // const { ctxId, changeChapter } = React.useContext(ChapterContext);
   // const { currentComic } = useAppSelector(homeSelector);
 
-  // useEffect(() => {
-  //   TFastImage?.preload(imgs);
-  // }, []);
+  useEffect(() => {
+    TFastImage?.preload(
+      imgs.map((i) => {
+        return {
+          ...i,
+          headers: {
+            referer: "https://www.nettruyenpro.com"
+          }
+        };
+      })
+    );
+  }, [imgs]);
 
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);

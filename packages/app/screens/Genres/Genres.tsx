@@ -24,7 +24,7 @@ export const Genres = (props: GenresScreenProps) => {
   }
 
   const { loading } = useInteraction();
-
+  // TODO:
   return (
     <View flex={1}>
       {isLoading || loading ? (

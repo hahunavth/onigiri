@@ -206,9 +206,9 @@ const ScaledImagex = ({
           ""
         ),
         headers: {
-          referer: "https://www.nettruyenpro.com",
-          priority: TFastImage.priority.high
-        }
+          referer: "https://www.nettruyenpro.com"
+        },
+        priority: TFastImage.priority.high
       }}
       style={{ width: w, height: ratio * w }}
       resizeMode={TFastImage.resizeMode.contain}

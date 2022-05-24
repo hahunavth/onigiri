@@ -46,22 +46,13 @@ export const NavigationHeader = React.memo(function ({
       pr={2}
       mb={0.75}
       shadow={1}
-      // w={"full"}
       style={style}
       height={topEdge ? 74 : 16}
       edges={topEdge ? undefined : []}
     >
-      {/* <Shadow
-        size={[350, 50]}
-        //   distance={15}
-        startColor={"#eb9066d8"}
-        finalColor={"#ff00ff10"}
-        //   offset={[3, 4]}
-        //   size={[  100, 100 ]}
-      > */}
       <View>
         {/* Left */}
-        <TouchableNativeFeedback onPress={() => goBack()}>
+        <TouchableNativeFeedback onPress={goBack}>
           <View position={"absolute"} left={0} padding={1} top={-6}>
             <Text _light={{ color: "$light.textYellowPrimary" }}>
               {leftLabel || HeaderLeft}
@@ -95,7 +86,6 @@ export const NavigationHeader = React.memo(function ({
           </Text>
         </Center>
       </View>
-      {/* </Shadow> */}
     </FSafeAreaView>
   );
 });

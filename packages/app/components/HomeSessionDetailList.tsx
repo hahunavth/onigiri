@@ -8,28 +8,45 @@ import {
 import useInteraction from "app/hooks/useInteraction";
 import { useApiLazyFindByGenresName } from "app/store/api";
 import { ComicVerticalList } from "./Comics/ComicVerticalList";
+import { Loading } from "./EmptyPage";
 
 type Props = {};
 export const HomeSessionDetailListRecently = (props: Props) => {
-  const { fetchNextPage, results } = useApiInfinityRecently();
-
   const { loading } = useInteraction();
+
+  const { fetchNextPage, results } = useApiInfinityRecently();
+  // return <Loading />;
   return (
     <>
-      {loading ? null : (
-        <ComicVerticalList list={results} onEndReach={fetchNextPage} />
+      {loading ? (
+        <Loading text="Loading" />
+      ) : (
+        <ComicVerticalList
+          list={results}
+          onEndReach={
+            // () => {
+            // if (results.length && !loading) {
+            fetchNextPage
+            // ();
+            // }
+            // }
+          }
+        />
       )}
     </>
   );
 };
 
 export const HomeSessionDetailListHot = (props: Props) => {
+  const { loading } = useInteraction();
+
   const { fetchNextPage, results, maxPage } = useApiInfinityHot();
 
-  const { loading } = useInteraction();
   return (
     <>
-      {loading ? null : (
+      {loading ? (
+        <Loading text="Loading" />
+      ) : (
         <ComicVerticalList list={results} onEndReach={fetchNextPage} />
       )}
     </>
@@ -37,12 +54,15 @@ export const HomeSessionDetailListHot = (props: Props) => {
 };
 
 export const HomeSessionDetailListWeek = (props: Props) => {
+  const { loading } = useInteraction();
+
   const { fetchNextPage, results } = useApiInfinityTopWeek();
 
-  const { loading } = useInteraction();
   return (
     <>
-      {loading ? null : (
+      {loading ? (
+        <Loading text="Loading" />
+      ) : (
         <ComicVerticalList list={results} onEndReach={fetchNextPage} />
       )}
     </>
