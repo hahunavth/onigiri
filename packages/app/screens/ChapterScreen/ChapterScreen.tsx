@@ -165,8 +165,8 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     // clear cache before fetch new chapter
     (async () => {
       // console.log("async");
-      await TFastImage?.clearDiskCache();
-      await TFastImage?.clearMemoryCache();
+      // await TFastImage?.clearDiskCache();
+      // await TFastImage?.clearMemoryCache();
 
       // NOTE: PRELOAD IMAGE CAUSE CRASH
       // if (data?.data?.data) {

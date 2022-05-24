@@ -38,6 +38,8 @@ import { ChapterViewListProps } from "./type";
 import TFastImage from "app/components/Typo/TFastImage";
 import { MediumBanner } from "../../components/AdMob";
 
+import AutoHeightImage from "react-native-auto-height-image";
+
 // const { width, height } = Dimensions.get("screen");
 
 const ChapterViewVerticalList = React.forwardRef<
@@ -53,18 +55,18 @@ const ChapterViewVerticalList = React.forwardRef<
   // const { ctxId, changeChapter } = React.useContext(ChapterContext);
   // const { currentComic } = useAppSelector(homeSelector);
 
-  useEffect(() => {
-    TFastImage?.preload(
-      imgs.map((i) => {
-        return {
-          ...i,
-          headers: {
-            referer: "https://www.nettruyenpro.com"
-          }
-        };
-      })
-    );
-  }, [imgs]);
+  // useEffect(() => {
+  //   TFastImage?.preload(
+  //     imgs.map((i) => {
+  //       return {
+  //         ...i,
+  //         headers: {
+  //           referer: "https://www.nettruyenpro.com"
+  //         }
+  //       };
+  //     })
+  //   );
+  // }, [imgs]);
 
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -76,6 +78,20 @@ const ChapterViewVerticalList = React.forwardRef<
       // console.log(
       //   'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' + item.uri
       // )
+
+      return (
+        <AutoHeightImage
+          source={{
+            uri: item.uri,
+            headers: {
+              referer: "https://www.nettruyenpro.com"
+            }
+          }}
+          width={w}
+          loadingIndicatorSource={require("@onigiri/expo/assets/splash.png")}
+          progressiveRenderingEnabled={true}
+        />
+      );
 
       return (
         <ScaledImage
@@ -154,8 +170,8 @@ const ChapterViewVerticalList = React.forwardRef<
           onScroll={handleScroll}
           initialNumToRender={10}
           maxToRenderPerBatch={10}
-          windowSize={10}
-          removeClippedSubviews={true}
+          windowSize={12}
+          // removeClippedSubviews={true}
           // FIXME: SCROLL OVER FOOTER -> OPEN
           onEndReachedThreshold={1.1}
           onEndReached={(e) => props.onEndReach && props.onEndReach(e)}
