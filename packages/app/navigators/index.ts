@@ -32,7 +32,6 @@ export const navigate = wrap(navigationRef.navigate);
 export const navPush = dispatchWrap(StackActions.push);
 
 export const navJumpTo = dispatchWrap(TabActions.jumpTo);
-
 export const goBack = () => {
   navigationRef.canGoBack() && navigationRef.goBack();
 };

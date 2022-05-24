@@ -49,7 +49,7 @@ const ChapterViewVerticalList = React.forwardRef<
   const { height, width } = useWindowDimensions();
   const [w, setW] = React.useState(0);
   const { top } = useSafeAreaInsets();
-  console.log(width);
+  // console.log(width);
   // const { ctxId, changeChapter } = React.useContext(ChapterContext);
   // const { currentComic } = useAppSelector(homeSelector);
 

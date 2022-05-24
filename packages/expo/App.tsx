@@ -44,7 +44,8 @@ const prefix = Linking.createURL("/");
 LogBox.ignoreLogs([
   "Sentry Logger [Warn]: Note: Native Sentry SDK is disabled.",
   `Picker has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-picker/picker' instead of 'react-native'. See https://github.com/react-native-picker/react-native-picker`,
-  "Bridge was already shutdown."
+  "Bridge was already shutdown.",
+  "VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead."
 ]);
 
 // NOTE: SPLASH

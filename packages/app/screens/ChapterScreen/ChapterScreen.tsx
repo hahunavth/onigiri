@@ -55,15 +55,23 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   //   viewStatus
   // } = useContext(ChapterContext);
   // NOTE: INITIAL
-  const { path: _path, name: _name, id: _id, preloadItem } = props.route.params;
+  const {
+    path,
+    // : _path
+    name,
+    // : _name
+    id,
+    // : _id
+    preloadItem
+  } = props.route.params;
 
   const dispatch = useAppDispatch();
   const comicPath = useAppSelector(homeSelector).currentComic?.path;
   const { current, setting } = useAppSelector(chapterSelector);
   const {
-    id,
-    name,
-    path,
+    // id,
+    // name,
+    // path,
     updatedAt,
     updatedDistance,
     updatedVew,
@@ -75,13 +83,12 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   const flatListRef = React.useRef<FlatListT>(null);
 
   useLayoutEffect(() => {
-    dispatch(chapterActions.setCurrentChapter(_id));
+    dispatch(chapterActions.setCurrentChapter(id));
     return () => {
       dispatch(chapterActions.setCurrentChapter(-1));
     };
   }, [id]);
 
-  // const {} = props.navigation.
   // ANCHOR: ANIMATION
   const offset = useSharedValue(ZERO);
 
@@ -139,11 +146,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   });
 
   // ANCHOR: DATA LOGIC
-  // VAr
-  // const { data, isFetching } = useApiChapter(path || "_path");
   const [lazy, data, p] = comicApi.endpoints.getChapterByPath.useLazyQuery();
-  // const prefetch = usePrefetch("getChapterByPath");
-  // const data?.data?.data = data?.data;
   console.log("renderer chapter screen");
   const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([]);
 

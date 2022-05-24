@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ComicDetailScreenProps } from "app/navigators/StackNav";
 import { usePrefetch } from "app/store/api";
 import Animated from "react-native-reanimated";
-import { navigate } from "app/navigators/index";
+import { navigate, navPush, navJumpTo } from "app/navigators/index";
 import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import { resComicDetailChapterItem_T } from "app/types";
 import { ChapterContext } from "./ChapterContext";
@@ -192,7 +192,15 @@ const ChapterBar = (props: Props) => {
             // disabled={id === -1 || id == LEN - 1}
             onPress={() => {
               if (id !== -1 && id < LEN - 1) {
-                dispatch(chapterActions.setCurrentChapter(id + 1));
+                // dispatch(chapterActions.setCurrentChapter(id + 1));
+                const chapter = home.currentComic?.chapters[id + 1];
+                if (home.currentComic && id && chapter)
+                  navigate("chapter", {
+                    path: chapter.path || "",
+                    id: id + 1,
+                    name: chapter.name,
+                    preloadItem: home.currentComic
+                  });
               } else {
                 ToastAndroid.show("This is the first chapter", 500);
                 // Toast.show({
@@ -251,7 +259,18 @@ const ChapterBar = (props: Props) => {
             // disabled={id === -1 || id === 0}
             onPress={() => {
               if (id !== -1 && id > 0) {
-                dispatch(chapterActions.setCurrentChapter(id - 1));
+                // dispatch(chapterActions.setCurrentChapter(id - 1));
+                const chapter = home.currentComic?.chapters[id - 1];
+                if (home.currentComic && id && chapter)
+                  navigate("chapter", {
+                    path: chapter.path || "",
+                    id: id - 1,
+                    name: chapter.name,
+                    preloadItem: home.currentComic
+                  });
+                else {
+                  console.log(home.currentComic, id, chapter);
+                }
               } else {
                 ToastAndroid.show("This is the last chapter", 500);
                 // Toast.show({
