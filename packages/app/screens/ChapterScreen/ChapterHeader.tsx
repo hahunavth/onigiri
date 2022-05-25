@@ -62,18 +62,18 @@ const ChapterHeader = (props: Props) => {
     ];
   }, [props.style, top]);
 
-  const onMenuPress = React.useCallback(() => {
-    Alert.alert("", "", [
-      {
-        text: "vertical",
-        onPress: () => setViewStatus && setViewStatus("horizontal")
-      },
-      {
-        text: "horizontal",
-        onPress: () => setViewStatus && setViewStatus("vertical")
-      }
-    ]);
-  }, []);
+  // const onMenuPress = React.useCallback(() => {
+  //   Alert.alert("", "", [
+  //     {
+  //       text: "vertical",
+  //       onPress: () => setViewStatus && setViewStatus("horizontal")
+  //     },
+  //     {
+  //       text: "horizontal",
+  //       onPress: () => setViewStatus && setViewStatus("vertical")
+  //     }
+  //   ]);
+  // }, []);
 
   return (
     <>

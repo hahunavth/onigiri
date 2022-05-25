@@ -53,6 +53,7 @@ export function ListItem({ item }: Props) {
       >
         <ZStack w={110} h={190} rounded={"sm"}>
           <Image
+            progressiveRenderingEnabled={true}
             source={{
               uri: item.posterUrl
             }}

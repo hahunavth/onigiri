@@ -42,7 +42,7 @@ const ChapterBar = (props: Props) => {
   // const { changeChapter } = React.useContext(ChapterContext);
   // Prefetch next and prev chapter if exists
   const prefetchChapter = usePrefetch("getChapterByPath");
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     const t = setTimeout(() => {}, 2000);

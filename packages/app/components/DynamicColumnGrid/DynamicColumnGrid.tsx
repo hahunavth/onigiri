@@ -52,6 +52,7 @@ const DynamicColumnGrid = (props: Props) => {
           return (
             <View h={cols} w={cols} key={id}>
               <Image
+                progressiveRenderingEnabled={true}
                 src="https://st.nettruyenmoi.com/data/comics/37/anh-hung-onepunch.jpg"
                 alt="I"
                 w={"full"}

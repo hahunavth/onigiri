@@ -56,6 +56,7 @@ export const ChapterViewHorizontalList = React.forwardRef<
       renderItem={({ item, index, setImageDimensions }) => {
         return (
           <Image
+            progressiveRenderingEnabled={true}
             alt="a"
             source={{
               uri: item,

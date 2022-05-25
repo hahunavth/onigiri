@@ -93,6 +93,7 @@ const ListWithExtractor = (param: Param) => {
             )}
 
             <Image
+              progressiveRenderingEnabled={true}
               source={{ uri: item.posterUrl }}
               style={styles.poster as ImageStyle}
             />

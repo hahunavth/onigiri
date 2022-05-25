@@ -188,6 +188,7 @@ const ScaledImagex = ({ source, h, id, setImgs }: ScaledImageProps) => {
   return (
     <>
       {/* <Image
+          progressiveRenderingEnabled={true}
         source={{
           uri: source.uri.replace(
             'https://hahunavth-express-api.herokuapp.com/api/v1/cors/',

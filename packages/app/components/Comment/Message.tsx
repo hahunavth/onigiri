@@ -31,6 +31,7 @@ export const Message = (props: MessageProps) => {
         m={1}
       >
         <Image
+          progressiveRenderingEnabled={true}
           source={{
             uri: avatarUrl,
             headers: { referer: "https://www.nettruyenpro.com" }

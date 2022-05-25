@@ -69,6 +69,7 @@ const NotificationScreen = () => {
             rounded={6}
           >
             <Image
+              progressiveRenderingEnabled={true}
               source={{ uri: item.comicDetail?.posterUrl || "" }}
               alt={item.comicDetail?.path || ""}
               w={60}

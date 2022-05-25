@@ -32,6 +32,7 @@ const Categories = () => {
         <Image
           source={require("@onigiri/expo/assets/icons8-increase-100.png")}
           style={{ width: 50, height: 50 }}
+          progressiveRenderingEnabled={true}
           resizeMode={"contain"}
           resizeMethod={"resize"}
         />
@@ -47,6 +48,7 @@ const Categories = () => {
         />
          */}
         <Image
+          progressiveRenderingEnabled={true}
           source={require("@onigiri/expo/assets/icons8-checklist-100.png")}
           style={{ width: 50, height: 50 }}
           resizeMode={"contain"}
@@ -63,6 +65,7 @@ const Categories = () => {
       >
         {/* <MaterialIcons name="more-horiz" size={24} color={textStyle.color} /> */}
         <Image
+          progressiveRenderingEnabled={true}
           source={require("@onigiri/expo/assets/icons8-bookmark-500.png")}
           style={{ width: 50, height: 50 }}
           resizeMode={"contain"}
@@ -77,6 +80,7 @@ const Categories = () => {
       >
         {/* <MaterialIcons name="more-horiz" size={24} color={textStyle.color} /> */}
         <Image
+          progressiveRenderingEnabled={true}
           source={require("@onigiri/expo/assets/icons8-menu-vertical-100.png")}
           style={{ width: 50, height: 50 }}
           resizeMode={"contain"}

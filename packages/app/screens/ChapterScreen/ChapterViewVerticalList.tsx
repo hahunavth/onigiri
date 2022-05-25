@@ -38,7 +38,7 @@ import { ChapterViewListProps } from "./type";
 import TFastImage from "app/components/Typo/TFastImage";
 import { MediumBanner } from "../../components/AdMob";
 
-import AutoHeightImage from "react-native-auto-height-image";
+import TAutoHeightImage from "app/components/Typo/AutoHeightImage/TAutoHeightImage";
 
 // const { width, height } = Dimensions.get("screen");
 
@@ -69,8 +69,14 @@ const ChapterViewVerticalList = React.forwardRef<
   // }, [imgs]);
 
   useEffect(() => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setW(width);
+    let isMounted = true;
+    if (isMounted) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      setW(width);
+    }
+    return () => {
+      isMounted = false;
+    };
   }, [width]);
 
   const renderItem = React.useCallback(
@@ -80,9 +86,10 @@ const ChapterViewVerticalList = React.forwardRef<
       // )
 
       return (
-        <AutoHeightImage
+        // TODO: specific expo
+        <TAutoHeightImage
           source={{
-            uri: item.uri,
+            uri: item,
             headers: {
               referer: "https://www.nettruyenpro.com"
             }
@@ -90,6 +97,12 @@ const ChapterViewVerticalList = React.forwardRef<
           width={w}
           loadingIndicatorSource={require("@onigiri/expo/assets/splash.png")}
           progressiveRenderingEnabled={true}
+          style={{
+            minHeight: w * 0.5
+          }}
+          fadeDuration={0}
+          accessibilityLabel={item as string}
+          // height={100}
         />
       );
 
@@ -109,7 +122,7 @@ const ChapterViewVerticalList = React.forwardRef<
     },
     [w]
   );
-  const keyExtractor = React.useCallback((item, id) => item.uri, []);
+  const keyExtractor = React.useCallback((item, id) => item, []);
 
   const flatlistRef = React.useRef<FlatList>();
   // console.log(

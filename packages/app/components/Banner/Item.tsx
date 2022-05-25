@@ -119,7 +119,11 @@ const Item = React.memo(({ item }: ListRenderItemInfo<resComicItem_T>) => {
                 </Text>
               </View>
             </View>
-            <Image style={styles.image} source={{ uri: item.posterUrl }} />
+            <Image
+              style={styles.image}
+              source={{ uri: item.posterUrl }}
+              progressiveRenderingEnabled={true}
+            />
           </View>
         </LinearGradient>
       </ImageBackground>

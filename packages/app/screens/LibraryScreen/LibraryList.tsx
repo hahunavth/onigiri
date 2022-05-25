@@ -74,6 +74,7 @@ const LibraryList = ({
           {/* <Empty /> */}
           <Center flex={1} justifyContent={"center"}>
             <Image
+              progressiveRenderingEnabled={true}
               source={require("@onigiri/expo/assets/icons8-likee-ap-500.png")}
               style={{ width: 240, height: 240 }}
               resizeMode={"contain"}

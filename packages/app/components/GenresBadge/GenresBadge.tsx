@@ -20,6 +20,7 @@ export const GenresBadge = ({ imageUrl, name }: GenresBadgeProps) => {
       onPress={() => navigate("genres", { genresName: name })}
     >
       <ImageBackground
+        progressiveRenderingEnabled={true}
         source={{
           uri: imageUrl
         }}

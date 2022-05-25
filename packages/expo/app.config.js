@@ -11,7 +11,7 @@ process.env.FAST_IMAGE = "true";
 
 // the secrets created with eas secret:create will
 // be merged with process.env during eas builds
-const VERSION = "0.0.6";
+const VERSION = "0.0.7";
 const SENTRY_DSN = process.env.SENTRY_DSN;
 const STAGE = process.env.STAGE;
 const SCHEME = process.env.SCHEME ?? "com.hahunavth.onigiri";

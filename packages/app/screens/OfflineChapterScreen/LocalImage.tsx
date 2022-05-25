@@ -70,7 +70,13 @@ const LocalImage = React.memo(function (
   return (
     <>
       {loading ? null : (
-        <Image {...props} w={w} h={props.h} alt={"ComicImage"} />
+        <Image
+          {...props}
+          w={w}
+          h={props.h}
+          alt={"ComicImage"}
+          progressiveRenderingEnabled={true}
+        />
       )}
     </>
   );

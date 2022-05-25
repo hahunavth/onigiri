@@ -747,6 +747,7 @@ export function MainTestScreen() {
       // />
       // <View style={{ width: width, height: 100, backgroundColor: "green" }}>
       <Image
+        progressiveRenderingEnabled={true}
         source={{
           uri: data,
           headers: {

@@ -1,5 +1,16 @@
 # ChangeLog
 
+## 0.0.7 (2022-5-25)
+### Added
+  - Install RecyclerListView
+  
+### Change
+  - AutoHeightImage instead of ScaledImage
+  - Commit with gacp
+
+### Fixed
+  - Memory leak in chapter screen
+
 ## 0.0.6 (2022-5-2)
 ### Added
   - Handle background notification click

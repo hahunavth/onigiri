@@ -149,6 +149,7 @@ export const LoginScreen = () => {
       return (
         <View style={styles.userInfo}>
           <Image
+            progressiveRenderingEnabled={true}
             source={{ uri: userInfo.picture }}
             alt={"hello"}
             style={styles.profilePic}
@@ -172,6 +173,7 @@ export const LoginScreen = () => {
         // zIndex={1}
       >
         <Image
+          progressiveRenderingEnabled={true}
           source={require("@onigiri/expo/assets/favicon.png")}
           w={75}
           h={75}

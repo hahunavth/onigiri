@@ -45,15 +45,6 @@ let oldOffset = 0;
 const screenHeight = Dimensions.get("screen").height;
 
 function ChapterScreenNode(props: ChapterScreenProps) {
-  // const {
-  //   ctxId,
-  //   ctxName,
-  //   ctxPath,
-  //   setCtxId,
-  //   setCtxName,
-  //   setCtxPath,
-  //   viewStatus
-  // } = useContext(ChapterContext);
   // NOTE: INITIAL
   const {
     path,
@@ -162,23 +153,31 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   });
   // TODO: USE LAYOUT EFFECT
   React.useLayoutEffect(() => {
-    // clear cache before fetch new chapter
-    (async () => {
-      // console.log("async");
-      // await TFastImage?.clearDiskCache();
-      // await TFastImage?.clearMemoryCache();
+    let isMounted = true;
+    if (isMounted) {
+      // clear cache before fetch new chapter
+      (async () => {
+        // console.log("async");
+        // await TFastImage?.clearDiskCache();
+        // await TFastImage?.clearMemoryCache();
 
-      // NOTE: PRELOAD IMAGE CAUSE CRASH
-      // if (data?.data?.data) {
-      // await TFastImage.preload(
-      //   data?.data?.data.images.slice(5).map((url: string) => url)
-      // );
-      // }
+        // NOTE: PRELOAD IMAGE CAUSE CRASH
+        // if (data?.data?.data) {
+        // await TFastImage.preload(
+        //   data?.data?.data.images.slice(5).map((url: string) => url)
+        // );
+        // }
 
-      setImgs(
-        data?.data?.data?.images.map((uri: string) => ({ uri, h: 0 })) || []
-      );
-    })();
+        setImgs(
+          data?.data?.data?.images
+          // .map((uri: string) => ({ uri, h: 0 })) || []
+        );
+      })();
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [data]);
 
   // DISPATCH ACTION
@@ -232,7 +231,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
               handleScroll={handleScroll}
               imgs={imgs}
               imgList={data?.data?.data?.chapterList || []}
-              setImgs={setImgs}
+              // setImgs={setImgs}
               // onEndReach={expandSheet}
             />
           </View>
