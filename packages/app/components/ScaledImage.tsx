@@ -30,12 +30,12 @@ type ScaledImageProps = {
 
 const ScaledImagex = ({
   source,
-  h: ratio,
+  // h: ratio,
   id,
-  setImgs,
+  // setImgs,
   w
 }: ScaledImageProps) => {
-  // const [ratio, setRatio] = useState(0);
+  const [ratio, setRatio] = useState(0);
 
   useLayoutEffect(() => {
     let isMounted = true;
@@ -53,17 +53,17 @@ const ScaledImagex = ({
         (width, height) => {
           // if (isMounted) setSize(() => ({ width, height }))
           if (isMounted) {
-            setImgs &&
-              setImgs((imgs) => {
-                return (
-                  imgs?.map(
-                    (item, index) =>
-                      index === id ? { ...item, h: height / width } : item
-                    // index === id ? { ...item, h: (height / width) * w } : item
-                  ) || []
-                );
-              });
-            // setRatio(height / width);
+            setRatio &&
+              // setRatio((imgs) => {
+              //     return (
+              //       imgs?.map(
+              //         (item, index) =>
+              //           index === id ? { ...item, h: height / width } : item
+              //         // index === id ? { ...item, h: (height / width) * w } : item
+              //       ) || []
+              //     );
+              //   });
+              setRatio(height / width);
           }
         }
       );

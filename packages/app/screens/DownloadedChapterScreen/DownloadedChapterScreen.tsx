@@ -75,7 +75,7 @@ export const DownloadedChapterScreen = (props: Props) => {
         keyExtractor={(item) => item.uri}
         initialNumToRender={4}
         maxToRenderPerBatch={5}
-        removeClippedSubviews={true}
+        // removeClippedSubviews={true}
         // minimumZoomScale={5}
       />
       {/* <ScrollView flex={1}>

@@ -1,7 +1,8 @@
-import { View } from "native-base";
+import { Text, View } from "native-base";
 import React, { useEffect } from "react";
 import {
   FlatList,
+  Image as RNImage,
   LayoutAnimation,
   ListRenderItemInfo,
   useWindowDimensions
@@ -15,6 +16,7 @@ import { MediumBanner } from "../../components/AdMob";
 import { ChapterViewListProps } from "./type";
 
 import TAutoHeightImage from "app/components/Typo/AutoHeightImage/TAutoHeightImage";
+import { ScrollView } from "native-base";
 
 // const { width, height } = Dimensions.get("screen");
 
@@ -61,38 +63,19 @@ const ChapterViewVerticalList = React.forwardRef<
       //   'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' + item.uri
       // )
 
-      return (
-        // TODO: specific expo
-        <TAutoHeightImage
-          source={{
-            uri: item,
-            // @ts-ignore
-            headers: {
-              referer: "https://www.nettruyenpro.com"
-            }
-          }}
-          width={w}
-          // loadingIndicatorSource={require("@onigiri/expo/assets/splash.png")}
-          progressiveRenderingEnabled={true}
-          style={{
-            minHeight: w
-          }}
-          fadeDuration={0}
-          accessibilityLabel={item as string}
-        />
-      );
+      return <ChapterAutoHeightImage url={item} width={w} />;
 
       // return (
       //   <ScaledImage
       //     source={{
       //       uri:
       //         // "https://hahunavth-express-api.herokuapp.com/api/v1/cors/" +
-      //         item.uri
+      //         item
       //     }}
       //     id={index}
-      //     h={item.h}
+      //     // h={item.h}
       //     w={w}
-      //     setImgs={setImgs}
+      //     // setImgs={setImgs}
       //   />
       // );
     },
@@ -102,6 +85,18 @@ const ChapterViewVerticalList = React.forwardRef<
     (item: string, id: number) => item,
     []
   );
+
+  // useEffect(() => {
+  //   let preFetchTasks: Promise<boolean>[] = [];
+
+  //   imgs.forEach((p) => {
+  //     preFetchTasks.push(RNImage.prefetch(p));
+  //   });
+
+  //   Promise.all(preFetchTasks).then(() => {
+  //     console.log("Fetch done");
+  //   });
+  // }, [props.imgs]);
 
   const flatlistRef = React.useRef<FlatList>();
   // console.log(
@@ -141,11 +136,13 @@ const ChapterViewVerticalList = React.forwardRef<
       // onPanResponderGrant={(e, s, z) => console.log(z)}
     >
       <View
-        marginTop={-top}
-        // edges={["bottom"]}
-        // horizontal={true}
-        // style={{ width, height }}
-        // scrollEnabled={false}
+      // marginTop={-top}
+      // fix render bottom of screen
+      // flex={1}
+      // edges={["bottom"]}
+      // horizontal={true}
+      // style={{ width, height }}
+      // scrollEnabled={false}
       >
         <FlatList
           // scrollEnabled={false}
@@ -160,23 +157,96 @@ const ChapterViewVerticalList = React.forwardRef<
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           onScroll={handleScroll}
-          initialNumToRender={10}
-          maxToRenderPerBatch={4}
-          windowSize={12}
+          // initialNumToRender={10}
+          // maxToRenderPerBatch={10}
+          // windowSize={16}
+          // fix render bottom of screen
+          contentContainerStyle={{ paddingBottom: 100, flexGrow: 0 }}
+          // disableVirtualization
           // removeClippedSubviews={true}
           // FIXME: SCROLL OVER FOOTER -> OPEN
           onEndReachedThreshold={1.1}
           onEndReached={(e) => props.onEndReach && props.onEndReach(e)}
+          // onContentSizeChange={(contentWidth, contentHeight) => {
+          //   // flatlistRef.current?.scrollToEnd({ animated: false });
+          //   // flatlistRef.current?.scrollToOffset({
+          //   //   offset: contentHeight - width,
+          //   //   animated: false
+          //   // });
+          //   flatlistRef.current.scroll
+          // }}
           // nestedScrollEnabled
           ListHeaderComponent={() => {
-            return <View w={"full"} h={75}></View>;
+            return <View w={"full"} h={75 - top}></View>;
           }}
           ListFooterComponent={() => <MediumBanner size={"mediumRectangle"} />}
         />
+        {/* <ScrollView
+          ref={(fref) => {
+            if (fref) {
+              flatlistRef && (flatlistRef.current = fref);
+              // @ts-ignore
+              ref && (ref.current = fref);
+            }
+          }}
+        >
+          {imgs.map((i, index) => {
+            return <ChapterAutoHeightImage url={i} width={w} key={index} />;
+          })}
+        </ScrollView> */}
       </View>
     </ReactNativeZoomableView>
     // </PinchWrapper>
   );
 });
+
+const ChapterAutoHeightImage = React.memo(
+  ({ url, width }: { url: string; width: number }) => {
+    const [loading, setLoading] = React.useState(true);
+    console.log(url);
+    // useEffect(() => {
+    // }, []);
+
+    return (
+      <>
+        {loading && (
+          <View
+            style={{
+              minHeight: width
+            }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                position: "absolute",
+                flex: 1,
+                // backgroundColor: "red",
+                width: "100%"
+              }}
+            >
+              {url}
+            </Text>
+          </View>
+        )}
+
+        <TAutoHeightImage
+          source={{
+            uri: url,
+            // @ts-ignore
+            headers: {
+              referer: "https://www.nettruyenpro.com"
+            }
+          }}
+          width={width}
+          loadingIndicatorSource={require("@onigiri/expo/assets/splash.png")}
+          progressiveRenderingEnabled={true}
+          fadeDuration={0}
+          accessibilityLabel={url}
+          onLoadEnd={() => setLoading(false)}
+        />
+      </>
+    );
+  }
+);
 
 export default React.memo(ChapterViewVerticalList);

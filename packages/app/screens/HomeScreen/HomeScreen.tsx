@@ -341,7 +341,7 @@ const HomeScreenContent = () => {
         maxToRenderPerBatch={2}
         updateCellsBatchingPeriod={1000}
         // decelerationRate="fast"
-        removeClippedSubviews={true}
+        // removeClippedSubviews={true}
         // disableVirtualization={true}
         windowSize={12}
       />
