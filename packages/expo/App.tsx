@@ -21,7 +21,6 @@ import * as SplashScreen from "expo-splash-screen";
 import NetInfo from "@react-native-community/netinfo";
 
 import { useBackgroundPushNotificationInfo } from "app/utils/backgroundFetchServices";
-// import * as Sentry from "@sentry/react-native";
 import * as Sentry from "sentry-expo";
 
 import setupSentry, {

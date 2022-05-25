@@ -1,39 +1,35 @@
-import React, { useLayoutEffect } from "react";
-import { Dimensions, StyleSheet, FlatList as FlatListT } from "react-native";
-import { View, Text } from "native-base";
+import useInteraction from "app/hooks/useInteraction";
+import useUpdateCurrentChapter from "app/hooks/useUpdateCurrentChapter";
+import { navigate } from "app/navigators";
 import { ChapterScreenProps } from "app/navigators/StackNav";
 import { comicApi } from "app/store/api";
-import { useAppDispatch, useAppSelector } from "app/store/hooks";
-import ChapterBar from "./ChapterBar";
-import ChapterHeader from "./ChapterHeader";
-import Animated, {
-  Easing,
-  withTiming,
-  useSharedValue,
-  useAnimatedStyle
-} from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
-import useUpdateCurrentChapter from "app/hooks/useUpdateCurrentChapter";
-import useInteraction from "app/hooks/useInteraction";
-import ChapterViewVerticalList from "./ChapterViewVerticalList";
-import { homeSelector } from "app/store/homeSlice";
-import { ChapterViewHorizontalList } from "./ChapterViewHorizontalList";
-import { navigate } from "app/navigators";
 import {
   chapterActions,
   chapterSelector,
   selectChapterInfo
 } from "app/store/chapterSlice";
+import { homeSelector } from "app/store/homeSlice";
+import { useAppDispatch, useAppSelector } from "app/store/hooks";
 import { resComicDetailChapterItem_T } from "app/types";
-import TFastImage from "app/components/Typo/TFastImage";
-// import * as Sentry from "@sentry/react-native";
+import { Text, View } from "native-base";
+import React, { useLayoutEffect } from "react";
+import { Dimensions, FlatList as FlatListT, StyleSheet } from "react-native";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import ChapterBar from "./ChapterBar";
+import ChapterHeader from "./ChapterHeader";
+import { ChapterViewHorizontalList } from "./ChapterViewHorizontalList";
+import ChapterViewVerticalList from "./ChapterViewVerticalList";
 
 const OFFSET_MAX = 64;
 const ZERO = 0;
 
 export function ChapterScreen(props: ChapterScreenProps) {
-  // Sentry.useProfiler("ChapterScreen");
-
   return (
     // <ChapterContextProvider>
     <ChapterScreenNode {...props} />
@@ -139,7 +135,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
   // ANCHOR: DATA LOGIC
   const [lazy, data, p] = comicApi.endpoints.getChapterByPath.useLazyQuery();
   console.log("renderer chapter screen");
-  const [imgs, setImgs] = React.useState<{ uri: string; h: number }[]>([]);
+  const [imgs, setImgs] = React.useState<string[]>([]);
 
   React.useLayoutEffect(() => {
     splashOffset.value = ZERO;
@@ -169,7 +165,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
         // }
 
         setImgs(
-          data?.data?.data?.images
+          data?.data?.data?.images || []
           // .map((uri: string) => ({ uri, h: 0 })) || []
         );
       })();
@@ -196,7 +192,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
     }
   });
 
-  const handleScroll = React.useCallback((e) => {
+  const handleScroll = React.useCallback((e: any) => {
     // NOTE: V2: Chapter bar when scroll end or tap
     const currentOffset = e.nativeEvent.contentOffset.y;
     const scrollLen = currentOffset - oldOffset;
@@ -241,7 +237,7 @@ function ChapterScreenNode(props: ChapterScreenProps) {
             handleScroll={handleScroll}
             imgs={imgs}
             imgList={data?.data?.data?.chapterList || []}
-            setImgs={setImgs}
+            // setImgs={setImgs}
             // onEndReach={expandSheet}
             toggleFloatingVisible={toggleFloatingVisible}
           />

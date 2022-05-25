@@ -2,33 +2,21 @@
  * NOTE: Specific expo
  */
 
-import React from "react";
-import { enableScreens } from "react-native-screens";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { NavigationContainer } from "@react-navigation/native";
-
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import store, { persistor } from "app/store/store";
-
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useColorMode } from "native-base";
 import { StackNav } from "app/navigators/StackNav";
+import { useColorMode } from "native-base";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import { colors } from "app/colors";
 import {
-  Box,
   ColorMode,
-  Container,
   extendTheme,
   NativeBaseProvider,
   StorageManager,
   themeTools
 } from "native-base";
-import { colors } from "app/colors";
-import { useAppDispatch, useAppSelector } from "./store/hooks";
-import { mergeNewChapterNotificationThunk } from "./store/notificationSlice";
+import { useAppSelector } from "./store/hooks";
 import { settingSelector } from "./store/settingSlice";
 import { mmkvStorage } from "./utils/mmkvStorage";
 

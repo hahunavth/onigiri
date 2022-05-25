@@ -1,31 +1,6 @@
+import { Image } from "native-base";
 import React from "react";
-import {
-  ListRenderItemInfo,
-  FlatList,
-  TouchableNativeFeedback
-} from "react-native";
-import {
-  Badge,
-  Box,
-  Center,
-  Divider,
-  Flex,
-  HStack,
-  Image,
-  Pressable,
-  ScrollView,
-  Spacer,
-  Text,
-  VStack
-} from "native-base";
-import { ScaledImage } from "app/components/ScaledImage";
-import { AntDesign } from "@expo/vector-icons";
-import ChapterFooterBtn from "app/components/ChapterFooterBtn";
-import PinchWrapper from "app/components/PinchWrapper";
-import { ChapterContext } from "./ChapterContext";
-import { useAppSelector } from "app/store/hooks";
-import { homeSelector } from "app/store/homeSlice";
-import ImageView from "react-native-image-viewing";
+import { FlatList } from "react-native";
 import Gallery from "react-native-awesome-gallery";
 import { ChapterViewListProps } from "./type";
 
@@ -33,20 +8,17 @@ export const ChapterViewHorizontalList = React.forwardRef<
   FlatList,
   ChapterViewListProps
 >((props, ref) => {
-  const {
-    imgs,
-    setImgs,
-    handleScroll,
-    onEndReach,
-    imgList,
-    toggleFloatingVisible
-  } = props;
+  const { imgs, handleScroll, onEndReach, imgList, toggleFloatingVisible } =
+    props;
   console.log("object");
   console.log(imgs?.length);
 
   return imgs?.length > 0 ? (
     <Gallery
-      data={imgs.map((img) => img.uri)}
+      data={
+        imgs
+        // .map((img) => img.uri)
+      }
       // onIndexChange={(newIndex) => {
       //   console.log(newIndex)
       // }}
@@ -57,6 +29,7 @@ export const ChapterViewHorizontalList = React.forwardRef<
         return (
           <Image
             progressiveRenderingEnabled={true}
+            accessibilityLabel={"ChapterViewHorizontalList.Gallery.Image"}
             alt="a"
             source={{
               uri: item,

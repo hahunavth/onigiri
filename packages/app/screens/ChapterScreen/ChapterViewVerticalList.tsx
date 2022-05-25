@@ -1,42 +1,18 @@
+import { View } from "native-base";
 import React, { useEffect } from "react";
 import {
-  ListRenderItemInfo,
   FlatList,
-  Dimensions,
-  useWindowDimensions,
-  LayoutAnimation
+  LayoutAnimation,
+  ListRenderItemInfo,
+  useWindowDimensions
 } from "react-native";
-import {
-  SafeAreaView,
-  useSafeAreaInsets
-} from "react-native-safe-area-context";
-import {
-  Badge,
-  Box,
-  Center,
-  Divider,
-  Flex,
-  HStack,
-  Pressable,
-  ScrollView,
-  Spacer,
-  Text,
-  View,
-  VStack
-} from "native-base";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 // @ts-ignore
 import ReactNativeZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 
 import { ScaledImage } from "app/components/ScaledImage";
-import { AntDesign } from "@expo/vector-icons";
-import ChapterFooterBtn from "app/components/ChapterFooterBtn";
-import PinchWrapper from "app/components/PinchWrapper";
-import { ChapterContext } from "./ChapterContext";
-import { useAppSelector } from "app/store/hooks";
-import { homeSelector } from "app/store/homeSlice";
-import { ChapterViewListProps } from "./type";
-import TFastImage from "app/components/Typo/TFastImage";
 import { MediumBanner } from "../../components/AdMob";
+import { ChapterViewListProps } from "./type";
 
 import TAutoHeightImage from "app/components/Typo/AutoHeightImage/TAutoHeightImage";
 
@@ -47,7 +23,7 @@ const ChapterViewVerticalList = React.forwardRef<
   ChapterViewListProps
 >((props, ref) => {
   // console.log(props.imgs)
-  const { setImgs, handleScroll, imgs } = props;
+  const { handleScroll, imgs } = props;
   const { height, width } = useWindowDimensions();
   const [w, setW] = React.useState(0);
   const { top } = useSafeAreaInsets();
@@ -80,7 +56,7 @@ const ChapterViewVerticalList = React.forwardRef<
   }, [width]);
 
   const renderItem = React.useCallback(
-    ({ item, index }: ListRenderItemInfo<{ uri: string; h: number }>) => {
+    ({ item, index }: ListRenderItemInfo<string>) => {
       // console.log(
       //   'https://hahunavth-express-api.herokuapp.com/api/v1/cors/' + item.uri
       // )
@@ -90,39 +66,42 @@ const ChapterViewVerticalList = React.forwardRef<
         <TAutoHeightImage
           source={{
             uri: item,
+            // @ts-ignore
             headers: {
               referer: "https://www.nettruyenpro.com"
             }
           }}
           width={w}
-          loadingIndicatorSource={require("@onigiri/expo/assets/splash.png")}
+          // loadingIndicatorSource={require("@onigiri/expo/assets/splash.png")}
           progressiveRenderingEnabled={true}
           style={{
-            minHeight: w * 0.5
+            minHeight: w
           }}
           fadeDuration={0}
           accessibilityLabel={item as string}
-          // height={100}
         />
       );
 
-      return (
-        <ScaledImage
-          source={{
-            uri:
-              // "https://hahunavth-express-api.herokuapp.com/api/v1/cors/" +
-              item.uri
-          }}
-          id={index}
-          h={item.h}
-          w={w}
-          setImgs={setImgs}
-        />
-      );
+      // return (
+      //   <ScaledImage
+      //     source={{
+      //       uri:
+      //         // "https://hahunavth-express-api.herokuapp.com/api/v1/cors/" +
+      //         item.uri
+      //     }}
+      //     id={index}
+      //     h={item.h}
+      //     w={w}
+      //     setImgs={setImgs}
+      //   />
+      // );
     },
     [w]
   );
-  const keyExtractor = React.useCallback((item, id) => item, []);
+  const keyExtractor = React.useCallback(
+    (item: string, id: number) => item,
+    []
+  );
 
   const flatlistRef = React.useRef<FlatList>();
   // console.log(
@@ -182,7 +161,7 @@ const ChapterViewVerticalList = React.forwardRef<
           keyExtractor={keyExtractor}
           onScroll={handleScroll}
           initialNumToRender={10}
-          maxToRenderPerBatch={10}
+          maxToRenderPerBatch={4}
           windowSize={12}
           // removeClippedSubviews={true}
           // FIXME: SCROLL OVER FOOTER -> OPEN
