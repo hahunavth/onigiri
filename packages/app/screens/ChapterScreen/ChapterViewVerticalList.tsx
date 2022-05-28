@@ -203,7 +203,7 @@ const ChapterViewVerticalList = React.forwardRef<
 const ChapterAutoHeightImage = React.memo(
   ({ url, width }: { url: string; width: number }) => {
     const [loading, setLoading] = React.useState(true);
-    console.log(url);
+    // console.log(url);
     // useEffect(() => {
     // }, []);
 

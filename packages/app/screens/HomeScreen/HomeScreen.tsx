@@ -246,7 +246,12 @@ const HomeScreenContent = () => {
   });
 
   return (
-    <ScrollView>
+    <ScrollView
+      backgroundColor={"$light.backgroundPrimary"}
+      _dark={{
+        backgroundColor: "$dark.backgroundSecondary"
+      }}
+    >
       <ListHeader
         name={I18n.t("home.recently.title")}
         subtitle={I18n.t("home.recently.subtitle")}

@@ -100,7 +100,7 @@ const NotificationScreen = () => {
   );
 
   const { loading } = useInteraction();
-  if (loading) return <Loading />;
+  // if (loading) return <Loading />;
 
   return (
     <View bg={"gray.50"} flex={1}>

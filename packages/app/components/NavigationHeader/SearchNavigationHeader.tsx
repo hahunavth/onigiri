@@ -419,12 +419,14 @@ const RefAnimatedInput = React.forwardRef<TextInput, any>((props, ref) => {
           ref ? (ref.current = myref) : null;
           inputRef ? (inputRef.current = myref) : null;
         }}
-        placeholder={i18n.t("button.search")}
+        // placeholder={i18n.t("button.search")}
+        // backgroundColor={"red"}
         variant="outline"
-        // mx={35}
         size={"xs"}
-        py={-12}
-        // mt={-1}
+        // py={-20}
+        paddingTop={0}
+        paddingBottom={-20}
+        // paddingLeft={0}
         h={31}
         fontSize={14}
         color={props.bs1._text.color}
@@ -449,7 +451,6 @@ const RefAnimatedInput = React.forwardRef<TextInput, any>((props, ref) => {
             text: ""
           });
 
-          // setText('')
           Keyboard.dismiss();
         }}
       />

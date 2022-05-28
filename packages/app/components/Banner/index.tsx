@@ -51,7 +51,7 @@ export const FlatlistBanner = () => {
 
   return (
     <View w="full" h={215} p={1}>
-      {isSuccess ? (
+      {!isSuccess ? (
         <View>
           <SwiperFlatList
             ref={flatListRef}
@@ -67,7 +67,7 @@ export const FlatlistBanner = () => {
         </View>
       ) : (
         <Box bg={"$light.backgroundPrimary"}>
-          <Skeleton m="auto" />
+          <Skeleton m="auto" h={200} />
         </Box>
       )}
     </View>
