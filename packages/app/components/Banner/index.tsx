@@ -51,7 +51,7 @@ export const FlatlistBanner = () => {
 
   return (
     <View w="full" h={215} p={1}>
-      {!isSuccess ? (
+      {isSuccess ? (
         <View>
           <SwiperFlatList
             ref={flatListRef}
