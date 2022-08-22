@@ -1,4 +1,5 @@
 # Onigiri
+
 A React Native / Expo app for cross-platform manga reading
 
 ![eas workflow](https://github.com/hahunavth/comic-net-native/actions/workflows/eas.yml/badge.svg)
@@ -9,7 +10,10 @@ A React Native / Expo app for cross-platform manga reading
 
 [Web demo (incomplete)](https://hahunavth-comic.vercel.app/native)
 
+Android: [here](./onigiri.apk)
+
 ## Questions?
+
 Feel free to create new issue: https://github.com/hahunavth/comic-net-native/issues
 
 ## Preview
@@ -32,8 +36,9 @@ Feel free to create new issue: https://github.com/hahunavth/comic-net-native/iss
 </p>
 
 ## Check list
+
 - [x] EAS Build
-- [x] Setup CI 
+- [x] Setup CI
 - [x] Home page
 - [x] List comic
 - [x] Comic details

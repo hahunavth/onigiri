@@ -1,28 +1,14 @@
-import { BlurView } from "app/components/BlurView";
-import React, { useEffect, useState } from "react";
-import {
-  useWindowDimensions,
-  StyleSheet,
-  ViewStyle,
-  InteractionManager,
-  Alert,
-  Platform
-} from "react-native";
-import { Text, View, Menu } from "native-base";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { useAppSelector } from "app/store/hooks";
-import { homeSelector } from "app/store/homeSlice";
-import { useNavigation } from "@react-navigation/native";
-import { ComicDetailScreenProps } from "app/navigators/StackNav";
-import { usePrefetch } from "app/store/api";
-import Animated from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppSafeAreaInsets } from "app/provider/safe-area/use-safe-area";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useColorModeStyle } from "app/hooks/useColorModeStyle";
 import { goBack, navigate } from "app/navigators";
+import { useAppSafeAreaInsets } from "app/provider/safe-area/use-safe-area";
+import { Text, View } from "native-base";
+import React from "react";
+import { Platform, ViewStyle } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ChapterContext } from "./ChapterContext";
-import { MaterialIcons } from "@expo/vector-icons";
 
 interface Props {
   style?: ViewStyle;
