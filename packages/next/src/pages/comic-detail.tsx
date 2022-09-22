@@ -721,42 +721,7 @@ function ComicDetail() {
   //   </View>
   // )
 
-  return (
-    <View>
-      <Animated.View
-        style={[
-          {
-            backgroundColor: 'red',
-            width: 100,
-            height: 100
-          },
-          animatedStyle
-        ]}
-      ></Animated.View>
-      <NextLink routeName="/">Home</NextLink>
-      {data?.path ? (
-        <Image src={data?.posterUrl || ''} width={100} height={100} />
-      ) : null}
-      <Text>{data?.title}</Text>
-      <Text>{data?.rate}</Text>
-      <Text>{data?.author}</Text>
-      <Text>{data?.detail}</Text>
-      <Text>{data?.follows}</Text>
-      <Text>{data?.info}</Text>
-      <Text>{data?.status}</Text>
-      <ScrollView>
-        {data?.kind.map((kind) => (
-          <Button>{kind}</Button>
-        ))}
-      </ScrollView>
-      <FlatList
-        data={data?.chapters || []}
-        renderItem={({ item, index, separators }) => {
-          return <Text>{item.name}</Text>
-        }}
-      />
-    </View>
-  )
+  
 }
 
 export default ComicDetail

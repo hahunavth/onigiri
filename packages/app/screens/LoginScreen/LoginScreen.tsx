@@ -249,48 +249,7 @@ export const LoginScreen = () => {
     </VStack>
   );
 
-  return (
-    <View style={styles.container}>
-      {showUserInfo()}
-      {isLogin ? (
-        <Button onPress={() => dispatch(authActions.logout(null))}>
-          Logout
-        </Button>
-      ) : (
-        <VStack space={2}>
-          <Button
-            onPress={handlePressAsync}
-            disabled={!freq}
-            colorScheme={"blue"}
-            w={220}
-          >
-            <HStack space={2}>
-              <Entypo name="facebook" size={24} color="white" />
-              <Text color={"white"}>Login with Facebook</Text>
-            </HStack>
-          </Button>
-          <Button
-            // @ts-ignore
-            onPress={
-              accessToken
-                ? getUserData
-                : () => {
-                    promptAsync({ useProxy: false, showInRecents: true });
-                  }
-            }
-            w={220}
-            colorScheme={"red"}
-          >
-            {/* {accessToken ? "Get User Data" : "Login with Google"} */}
-            <HStack space={2}>
-              <AntDesign name="google" size={24} color="white" />
-              <Text color={"white"}>Login with Facebook</Text>
-            </HStack>
-          </Button>
-        </VStack>
-      )}
-    </View>
-  );
+  
 };
 
 const styles = StyleSheet.create({

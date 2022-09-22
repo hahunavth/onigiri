@@ -215,48 +215,7 @@ const ScaledImagex = ({
     />
   );
 
-  return (
-    <>
-      <Image
-        progressiveRenderingEnabled={true}
-        source={{
-          uri: source.uri.replace(
-            "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
-            ""
-          ),
-          method: "GET",
-          headers: {
-            referer: "https://www.nettruyenpro.com"
-          }
-        }}
-        w={w}
-        h={ratio * w}
-        fadeDuration={0}
-        alt={source.uri}
-        // defaultSource={1}
-      />
-      {/* <TFastImage
-        source={{
-          uri: source.uri.replace(
-            "https://hahunavth-express-api.herokuapp.com/api/v1/cors/",
-            ""
-          ),
-          method: "GET",
-          headers: {
-            referer: "https://www.nettruyenpro.com"
-          },
-          priority: TFastImage?.priority?.high,
-          cache: TFastImage?.cacheControl.web
-        }}
-        style={{ height: h, width: w }}
-        fadeDuration={0}
-        alt={"image"}
-        defaultSource={1}
-        resizeMode={TFastImage?.resizeMode?.cover}
-        // tintColor={"#9324c3"}
-      /> */}
-    </>
-  );
+  
 };
 
 //make this component available to the app
