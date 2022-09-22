@@ -24,16 +24,5 @@ export const FindByNameResultScreen = (props: FindByNameResultScreenProps) => {
     <ComicListHeaderWrapper data={data?.data || []}></ComicListHeaderWrapper>
   );
 
-  return (
-    <View flex={1}>
-      {/* <Text>{name}</Text> */}
-      {isLoading || loading ? (
-        <Loading text="Fetching" />
-      ) : data?.data?.length ? (
-        <ComicVerticalList list={data?.data || []} />
-      ) : (
-        <NotFound />
-      )}
-    </View>
-  );
+  
 };

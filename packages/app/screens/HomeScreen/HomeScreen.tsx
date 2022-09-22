@@ -59,18 +59,7 @@ export const HomeScreen = () => {
 
   // return <>{!loading && <HomeScreenContent />}</>;
   return <HomeScreenContent />;
-  return (
-    <FadeInView>
-      {
-        // !loading ? (
-        //  && !isNewOrientation
-        <HomeScreenContent />
-        // ) : (
-        //   <Loading />
-        // )
-      }
-    </FadeInView>
-  );
+  
 };
 
 const data = [
@@ -329,29 +318,7 @@ const HomeScreenContent = () => {
     </ScrollView>
   );
 
-  return (
-    <>
-      <FlatList
-        // bg={"warmGray.50"}
-        bg={"white"}
-        // @ts-ignore
-        // _dark={{ bg: "trueGray.900" }}
-        // TODO: WEB SPECIFIC STYLE
-        // @ts-ignore
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        initialNumToRender={12}
-        // initialNumToRender={0} // cause low performance
-        maxToRenderPerBatch={2}
-        updateCellsBatchingPeriod={1000}
-        // decelerationRate="fast"
-        // removeClippedSubviews={true}
-        // disableVirtualization={true}
-        windowSize={12}
-      />
-    </>
-  );
+  
 };
 
 // end
