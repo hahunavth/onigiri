@@ -194,7 +194,7 @@ const historySlice = createSlice({
       // const curComic = state.comics.find((comic) => comic.path === comicPath);
       const curComic = state.comics[comicPath];
 
-      if (!!curComic) {
+      if (curComic) {
         const newLastedReadChapter =
           curComic.chapters.find((cpt) => cpt.path === chapterPath)?.name || "";
         const newLastedReadPathList = curComic.lastedReadPathList;
