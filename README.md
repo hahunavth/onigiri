@@ -12,6 +12,20 @@ A React Native / Expo app for cross-platform manga reading
 
 Android: [here](./onigiri.apk)
 
+## Build for iOS
+
+From the repo root, trigger an EAS iOS build with:
+
+```bash
+yarn workspace @onigiri/expo build:development:ios
+```
+
+If you are running in CI/non-interactive mode, log in with an Expo token first and use:
+
+```bash
+EXPO_TOKEN=<your_token> yarn workspace @onigiri/expo build:development:ios --non-interactive
+```
+
 ## Questions?
 
 Feel free to create new issue: https://github.com/hahunavth/comic-net-native/issues

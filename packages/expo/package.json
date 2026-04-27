@@ -28,7 +28,10 @@
     "build:preview:android": "STAGE=staging eas build --profile preview --platform android",
     "build:production": "STAGE=production eas build --profile production --platform all",
     "build:production:ios": "STAGE=production eas build --profile production --platform ios",
-    "build:production:android": "STAGE=production eas build --profile production --platform android"
+    "build:production:android": "STAGE=production eas build --profile production --platform android",
+    "build:production:ios:non-interactive": "STAGE=production eas build --profile production --platform ios --non-interactive",
+    "upload:production:ios": "STAGE=production eas submit --platform ios --latest --non-interactive",
+    "release:production:ios": "yarn build:production:ios:non-interactive && yarn upload:production:ios"
   },
   "dependencies": {
     "@babel/helper-environment-visitor": "^7.16.7",
